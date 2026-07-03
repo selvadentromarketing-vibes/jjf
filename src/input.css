@@ -1,0 +1,75 @@
+@import "tailwindcss";
+
+/* Scan the dynamically-generated class strings in main.js */
+@source "../main.js";
+@source "../index.html";
+
+@theme {
+  --font-serif: "Playfair Display", Georgia, serif;
+  --font-sans: "Poppins", system-ui, sans-serif;
+  --color-ink: #0a0a0a;
+  --color-paper: #ffffff;
+}
+
+@layer base {
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: var(--font-sans);
+    color: var(--color-ink);
+    background: var(--color-paper);
+  }
+  h1, h2, h3, h4 { font-family: var(--font-serif); }
+}
+
+/* ---- Components / utilities ---- */
+
+/* Fixed parallax background for hero + projects band */
+.parallax {
+  background-attachment: fixed;
+  background-size: cover;
+  background-position: center;
+}
+@media (max-width: 1024px) {
+  .parallax { background-attachment: scroll; }
+}
+
+.btn-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  padding: 0.95rem 2.4rem;
+  font-weight: 600;
+  letter-spacing: .01em;
+  background: #0a0a0a;
+  color: #fff;
+  transition: transform .25s ease, background .25s ease, opacity .25s ease;
+}
+.btn-pill:hover { background: #2a2a2a; transform: translateY(-2px); }
+
+/* Language toggle */
+.lang-btn {
+  padding: .4rem .85rem;
+  font-size: .8rem;
+  font-weight: 600;
+  letter-spacing: .03em;
+  color: #0a0a0a;
+  cursor: pointer;
+  transition: background .2s ease, color .2s ease;
+}
+.lang-btn:hover { background: rgba(0,0,0,.06); }
+.lang-btn.active { background: #0a0a0a; color: #fff; }
+.lang-btn.active:hover { background: #0a0a0a; }
+
+/* FAQ accordion */
+details.faq > summary { list-style: none; cursor: pointer; }
+details.faq > summary::-webkit-details-marker { display: none; }
+details.faq .chev { transition: transform .3s ease; }
+details.faq[open] .chev { transform: rotate(180deg); }
+details.faq .answer {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows .35s ease;
+}
+details.faq[open] .answer { grid-template-rows: 1fr; }
+details.faq .answer > div { overflow: hidden; }

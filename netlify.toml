@@ -1,0 +1,8 @@
+[build]
+  publish = "."
+
+# Sitio estático: no requiere build. Netlify sirve index.html directamente.
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
