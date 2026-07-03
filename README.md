@@ -39,5 +39,5 @@ Sitio estático, **no requiere build** en Netlify (el CSS ya está compilado y c
 
 - Los botones (Schedule A Call, Contact Us, Start Building Your Dream, Download Our CV)
   abren un modal con el calendario de GoHighLevel
-  (`widget/booking/cAlZ9dbVjb2L8Ynt8I8w`). Cámbialo en `index.html` si usas otro.
+  (`widget/booking/DD1xkh0ObvHQFhcyxgJR`). Cámbialo en `index.html` si usas otro.
 - Imágenes y textos provienen de la página original; reemplázalos en `assets/` y `main.js`.

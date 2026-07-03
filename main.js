@@ -25,7 +25,7 @@ const I18N = {
     "modal.title": "¡Transforma tu Espacio con la Excelencia de JJF Creando!",
     "modal.body": "Convierte tu visión en realidad con los servicios expertos de construcción y diseño a medida de JJF Creando. ¡Comienza a construir tu futuro hoy!",
     "modal.close": "Cerrar",
-    "readMore": "Leer más",
+    "readMore": "Saber más",
   },
   en: {
     "meta.description": "JJF Creando is a boutique real estate development company crafting innovative, sustainable, and luxurious developments in Tulum and the Riviera Maya.",
@@ -52,7 +52,7 @@ const I18N = {
     "modal.title": "Transform Your Space with JJF Creando Excellence!",
     "modal.body": "Transform your vision into reality with JJF Creando's expert construction and bespoke design services. Start building your future today!",
     "modal.close": "Close",
-    "readMore": "Read More",
+    "readMore": "Learn More",
   },
 };
 
