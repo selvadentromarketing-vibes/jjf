@@ -1,0 +1,604 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>JJF Creando — Hero</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Jost:wght@300;400;500&display=swap">
+<style>
+  :root{
+    --forest:#0A0D0A;
+    --canopy:#141A14;
+    --bone:#F2EEE5;
+    --bone-dim:#B9B4A7;
+    --limestone:#C9B896;
+    --serif:"Instrument Serif",Georgia,"Times New Roman",serif;
+    --sans:"Jost",-apple-system,"Segoe UI",sans-serif;
+
+    /* one deceleration curve, used everywhere — the signature */
+    --ease:cubic-bezier(.16,1,.3,1);
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0}
+  body{background:var(--forest); color:var(--bone); font-family:var(--sans); font-weight:300}
+
+  /* ============ HERO ============ */
+  .hero{
+    position:relative; isolation:isolate; overflow:hidden;
+    min-height:clamp(560px,88vh,1000px);
+    display:flex; flex-direction:column;
+  }
+
+  /* --- media bed --- */
+  .hero-media{position:absolute; inset:0; z-index:0; background:var(--forest)}
+  .hero-media video,.hero-media img{
+    width:100%; height:100%; object-fit:cover; display:block;
+  }
+  .hero-media video{
+    opacity:0; transition:opacity 1.2s var(--ease);
+    /* imperceptible drift — the frame is never quite still */
+    animation:drift 22s var(--ease) forwards;
+  }
+  .hero-media video.is-ready{opacity:1}
+  .hero-media img{position:absolute; inset:0}
+  @keyframes drift{from{transform:scale(1.09)} to{transform:scale(1)}}
+
+  /* --- legibility: scrim tuned to the footage, not a flat black wash --- */
+  .hero::before{
+    content:""; position:absolute; inset:0; z-index:1; pointer-events:none;
+    background:
+      linear-gradient(to top, rgba(10,13,10,.92) 0%, rgba(10,13,10,.55) 28%, rgba(10,13,10,0) 62%),
+      linear-gradient(to right, rgba(10,13,10,.62) 0%, rgba(10,13,10,.12) 45%, rgba(10,13,10,0) 70%);
+  }
+  /* --- grain: keeps the gradient from banding on a dark sky --- */
+  .hero::after{
+    content:""; position:absolute; inset:0; z-index:2; pointer-events:none;
+    opacity:.13; mix-blend-mode:overlay;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='.5'/%3E%3C/svg%3E");
+  }
+
+  /* ============ NAV ============ */
+  .nav{
+    position:relative; z-index:5;
+    display:flex; align-items:center; justify-content:space-between; gap:24px;
+    padding:26px clamp(20px,5vw,64px);
+    opacity:0; animation:fadeIn .9s var(--ease) .15s forwards;
+  }
+  .mark{
+    font-family:var(--serif); font-size:23px; letter-spacing:.09em; color:var(--bone);
+    text-decoration:none; white-space:nowrap;
+  }
+  .mark span{color:var(--limestone)}
+  .nav-right{display:flex; align-items:center; gap:clamp(14px,2.5vw,28px)}
+
+  .lang{display:flex; align-items:center; gap:2px; font-size:11px; letter-spacing:.14em}
+  .lang button{
+    background:none; border:0; cursor:pointer; padding:5px 7px; color:var(--bone-dim);
+    font:inherit; letter-spacing:inherit; transition:color .3s var(--ease);
+  }
+  .lang button[aria-pressed="true"]{color:var(--bone)}
+  .lang button:hover{color:var(--bone)}
+  .lang i{width:1px; height:11px; background:rgba(242,238,229,.28); display:block}
+
+  .cta{
+    position:relative; display:inline-block; text-decoration:none;
+    font-size:11.5px; letter-spacing:.17em; text-transform:uppercase; color:var(--bone);
+    padding:13px 0; white-space:nowrap;
+  }
+  .cta::after{
+    content:""; position:absolute; left:0; right:0; bottom:6px; height:1px;
+    background:var(--limestone); transform:scaleX(1); transform-origin:right;
+    transition:transform .55s var(--ease);
+  }
+  .cta:hover::after{transform:scaleX(0)}
+  .cta:focus-visible{outline:1px solid var(--limestone); outline-offset:6px}
+
+  /* ============ HEADLINE BLOCK ============ */
+  .stage{
+    position:relative; z-index:5; margin-top:auto;
+    padding:0 clamp(20px,5vw,64px) clamp(38px,7vh,84px);
+    display:grid; grid-template-columns:minmax(0,1fr) auto; align-items:end; gap:40px;
+  }
+  .copy{max-width:min(1180px,92vw)}
+
+  .eyebrow{
+    display:flex; align-items:center; gap:13px;
+    font-size:10.5px; letter-spacing:.24em; text-transform:uppercase; color:var(--limestone);
+    white-space:nowrap; margin:0 0 clamp(18px,3vh,30px);
+    opacity:0; animation:rise .8s var(--ease) .3s forwards;
+  }
+  .eyebrow s{display:block; width:clamp(26px,4vw,52px); height:1px; background:currentColor; opacity:.55}
+
+  h1{
+    font-family:var(--serif); font-weight:400;
+    font-size:clamp(34px,6vw,78px); line-height:1.04; letter-spacing:-.012em;
+    /* em-based, so the measure tracks the type size instead of the body font */
+    margin:0; max-width:12em; color:var(--bone);
+  }
+  h1 em{font-style:italic; color:var(--limestone)}
+  /* each line rides up from behind its own mask */
+  .line{display:block; overflow:hidden; padding-bottom:.06em}
+  .line > span{
+    display:block; transform:translateY(108%);
+    animation:unmask 1.15s var(--ease) forwards;
+  }
+  .line:nth-child(1) > span{animation-delay:.42s}
+  .line:nth-child(2) > span{animation-delay:.55s}
+  .line:nth-child(3) > span{animation-delay:.68s}
+
+  .lede{
+    margin:clamp(20px,3.4vh,32px) 0 0; max-width:44ch;
+    font-size:clamp(14px,1.15vw,16px); line-height:1.72; color:var(--bone-dim);
+    opacity:0; animation:rise .9s var(--ease) 1.05s forwards;
+  }
+
+  /* --- scroll cue: a line that draws itself, then breathes --- */
+  .cue{
+    display:flex; flex-direction:column; align-items:center; gap:13px;
+    font-size:9.5px; letter-spacing:.2em; text-transform:uppercase; color:var(--bone-dim);
+    opacity:0; animation:fadeIn .9s var(--ease) 1.5s forwards;
+  }
+  .cue b{font-weight:300; writing-mode:vertical-rl}
+  .cue s{
+    width:1px; height:64px; background:linear-gradient(to bottom,var(--limestone),transparent);
+    transform-origin:top; animation:draw 2.4s var(--ease) 1.6s infinite;
+  }
+  @media (max-width:760px){ .cue{display:none} .stage{grid-template-columns:1fr} }
+  @media (max-width:560px){
+    .nav{padding:18px 20px; gap:10px}
+    .mark{font-size:18px}
+    .nav-right{gap:12px}
+    .cta{font-size:9.5px; letter-spacing:.11em; padding:10px 0}
+    .lang{font-size:10px}
+    .lang button{padding:4px 5px}
+  }
+
+  @keyframes unmask{to{transform:translateY(0)}}
+  @keyframes rise{from{opacity:0; transform:translateY(14px)} to{opacity:1; transform:translateY(0)}}
+  @keyframes fadeIn{to{opacity:1}}
+  @keyframes draw{0%{transform:scaleY(0)}45%{transform:scaleY(1)}100%{transform:scaleY(1); opacity:0}}
+
+  /* ============ PROJECTS — the index ============ */
+  .projects{
+    position:relative; z-index:1;
+    background:var(--canopy);
+    padding:clamp(70px,13vh,150px) clamp(20px,5vw,64px) clamp(60px,11vh,130px);
+  }
+  .sec-head{
+    display:flex; align-items:baseline; justify-content:space-between; gap:24px;
+    padding-bottom:22px; margin-bottom:clamp(18px,3vh,34px);
+    border-bottom:1px solid rgba(242,238,229,.14);
+  }
+  .sec-head h2{
+    font-family:var(--serif); font-weight:400; font-size:clamp(28px,4vw,52px);
+    line-height:1; letter-spacing:-.01em; margin:0; color:var(--bone);
+  }
+  .sec-head .count{
+    font-size:10.5px; letter-spacing:.2em; text-transform:uppercase; color:var(--limestone);
+    font-variant-numeric:tabular-nums; white-space:nowrap;
+  }
+
+  .index{list-style:none; margin:0; padding:0}
+  .row{border-bottom:1px solid rgba(242,238,229,.1)}
+  .row a{
+    display:grid; grid-template-columns:auto minmax(0,1fr) auto; align-items:baseline;
+    gap:clamp(14px,3vw,40px); padding:clamp(20px,3.4vh,34px) 0;
+    text-decoration:none; color:var(--bone);
+    transition:opacity .5s var(--ease), padding-left .6s var(--ease);
+  }
+  .row .num{
+    font-size:10px; letter-spacing:.16em; color:var(--limestone);
+    font-variant-numeric:tabular-nums; transform:translateY(-.35em);
+  }
+  .row .name{
+    font-family:var(--serif); font-weight:400; font-size:clamp(26px,4.6vw,60px);
+    line-height:1.06; letter-spacing:-.012em;
+  }
+  .row .meta{
+    display:flex; flex-direction:column; align-items:flex-end; gap:5px; text-align:right;
+    font-size:10.5px; letter-spacing:.11em; text-transform:uppercase; color:var(--bone-dim);
+    white-space:nowrap;
+  }
+  .row .meta b{font-weight:400; color:var(--limestone)}
+
+  /* the whole list recedes so the hovered row is the only lit thing */
+  .index:hover .row a{opacity:.34}
+  .index .row a:hover{opacity:1; padding-left:clamp(8px,1.4vw,22px)}
+  .row a:focus-visible{outline:1px solid var(--limestone); outline-offset:4px; opacity:1}
+
+  @media (max-width:640px){
+    .row a{grid-template-columns:auto minmax(0,1fr); gap:14px 16px}
+    .row .meta{grid-column:2; align-items:flex-start; text-align:left}
+  }
+
+  /* ============ the WebGL panel that rides the cursor ============ */
+  #gl{
+    position:fixed; inset:0; z-index:40; pointer-events:none;
+    opacity:0; transition:opacity .45s var(--ease);
+  }
+  #gl.on{opacity:1}
+  /* fallback when WebGL is unavailable or motion is reduced */
+  .flat-preview{
+    position:fixed; z-index:40; pointer-events:none; width:min(30vw,380px); aspect-ratio:3/2;
+    object-fit:cover; opacity:0; transform:translate(-50%,-50%);
+    transition:opacity .45s var(--ease);
+  }
+  .flat-preview.on{opacity:1}
+
+  @media (prefers-reduced-motion:reduce){
+    .row a{transition:opacity .01ms}
+    #gl{display:none}
+  }
+
+  /* ============ reduced motion: everything at rest, nothing moving ============ */
+  @media (prefers-reduced-motion:reduce){
+    .hero-media video{animation:none; transform:none}
+    .nav,.eyebrow,.lede,.cue{opacity:1; animation:none}
+    .line > span{transform:none; animation:none}
+    .cue s{animation:none; transform:none}
+    .cta::after{transition:none}
+  }
+</style>
+</head>
+<body>
+
+<section class="hero">
+  <div class="hero-media">
+    <img src="assets/hero/poster.webp" alt="" aria-hidden="true">
+    <video id="hero-video" muted loop playsinline preload="metadata"
+           poster="assets/hero/poster.webp" aria-hidden="true">
+      <source src="assets/hero/hero.webm" type="video/webm; codecs=av01.0.05M.08">
+      <source src="assets/hero/hero.mp4"  type="video/mp4;  codecs=avc1.640028">
+    </video>
+  </div>
+
+  <header class="nav">
+    <a class="mark" href="#">JJF <span>Creando</span></a>
+    <div class="nav-right">
+      <div class="lang" role="group" aria-label="Idioma">
+        <button type="button" data-lang="es" aria-pressed="true">ES</button>
+        <i></i>
+        <button type="button" data-lang="en" aria-pressed="false">EN</button>
+      </div>
+      <a class="cta" href="#" data-i18n="cta">Agenda una llamada</a>
+    </div>
+  </header>
+
+  <div class="stage">
+    <div class="copy">
+      <p class="eyebrow"><s></s><span data-i18n="eyebrow">Tulum · Riviera Maya</span></p>
+
+      <h1 id="headline"></h1>
+
+      <p class="lede" data-i18n="lede">
+        Desarrollos que nacen de la selva en lugar de imponerse sobre ella.
+        Veinticinco años construyendo en la Riviera Maya.
+      </p>
+    </div>
+
+    <div class="cue" aria-hidden="true">
+      <b data-i18n="scroll">Scroll</b>
+      <s></s>
+    </div>
+  </div>
+</section>
+
+<section class="projects" id="projects">
+  <div class="sec-head">
+    <h2 data-i18n="projectsTitle">Proyectos</h2>
+    <span class="count" data-i18n="projectsCount">Seis desarrollos · 2001—2026</span>
+  </div>
+  <ol class="index" id="index"></ol>
+</section>
+
+<canvas id="gl" aria-hidden="true"></canvas>
+
+<script>
+  // Headline is built from lines so each can ride up behind its own mask.
+  const COPY = {
+    es:{
+      headline:["Creando espacios","que la selva","ya reclamaba"],
+      italic:2,
+      eyebrow:"Tulum · Riviera Maya",
+      cta:"Agenda una llamada",
+      lede:"Desarrollos que nacen de la selva en lugar de imponerse sobre ella. Veinticinco años construyendo en la Riviera Maya.",
+      scroll:"Scroll",
+      projectsTitle:"Proyectos",
+      projectsCount:"Seis desarrollos"
+    },
+    en:{
+      headline:["Crafting spaces","the jungle had","already claimed"],
+      italic:2,
+      eyebrow:"Tulum · Riviera Maya",
+      cta:"Schedule a call",
+      lede:"Developments that grow out of the jungle rather than impose upon it. Twenty-five years building on the Riviera Maya.",
+      scroll:"Scroll",
+      projectsTitle:"Projects",
+      projectsCount:"Six developments"
+    }
+  };
+
+  // Scale figures are the ones JJF publishes in its own project copy —
+  // hectares and valuations, not invented labels.
+  const PROJECTS = [
+    { img:"assets/selvadentro.webp", name:"Selvadentro",
+      place:{es:"Tulum, Q. Roo",en:"Tulum, Q. Roo"}, scale:{es:"Residencias en selva",en:"Jungle residences"} },
+    { img:"assets/aldea-zama.webp", name:"Aldea Zama",
+      place:{es:"Tulum, Q. Roo",en:"Tulum, Q. Roo"}, scale:{es:"100 ha · USD 200 M",en:"100 ha · USD 200 M"} },
+    { img:"assets/selvazama.webp", name:"Selvazama",
+      place:{es:"Tulum, Q. Roo",en:"Tulum, Q. Roo"}, scale:{es:"165 ha · USD 1,000 M",en:"165 ha · USD 1,000 M"} },
+    { img:"assets/yucatan.webp", name:"Yucatán Country Club",
+      place:{es:"Mérida, Yucatán",en:"Mérida, Yucatán"}, scale:{es:"330 ha · USD 600 M",en:"330 ha · USD 600 M"} },
+    { img:"assets/amelia.webp", name:"Amelia Tulum",
+      place:{es:"Tulum, Q. Roo",en:"Tulum, Q. Roo"}, scale:{es:"Palafito · huella mínima",en:"Stilt house · minimal footprint"} },
+    { img:"assets/mazza.webp", name:"Hacienda Sacalá",
+      place:{es:"Izamal, Yucatán",en:"Izamal, Yucatán"}, scale:{es:"Golf · hotel boutique",en:"Golf · boutique hotel"} },
+  ];
+
+  const h1 = document.getElementById("headline");
+
+  function paint(lang, animate){
+    const c = COPY[lang];
+    h1.innerHTML = c.headline.map((t,i) =>
+      `<span class="line"><span>${i===c.italic ? `<em>${t}</em>` : t}</span></span>`
+    ).join("");
+    if (!animate) h1.querySelectorAll(".line > span").forEach(s => {
+      s.style.animation = "none"; s.style.transform = "none";
+    });
+    document.querySelectorAll("[data-i18n]").forEach(el => {
+      const v = c[el.dataset.i18n]; if (v) el.textContent = v;
+    });
+    document.documentElement.lang = lang;
+    document.querySelectorAll(".lang button").forEach(b =>
+      b.setAttribute("aria-pressed", String(b.dataset.lang === lang)));
+    renderIndex(lang);
+  }
+
+  const indexEl = document.getElementById("index");
+  function renderIndex(lang){
+    indexEl.innerHTML = PROJECTS.map((p, i) => `
+      <li class="row">
+        <a href="#contact" data-img="${p.img}">
+          <span class="num">${String(i + 1).padStart(2, "0")}</span>
+          <span class="name">${p.name}</span>
+          <span class="meta"><span>${p.place[lang]}</span><b>${p.scale[lang]}</b></span>
+        </a>
+      </li>`).join("");
+  }
+
+  paint("es", true);
+
+  // Switching language replays the reveal — the motion is part of the brand,
+  // so it should happen every time the words change, not only on first load.
+  document.querySelectorAll(".lang button").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+      paint(btn.dataset.lang, !reduce);
+      try { localStorage.setItem("jjf-lang", btn.dataset.lang); } catch(e){}
+    });
+  });
+
+  // Video is an enhancement, never a blocker: the poster carries the frame
+  // until playback is genuinely ready, and sits alone if it never is.
+  (function(){
+    const v = document.getElementById("hero-video");
+    const conn = navigator.connection || {};
+    const still = matchMedia("(prefers-reduced-motion: reduce)").matches
+      || conn.saveData === true
+      || /(^|-)2g$/.test(conn.effectiveType || "");
+
+    if (still) return;                       // poster stays, nothing loads
+    v.preload = "auto";
+    v.addEventListener("canplay", () => {
+      v.classList.add("is-ready");
+      v.play().catch(() => {});              // refused autoplay leaves the poster
+    }, { once:true });
+    v.load();
+  })();
+
+  /* ================= PROJECT HOVER — WebGL panel =================
+     A single quad that follows the cursor and warps with its velocity.
+     Written by hand rather than pulled from a library: the whole effect
+     is one shader, and a 50-100KB dependency to draw one textured plane
+     is weight the hero budget can't spare. Degrades to a plain <img>
+     wherever WebGL or motion isn't wanted.                          */
+  (function(){
+    const canvas = document.getElementById("gl");
+    const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const coarse = matchMedia("(hover: none)").matches;
+    if (coarse) return;                       // touch devices get the list, plainly
+
+    const gl = reduce ? null : canvas.getContext("webgl", { alpha:true, premultipliedAlpha:false });
+    if (!gl) { flatFallback(); return; }
+
+    const VERT = `
+      attribute vec2 aPos;
+      varying vec2 vUv;
+      void main(){ vUv = aPos * 0.5 + 0.5; gl_Position = vec4(aPos, 0.0, 1.0); }`;
+
+    const FRAG = `
+      precision mediump float;
+      varying vec2 vUv;
+      uniform sampler2D uTex;
+      uniform float uAlpha, uTime, uCover;
+      uniform vec2  uVel;
+
+      void main(){
+        vec2 uv = vUv;
+        uv.y = 1.0 - uv.y;
+
+        // cover-fit: uCover is (panelAspect / imageAspect)
+        if (uCover > 1.0) { uv.y = (uv.y - 0.5) / uCover + 0.5; }
+        else              { uv.x = (uv.x - 0.5) * uCover + 0.5; }
+
+        // cursor velocity drags the image like weighted silk
+        float drag = clamp(length(uVel) * 0.035, 0.0, 0.35);
+        uv += uVel * 0.02 * (1.0 - abs(vUv.y - 0.5) * 1.4);
+
+        // a slow standing wave so the panel is never quite static
+        uv.x += sin(uv.y * 9.0 + uTime * 1.1) * 0.0045;
+        uv.y += cos(uv.x * 7.0 + uTime * 0.8) * 0.0035;
+
+        // the reveal itself: the image wipes up from its own bottom edge
+        float wipe = smoothstep(0.0, 0.85, uAlpha * 1.25 - (1.0 - vUv.y) * 0.35);
+
+        // faint chromatic split on fast movement — reads as glass, not glitch
+        float s = drag * 0.012;
+        vec4 c;
+        c.r = texture2D(uTex, uv + vec2(s, 0.0)).r;
+        c.g = texture2D(uTex, uv).g;
+        c.b = texture2D(uTex, uv - vec2(s, 0.0)).b;
+        c.a = 1.0;
+
+        // settle the photograph into the page's palette instead of sitting on top of it
+        float lum = dot(c.rgb, vec3(0.299, 0.587, 0.114));
+        c.rgb = mix(vec3(lum), c.rgb, 0.84) * 0.94;
+
+        // soft edges — a hard rectangle reads as a pasted asset, not a panel
+        float edge = smoothstep(0.0, 0.055, vUv.x) * smoothstep(1.0, 0.945, vUv.x)
+                   * smoothstep(0.0, 0.085, vUv.y) * smoothstep(1.0, 0.915, vUv.y);
+
+        if (uv.x < 0.0 || uv.x > 1.0 || uv.y < 0.0 || uv.y > 1.0) discard;
+        gl_FragColor = vec4(c.rgb, wipe * uAlpha * edge);
+      }`;
+
+    function compile(type, src){
+      const s = gl.createShader(type);
+      gl.shaderSource(s, src); gl.compileShader(s);
+      if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) throw new Error(gl.getShaderInfoLog(s));
+      return s;
+    }
+    let prog;
+    try {
+      prog = gl.createProgram();
+      gl.attachShader(prog, compile(gl.VERTEX_SHADER, VERT));
+      gl.attachShader(prog, compile(gl.FRAGMENT_SHADER, FRAG));
+      gl.linkProgram(prog);
+      if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) throw new Error(gl.getProgramInfoLog(prog));
+    } catch (e) { console.warn("WebGL unavailable, falling back:", e.message); flatFallback(); return; }
+    gl.useProgram(prog);
+
+    const buf = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1, 1,-1, -1,1, 1,1]), gl.STATIC_DRAW);
+    const aPos = gl.getAttribLocation(prog, "aPos");
+    gl.enableVertexAttribArray(aPos);
+    gl.vertexAttribPointer(aPos, 2, gl.FLOAT, false, 0, 0);
+
+    const U = n => gl.getUniformLocation(prog, n);
+    const uAlpha = U("uAlpha"), uTime = U("uTime"), uVel = U("uVel"), uCover = U("uCover");
+    gl.enable(gl.BLEND);
+    gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+
+    // --- textures, loaded on first hover and cached ---
+    const cache = new Map();
+    function texture(src){
+      if (cache.has(src)) return cache.get(src);
+      const t = gl.createTexture();
+      gl.bindTexture(gl.TEXTURE_2D, t);
+      gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, 1, 1, 0, gl.RGBA, gl.UNSIGNED_BYTE, new Uint8Array([20,26,20,255]));
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+      const rec = { tex:t, aspect:1.5, ready:false };
+      const img = new Image();
+      img.onload = () => {
+        gl.bindTexture(gl.TEXTURE_2D, rec.tex);
+        gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, false);
+        gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, img);
+        rec.aspect = img.naturalWidth / img.naturalHeight;
+        rec.ready = true;
+      };
+      img.src = src;
+      cache.set(src, rec);
+      return rec;
+    }
+
+    // --- panel geometry, in CSS pixels, resolved against the viewport ---
+    const PANEL = { w:0, h:0 };
+    function size(){
+      const dpr = Math.min(devicePixelRatio || 1, 2);
+      canvas.width  = innerWidth  * dpr;
+      canvas.height = innerHeight * dpr;
+      PANEL.w = Math.min(innerWidth * 0.30, 420);
+      PANEL.h = PANEL.w / 1.5;
+      gl.viewport(0, 0, canvas.width, canvas.height);
+    }
+    size();
+    addEventListener("resize", size);
+
+    let active = null, alpha = 0, target = 0;
+    const pointer = { x:innerWidth/2, y:innerHeight/2 };
+    const eased   = { x:pointer.x, y:pointer.y };
+    let vx = 0, vy = 0, raf = 0, t0 = performance.now();
+
+    addEventListener("pointermove", e => { pointer.x = e.clientX; pointer.y = e.clientY; }, { passive:true });
+
+    indexEl.addEventListener("pointerover", e => {
+      const a = e.target.closest("a[data-img]"); if (!a) return;
+      active = texture(a.dataset.img);
+      target = 1;
+      canvas.classList.add("on");
+      if (!raf) { t0 = performance.now(); raf = requestAnimationFrame(frame); }
+    });
+    indexEl.addEventListener("pointerleave", () => { target = 0; });
+
+    function frame(now){
+      const t = (now - t0) / 1000;
+
+      // Y tracks the cursor; X is anchored to the empty column the layout already
+      // leaves between the names and the metadata, so the panel never covers the
+      // name being hovered. It drifts with the pointer, but only slightly.
+      const anchorX = innerWidth * 0.62 + (pointer.x / innerWidth - 0.5) * 70;
+      const px = eased.x, py = eased.y;
+      eased.x += (anchorX  - eased.x) * 0.085;
+      eased.y += (pointer.y - eased.y) * 0.085;
+      vx = eased.x - px; vy = eased.y - py;
+
+      alpha += (target - alpha) * 0.09;
+      if (alpha < 0.002 && target === 0) {
+        canvas.classList.remove("on");
+        gl.clear(gl.COLOR_BUFFER_BIT);
+        raf = 0; return;                        // idle: no rAF running at all
+      }
+
+      gl.clear(gl.COLOR_BUFFER_BIT);
+      if (active && active.ready) {
+        // place the quad by scissoring to the panel rect, in device pixels
+        const dpr = Math.min(devicePixelRatio || 1, 2);
+        const x = eased.x - PANEL.w / 2, y = eased.y - PANEL.h / 2;
+        gl.enable(gl.SCISSOR_TEST);
+        gl.scissor(x * dpr, (innerHeight - y - PANEL.h) * dpr, PANEL.w * dpr, PANEL.h * dpr);
+        gl.viewport(x * dpr, (innerHeight - y - PANEL.h) * dpr, PANEL.w * dpr, PANEL.h * dpr);
+        gl.bindTexture(gl.TEXTURE_2D, active.tex);
+        gl.uniform1f(uAlpha, alpha);
+        gl.uniform1f(uTime, t);
+        gl.uniform1f(uCover, (PANEL.w / PANEL.h) / active.aspect);
+        gl.uniform2f(uVel, vx, vy);
+        gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+        gl.disable(gl.SCISSOR_TEST);
+      }
+      raf = requestAnimationFrame(frame);
+    }
+
+    // --- no WebGL (or reduced motion): a plain image, same choreography ---
+    function flatFallback(){
+      const img = document.createElement("img");
+      img.className = "flat-preview"; img.alt = ""; img.setAttribute("aria-hidden", "true");
+      document.body.appendChild(img);
+      indexEl.addEventListener("pointerover", e => {
+        const a = e.target.closest("a[data-img]"); if (!a) return;
+        img.src = a.dataset.img; img.classList.add("on");
+      });
+      indexEl.addEventListener("pointerleave", () => img.classList.remove("on"));
+      addEventListener("pointermove", e => {
+        img.style.left = e.clientX + "px"; img.style.top = e.clientY + "px";
+      }, { passive:true });
+    }
+  })();
+</script>
+
+</body>
+</html>
