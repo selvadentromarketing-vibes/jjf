@@ -10,7 +10,7 @@ const site = (await getCollection('site')).find((s) => s.data.lang === lang)!.da
 const projects = (await getCollection('projects', (e) => e.data.lang === lang && !e.data.draft)).sort((a, b) => a.data.order - b.data.order);
 ---
 <Base lang={lang} title={site.pages.contact.title} description={site.pages.contact.description} route="contact" ground="shade" bodyClass="contact-page">
-  <section class="page">
+  <section class="page" data-ground="shade">
     <header class="page-head">
       <h1 class="display" data-reveal="lines"><span class="line"><span>{site.invitation}</span></span></h1>
       <p class="contact-ledger">{t(lang, 'contact.ledgerLine')} <a href={href('track', lang)}>{t(lang, 'ledger.more')}</a></p>

@@ -10,7 +10,7 @@ const projects = (await getCollection('projects', (e) => e.data.lang === lang &&
 const dash = '—';
 ---
 <Base lang={lang} title={site.pages.track.title} description={site.pages.track.description} route="track" ground="linen">
-  <article class="page">
+  <article class="page" data-ground="linen">
     <header class="page-head">
       <h1 class="display">{t(lang, 'ledger.title')}</h1>
       <p class="note">{t(lang, 'track.note')}</p>

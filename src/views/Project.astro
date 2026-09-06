@@ -26,7 +26,7 @@ const jsonLd = {
 };
 ---
 <Base lang={lang} title={`${p.name} — JJF Creando`} description={`${p.place} · ${p.character}`} route="project" params={{ slug: p.key }} ground="linen" jsonLd={jsonLd} bodyClass="page-project">
-  <article class="project" data-project-page={p.key}>
+  <article class="project" data-project-page={p.key} data-ground="linen">
     <header class:list={['project-hero', { 'has-plano': !!p.plan, 'has-plate': !!plate }]} data-light={p.lightMode}>
       <Plano slug={p.key} plan={p.plan} />
       {plate && <Picture class="hero-plate" pictureAttributes={{ class: 'hero-media' }} src={plate} widths={[640, 1280, 1920]} sizes="100vw" formats={['avif', 'webp']} alt={p.heroAlt} loading="eager" fetchpriority="high" decoding="async" />}
@@ -40,9 +40,9 @@ const jsonLd = {
     {gallery.length > 0 && (
       <section class="gallery">
         {gallery.map((g) => (
-          <figure data-reveal="scrim">
-            <figcaption class="caption">{g.caption}</figcaption>
-            <Picture src={g.src} widths={[640, 1280, 1920]} sizes="100vw" formats={['avif', 'webp']} alt={g.caption} loading="lazy" />
+          <figure>
+            <figcaption class="caption" data-reveal="fade">{g.caption}</figcaption>
+            <div data-reveal="scrim"><Picture src={g.src} widths={[640, 1280, 1920]} sizes="100vw" formats={['avif', 'webp']} alt={g.caption} loading="lazy" /></div>
           </figure>
         ))}
       </section>

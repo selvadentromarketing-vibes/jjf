@@ -84,15 +84,15 @@ await mkdir('public', { recursive: true });
 await writeFile('public/favicon.svg', optimize(markOnly, { floatPrecision: 0, plugins: [{ name: 'preset-default', params: { overrides: { mergePaths: false, collapseGroups: false } } }] }).data);
 
 // OG cards (typography-only, Phase 0): linen ground, the mark, one line per language
-const og = (title, sub) => `<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+const og = (lines, sub) => `<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
 <rect width="1200" height="630" fill="#EDE7DA"/>
-<svg x="80" y="90" width="220" height="220" viewBox="${vb}" preserveAspectRatio="xMinYMin meet"><g fill="#0A0D0A" fill-rule="evenodd">${paths(mark)}${paths(word)}</g></svg>
-<text x="80" y="470" font-family="Instrument Serif, Georgia, DejaVu Serif, serif" font-size="64" fill="#0A0D0A">${title}</text>
-<text x="80" y="540" font-family="Instrument Sans, DejaVu Sans, Helvetica, Arial, sans-serif" font-size="26" fill="#5B5A53" letter-spacing="1">${sub}</text>
+<svg x="80" y="84" width="200" height="200" viewBox="${vb}" preserveAspectRatio="xMinYMin meet"><g fill="#0A0D0A" fill-rule="evenodd">${paths(mark)}${paths(word)}</g></svg>
+${lines.map((l, i) => `<text x="80" y="${420 + i * 78}" font-family="Instrument Serif, Georgia, serif" font-size="72" letter-spacing="-1" fill="#0A0D0A">${l}</text>`).join('')}
+<text x="80" y="572" font-family="Instrument Sans, Helvetica, Arial, sans-serif" font-size="24" fill="#5B5A53" letter-spacing="1">${sub}</text>
 </svg>`;
 await mkdir('public/og', { recursive: true });
-await sharp(Buffer.from(og('El verdadero lujo no se mide en metros cuadrados.', 'JJF Creando · Tulum · Riviera Maya'))).png().toFile('public/og/default-es.png');
-await sharp(Buffer.from(og('True luxury is not measured in square metres.', 'JJF Creando · Tulum · Riviera Maya'))).png().toFile('public/og/default-en.png');
+await sharp(Buffer.from(og(['El verdadero lujo', 'no se mide en metros cuadrados.'], 'JJF Creando · Tulum · Riviera Maya'))).png().toFile('public/og/default-es.png');
+await sharp(Buffer.from(og(['True luxury', 'is not measured in square metres.'], 'JJF Creando · Tulum · Riviera Maya'))).png().toFile('public/og/default-en.png');
 
 // preview of the door composition for review
 const prev = `<svg xmlns="http://www.w3.org/2000/svg" width="900" height="600" viewBox="0 0 900 600"><rect width="900" height="600" fill="#0A0D0A"/><svg x="330" y="200" width="240" height="200" viewBox="${vb}" preserveAspectRatio="xMidYMid meet"><g fill="#F2EEE5" fill-rule="evenodd">${paths(mark)}${paths(word)}</g></svg><svg x="40" y="40" width="240" height="200" viewBox="${vb}" preserveAspectRatio="xMidYMid meet"><g fill="none" stroke="#F2EEE5" stroke-width="4">${paths(mark)}</g></svg></svg>`;

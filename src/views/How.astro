@@ -11,7 +11,7 @@ const { Content } = await render(entry);
 const faq = { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: (entry.body ?? '').split(/^## /m).slice(1).map((s) => { const [q, ...a] = s.trim().split('\n'); return { '@type': 'Question', name: q.trim(), acceptedAnswer: { '@type': 'Answer', text: a.join(' ').trim() } }; }) };
 ---
 <Base lang={lang} title={site.pages.how.title} description={site.pages.how.description} route="how" ground="linen" jsonLd={faq}>
-  <article class="page">
+  <article class="page" data-ground="linen">
     <header class="page-head">
       <h1 class="display">{entry.data.title}</h1>
       <p class="measure">{entry.data.intro}</p>

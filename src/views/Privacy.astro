@@ -9,7 +9,7 @@ const entry = (await getCollection('legal')).find((e) => e.data.lang === lang)!;
 const { Content } = await render(entry);
 ---
 <Base lang={lang} title={site.pages.privacy.title} description={site.pages.privacy.description} route="privacy" ground="linen">
-  <article class="page" data-figures-ok>
+  <article class="page" data-figures-ok data-ground="linen">
     <header class="page-head"><h1 class="display">{entry.data.title}</h1></header>
     <div class="prose"><Content /></div>
   </article>

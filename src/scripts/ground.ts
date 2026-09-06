@@ -1,6 +1,14 @@
 // Colour-as-weather: the ground follows the stratum crossing the centre of the viewport, in both directions. The marker changes colour only.
+let scrollBound = false;
 export function initGround() {
   const html = document.documentElement;
+  if (!scrollBound) {
+    scrollBound = true;
+    const onScroll = () => html.classList.toggle('scrolled', window.scrollY > 48);
+    addEventListener('scroll', onScroll, { passive: true });
+    document.addEventListener('astro:after-swap', onScroll);
+    onScroll();
+  }
   const sections = Array.from(document.querySelectorAll<HTMLElement>('[data-ground]'));
   const marker = document.querySelector<HTMLElement>('[data-marker]');
   if (!sections.length) return;
