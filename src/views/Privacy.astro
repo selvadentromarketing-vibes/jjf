@@ -1,0 +1,16 @@
+---
+import { getCollection, render } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import type { Lang } from '../routes';
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const site = (await getCollection('site')).find((s) => s.data.lang === lang)!.data;
+const entry = (await getCollection('legal')).find((e) => e.data.lang === lang)!;
+const { Content } = await render(entry);
+---
+<Base lang={lang} title={site.pages.privacy.title} description={site.pages.privacy.description} route="privacy" ground="linen">
+  <article class="page" data-figures-ok>
+    <header class="page-head"><h1 class="display">{entry.data.title}</h1></header>
+    <div class="prose"><Content /></div>
+  </article>
+</Base>

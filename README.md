@@ -1,43 +1,46 @@
-# JJF Creando — Landing
+# JJF Creando — sitio
 
-Réplica en código (HTML + Tailwind v4) de la landing de JJF Creando, lista para Netlify.
+Sitio bilingüe (`/es/` + `/en/`) de JJF Creando, construido con Astro 7 y desplegado en Netlify. El plan de diseño y producto vive en la conversación de trabajo; este README cubre lo operativo.
 
 ## Estructura
 
 ```
-index.html          → marcado de la página
-main.js             → datos de proyectos, FAQ y modal de contacto
-src/input.css       → fuente de estilos (Tailwind v4 + componentes)
-assets/styles.css   → CSS compilado (lo que carga el navegador)
-assets/*.webp|png   → imágenes
-netlify.toml        → config de despliegue (sitio estático, sin build)
+astro.config.mjs        i18n, sitemap, Tailwind 4, fuentes autoalojadas (Instrument Serif + Instrument Sans)
+src/content.config.ts   colecciones: projects (es/en), site (textos de marca), how (cómo se compra), legal (aviso)
+src/content/            el contenido — cada cifra es un objeto {value, verified, source, asOf}; sin verificar no se renderiza
+src/layouts/Base.astro  head (canonical, hreflang, OG, JSON-LD), la puerta, nav, footer, marcador de estratos
+src/components/         Hero · Claro · Index · Agua · Ledger · Doors · ContactForm · Booking · Silence · Plano · Ficha · Door · Mark
+src/views/              una vista por tipo de página; src/pages/{es,en}/ son envoltorios finos con las rutas localizadas
+src/scripts/            door (la marca), reveal, ground (color-as-weather), solar (hora de Tulum), tier, plano, contact, analytics, vitals
+src/styles/global.css   tokens de color, duración y easing (plan §5–§6)
+src/assets/brand/       jjf-mark.svg (trazado desde logo.png con scripts/trace-mark.mjs — sustituir por el vector del diseñador cuando llegue)
+src/assets/plans/       los planos para El Plano, uno por proyecto (ver README ahí)
+netlify/                edge function de idioma, noindex en previews, submission-created → LeadConnector
+tests/                  Playwright: hreflang recíproco, sin cifras fuera de lugar, la puerta una vez por sesión, sin overflow, tier in-app
+legacy/                 la landing anterior (HTML + Tailwind), sólo como referencia de contenido
 ```
 
 ## Desarrollo
 
-El CSS está **precompilado** en `assets/styles.css`, así que para ver la página
-basta abrir `index.html` con cualquier servidor estático.
-
-Si editas clases de Tailwind en `index.html` / `main.js`, recompila el CSS:
-
 ```bash
-npm install        # solo la primera vez
-npm run build      # genera assets/styles.css
-# o, mientras editas:
-npm run dev        # recompila al guardar (watch)
+npm install
+cp .env.example .env      # PUBLIC_STAGING=1 muestra las placas provisionales
+npm run dev               # http://localhost:4321/es/
+npm run build && npm run preview
+npm run check             # astro check
+npm run check:plans       # valida los SVG de planos
+CHROMIUM_PATH=/ruta/a/chromium npm test   # Playwright (sin la variable usa su propio Chromium)
 ```
 
-## Despliegue en Netlify
+## Despliegue
 
-Sitio estático, **no requiere build** en Netlify (el CSS ya está compilado y commiteado):
+Netlify construye con `npm run build` y publica `dist/`. Variables en Netlify: las de `.env.example`. Sin `PUBLIC_STAGING` el hero de la portada no lleva placa (nada provisional llega a producción); las imágenes marcadas `heroStaging: true` tampoco.
 
-- **Opción A (drag & drop):** arrastra la carpeta del proyecto a Netlify.
-- **Opción B (Git):** conecta el repo. `netlify.toml` publica la raíz (`publish = "."`).
-  `node_modules/` está en `.gitignore` y no se sube.
+La edge function `locale` manda toda ruta sin prefijo a `/es/` o `/en/` (idioma del navegador, luego país) conservando UTMs. Los deploy previews llevan `X-Robots-Tag: noindex`.
 
-## Notas
+## Contenido
 
-- Los botones (Schedule A Call, Contact Us, Start Building Your Dream, Download Our CV)
-  abren un modal con el calendario de GoHighLevel
-  (`widget/booking/DD1xkh0ObvHQFhcyxgJR`). Cámbialo en `index.html` si usas otro.
-- Imágenes y textos provienen de la página original; reemplázalos en `assets/` y `main.js`.
+- Los textos de proyecto están en `src/content/projects/{es,en}/*.md` con `copyStatus: propuesta` hasta que el fundador los apruebe.
+- `statusVerified`, `sellsVerified`, `years`, `hectares`, etc. sólo se muestran cuando están verificados contra un documento de JJF.
+- `src/content/how/*.md` y `src/content/legal/*.md` llevan `reviewed: false`: requieren revisión legal antes de salir a producción.
+- El número de WhatsApp en `src/content/site/*.json` está marcado `verified: false` y sólo aparece en staging hasta confirmar el titular.

@@ -1,0 +1,10 @@
+---
+// El Plano (plan §S2): the project's drawing, inlined at build so DrawSVG can draw it. Validated by scripts/check-plans.mjs.
+import { readFile } from 'node:fs/promises';
+import path from 'node:path';
+interface Props { slug: string; plan?: { svg: string; source: 'architect' | 'ai-derived' } }
+const { slug, plan } = Astro.props;
+let svg = '';
+if (plan) svg = await readFile(path.resolve('src/assets/plans', plan.svg), 'utf8');
+---
+{plan && <div class="plano" data-plano={slug} data-source={plan.source} aria-hidden="true" set:html={svg} />}

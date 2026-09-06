@@ -1,0 +1,22 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import Hero from '../components/Hero.astro';
+import Claro from '../components/Claro.astro';
+import Index from '../components/Index.astro';
+import Agua from '../components/Agua.astro';
+import Silence from '../components/Silence.astro';
+import type { Lang } from '../routes';
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const site = (await getCollection('site')).find((s) => s.data.lang === lang)!.data;
+const projects = (await getCollection('projects', (e) => e.data.lang === lang && !e.data.draft)).sort((a, b) => a.data.order - b.data.order);
+---
+<Base lang={lang} title={site.pages.home.title} description={site.pages.home.description} route="home" ground="canopy" strata bodyClass="page-home">
+  <Hero headline={site.headline} lede={site.lede} />
+  <div class="passage stratum" data-stratum="dosel" data-ground="forest" aria-hidden="true"></div>
+  <Claro lang={lang} paragraphs={site.claro} caption={site.claroCaption} line={site.claroLine} />
+  <Index lang={lang} projects={projects} title={site.indexTitle} />
+  <Agua lang={lang} site={site} projects={projects} />
+  <Silence sentences={site.closingSentences} signature={site.signature} />
+</Base>

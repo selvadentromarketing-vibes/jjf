@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://jjfcreando.com/sitemap-index.xml

@@ -1,0 +1,10 @@
+---
+import { t } from '../i18n';
+import type { Lang } from '../routes';
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const strata = ['dosel', 'claro', 'roca', 'agua', 'cenote'] as const;
+---
+<div class="marker" aria-hidden="true" data-marker>
+  {strata.map((s) => <span data-stratum-label={s}>{t(lang, `marker.${s}`)}</span>)}
+</div>

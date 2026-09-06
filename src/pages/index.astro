@@ -1,0 +1,20 @@
+---
+// In production the Netlify edge function routes every unprefixed path by language (plan §9). This page is the fallback for local preview and hosts without it.
+---
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex" />
+    <title>JJF Creando</title>
+    <meta http-equiv="refresh" content="0; url=/es/" />
+    <link rel="canonical" href="https://jjfcreando.com/es/" />
+    <script is:inline>
+      try { var l = (navigator.language || 'es').toLowerCase(); location.replace(l.indexOf('en') === 0 ? '/en/' : '/es/'); } catch (e) {}
+    </script>
+  </head>
+  <body style="margin:0;min-height:100vh;display:grid;place-items:center;background:#0A0D0A;color:#F2EEE5;font-family:Georgia,serif">
+    <p><a href="/es/" style="color:inherit">Español</a> &nbsp;·&nbsp; <a href="/en/" style="color:inherit">English</a></p>
+  </body>
+</html>

@@ -1,0 +1,14 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import type { Lang } from '../routes';
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const site = (await getCollection('site')).find((s) => s.data.lang === lang)!.data;
+---
+<Base lang={lang} title={site.pages.thanks.title} description={site.pages.thanks.description} route="thanks" ground="forest" noindex>
+  <section class="cenote grain" data-ground="forest">
+    <p class="display silence-line">{site.thanks[0]}</p>
+    <p class="silence-sig">{site.thanks[1]}</p>
+  </section>
+</Base>

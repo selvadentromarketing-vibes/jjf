@@ -1,0 +1,44 @@
+{
+  "lang": "es",
+  "headline": ["El <em>verdadero</em> lujo", "no se mide", "en metros cuadrados."],
+  "lede": "…sino en la calidad de vida que un espacio puede ofrecer.",
+  "claro": [
+    "En JJF Creando creemos que el verdadero lujo no se mide en metros cuadrados, sino en la calidad de vida que un espacio puede ofrecer. Diseñamos proyectos que despiertan algo más que admiración: invitan a reconectar con lo esencial, a vivir con calma, y a habitar con propósito.",
+    "Nuestra visión es crear lugares que eleven la experiencia humana, combinando arquitectura minimalista, naturaleza viva y un profundo respeto por el entorno. Cada detalle está pensado para generar bienestar, belleza atemporal y una sensación de pertenencia difícil de explicar, pero imposible de ignorar.",
+    "Más que construir propiedades, diseñamos refugios donde la vida se siente distinta."
+  ],
+  "claroCaption": "Lo natural con lo bien hecho",
+  "claroLine": "No vendemos propiedades. Diseñamos refugios.",
+  "indexTitle": ["Seis lugares.", "Una misma forma de mirar la tierra."],
+  "aguaTitle": "Seis lugares sobre la misma piedra.",
+  "invitation": "Cuando quieras, hablamos.",
+  "vision": [
+    "En JJF Creando creemos que el verdadero lujo no se mide en metros cuadrados, sino en la calidad de vida que un espacio puede ofrecer. Diseñamos proyectos que despiertan algo más que admiración: invitan a reconectar con lo esencial, a vivir con calma, y a habitar con propósito.",
+    "Nuestra visión es crear lugares que eleven la experiencia humana, combinando arquitectura minimalista, naturaleza viva y un profundo respeto por el entorno. Cada detalle está pensado para generar bienestar, belleza atemporal y una sensación de pertenencia difícil de explicar, pero imposible de ignorar.",
+    "Más que construir propiedades, diseñamos refugios donde la vida se siente distinta. Porque cuando un proyecto nace con alma, transforma no solo el paisaje, sino también a quien lo habita.",
+    "La idea con JJF Creando es ir más allá de solo crear desarrollos o construir. Lo que buscamos es crear espacios que realmente hagan sentir algo —lugares que te inviten a vivir con calma, rodeado de naturaleza, pero sin renunciar al diseño y al detalle.",
+    "Para nosotros el lujo no está ostentoso; está en algo más sutil, con mejor gusto, más conectado con el entorno y con la forma en la que uno quiere vivir. Por eso nuestros proyectos mezclan lo estético con lo funcional, lo natural con lo bien hecho.",
+    "No se trata solo de vender propiedades, sino de crear lugares con alma, que realmente cambien la forma en la que las personas experimentan su día a día."
+  ],
+  "visionStatus": "verbatim",
+  "closingSentences": [
+    "Porque cuando un proyecto nace con alma, transforma no solo el paisaje, sino también a quien lo habita.",
+    "Lugares que te inviten a vivir con calma, rodeado de naturaleza, sin renunciar al diseño y al detalle.",
+    "El lujo no está en lo ostentoso. Está en algo más sutil, más conectado con el entorno."
+  ],
+  "signature": "JJF Creando · Tulum, Riviera Maya",
+  "responsePromise": "Te escribimos en un día hábil.",
+  "namedPerson": "",
+  "whatsapp": { "number": "+52 999 489 0828", "verified": false },
+  "notFoundLine": "Este camino no lleva a ningún lado.",
+  "thanks": ["Gracias. Ya tenemos tu mensaje.", "Te escribimos en un día hábil."],
+  "pages": {
+    "home": { "title": "JJF Creando — Lugares con alma en Tulum y la península de Yucatán", "description": "Desarrolladora boutique en Tulum y Yucatán. Seis lugares, una misma forma de mirar la tierra: arquitectura minimalista, naturaleza viva y respeto por el entorno." },
+    "vision": { "title": "Nuestra visión — JJF Creando", "description": "El verdadero lujo no se mide en metros cuadrados, sino en la calidad de vida que un espacio puede ofrecer. La visión de JJF Creando, en sus propias palabras." },
+    "track": { "title": "Trayectoria — JJF Creando", "description": "Los seis desarrollos de JJF Creando en Tulum, Mérida e Izamal, uno por uno." },
+    "how": { "title": "Cómo se compra — JJF Creando", "description": "Fideicomiso, notario, escrow, costos de cierre, impuestos y permisos: las preguntas que nos hacen antes de comprar en Tulum y Yucatán, contestadas con calma." },
+    "contact": { "title": "Hablemos — JJF Creando", "description": "Escríbenos por WhatsApp, déjanos un mensaje o elige una hora para hablar. Te escribimos en un día hábil." },
+    "privacy": { "title": "Aviso de privacidad — JJF Creando", "description": "Cómo tratamos tus datos personales en JJF Creando." },
+    "thanks": { "title": "Gracias — JJF Creando", "description": "Ya tenemos tu mensaje." }
+  }
+}

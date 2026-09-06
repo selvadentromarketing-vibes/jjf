@@ -1,0 +1,35 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import { t } from '../i18n';
+import { href, type Lang } from '../routes';
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const site = (await getCollection('site')).find((s) => s.data.lang === lang)!.data;
+const projects = (await getCollection('projects', (e) => e.data.lang === lang && !e.data.draft)).sort((a, b) => a.data.order - b.data.order);
+const dash = '—';
+---
+<Base lang={lang} title={site.pages.track.title} description={site.pages.track.description} route="track" ground="linen">
+  <article class="page">
+    <header class="page-head">
+      <h1 class="display">{t(lang, 'ledger.title')}</h1>
+      <p class="note">{t(lang, 'track.note')}</p>
+    </header>
+    <div style="overflow-x:auto">
+      <table class="ledger-table" data-figures-ok>
+        <thead><tr><th>{t(lang, 'track.place')}</th><th>{t(lang, 'track.where')}</th><th>{t(lang, 'track.status')}</th><th>{t(lang, 'track.years')}</th><th>{t(lang, 'track.hectares')}</th></tr></thead>
+        <tbody>
+          {projects.map((p) => (
+            <tr>
+              <td><a href={href('project', lang, { slug: p.data.key })}>{p.data.name}</a></td>
+              <td class="dim">{p.data.place}</td>
+              <td class="dim">{p.data.statusVerified && p.data.statusLabel ? p.data.statusLabel : dash}</td>
+              <td class="dim">{p.data.years?.verified ? `${p.data.years.start}${p.data.years.end ? `–${p.data.years.end}` : ''}` : dash}</td>
+              <td class="dim">{p.data.hectares?.verified ? p.data.hectares.value : dash}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  </article>
+</Base>

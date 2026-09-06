@@ -1,0 +1,20 @@
+---
+// Verified figures only. With nothing verified it renders nothing — never a placeholder number.
+import type { CollectionEntry } from 'astro:content';
+import { t } from '../i18n';
+import type { Lang } from '../routes';
+interface Props { lang: Lang; project: CollectionEntry<'projects'>['data'] }
+const { lang, project: p } = Astro.props;
+const rows: { label: string; value: string }[] = [];
+if (p.sellsVerified && p.sells) rows.push({ label: lang === 'es' ? 'Se vende' : 'For sale', value: t(lang, `sells.${p.sells}` as any) + (p.availability ? ` · ${p.availability}` : '') });
+if (p.years?.verified) rows.push({ label: t(lang, 'track.years'), value: `${p.years.start}${p.years.end ? `–${p.years.end}` : ''}` });
+if (p.hectares?.verified) rows.push({ label: t(lang, 'track.hectares'), value: `${p.hectares.value} ha` });
+if (p.cenotes?.verified) rows.push({ label: 'Cenotes', value: String(p.cenotes.value) });
+if (p.priceFrom?.verified) rows.push({ label: lang === 'es' ? 'Desde' : 'From', value: `${p.priceFrom.value.toLocaleString(lang === 'es' ? 'es-MX' : 'en-US')} ${p.priceFrom.unit ?? ''}`.trim() });
+---
+{rows.length > 0 && (
+  <section class="ficha" data-figures-ok>
+    <p class="caption">{t(lang, 'project.ficha')}</p>
+    <dl>{rows.map((r) => <><dt>{r.label}</dt><dd>{r.value}</dd></>)}</dl>
+  </section>
+)}

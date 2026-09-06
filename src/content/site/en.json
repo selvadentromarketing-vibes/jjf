@@ -1,0 +1,44 @@
+{
+  "lang": "en",
+  "headline": ["<em>True</em> luxury", "is not measured", "in square metres."],
+  "lede": "…but in the quality of life a space can offer.",
+  "claro": [
+    "At JJF Creando we believe that true luxury is not measured in square metres, but in the quality of life a space can offer. We design projects that awaken something more than admiration: they invite you to reconnect with the essential, to live calmly, and to inhabit with purpose.",
+    "Our vision is to create places that elevate the human experience, combining minimalist architecture, living nature and a deep respect for the surroundings. Every detail is considered to bring wellbeing, timeless beauty and a sense of belonging that is hard to explain but impossible to ignore.",
+    "More than building properties, we design refuges where life feels different."
+  ],
+  "claroCaption": "The natural and the well made",
+  "claroLine": "We do not sell properties. We design refuges.",
+  "indexTitle": ["Six places.", "One way of looking at land."],
+  "aguaTitle": "Six places on the same stone.",
+  "invitation": "Whenever you like, we can talk.",
+  "vision": [
+    "At JJF Creando we believe that true luxury is not measured in square metres, but in the quality of life a space can offer. We design projects that awaken something more than admiration: they invite you to reconnect with the essential, to live calmly, and to inhabit with purpose.",
+    "Our vision is to create places that elevate the human experience, combining minimalist architecture, living nature and a deep respect for the surroundings. Every detail is considered to bring wellbeing, timeless beauty and a sense of belonging that is hard to explain but impossible to ignore.",
+    "More than building properties, we design refuges where life feels different. Because when a project is born with soul, it transforms not only the landscape, but also the people who live in it.",
+    "The idea behind JJF Creando is to go beyond simply creating developments or building. What we are after are spaces that truly make you feel something: places that invite you to live calmly, surrounded by nature, without giving up design or detail.",
+    "For us, luxury is not ostentatious. It lies in something subtler, with better taste, more connected to the surroundings and to the way one wants to live. That is why our projects mix the aesthetic with the functional, the natural with the well made.",
+    "It is not about selling properties. It is about creating places with soul that truly change how people experience their day to day."
+  ],
+  "visionStatus": "authored-draft",
+  "closingSentences": [
+    "Because when a project is born with soul, it transforms not only the landscape, but also the people who live in it.",
+    "Places that invite you to live calmly, surrounded by nature, without giving up design or detail.",
+    "Luxury is not in the ostentatious. It is in something subtler, more connected to the place."
+  ],
+  "signature": "JJF Creando · Tulum, Riviera Maya",
+  "responsePromise": "We write back within one working day.",
+  "namedPerson": "",
+  "whatsapp": { "number": "+52 999 489 0828", "verified": false },
+  "notFoundLine": "This path leads nowhere.",
+  "thanks": ["Thank you. We have your message.", "We write back within one working day."],
+  "pages": {
+    "home": { "title": "JJF Creando — Places with soul in Tulum and the Yucatán peninsula", "description": "A boutique developer in Tulum and Yucatán. Six places, one way of looking at land: minimalist architecture, living nature and respect for the surroundings." },
+    "vision": { "title": "Our vision — JJF Creando", "description": "True luxury is not measured in square metres, but in the quality of life a space can offer. JJF Creando's vision, in the founder's words." },
+    "track": { "title": "Track record — JJF Creando", "description": "The six developments by JJF Creando in Tulum, Mérida and Izamal, one by one." },
+    "how": { "title": "How it works — JJF Creando", "description": "Fideicomiso, notary, escrow, closing costs, taxes and permits: the questions we are asked before buying in Tulum and Yucatán, answered calmly." },
+    "contact": { "title": "Let's talk — JJF Creando", "description": "Write to us on WhatsApp, leave a message or choose a time to talk. We write back within one working day." },
+    "privacy": { "title": "Privacy notice — JJF Creando", "description": "How JJF Creando handles your personal data." },
+    "thanks": { "title": "Thank you — JJF Creando", "description": "We have your message." }
+  }
+}

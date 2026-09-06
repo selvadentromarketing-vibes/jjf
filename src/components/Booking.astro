@@ -1,0 +1,11 @@
+---
+import { t } from '../i18n';
+import type { Lang } from '../routes';
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const BOOKING = 'https://api.leadconnectorhq.com/widget/booking/DD1xkh0ObvHQFhcyxgJR';
+---
+<div class="booking" data-booking data-src={BOOKING} data-title={t(lang, 'doors.booking')}>
+  <p class="booking-note">{t(lang, 'booking.note')}</p>
+  <noscript><a href={BOOKING} rel="noopener">{t(lang, 'booking.open')}</a></noscript>
+</div>

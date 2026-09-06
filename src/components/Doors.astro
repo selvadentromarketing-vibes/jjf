@@ -1,0 +1,27 @@
+---
+// Ser recibido (plan §7): three doors of equal weight, no button chrome, no modal anywhere.
+import type { CollectionEntry } from 'astro:content';
+import ContactForm from './ContactForm.astro';
+import Booking from './Booking.astro';
+import { t } from '../i18n';
+import type { Lang } from '../routes';
+interface Props { lang: Lang; site: CollectionEntry<'site'>['data']; projects: CollectionEntry<'projects'>[] }
+const { lang, site, projects } = Astro.props;
+const staging = import.meta.env.PUBLIC_STAGING === '1';
+const order = lang === 'es' ? ['whatsapp', 'message', 'booking'] : ['message', 'booking', 'whatsapp'];
+const showWa = site.whatsapp.verified || staging;
+const waNumber = site.whatsapp.number.replace(/\D/g, '');
+const waHref = `https://wa.me/${waNumber}?text=${encodeURIComponent(t(lang, 'doors.waGeneric'))}`;
+---
+<div class="doors" data-doors data-wa-number={waNumber} data-wa-template={t(lang, 'doors.waText')}>
+  <ul class="door-list" role="list">
+    {order.map((k) =>
+      k === 'whatsapp' ? (showWa && <li><a class="door-link" href={waHref} target="_blank" rel="noopener" data-event="whatsapp_click" data-section="doors" data-wa>{t(lang, 'doors.whatsapp')}</a></li>)
+      : k === 'message' ? <li><button class="door-link" type="button" data-open="message" aria-expanded="false" aria-controls={`door-message-${lang}`}>{t(lang, 'doors.message')}</button></li>
+      : <li><button class="door-link" type="button" data-open="booking" aria-expanded="false" aria-controls={`door-booking-${lang}`} data-event="booking_view" data-section="doors">{t(lang, 'doors.booking')}</button></li>
+    )}
+  </ul>
+  <div id={`door-message-${lang}`} class="door-pane" data-pane="message"><ContactForm lang={lang} projects={projects} thanks={site.thanks} promise={site.responsePromise} /></div>
+  <div id={`door-booking-${lang}`} class="door-pane" data-pane="booking"><Booking lang={lang} /></div>
+  <p class="reassure" data-figures-ok>{site.responsePromise}{site.namedPerson && ` — ${site.namedPerson}`}</p>
+</div>

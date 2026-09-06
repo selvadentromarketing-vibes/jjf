@@ -1,0 +1,28 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import Silence from '../components/Silence.astro';
+import { t } from '../i18n';
+import type { Lang } from '../routes';
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const all = await getCollection('site');
+const site = all.find((s) => s.data.lang === lang)!.data;
+const es = all.find((s) => s.data.lang === 'es')!.data;
+---
+<Base lang={lang} title={site.pages.vision.title} description={site.pages.vision.description} route="vision" ground="linen">
+  <article class="page">
+    <header class="page-head">
+      <p class="eyebrow">{t(lang, 'vision.title')}</p>
+      <h1 class="display" data-reveal="lines">{site.headline.map((l, i) => <span class="line" style={`--i:${i}`}><span set:html={l} /></span>)}</h1>
+    </header>
+    <div class="prose prose-founder">{site.vision.map((p) => <p data-reveal="fade">{p}</p>)}</div>
+    {lang === 'en' && (
+      <aside class="original" lang="es-MX">
+        <p class="caption">{t(lang, 'vision.original')}</p>
+        {es.vision.map((p) => <p>{p}</p>)}
+      </aside>
+    )}
+  </article>
+  <Silence sentences={site.closingSentences} signature={site.signature} />
+</Base>

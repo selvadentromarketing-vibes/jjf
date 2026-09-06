@@ -1,0 +1,15 @@
+---
+// Agua: the ledger and the invitation. The water plate and the lid-off reveal arrive in Phase 2 with the commissioned photograph.
+import type { CollectionEntry } from 'astro:content';
+import Ledger from './Ledger.astro';
+import Doors from './Doors.astro';
+import type { Lang } from '../routes';
+interface Props { lang: Lang; site: CollectionEntry<'site'>['data']; projects: CollectionEntry<'projects'>[] }
+const { lang, site, projects } = Astro.props;
+---
+<section class="agua stratum" data-stratum="agua" data-ground="forest" id="agua">
+  <h2 class="display" data-reveal="lines"><span class="line"><span>{site.aguaTitle}</span></span></h2>
+  <Ledger lang={lang} projects={projects} />
+  <p class="display invitation" data-reveal="lines"><span class="line"><span>{site.invitation}</span></span></p>
+  <Doors lang={lang} site={site} projects={projects} />
+</section>

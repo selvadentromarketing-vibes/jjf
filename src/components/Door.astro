@@ -1,0 +1,10 @@
+---
+// La Marca (plan §S0): the door once per session; the beat with the mark on every click. Inert without JS.
+import Mark from './Mark.astro';
+---
+<div id="door" class="door" data-state="pending" aria-hidden="true" transition:persist="door">
+  <div class="door-panel door-top"></div>
+  <div class="door-panel door-bottom"></div>
+  <i class="door-hair"></i>
+  <div class="door-mark"><Mark /></div>
+</div>

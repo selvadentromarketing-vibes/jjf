@@ -1,0 +1,11 @@
+---
+// El Cenote (plan §S3): one sentence, one line beneath it already present, only grain moving.
+interface Props { sentences: string[]; signature: string }
+const { sentences, signature } = Astro.props;
+---
+<section class="cenote stratum grain" data-stratum="cenote" data-ground="forest" id="cenote">
+  <p class="display silence-line" data-reveal="lines" data-silence data-sentences={JSON.stringify(sentences)}>
+    <span class="line"><span data-silence-text set:html={sentences[0]} /></span>
+  </p>
+  <p class="silence-sig">{signature}</p>
+</section>

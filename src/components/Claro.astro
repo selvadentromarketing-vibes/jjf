@@ -1,0 +1,23 @@
+---
+// Claro: daylight on linen. The founder speaks verbatim; the sketches on paper; caption before plate.
+import { Picture } from 'astro:assets';
+import sketchA from '../assets/img/sketch-vision.webp';
+import sketchB from '../assets/img/sketch-philosophy.webp';
+import { t } from '../i18n';
+import type { Lang } from '../routes';
+interface Props { lang: Lang; paragraphs: string[]; caption: string; line: string }
+const { lang, paragraphs, caption, line } = Astro.props;
+---
+<section class="claro stratum" data-stratum="claro" data-ground="linen" id="claro">
+  <div class="claro-text measure-founder">
+    {paragraphs.map((p, i) => <p class="founder" data-reveal="fade" style={`--i:${Math.min(i, 3)}`} set:html={p} />)}
+  </div>
+  <figure class="claro-sketches" data-reveal="scrim">
+    <figcaption class="caption">{caption}</figcaption>
+    <div class="sketches">
+      <Picture src={sketchA} widths={[480, 960]} sizes="(min-width: 900px) 20vw, 42vw" formats={['avif', 'webp']} alt={t(lang, 'claro.altA')} loading="lazy" />
+      <Picture src={sketchB} widths={[480, 960]} sizes="(min-width: 900px) 20vw, 42vw" formats={['avif', 'webp']} alt={t(lang, 'claro.altB')} loading="lazy" />
+    </div>
+  </figure>
+  <p class="display claro-line" data-reveal="lines"><span class="line"><span>{line}</span></span></p>
+</section>

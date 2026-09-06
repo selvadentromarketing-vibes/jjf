@@ -1,0 +1,61 @@
+---
+import { getCollection, render, type CollectionEntry } from 'astro:content';
+import { Picture } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import Plano from '../components/Plano.astro';
+import Ficha from '../components/Ficha.astro';
+import Silence from '../components/Silence.astro';
+import { t } from '../i18n';
+import { href, type Lang } from '../routes';
+interface Props { lang: Lang; entry: CollectionEntry<'projects'> }
+const { lang, entry } = Astro.props;
+const p = entry.data;
+const { Content } = await render(entry);
+const all = (await getCollection('projects', (e) => e.data.lang === lang && !e.data.draft)).sort((a, b) => a.data.order - b.data.order);
+const idx = all.findIndex((e) => e.data.key === p.key);
+const next = all[(idx + 1) % all.length];
+const site = (await getCollection('site')).find((s) => s.data.lang === lang)!.data;
+const staging = import.meta.env.PUBLIC_STAGING === '1';
+const plate = p.hero && (!p.heroStaging || staging) ? p.hero : undefined;
+const gallery = p.gallery.filter((g) => !g.staging || staging);
+const url = new URL(href('project', lang, { slug: p.key }), Astro.site ?? 'https://jjfcreando.com').href;
+const jsonLd = {
+  '@context': 'https://schema.org', '@type': 'Residence', name: p.name, url, description: `${p.place} · ${p.character}`,
+  address: { '@type': 'PostalAddress', addressLocality: p.locality, addressRegion: p.region, addressCountry: 'MX' },
+  ...(p.coordinates ? { geo: { '@type': 'GeoCoordinates', latitude: p.coordinates.lat, longitude: p.coordinates.lng } } : {}),
+};
+---
+<Base lang={lang} title={`${p.name} — JJF Creando`} description={`${p.place} · ${p.character}`} route="project" params={{ slug: p.key }} ground="linen" jsonLd={jsonLd} bodyClass="page-project">
+  <article class="project" data-project-page={p.key}>
+    <header class:list={['project-hero', { 'has-plano': !!p.plan, 'has-plate': !!plate }]} data-light={p.lightMode}>
+      <Plano slug={p.key} plan={p.plan} />
+      {plate && <Picture class="hero-plate" pictureAttributes={{ class: 'hero-media' }} src={plate} widths={[640, 1280, 1920]} sizes="100vw" formats={['avif', 'webp']} alt={p.heroAlt} loading="eager" fetchpriority="high" decoding="async" />}
+      <div class="project-title">
+        <p class="eyebrow">{p.place}</p>
+        <h1 class="display">{p.name}</h1>
+        <p class="folio-marker" data-figures-ok>{String(idx + 1).padStart(2, '0')}/{String(all.length).padStart(2, '0')}</p>
+      </div>
+    </header>
+    <section class="record"><Content /></section>
+    {gallery.length > 0 && (
+      <section class="gallery">
+        {gallery.map((g) => (
+          <figure data-reveal="scrim">
+            <figcaption class="caption">{g.caption}</figcaption>
+            <Picture src={g.src} widths={[640, 1280, 1920]} sizes="100vw" formats={['avif', 'webp']} alt={g.caption} loading="lazy" />
+          </figure>
+        ))}
+      </section>
+    )}
+    {p.masterplan && (
+      <figure class="masterplan">
+        <figcaption class="caption">{t(lang, 'project.masterplan')}{p.sellsVerified && p.sells && ` · ${t(lang, `sells.${p.sells}` as any)}`}{p.availability && ` · ${p.availability}`}</figcaption>
+        <Picture src={p.masterplan} widths={[640, 1280, 1920]} sizes="100vw" formats={['avif', 'webp']} alt={t(lang, 'project.masterplan')} loading="lazy" />
+      </figure>
+    )}
+    <Ficha lang={lang} project={p} />
+    <p class="project-talk"><a class="display" href={`${href('contact', lang)}?project=${p.key}`} data-event="cta_click" data-section="project" data-project={p.key}>{t(lang, 'project.talk', { name: p.name })}</a></p>
+    <p class="project-next"><span>{t(lang, 'project.next')}</span><a href={href('project', lang, { slug: next.data.key })}>{next.data.name}</a></p>
+  </article>
+  <Silence sentences={p.closingSentence} signature={site.signature} />
+</Base>

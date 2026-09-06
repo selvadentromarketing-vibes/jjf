@@ -1,0 +1,24 @@
+---
+// The water ledger: a masked hairline and six flat lines. Status and years appear only once verified (plan §8).
+import type { CollectionEntry } from 'astro:content';
+import { href, type Lang } from '../routes';
+import { t } from '../i18n';
+interface Props { lang: Lang; projects: CollectionEntry<'projects'>[] }
+const { lang, projects } = Astro.props;
+---
+<div>
+  <ol class="ledger" data-reveal="fade">
+    <i class="hair" aria-hidden="true"></i>
+    {projects.map((p) => (
+      <li>
+        <span>{p.data.name}</span>
+        <span>
+          {p.data.place}
+          {p.data.statusVerified && p.data.statusLabel && ` · ${p.data.statusLabel}`}
+          {p.data.years?.verified && <span data-figures-ok> · {p.data.years.start}{p.data.years.end ? `–${p.data.years.end}` : ''}</span>}
+        </span>
+      </li>
+    ))}
+  </ol>
+  <a class="ledger-more" href={href('track', lang)}>{t(lang, 'ledger.more')}</a>
+</div>

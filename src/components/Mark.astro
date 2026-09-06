@@ -1,0 +1,7 @@
+---
+// The JJF mark, inlined once per use. Stroke and fill layers share the same paths so the door can draw the outline (DrawSVG) and raise the fill.
+import mark from '../assets/brand/jjf-mark.svg?raw';
+interface Props { class?: string }
+const { class: cls = '' } = Astro.props;
+---
+<span class:list={['mark', cls]} set:html={mark} />

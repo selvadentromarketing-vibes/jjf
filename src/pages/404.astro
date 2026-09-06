@@ -1,0 +1,21 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import { href } from '../routes';
+const all = await getCollection('site');
+const es = all.find((s) => s.data.lang === 'es')!.data;
+const en = all.find((s) => s.data.lang === 'en')!.data;
+const projects = (await getCollection('projects', (e) => e.data.lang === 'es' && !e.data.draft)).sort((a, b) => a.data.order - b.data.order);
+---
+<Base lang="es" title="JJF Creando" description={es.notFoundLine} route="home" ground="forest" noindex>
+  <section class="notfound">
+    <h1 class="display">{es.notFoundLine}</h1>
+    <p class="small" lang="en">{en.notFoundLine}</p>
+    <ol class="index">
+      {projects.map((p, i) => (
+        <li class="row"><a href={href('project', 'es', { slug: p.data.key })}><span class="folio" data-figures-ok>{String(i + 1).padStart(2, '0')}</span><span class="name display">{p.data.name}</span><span class="meta">{p.data.place}</span></a></li>
+      ))}
+    </ol>
+    <p><a class="cta" href="/es/">Volver al inicio</a> &nbsp; <a class="cta" href="/en/">Back to the start</a></p>
+  </section>
+</Base>

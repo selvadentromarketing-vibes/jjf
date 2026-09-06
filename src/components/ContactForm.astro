@@ -1,0 +1,47 @@
+---
+// Netlify Forms captures the POST (works without JS); netlify/functions/submission-created.mjs forwards it to the CRM.
+import type { CollectionEntry } from 'astro:content';
+import { t } from '../i18n';
+import { href, type Lang } from '../routes';
+interface Props { lang: Lang; projects: CollectionEntry<'projects'>[]; thanks: string[]; promise: string }
+const { lang, projects, thanks, promise } = Astro.props;
+const name = `contacto-${lang}`;
+---
+<form class="contact-form" name={name} method="POST" action={href('thanks', lang)} data-netlify="true" netlify-honeypot="empresa" data-contact-form data-figures-ok novalidate
+  data-msg-need={t(lang, 'form.needContact')} data-msg-error={t(lang, 'form.error')}>
+  <input type="hidden" name="form-name" value={name} />
+  <input type="hidden" name="jjf_lang" value={lang} />
+  <input type="hidden" name="jjf_project" value="" data-field="project" />
+  <input type="hidden" name="jjf_source" value="" data-field="source" />
+  <input type="hidden" name="utm_source" value="" data-utm="utm_source" />
+  <input type="hidden" name="utm_medium" value="" data-utm="utm_medium" />
+  <input type="hidden" name="utm_campaign" value="" data-utm="utm_campaign" />
+  <input type="hidden" name="utm_content" value="" data-utm="utm_content" />
+  <p class="hp" aria-hidden="true"><label>{t(lang, 'form.honeypot')} <input name="empresa" tabindex="-1" autocomplete="off" /></label></p>
+
+  <div class="field"><label for={`${name}-nombre`}>{t(lang, 'form.name')}</label><input id={`${name}-nombre`} name="nombre" required autocomplete="name" /></div>
+  <div class="field"><label for={`${name}-telefono`}>{t(lang, 'form.phone')}</label><input id={`${name}-telefono`} name="telefono" type="tel" inputmode="tel" autocomplete="tel" placeholder="+52 · +1 · +34" /></div>
+  <div class="field"><label for={`${name}-email`}>{t(lang, 'form.email')}</label><input id={`${name}-email`} name="email" type="email" autocomplete="email" /></div>
+  <div class="field">
+    <label for={`${name}-lugar`}>{t(lang, 'form.place')}</label>
+    <select id={`${name}-lugar`} name="lugar" data-field="place">
+      {projects.map((p) => <option value={p.data.key}>{p.data.name}</option>)}
+      <option value="aun-no-se" selected>{t(lang, 'form.notSure')}</option>
+    </select>
+  </div>
+  <fieldset class="field">
+    <legend>{t(lang, 'form.lang')}</legend>
+    <div class="radios">
+      <label><input type="radio" name="idioma" value="es" checked={lang === 'es'} /> {t(lang, 'lang.es')}</label>
+      <label><input type="radio" name="idioma" value="en" checked={lang === 'en'} /> {t(lang, 'lang.en')}</label>
+    </div>
+  </fieldset>
+  <label class="consent"><input type="checkbox" name="consentimiento" value="si" required /> <span set:html={t(lang, 'form.consent', { privacy: href('privacy', lang) })} /></label>
+  <button class="submit cta" type="submit">{t(lang, 'form.send')}</button>
+  <p class="form-note">{t(lang, 'form.note')}</p>
+  <p class="form-error" hidden data-form-error></p>
+</form>
+<div class="form-sent" hidden data-form-sent data-line={thanks[0]} data-promise={promise}>
+  <p class="display" data-sent-line></p>
+  <p class="reassure" data-sent-promise></p>
+</div>

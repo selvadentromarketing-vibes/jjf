@@ -1,0 +1,21 @@
+---
+// Dosel (plan §S1, CSS tier). The plate is present from first paint under the dawn-in filter; nothing interim ever ships to the production hero.
+import { Picture } from 'astro:assets';
+import canopy from '../assets/img/hero-bg.webp';
+interface Props { headline: string[]; lede: string }
+const { headline, lede } = Astro.props;
+const staging = import.meta.env.PUBLIC_STAGING === '1';
+---
+<section class="hero stratum" data-stratum="dosel" data-ground="canopy" id="dosel">
+  {staging && (
+    <Picture class="hero-plate" pictureAttributes={{ class: 'hero-media', 'data-staging': '1' }} src={canopy} widths={[640, 1280, 1920]} sizes="100vw" formats={['avif', 'webp']} alt="" loading="eager" fetchpriority="high" decoding="async" />
+  )}
+  <div class="hero-scrim" aria-hidden="true"></div>
+  <div class="hero-tint" aria-hidden="true"></div>
+  <div class="hero-copy">
+    <h1 class="display hero-title hero-el" data-reveal="lines">
+      {headline.map((l, i) => <span class="line" style={`--i:${i}`}><span set:html={l} /></span>)}
+    </h1>
+    <p class="lede hero-el" data-reveal="fade" style="--i:3" set:html={lede} />
+  </div>
+</section>

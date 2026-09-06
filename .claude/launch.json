@@ -2,9 +2,9 @@
   "version": "0.0.1",
   "configurations": [
     {
-      "name": "jjf-static",
-      "runtimeExecutable": "npx",
-      "runtimeArgs": ["-y", "serve", "-l", "4321", "."],
+      "name": "jjf-astro",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "dev"],
       "port": 4321
     }
   ]

@@ -1,0 +1,19 @@
+---
+import Mark from './Mark.astro';
+import { t } from '../i18n';
+import { href, alternates, type Lang, type RouteKey } from '../routes';
+interface Props { lang: Lang; route: RouteKey; params?: Record<string, string> }
+const { lang, route, params = {} } = Astro.props;
+const alt = alternates(route, params);
+---
+<header class="nav" data-figures-ok>
+  <a class="nav-mark" href={href('home', lang)} aria-label="JJF Creando"><Mark /></a>
+  <nav class="nav-right" aria-label={t(lang, 'nav.label')}>
+    <div class="lang">
+      {lang === 'es' ? <span aria-current="true">ES</span> : <a href={alt.es} hreflang="es" lang="es" data-lang-toggle aria-label={t(lang, 'nav.switch')}>ES</a>}
+      <i></i>
+      {lang === 'en' ? <span aria-current="true">EN</span> : <a href={alt.en} hreflang="en" lang="en" data-lang-toggle aria-label={t(lang, 'nav.switch')}>EN</a>}
+    </div>
+    <a class="cta" href={href('contact', lang)} data-event="cta_click" data-section="nav">{t(lang, 'nav.talk')}</a>
+  </nav>
+</header>

@@ -1,0 +1,73 @@
+---
+import '../styles/global.css';
+import { ClientRouter } from 'astro:transitions';
+import { Font } from 'astro:assets';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import Door from '../components/Door.astro';
+import Marker from '../components/Marker.astro';
+import { alternates, type Lang, type RouteKey } from '../routes';
+
+interface Props {
+  lang: Lang; title: string; description: string; route: RouteKey; params?: Record<string, string>;
+  ogImage?: string; noindex?: boolean; ground?: 'forest' | 'canopy' | 'linen' | 'shade'; strata?: boolean; jsonLd?: object; bodyClass?: string;
+}
+const { lang, title, description, route, params = {}, ogImage, noindex = false, ground = 'forest', strata = false, jsonLd, bodyClass = '' } = Astro.props;
+const site = Astro.site ?? new URL('https://jjfcreando.com');
+const alt = alternates(route, params);
+const abs = (p: string) => new URL(p, site).href;
+const canonical = abs(alt[lang]);
+const org = { '@context': 'https://schema.org', '@type': 'Organization', name: 'JJF Creando', url: abs('/'), logo: abs('/og/default-es.png') };
+const ld = jsonLd ? [org, jsonLd] : org;
+const staging = import.meta.env.PUBLIC_STAGING === '1';
+---
+<!doctype html>
+<html lang={lang === 'es' ? 'es-MX' : 'en'} data-ground={ground} data-lang={lang} transition:animate="none">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="alternate" hreflang="es-MX" href={abs(alt.es)} />
+    <link rel="alternate" hreflang="en" href={abs(alt.en)} />
+    <link rel="alternate" hreflang="x-default" href={abs(alt.es)} />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
+    <meta property="og:site_name" content="JJF Creando" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={abs(ogImage ?? `/og/default-${lang}.png`)} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:locale" content={lang === 'es' ? 'es_MX' : 'en_US'} />
+    <meta property="og:locale:alternate" content={lang === 'es' ? 'en_US' : 'es_MX'} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="theme-color" content="#0A0D0A" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <Font cssVariable="--font-display" preload />
+    <Font cssVariable="--font-text" preload />
+    <script is:inline>
+      // The door (plan §S0): once per browser session, never under reduced motion, never without JS.
+      document.documentElement.classList.add('js');
+      try {
+        var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+        if (!sessionStorage.getItem('jjf-door') && !reduce) { document.documentElement.classList.add('door-pending'); sessionStorage.setItem('jjf-door', '1'); }
+        if (localStorage.getItem('jjf-seen')) document.documentElement.classList.add('returning');
+      } catch (e) {}
+    </script>
+    <ClientRouter />
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(ld)} />
+  </head>
+  <body class={bodyClass} data-staging={staging ? '1' : undefined}>
+    <Door />
+    <a class="skip" href="#main">{lang === 'es' ? 'Ir al contenido' : 'Skip to content'}</a>
+    <Nav lang={lang} route={route} params={params} />
+    <main id="main"><slot /></main>
+    <Footer lang={lang} />
+    {strata && <Marker lang={lang} />}
+    <script src="../scripts/app.ts"></script>
+  </body>
+</html>
