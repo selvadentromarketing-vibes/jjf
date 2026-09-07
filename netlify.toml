@@ -5,6 +5,14 @@
 [build.environment]
   NODE_VERSION = "22"
 
+# Every non-production build shows the current photographs so the site can be reviewed.
+# Production stays bare until the commissioned plates arrive: nothing interim reaches the live hero.
+[context.branch-deploy.environment]
+  PUBLIC_STAGING = "1"
+
+[context.deploy-preview.environment]
+  PUBLIC_STAGING = "1"
+
 # Language routing: every unprefixed path is sent to /es/ or /en/ by Accept-Language, then geo (plan §9).
 [[edge_functions]]
   path = "/*"
