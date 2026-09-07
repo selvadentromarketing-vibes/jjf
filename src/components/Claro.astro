@@ -15,8 +15,8 @@ const { lang, paragraphs, caption, line } = Astro.props;
   <figure class="claro-sketches">
     <figcaption class="caption" data-reveal="fade">{caption}</figcaption>
     <div class="sketches" data-reveal="scrim">
-      <Picture src={sketchA} widths={[480, 960]} sizes="(min-width: 900px) 20vw, 42vw" formats={['avif', 'webp']} alt={t(lang, 'claro.altA')} loading="eager" decoding="async" />
-      <Picture src={sketchB} widths={[480, 960]} sizes="(min-width: 900px) 20vw, 42vw" formats={['avif', 'webp']} alt={t(lang, 'claro.altB')} loading="eager" decoding="async" />
+      <Picture src={sketchA} widths={[480, 960]} sizes="(min-width: 900px) 20vw, 42vw" formats={['avif', 'webp']} fallbackFormat="webp" alt={t(lang, 'claro.altA')} loading="eager" decoding="async" />
+      <Picture src={sketchB} widths={[480, 960]} sizes="(min-width: 900px) 20vw, 42vw" formats={['avif', 'webp']} fallbackFormat="webp" alt={t(lang, 'claro.altB')} loading="eager" decoding="async" />
     </div>
   </figure>
   <p class="display claro-line" data-reveal="lines"><span class="line"><span>{line}</span></span></p>

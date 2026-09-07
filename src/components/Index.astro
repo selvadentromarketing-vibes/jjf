@@ -20,7 +20,7 @@ const staging = import.meta.env.PUBLIC_STAGING === '1';
             <span class="folio" data-figures-ok>{String(i + 1).padStart(2, '0')}</span>
             <span class="name display">{p.data.name}</span>
             <span class="meta">{p.data.place} · {p.data.character}</span>
-            {still && <Picture class="still-img" pictureAttributes={{ class: 'still' }} src={still} widths={[320, 640]} sizes="120px" formats={['avif', 'webp']} alt="" loading="lazy" />}
+            {still && <Picture class="still-img" pictureAttributes={{ class: 'still' }} src={still} widths={[320, 640]} sizes="120px" formats={['avif', 'webp']} fallbackFormat="webp" alt="" loading="lazy" />}
           </a>
         </li>
       );

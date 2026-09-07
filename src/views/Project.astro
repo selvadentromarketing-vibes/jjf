@@ -29,7 +29,7 @@ const jsonLd = {
   <article class="project" data-project-page={p.key} data-ground="linen">
     <header class:list={['project-hero', { 'has-plano': !!p.plan, 'has-plate': !!plate }]} data-light={p.lightMode}>
       <Plano slug={p.key} plan={p.plan} />
-      {plate && <Picture class="hero-plate" pictureAttributes={{ class: 'hero-media' }} src={plate} widths={[640, 1280, 1920]} sizes="100vw" formats={['avif', 'webp']} alt={p.heroAlt} loading="eager" fetchpriority="high" decoding="async" />}
+      {plate && <Picture class="hero-plate" pictureAttributes={{ class: 'hero-media' }} src={plate} widths={[640, 1280, 1920]} sizes="100vw" formats={['avif', 'webp']} fallbackFormat="webp" alt={p.heroAlt} loading="eager" fetchpriority="high" decoding="async" />}
       <div class="project-title">
         <p class="eyebrow">{p.place}</p>
         <h1 class="display">{p.name}</h1>
@@ -42,7 +42,7 @@ const jsonLd = {
         {gallery.map((g) => (
           <figure>
             <figcaption class="caption" data-reveal="fade">{g.caption}</figcaption>
-            <div data-reveal="scrim"><Picture src={g.src} widths={[640, 1280, 1920]} sizes="100vw" formats={['avif', 'webp']} alt={g.caption} loading="lazy" /></div>
+            <div data-reveal="scrim"><Picture src={g.src} widths={[640, 1280, 1920]} sizes="100vw" formats={['avif', 'webp']} fallbackFormat="webp" alt={g.caption} loading="lazy" /></div>
           </figure>
         ))}
       </section>
@@ -50,7 +50,7 @@ const jsonLd = {
     {p.masterplan && (
       <figure class="masterplan">
         <figcaption class="caption">{t(lang, 'project.masterplan')}{p.sellsVerified && p.sells && ` · ${t(lang, `sells.${p.sells}` as any)}`}{p.availability && ` · ${p.availability}`}</figcaption>
-        <Picture src={p.masterplan} widths={[640, 1280, 1920]} sizes="100vw" formats={['avif', 'webp']} alt={t(lang, 'project.masterplan')} loading="lazy" />
+        <Picture src={p.masterplan} widths={[640, 1280, 1920]} sizes="100vw" formats={['avif', 'webp']} fallbackFormat="webp" alt={t(lang, 'project.masterplan')} loading="lazy" />
       </figure>
     )}
     <Ficha lang={lang} project={p} />
