@@ -17,7 +17,9 @@
 [[edge_functions]]
   path = "/*"
   function = "locale"
-  excludedPath = ["/es/*", "/en/*", "/_astro/*", "/media/*", "/og/*", "/favicon.svg", "/robots.txt", "/sitemap-index.xml", "/sitemap-0.xml", "/404.html", "/.netlify/*"]
+  # /api/* must be excluded or the enquiry endpoint gets redirected to /en/api/lead/ and the
+  # funnel breaks. Anything that is not a page belongs on this list.
+  excludedPath = ["/es/*", "/en/*", "/api/*", "/_astro/*", "/media/*", "/og/*", "/favicon.svg", "/robots.txt", "/sitemap-index.xml", "/sitemap-0.xml", "/404.html", "/.netlify/*"]
 
 # Deploy previews and branch deploys are never indexed.
 [[edge_functions]]
