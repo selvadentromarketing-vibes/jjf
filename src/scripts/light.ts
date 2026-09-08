@@ -146,6 +146,11 @@ function startField(host: HTMLElement, mode: Mode) {
   let raf = 0;
   let visible = true;
   const started = performance.now();
+  // The probe is measured from the first frame that actually renders, not from construction.
+  // A hero below the fold, or a page opened in a background tab, produces no frames at all for
+  // seconds; anchored to the wall clock the probe would find zero samples and conclude the device
+  // could not cope. It restarts whenever the loop resumes, so an off-screen pause never counts.
+  let probeStart = 0;
 
   // The probe. Judged on the median frame, not on a count of slow ones: the first second of a
   // page is genuinely busy — fonts swapping, the hero image decoding, the door finishing — and a
@@ -172,7 +177,8 @@ function startField(host: HTMLElement, mode: Mode) {
     if (!visible) return;
 
     if (probing) {
-      const elapsed = now - started;
+      if (!probeStart) probeStart = now;
+      const elapsed = now - probeStart;
       if (elapsed > WARMUP_MS) deltas.push(now - last);
       if (elapsed > PROBE_END_MS) {
         const sorted = deltas.slice().sort((a, b) => a - b);
@@ -195,8 +201,12 @@ function startField(host: HTMLElement, mode: Mode) {
   // Nothing runs while the surface is off screen.
   const io = new IntersectionObserver((entries) => {
     visible = entries[0].isIntersecting;
-    if (visible && !raf) { last = performance.now(); raf = requestAnimationFrame(frame); }
-    else if (!visible && raf) { cancelAnimationFrame(raf); raf = 0; }
+    if (visible && !raf) {
+      // Resuming after a pause restarts the measurement rather than carrying a stale gap into it.
+      last = performance.now();
+      if (probing) { probeStart = 0; deltas.length = 0; }
+      raf = requestAnimationFrame(frame);
+    } else if (!visible && raf) { cancelAnimationFrame(raf); raf = 0; }
   }, { rootMargin: '10% 0px' });
   io.observe(host);
 }

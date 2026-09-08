@@ -1,6 +1,10 @@
 {
   "lang": "en",
-  "headline": ["<em>True</em> luxury", "is not measured", "in square metres."],
+  "headline": [
+    "<em>True</em> luxury",
+    "is not measured",
+    "in square metres."
+  ],
   "lede": "…but in the quality of life a space can offer.",
   "claro": [
     "At JJF Creando we believe that true luxury is not measured in square metres, but in the quality of life a space can offer. We design projects that awaken something more than admiration: they invite you to reconnect with the essential, to live calmly, and to inhabit with purpose.",
@@ -9,7 +13,10 @@
   ],
   "claroCaption": "The natural and the well made",
   "claroLine": "We do not sell properties. We design refuges.",
-  "indexTitle": ["Six places.", "One way of looking at land."],
+  "indexTitle": [
+    "Six places.",
+    "One way of looking at land."
+  ],
   "aguaTitle": "Six places on the same stone.",
   "invitation": "Whenever you like, we can talk.",
   "vision": [
@@ -29,16 +36,48 @@
   "signature": "JJF Creando · Tulum, Riviera Maya",
   "responsePromise": "We write back within one working day.",
   "namedPerson": "",
-  "whatsapp": { "number": "+52 999 489 0828", "verified": false },
+  "whatsapp": {
+    "number": "+52 999 489 0828",
+    "verified": false
+  },
+  "entity": {
+    "legalName": "",
+    "domicilio": "",
+    "arco": ""
+  },
   "notFoundLine": "This path leads nowhere.",
-  "thanks": ["Thank you. We have your message.", "We write back within one working day."],
+  "thanks": [
+    "Thank you. We have your message.",
+    "We write back within one working day."
+  ],
   "pages": {
-    "home": { "title": "JJF Creando — Places with soul in Tulum and the Yucatán peninsula", "description": "A boutique developer in Tulum and Yucatán. Six places, one way of looking at land: minimalist architecture, living nature and respect for the surroundings." },
-    "vision": { "title": "Our vision — JJF Creando", "description": "True luxury is not measured in square metres, but in the quality of life a space can offer. JJF Creando's vision, in the founder's words." },
-    "track": { "title": "Track record — JJF Creando", "description": "The six developments by JJF Creando in Tulum, Mérida and Izamal, one by one." },
-    "how": { "title": "How it works — JJF Creando", "description": "Fideicomiso, notary, escrow, closing costs, taxes and permits: the questions we are asked before buying in Tulum and Yucatán, answered calmly." },
-    "contact": { "title": "Let's talk — JJF Creando", "description": "Write to us on WhatsApp, leave a message or choose a time to talk. We write back within one working day." },
-    "privacy": { "title": "Privacy notice — JJF Creando", "description": "How JJF Creando handles your personal data." },
-    "thanks": { "title": "Thank you — JJF Creando", "description": "We have your message." }
+    "home": {
+      "title": "JJF Creando — Places with soul in Tulum and the Yucatán peninsula",
+      "description": "A boutique developer in Tulum and Yucatán. Six places, one way of looking at land: minimalist architecture, living nature and respect for the surroundings."
+    },
+    "vision": {
+      "title": "Our vision — JJF Creando",
+      "description": "True luxury is not measured in square metres, but in the quality of life a space can offer. JJF Creando's vision, in the founder's words."
+    },
+    "track": {
+      "title": "Track record — JJF Creando",
+      "description": "The six developments by JJF Creando in Tulum, Mérida and Izamal, one by one."
+    },
+    "how": {
+      "title": "How it works — JJF Creando",
+      "description": "Fideicomiso, notary, escrow, closing costs, taxes and permits: the questions we are asked before buying in Tulum and Yucatán, answered calmly."
+    },
+    "contact": {
+      "title": "Let's talk — JJF Creando",
+      "description": "Write to us on WhatsApp, leave a message or choose a time to talk. We write back within one working day."
+    },
+    "privacy": {
+      "title": "Privacy notice — JJF Creando",
+      "description": "How JJF Creando handles your personal data."
+    },
+    "thanks": {
+      "title": "Thank you — JJF Creando",
+      "description": "We have your message."
+    }
   }
 }

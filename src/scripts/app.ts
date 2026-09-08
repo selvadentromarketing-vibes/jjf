@@ -21,6 +21,14 @@ initDoor();
 initAnalytics();
 initVitals();
 document.addEventListener('astro:page-load', perPage);
-// <html> attributes are replaced on every swap: tier and solar tokens are re-applied.
-document.addEventListener('astro:after-swap', () => { initTier(); initSolar(); });
+// Astro replaces the whole <html> element on a swap, so every class and data attribute set at
+// runtime is gone. Without restoring 'js' the contact accordion loses its collapsed state and
+// renders with every pane open.
+document.addEventListener('astro:after-swap', () => {
+  const html = document.documentElement;
+  html.classList.add('js');
+  if (ls.get('jjf-seen')) html.classList.add('returning');
+  initTier();
+  initSolar();
+});
 ls.set('jjf-seen', '1');

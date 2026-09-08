@@ -38,9 +38,9 @@ const name = `contacto-${lang}`;
   <label class="consent"><input type="checkbox" name="consentimiento" value="si" required /> <span set:html={t(lang, 'form.consent', { privacy: href('privacy', lang) })} /></label>
   <button class="submit cta" type="submit">{t(lang, 'form.send')}</button>
   <p class="form-note">{t(lang, 'form.note')}</p>
-  <p class="form-error" hidden data-form-error></p>
+  <p class="form-error" hidden role="alert" data-form-error></p>
 </form>
-<div class="form-sent" hidden data-form-sent data-line={thanks[0]} data-promise={promise}>
+<div class="form-sent" hidden role="status" tabindex="-1" data-form-sent data-line={thanks[0]} data-promise={promise}>
   <p class="display" data-sent-line></p>
   <p class="reassure" data-sent-promise></p>
 </div>

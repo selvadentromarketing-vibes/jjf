@@ -32,20 +32,32 @@
   --tint: #C4B7A0; --tint-strength: .15; --linen-warmth: .1;
   --ground: var(--color-forest); --ink: var(--color-bone); --ink-dim: var(--color-bone-dim);
   --hair: rgb(242 238 229 / .16);
+  --focus: var(--color-limestone);
   --gutter: clamp(20px, 5vw, 64px);
   --t0: .3s; --door-offset: 0ms; --marker-in: 1.4s;
+  /* Otherwise the enquiry form's radios and checkbox arrive in platform blue, the one colour
+     that is in no part of this palette. */
+  accent-color: var(--color-limestone);
 }
 html.door-pending { --t0: 1.7s; --door-offset: .6s; --marker-in: 3s; }
 html.returning:not(.door-pending) { --t0: .1s; --marker-in: .6s; }
 html[data-ground="canopy"] { --ground: var(--color-canopy); }
 html[data-ground="shade"] { --ground: var(--color-shade); --hair: rgb(242 238 229 / .12); }
 html[data-ground="linen"] {
+  --focus: var(--color-forest);
   --ground: color-mix(in oklab, var(--color-linen), var(--tint) calc(var(--linen-warmth) * 100%));
   --ink: var(--color-forest); --ink-dim: var(--color-ink-dim); --hair: rgb(10 13 10 / .14);
 }
 
 /* ===== base ===== */
-html { scroll-behavior: auto; -webkit-text-size-adjust: 100%; }
+html {
+  scroll-behavior: auto;
+  -webkit-text-size-adjust: 100%;
+  /* Anything scrolled to — a reverse-tab target, an in-page anchor, the buying questions linked
+     from a project page — must clear the fixed header instead of hiding behind it. */
+  scroll-padding-top: 96px;
+}
+@media (max-width: 560px) { html { scroll-padding-top: 76px; } }
 body {
   margin: 0; min-height: 100svh;
   background: var(--ground); color: var(--ink);
@@ -55,7 +67,9 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 ::selection { background: var(--color-limestone); color: var(--color-forest); }
-:focus-visible { outline: 1px solid var(--color-limestone); outline-offset: 6px; }
+/* The focus ring is the one colour that has to work on every ground. Limestone on linen measures
+   1.60:1 — effectively invisible on the twenty-odd pages that stand on paper. */
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 4px; border-radius: 1px; }
 a { color: inherit; text-decoration: none; }
 p { margin: 0; }
 img, picture { display: block; max-width: 100%; }
@@ -338,6 +352,11 @@ html.js .door-pane:not(.is-open) { display: none; }
 .contact-page .doors { max-width: 760px; }
 .contact-ledger { font-size: 13px; color: var(--ink-dim); }
 .contact-ledger a { border-bottom: 1px solid var(--hair); color: var(--ink); }
+
+.legal-pending { border-left: 2px solid var(--color-limestone); padding-left: 16px; max-width: 56ch; }
+.legal-identity { display: grid; grid-template-columns: auto 1fr; gap: 8px 28px; margin: 0; max-width: 64ch; }
+.legal-identity dt { font-size: 11px; letter-spacing: .12em; color: var(--ink-dim); }
+.legal-identity dd { margin: 0; }
 .notfound { min-height: 100svh; display: grid; align-content: center; gap: 28px; padding: 0 var(--gutter); }
 .notfound .index { max-width: 640px; }
 

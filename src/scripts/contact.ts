@@ -33,11 +33,18 @@ export function initContact() {
         pane.classList.add('is-open');
         btn.setAttribute('aria-expanded', 'true');
         if (btn.dataset.open === 'booking') mountBooking(pane);
-        pane.querySelector<HTMLElement>('input:not([type=hidden])')?.focus({ preventScroll: true });
+        // The first real field, not the first input. The honeypot has no type attribute, so a
+        // ':not([type=hidden])' selector matched it: the caret landed in an off-screen,
+        // aria-hidden trap, the visitor typed their name into nothing, and the server then
+        // discarded the enquiry as a bot while showing them a thank-you.
+        pane.querySelector<HTMLElement>('.field input, .field select, .field textarea')?.focus({ preventScroll: true });
       }
     }));
     const form = doors.querySelector<HTMLFormElement>('[data-contact-form]');
-    if (form) bindForm(form, doors);
+    if (form) {
+      form.addEventListener('input', (e) => (e.target as HTMLElement).removeAttribute('aria-invalid'));
+      bindForm(form, doors);
+    }
   });
 }
 
@@ -55,18 +62,35 @@ function mountBooking(pane: HTMLElement) {
 }
 
 function bindForm(form: HTMLFormElement, doors: HTMLElement) {
+  // One enquiry per submit. Without this an impatient visitor who clicks twice sends the same
+  // person to the CRM two or three times.
+  let sending = false;
+
   form.addEventListener('submit', async (e) => {
     const val = (n: string) => (form.querySelector<HTMLInputElement>(`[name="${n}"]`)?.value || '').trim();
     const err = form.querySelector<HTMLElement>('[data-form-error]')!;
+    const submit = form.querySelector<HTMLButtonElement>('button[type="submit"]');
     const consent = form.querySelector<HTMLInputElement>('[name="consentimiento"]');
+
+    if (sending) { e.preventDefault(); return; }
+
     if (!val('nombre') || !consent?.checked || (!val('telefono') && !val('email'))) {
       e.preventDefault();
+      // role="alert" on this element means the message is announced, not just shown.
       err.hidden = false; err.textContent = form.dataset.msgNeed || '';
-      if (!val('nombre')) form.querySelector<HTMLInputElement>('[name="nombre"]')?.focus();
+      const bad = !val('nombre')
+        ? form.querySelector<HTMLInputElement>('[name="nombre"]')
+        : !consent?.checked
+          ? consent
+          : form.querySelector<HTMLInputElement>('[name="telefono"]');
+      bad?.setAttribute('aria-invalid', 'true');
+      bad?.focus();
       return;
     }
     e.preventDefault();
     err.hidden = true;
+    sending = true;
+    if (submit) submit.disabled = true;
     form.classList.add('is-sending');
     try {
       const pairs = Array.from(new FormData(form).entries()).map(([k, v]) => [k, String(v)] as [string, string]);
@@ -83,9 +107,15 @@ function bindForm(form: HTMLFormElement, doors: HTMLElement) {
       if (sent) {
         sent.querySelector('[data-sent-line]')!.textContent = sent.dataset.line || '';
         sent.querySelector('[data-sent-promise]')!.textContent = sent.dataset.promise || '';
-        form.hidden = true; sent.hidden = false;
+        form.hidden = true;
+        sent.hidden = false;
+        // Hiding the form destroys whatever had focus. Move it to the confirmation so a keyboard
+        // visitor is left somewhere real, and role="status" announces the change.
+        sent.focus();
       }
     } catch {
+      sending = false;
+      if (submit) submit.disabled = false;
       form.classList.remove('is-sending');
       err.hidden = false; err.textContent = form.dataset.msgError || '';
     }

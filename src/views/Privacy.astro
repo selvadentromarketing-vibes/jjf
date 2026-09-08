@@ -1,16 +1,40 @@
 ---
 import { getCollection, render } from 'astro:content';
 import Base from '../layouts/Base.astro';
+import { t } from '../i18n';
 import type { Lang } from '../routes';
 interface Props { lang: Lang }
 const { lang } = Astro.props;
 const site = (await getCollection('site')).find((s) => s.data.lang === lang)!.data;
 const entry = (await getCollection('legal')).find((e) => e.data.lang === lang)!;
 const { Content } = await render(entry);
+
+// Mexico's LFPDPPP requires this notice to name the responsible party and an address for ARCO
+// requests. Those two facts used to sit in the markdown as bracketed placeholders and shipped to
+// production that way, which is worse than leaving them out: it reads as a template nobody
+// finished. They now come from the site data and render only when real. While either is missing
+// the page says so in plain words and stays out of the index.
+const e = site.entity;
+const rows = [
+  { label: t(lang, 'legal.identity'), value: e.legalName.trim() },
+  { label: t(lang, 'legal.address'), value: e.domicilio.trim() },
+  { label: t(lang, 'legal.arco'), value: e.arco.trim() },
+].filter((r) => r.value);
+
+const complete = rows.length === 3 && entry.data.reviewed;
+const pending = lang === 'es'
+  ? 'Este aviso está pendiente de revisión legal. El domicilio del responsable y el correo para ejercer derechos ARCO se publicarán en cuanto estén confirmados; mientras tanto puedes escribirnos por cualquiera de los medios de contacto del sitio.'
+  : 'This notice is pending legal review. The controller’s address and the email for exercising ARCO rights will be published once confirmed; in the meantime you can reach us through any of the contact routes on this site.';
 ---
-<Base lang={lang} title={site.pages.privacy.title} description={site.pages.privacy.description} route="privacy" ground="linen">
+<Base lang={lang} title={site.pages.privacy.title} description={site.pages.privacy.description} route="privacy" ground="linen" noindex={!complete}>
   <article class="page" data-figures-ok data-ground="linen">
     <header class="page-head"><h1 class="display">{entry.data.title}</h1></header>
+    {!complete && <p class="note legal-pending">{pending}</p>}
+    {rows.length > 0 && (
+      <dl class="legal-identity">
+        {rows.map((r) => (<><dt>{r.label}</dt><dd>{r.value}</dd></>))}
+      </dl>
+    )}
     <div class="prose"><Content /></div>
   </article>
 </Base>

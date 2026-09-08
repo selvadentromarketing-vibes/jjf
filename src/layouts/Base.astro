@@ -17,7 +17,17 @@ const site = Astro.site ?? new URL('https://jjfcreando.com');
 const alt = alternates(route, params);
 const abs = (p: string) => new URL(p, site).href;
 const canonical = abs(alt[lang]);
-const org = { '@context': 'https://schema.org', '@type': 'Organization', name: 'JJF Creando', url: abs('/'), logo: abs('/og/default-es.png') };
+// A real square mark, not the Spanish social card that was being served to English pages too.
+// The @id gives every page's graph one node to point at instead of repeating the organisation.
+const org = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  '@id': abs('/#org'),
+  name: 'JJF Creando',
+  url: abs('/'),
+  logo: abs('/brand/logo.png'),
+  areaServed: ['Tulum', 'Quintana Roo', 'Yucatán', 'México'],
+};
 const ld = jsonLd ? [org, jsonLd] : org;
 const staging = import.meta.env.PUBLIC_STAGING === '1';
 ---

@@ -37,8 +37,13 @@ export default async (request) => {
       ? new Response(JSON.stringify(body), { status, headers: { 'Content-Type': 'application/json', 'Cache-Control': 'no-store' } })
       : new Response(null, { status: 303, headers: { Location: THANKS[lang], 'Cache-Control': 'no-store' } });
 
-  // The hidden field a person never sees and a bot always fills. Answer as if accepted.
-  if (clean(raw.empresa)) return done(200, { ok: true });
+  // The hidden field a person never sees and a bot always fills. Answer as if accepted, but log
+  // it: a honeypot that discards silently is indistinguishable from a lost lead, and this one did
+  // once catch real people because the form focused the trap by mistake.
+  if (clean(raw.empresa)) {
+    console.log('LEAD_HONEYPOT', JSON.stringify({ nombre: clean(raw.nombre, 120), email: clean(raw.email, 160), telefono: clean(raw.telefono, 40) }));
+    return done(200, { ok: true });
+  }
 
   const lead = {
     nombre: clean(raw.nombre || raw.name, 120),
