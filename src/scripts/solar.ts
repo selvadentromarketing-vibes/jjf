@@ -20,6 +20,8 @@ export function applySolar(date = new Date()) {
   s.setProperty('--tint', ramp(t));
   s.setProperty('--tint-strength', (0.2 - 0.09 * t).toFixed(3));
   s.setProperty('--linen-warmth', (0.16 * (1 - t)).toFixed(3));
+  // How much the light layer leans warm: full at dawn and dusk, neutral at noon.
+  s.setProperty('--light-warmth', (1 - t).toFixed(3));
 }
 
 let timer: number | undefined;

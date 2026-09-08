@@ -121,6 +121,20 @@ html.door-pending .door[data-state="pending"], .door[data-state="overture"], .do
 .door .mk-fill { opacity: 0; }
 .door .mk-stroke path { stroke-width: 3; vector-effect: non-scaling-stroke; }
 
+
+/* ===== the light layer (plan §S1) =====
+   Pure light, composited onto the photograph. It carries no picture of its own, is rendered at a
+   fraction of screen resolution because a cloud shadow has no fine detail, and only becomes
+   visible once it has held frame rate for a second. */
+.light-field {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  z-index: 1; pointer-events: none;
+  mix-blend-mode: soft-light;
+  opacity: 0; transition: opacity var(--dur-trans) var(--ease-signature);
+}
+.light-field.is-lit { opacity: 1; }
+@media (prefers-reduced-motion: reduce) { .light-field { display: none !important; } }
+
 /* ===== stratum marker ===== */
 .marker { position: fixed; right: clamp(8px, 1.6vw, 26px); top: 50%; transform: translateY(-50%); z-index: 40; display: flex; flex-direction: row; gap: 18px; font-size: 10px; letter-spacing: .16em; color: var(--ink-dim); writing-mode: vertical-rl; pointer-events: none; }
 .marker span { transition: color var(--dur-micro-l) var(--ease-state); }
@@ -138,9 +152,9 @@ html.door-pending .door[data-state="pending"], .door[data-state="overture"], .do
 html.returning:not(.door-pending) .hero.is-dawn .hero-media { animation-duration: var(--dur-micro-l); }
 @keyframes dawn { to { filter: brightness(1); } }
 @keyframes fade-in { to { opacity: 1; } }
-.hero-scrim { position: absolute; inset: 0; z-index: 1; pointer-events: none; background: linear-gradient(to top, rgb(10 13 10 / .9) 0%, rgb(10 13 10 / .5) 30%, transparent 62%), linear-gradient(to right, rgb(10 13 10 / .55) 0%, rgb(10 13 10 / .1) 45%, transparent 70%); }
-.hero-tint { position: absolute; inset: 0; z-index: 2; pointer-events: none; background: var(--tint); mix-blend-mode: soft-light; opacity: var(--tint-strength); }
-.hero-copy { position: relative; z-index: 3; max-width: min(1180px, 92vw); }
+.hero-scrim { position: absolute; inset: 0; z-index: 2; pointer-events: none; background: linear-gradient(to top, rgb(10 13 10 / .9) 0%, rgb(10 13 10 / .5) 30%, transparent 62%), linear-gradient(to right, rgb(10 13 10 / .55) 0%, rgb(10 13 10 / .1) 45%, transparent 70%); }
+.hero-tint { position: absolute; inset: 0; z-index: 3; pointer-events: none; background: var(--tint); mix-blend-mode: soft-light; opacity: var(--tint-strength); }
+.hero-copy { position: relative; z-index: 4; max-width: min(1180px, 92vw); }
 .hero-title { max-width: 12em; color: var(--color-bone); }
 .hero .lede { margin: clamp(20px, 3.4vh, 32px) 0 0; max-width: 44ch; font-size: clamp(15px, 1.15vw, 17px); line-height: 1.7; color: var(--color-bone-dim); }
 .passage { min-height: 16vh; }
@@ -284,6 +298,53 @@ html.js .door-pane:not(.is-open) { display: none; }
 .footer { padding: clamp(40px, 8vh, 90px) var(--gutter) clamp(30px, 6vh, 60px); display: grid; gap: 8px; font-size: 12.5px; letter-spacing: .04em; color: var(--ink-dim); }
 .footer a { color: var(--ink); }
 .footer-links { display: flex; flex-wrap: wrap; gap: 6px 14px; }
+
+
+/* ===== the phone (plan §2: almost every arrival is a phone, and half the buyers are over 45) =====
+   Measured at 390x844, not assumed. */
+
+/* iOS zooms the whole page when a focused control is under 16px. That fired on every field of
+   the enquiry form, which is the one interaction the site exists for. */
+.field input, .field select, .field textarea { font-size: 16px; }
+
+/* Touch targets. The visual weight of the type is unchanged; only the area that accepts a
+   thumb grows, using padding and negative margin so nothing moves on the page. */
+.lang a, .lang span {
+  display: inline-flex; align-items: center; justify-content: center;
+  min-width: 44px; min-height: 44px; margin: -12px -6px;
+}
+.nav-mark { display: inline-flex; align-items: center; min-height: 44px; }
+.footer-links a, .footer p a { display: inline-block; padding: 9px 0; }
+.footer-links { gap: 2px 18px; }
+* { -webkit-tap-highlight-color: transparent; }
+
+/* Notch and home indicator. viewport-fit=cover means the page owns these insets. */
+.nav { padding-top: max(20px, env(safe-area-inset-top)); }
+.footer { padding-bottom: max(30px, calc(env(safe-area-inset-bottom) + 20px)); }
+:root { --gutter: max(clamp(20px, 5vw, 64px), env(safe-area-inset-left), env(safe-area-inset-right)); }
+
+@media (max-width: 700px) {
+  /* 11px is too small to be read comfortably by the buyer this site is for. */
+  .eyebrow, .caption, .field label, .field legend, .project-title .folio-marker { font-size: 12.5px; }
+  body { font-size: 16px; }
+  .small, .form-note, .reassure, .note, .contact-ledger { font-size: 13.5px; }
+
+  /* The stratum marker sat over the photograph on a narrow screen. On a phone the whole
+     viewport is the picture, so the chrome goes rather than the view. */
+  .marker { display: none; }
+
+  /* A row is a tap target: the whole thing, comfortably. */
+  .row a { padding: 18px 0; gap: 12px 14px; }
+  .row .still { width: 84px; }
+  .door-link { padding: 22px 0; }
+  .ledger-more { padding: 12px 0; }
+  .folio { font-size: 12px; }
+}
+
+@media (max-width: 560px) {
+  .nav { gap: 8px; }
+  .lang { font-size: 12px; }
+}
 
 /* ===== reduced motion: nothing moves; everything is present ===== */
 @media (prefers-reduced-motion: reduce) {

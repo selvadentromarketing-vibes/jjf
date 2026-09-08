@@ -6,7 +6,7 @@ interface Props { headline: string[]; lede: string }
 const { headline, lede } = Astro.props;
 const staging = import.meta.env.PUBLIC_STAGING === '1';
 ---
-<section class="hero stratum" data-stratum="dosel" data-ground="canopy" id="dosel">
+<section class="hero stratum" data-stratum="dosel" data-ground="canopy" data-light="A" id="dosel">
   {staging && (
     <Picture class="hero-plate" pictureAttributes={{ class: 'hero-media', 'data-staging': '1' }} src={canopy} widths={[640, 1280, 1920]} sizes="100vw" formats={['avif', 'webp']} fallbackFormat="webp" alt="" loading="eager" fetchpriority="high" decoding="async" />
   )}
