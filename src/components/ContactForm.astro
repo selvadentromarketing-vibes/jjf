@@ -7,9 +7,8 @@ interface Props { lang: Lang; projects: CollectionEntry<'projects'>[]; thanks: s
 const { lang, projects, thanks, promise } = Astro.props;
 const name = `contacto-${lang}`;
 ---
-<form class="contact-form" name={name} method="POST" action={href('thanks', lang)} data-netlify="true" netlify-honeypot="empresa" data-contact-form data-figures-ok novalidate
+<form class="contact-form" name={name} method="POST" action="/api/lead" data-contact-form data-figures-ok novalidate
   data-msg-need={t(lang, 'form.needContact')} data-msg-error={t(lang, 'form.error')}>
-  <input type="hidden" name="form-name" value={name} />
   <input type="hidden" name="jjf_lang" value={lang} />
   <input type="hidden" name="jjf_project" value="" data-field="project" />
   <input type="hidden" name="jjf_source" value="" data-field="source" />

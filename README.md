@@ -15,7 +15,7 @@ src/scripts/            door (la marca), reveal, ground (color-as-weather), sola
 src/styles/global.css   tokens de color, duración y easing (plan §5–§6)
 src/assets/brand/       jjf-mark.svg (trazado desde logo.png con scripts/trace-mark.mjs — sustituir por el vector del diseñador cuando llegue)
 src/assets/plans/       los planos para El Plano, uno por proyecto (ver README ahí)
-netlify/                edge function de idioma, noindex en previews, submission-created → LeadConnector
+netlify/                edge function de idioma, noindex en previews, functions/lead.mjs (el embudo)
 tests/                  Playwright: hreflang recíproco, sin cifras fuera de lugar, la puerta una vez por sesión, sin overflow, tier in-app
 legacy/                 la landing anterior (HTML + Tailwind), sólo como referencia de contenido
 ```
@@ -37,6 +37,20 @@ CHROMIUM_PATH=/ruta/a/chromium npm test   # Playwright (sin la variable usa su p
 Netlify construye con `npm run build` y publica `dist/`. Variables en Netlify: las de `.env.example`. Sin `PUBLIC_STAGING` el hero de la portada no lleva placa (nada provisional llega a producción); las imágenes marcadas `heroStaging: true` tampoco.
 
 La edge function `locale` manda toda ruta sin prefijo a `/es/` o `/en/` (idioma del navegador, luego país) conservando UTMs. Los deploy previews llevan `X-Robots-Tag: noindex`.
+
+## El embudo
+
+El formulario hace POST a `/api/lead` (`netlify/functions/lead.mjs`). No usa Netlify Forms: esa
+ruta dependía de un interruptor del panel que estaba apagado, así que cada consulta devolvía 404 y
+se perdía.
+
+Orden de operaciones: la consulta se guarda en Netlify Blobs **antes** de llamar al CRM. Un CRM
+caído, con límite de peticiones o sin configurar no puede costarnos un lead. Todo lead se escribe
+además al log de la función como última red. Con `GHL_PIT` y `GHL_LOCATION_ID` puestas, se
+reenvía a LeadConnector con proyecto, idioma, origen y UTMs.
+
+Sin JavaScript el formulario funciona igual: la función responde 303 a `/es/gracias/` o
+`/en/thank-you/` según el idioma.
 
 ## Contenido
 

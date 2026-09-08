@@ -70,7 +70,13 @@ function bindForm(form: HTMLFormElement, doors: HTMLElement) {
     form.classList.add('is-sending');
     try {
       const pairs = Array.from(new FormData(form).entries()).map(([k, v]) => [k, String(v)] as [string, string]);
-      const res = await fetch(form.action, { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: new URLSearchParams(pairs).toString() });
+      // Accept: application/json asks /api/lead for a JSON verdict instead of the 303 a plain
+      // form post gets, so we can keep the visitor on the page and show the sent state.
+      const res = await fetch(form.action, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded', Accept: 'application/json' },
+        body: new URLSearchParams(pairs).toString(),
+      });
       if (!res.ok) throw new Error(String(res.status));
       track('form_submit', { section: 'doors', project: val('lugar') });
       const sent = doors.querySelector<HTMLElement>('[data-form-sent]');
