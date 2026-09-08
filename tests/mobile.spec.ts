@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test';
 
 // Almost every arrival is a phone, and roughly half the buyers are over 45 (plan §2). These are
 // the defects a desktop review never sees, all of which were live until they were measured.
-const PAGES = ['/es/', '/es/contacto/', '/es/proyectos/selvadentro/', '/en/how-it-works/'];
+const PAGES = ['/es/', '/es/contacto/', '/es/proyectos/', '/es/proyectos/selvadentro/', '/en/how-it-works/'];
 
 test.describe('the phone', () => {
   test.skip(({ isMobile }) => !isMobile, 'phone projects only');
