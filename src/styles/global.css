@@ -292,6 +292,22 @@ html.js .door-pane:not(.is-open) { display: none; }
 .project-next { padding: 0 var(--gutter) clamp(60px, 10vh, 120px); font-size: 13px; letter-spacing: .06em; color: var(--ink-dim); display: flex; gap: 14px; align-items: baseline; }
 .project-next a { color: var(--ink); font-family: var(--font-display); font-size: clamp(20px, 2.4vw, 30px); letter-spacing: -.01em; }
 
+
+/* The buying questions, bridged from each project page. Same hairline idiom as the contact doors:
+   a list of ways forward, none of them shouting. */
+.preguntas { padding: clamp(40px, 8vh, 100px) var(--gutter); max-width: calc(64ch + 2 * var(--gutter)); }
+.pregunta-list { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--hair); }
+.pregunta-list li { border-bottom: 1px solid var(--hair); }
+.pregunta-list a {
+  display: block; padding: 16px 0;
+  font-family: var(--font-display); font-size: clamp(18px, 2vw, 24px); line-height: 1.25;
+  transition: padding-left var(--dur-trans) var(--ease-state);
+}
+.pregunta-list a:hover { padding-left: 12px; transition-duration: var(--dur-micro-l); }
+.pregunta-all { display: inline-block; margin-top: 18px; font-size: 13px; letter-spacing: .06em; color: var(--ink-dim); border-bottom: 1px solid var(--hair); padding: 6px 0; }
+.pregunta-all:hover { color: var(--ink); }
+@media (max-width: 700px) { .pregunta-list a { padding: 18px 0; } }
+
 /* ===== inner pages ===== */
 .page { padding: clamp(120px, 20vh, 220px) var(--gutter) clamp(80px, 12vh, 160px); display: grid; gap: clamp(32px, 5vh, 56px); }
 .page-head { display: grid; gap: 18px; }

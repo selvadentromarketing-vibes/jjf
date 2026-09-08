@@ -7,7 +7,19 @@ interface Props { lang: Lang }
 const { lang } = Astro.props;
 const site = (await getCollection('site')).find((s) => s.data.lang === lang)!.data;
 const projects = (await getCollection('projects', (e) => e.data.lang === lang && !e.data.draft)).sort((a, b) => a.data.order - b.data.order);
-const dash = '—';
+
+// A column earns its place only if at least one project has verified data for it. Rendering the
+// headings unconditionally produced six rows of em-dashes, which reads as a table that failed to
+// load rather than as a deliberate refusal to publish unverified figures. The page now shows what
+// is actually known, and each column reappears by itself the moment a figure is signed off.
+const years = (p: (typeof projects)[number]) =>
+  p.data.years?.verified ? `${p.data.years.start}${p.data.years.end ? `–${p.data.years.end}` : ''}` : '';
+
+const COLUMNS = [
+  { key: 'status', head: t(lang, 'track.status'), value: (p: (typeof projects)[number]) => (p.data.statusVerified && p.data.statusLabel) || '' },
+  { key: 'years', head: t(lang, 'track.years'), value: years },
+  { key: 'hectares', head: t(lang, 'track.hectares'), value: (p: (typeof projects)[number]) => (p.data.hectares?.verified ? String(p.data.hectares.value) : '') },
+].filter((col) => projects.some((p) => col.value(p) !== ''));
 ---
 <Base lang={lang} title={site.pages.track.title} description={site.pages.track.description} route="track" ground="linen">
   <article class="page" data-ground="linen">
@@ -17,15 +29,21 @@ const dash = '—';
     </header>
     <div style="overflow-x:auto">
       <table class="ledger-table" data-figures-ok>
-        <thead><tr><th>{t(lang, 'track.place')}</th><th>{t(lang, 'track.where')}</th><th>{t(lang, 'track.status')}</th><th>{t(lang, 'track.years')}</th><th>{t(lang, 'track.hectares')}</th></tr></thead>
+        <thead>
+          <tr>
+            <th>{t(lang, 'track.place')}</th>
+            <th>{t(lang, 'track.where')}</th>
+            <th>{t(lang, 'track.character')}</th>
+            {COLUMNS.map((c) => <th>{c.head}</th>)}
+          </tr>
+        </thead>
         <tbody>
           {projects.map((p) => (
             <tr>
               <td><a href={href('project', lang, { slug: p.data.key })}>{p.data.name}</a></td>
               <td class="dim">{p.data.place}</td>
-              <td class="dim">{p.data.statusVerified && p.data.statusLabel ? p.data.statusLabel : dash}</td>
-              <td class="dim">{p.data.years?.verified ? `${p.data.years.start}${p.data.years.end ? `–${p.data.years.end}` : ''}` : dash}</td>
-              <td class="dim">{p.data.hectares?.verified ? p.data.hectares.value : dash}</td>
+              <td class="dim">{p.data.character}</td>
+              {COLUMNS.map((c) => <td class="dim">{c.value(p) || '—'}</td>)}
             </tr>
           ))}
         </tbody>

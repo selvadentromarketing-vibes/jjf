@@ -4,6 +4,7 @@ import { Picture } from 'astro:assets';
 import Base from '../layouts/Base.astro';
 import Plano from '../components/Plano.astro';
 import Ficha from '../components/Ficha.astro';
+import Preguntas from '../components/Preguntas.astro';
 import Silence from '../components/Silence.astro';
 import { t } from '../i18n';
 import { href, type Lang } from '../routes';
@@ -54,6 +55,7 @@ const jsonLd = {
       </figure>
     )}
     <Ficha lang={lang} project={p} />
+    <Preguntas lang={lang} />
     <p class="project-talk"><a class="display" href={`${href('contact', lang)}?project=${p.key}`} data-event="cta_click" data-section="project" data-project={p.key}>{t(lang, 'project.talk', { name: p.name })}</a></p>
     <p class="project-next"><span>{t(lang, 'project.next')}</span><a href={href('project', lang, { slug: next.data.key })}>{next.data.name}</a></p>
   </article>
