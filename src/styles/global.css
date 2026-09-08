@@ -249,10 +249,20 @@ html.js .door-pane:not(.is-open) { display: none; }
 .booking-note { font-size: 13px; color: var(--ink-dim); margin-bottom: 14px; }
 
 /* the silence */
-.cenote { min-height: 100svh; display: grid; align-content: end; padding: 0 var(--gutter) clamp(60px, 10vh, 120px); isolation: isolate; }
-.silence-line { font-style: italic; font-size: clamp(24px, 3vw, 44px); max-width: 24em; color: var(--ink); transition: color var(--dur-cine) var(--ease-signature); }
+/* The Silence carries its own darkness rather than borrowing the page's ground through the scroll
+   observer. Without this it inherits whatever the page is standing on — linen, on every project
+   page — and "the light goes out" becomes a viewport of empty cream that reads as unfinished. */
+.cenote {
+  min-height: 100svh;
+  display: grid; align-content: end;
+  padding: 0 var(--gutter) clamp(60px, 10vh, 120px);
+  isolation: isolate;
+  background: var(--color-forest);
+  transition: background-color var(--dur-cine) var(--ease-signature);
+}
+.silence-line { font-style: italic; font-size: clamp(24px, 3vw, 44px); max-width: 24em; color: var(--color-bone); }
 .silence-line em { color: inherit; }
-.silence-sig { margin-top: 26px; font-size: 12px; letter-spacing: .14em; color: var(--ink-dim); transition: color var(--dur-cine) var(--ease-signature); }
+.silence-sig { margin-top: 26px; font-size: 12px; letter-spacing: .14em; color: var(--color-bone-dim); }
 .grain::after { content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none; opacity: .1; mix-blend-mode: overlay; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='.5'/%3E%3C/svg%3E"); animation: grain 1s steps(10) infinite; }
 @keyframes grain { to { background-position: 140px 140px; } }
 
@@ -332,8 +342,17 @@ html.js .door-pane:not(.is-open) { display: none; }
 .notfound .index { max-width: 640px; }
 
 /* ===== footer ===== */
-.footer { padding: clamp(40px, 8vh, 90px) var(--gutter) clamp(30px, 6vh, 60px); display: grid; gap: 8px; font-size: 12.5px; letter-spacing: .04em; color: var(--ink-dim); }
-.footer a { color: var(--ink); }
+/* Every page lands in the same darkness. The footer used to inherit the page ground, so a project
+   page went black for the Silence and then snapped back to cream underneath it — a seam exactly
+   where the page should be settling. */
+.footer {
+  padding: clamp(40px, 8vh, 90px) var(--gutter) clamp(30px, 6vh, 60px);
+  display: grid; gap: 8px;
+  font-size: 12.5px; letter-spacing: .04em;
+  background: var(--color-forest);
+  color: var(--color-bone-dim);
+}
+.footer a { color: var(--color-bone); }
 .footer-links { display: flex; flex-wrap: wrap; gap: 6px 14px; }
 
 
