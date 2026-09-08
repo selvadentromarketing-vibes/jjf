@@ -122,6 +122,27 @@ html.door-pending .door[data-state="pending"], .door[data-state="overture"], .do
 .door .mk-stroke path { stroke-width: 3; vector-effect: non-scaling-stroke; }
 
 
+
+/* ===== the index hover panel (plan §S2, desktop) =====
+   Held in the empty column, never following the cursor: the light inside it moves instead.
+   Only on a device with a real pointer, and only when motion is wanted. */
+:root { --panel-w: min(30vw, 420px); }
+.index-panel {
+  position: fixed;
+  right: var(--gutter);
+  top: 50%;
+  transform: translateY(-50%);
+  width: var(--panel-w);
+  aspect-ratio: 3 / 2;
+  z-index: 30;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity var(--dur-micro-l) var(--ease-signature);
+}
+.index-panel.is-on { opacity: 1; }
+
+@media (prefers-reduced-motion: reduce) { .index-panel { display: none !important; } }
+
 /* ===== the light layer (plan §S1) =====
    Pure light, composited onto the photograph. It carries no picture of its own, is rendered at a
    fraction of screen resolution because a cloud shadow has no fine detail, and only becomes
@@ -299,6 +320,14 @@ html.js .door-pane:not(.is-open) { display: none; }
 .footer a { color: var(--ink); }
 .footer-links { display: flex; flex-wrap: wrap; gap: 6px 14px; }
 
+
+
+/* The index reserves the column the hover panel occupies, so a long name and a row rule can never
+   run underneath the photograph. This has to sit after .roca's own padding shorthand or the
+   shorthand wins on source order and the reservation silently does nothing. */
+@media (hover: hover) and (pointer: fine) and (min-width: 1024px) {
+  .roca { padding-right: calc(var(--panel-w) + 4vw); }
+}
 
 /* ===== the phone (plan §2: almost every arrival is a phone, and half the buyers are over 45) =====
    Measured at 390x844, not assumed. */

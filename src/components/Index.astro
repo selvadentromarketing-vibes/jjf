@@ -1,29 +1,41 @@
 ---
 // Roca: the six developments as a private archive. Folio, name, place · character. No figure — the schema forbids it.
-import { Picture } from 'astro:assets';
+import { Picture, getImage } from 'astro:assets';
 import type { CollectionEntry } from 'astro:content';
 import { href, type Lang } from '../routes';
 interface Props { lang: Lang; projects: CollectionEntry<'projects'>[]; title: string[] }
 const { lang, projects, title } = Astro.props;
 const staging = import.meta.env.PUBLIC_STAGING === '1';
+
+// One optimised plate per row for the desktop hover panel (src/scripts/panel.ts). Resolved at
+// build time so the panel has a real URL to load on hover intent rather than guessing one, and
+// so nothing is downloaded until a pointer actually rests on a row.
+const rows = await Promise.all(
+  projects.map(async (p, i) => {
+    const usable = p.data.hero && (!p.data.heroStaging || staging) ? p.data.hero : undefined;
+    return {
+      p,
+      i,
+      still: usable,
+      plate: usable ? (await getImage({ src: usable, width: 900, format: 'webp' })).src : undefined,
+    };
+  })
+);
 ---
 <section class="roca stratum" data-stratum="roca" data-ground="shade" id="roca">
   <header class="sec-head">
     <h2 class="display" data-reveal="lines">{title.map((l, i) => <span class="line" style={`--i:${i}`}><span>{l}</span></span>)}</h2>
   </header>
   <ol class="index" data-reveal="fade" data-index>
-    {projects.map((p, i) => {
-      const still = p.data.hero && (!p.data.heroStaging || staging) ? p.data.hero : undefined;
-      return (
-        <li class="row">
-          <a href={href('project', lang, { slug: p.data.key })} data-project={p.data.key} data-event="project_open" data-section="index">
-            <span class="folio" data-figures-ok>{String(i + 1).padStart(2, '0')}</span>
-            <span class="name display">{p.data.name}</span>
-            <span class="meta">{p.data.place} · {p.data.character}</span>
-            {still && <Picture class="still-img" pictureAttributes={{ class: 'still' }} src={still} widths={[320, 640]} sizes="120px" formats={['avif', 'webp']} fallbackFormat="webp" alt="" loading="lazy" />}
-          </a>
-        </li>
-      );
-    })}
+    {rows.map(({ p, i, still, plate }) => (
+      <li class="row">
+        <a href={href('project', lang, { slug: p.data.key })} data-project={p.data.key} data-plate={plate} data-event="project_open" data-section="index">
+          <span class="folio" data-figures-ok>{String(i + 1).padStart(2, '0')}</span>
+          <span class="name display">{p.data.name}</span>
+          <span class="meta">{p.data.place} · {p.data.character}</span>
+          {still && <Picture class="still-img" pictureAttributes={{ class: 'still' }} src={still} widths={[320, 640]} sizes="120px" formats={['avif', 'webp']} fallbackFormat="webp" alt="" loading="lazy" />}
+        </a>
+      </li>
+    ))}
   </ol>
 </section>

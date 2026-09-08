@@ -6,12 +6,13 @@ import { initReveals } from './reveal';
 import { initGround } from './ground';
 import { initPlano } from './plano';
 import { initLight } from './light';
+import { initPanel } from './panel';
 import { initContact } from './contact';
 import { initAnalytics } from './analytics';
 import { initVitals } from './vitals';
 import { ls } from './motion';
 
-function perPage() { initReveals(); initGround(); initPlano(); initLight(); initContact(); }
+function perPage() { initReveals(); initGround(); initPlano(); initLight(); initPanel(); initContact(); }
 
 initTier();
 initSolar();
