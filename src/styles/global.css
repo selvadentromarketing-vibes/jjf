@@ -204,6 +204,9 @@ html.returning:not(.door-pending) .hero.is-dawn .hero-media { animation-duration
 
 .roca { padding: clamp(80px, 14vh, 160px) var(--gutter) clamp(60px, 11vh, 130px); }
 .sec-head { margin-bottom: clamp(24px, 4vh, 48px); }
+.sec-lede { max-width: 46ch; margin: clamp(16px, 2.5vh, 28px) 0 0; color: var(--ink-dim); font-size: clamp(16px, 1.15vw, 19px); line-height: 1.55; }
+/* Standing on its own the index is the page, so it clears the nav the way a page head does. */
+.projects-page .roca { padding-top: clamp(120px, 20vh, 220px); }
 .sec-head h2 { max-width: 14em; }
 .index { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--hair); }
 .row { border-bottom: 1px solid var(--hair); }
@@ -294,10 +297,15 @@ html.js .door-pane:not(.is-open) { display: none; }
 .plano { position: absolute; inset: 0; z-index: 2; pointer-events: none; padding: clamp(80px, 12vh, 140px) var(--gutter) clamp(160px, 26vh, 300px); }
 .plano svg { width: 100%; height: 100%; display: block; overflow: visible; }
 .plano path, .plano line, .plano polyline, .plano polygon, .plano circle, .plano ellipse, .plano rect { fill: none; stroke: var(--color-forest); stroke-width: 1.2; vector-effect: non-scaling-stroke; stroke-linecap: round; stroke-linejoin: round; }
-.plano.is-done { opacity: 0; }
+/* 'done' means the timeline finished; 'gone' means the photograph took its place. A project
+   without a publishable plate finishes drawn and stays that way. */
+.plano.is-gone { opacity: 0; }
 .project-title { position: relative; z-index: 3; display: grid; gap: 10px; transition: color var(--dur-cine) var(--ease-signature); }
 .project-title .eyebrow, .project-title .folio-marker { transition: color var(--dur-cine) var(--ease-signature); }
-.project-title .folio-marker { font-size: 11px; letter-spacing: .16em; color: var(--ink-dim); }
+/* The folio is also the way back to the six, so it has to be thumb-sized without growing: the
+   padding gives it a 36px target and the negative margin gives the space straight back. */
+.project-title .folio-marker { font-size: 11px; letter-spacing: .16em; color: var(--ink-dim); justify-self: start; text-decoration: none; display: inline-flex; align-items: center; min-height: 36px; margin: -10px 0; border-bottom: 1px solid transparent; transition: color var(--dur-micro) var(--ease-state), border-color var(--dur-micro) var(--ease-state); }
+.project-title a.folio-marker:hover, .project-title a.folio-marker:focus-visible { color: var(--ink); border-bottom-color: color-mix(in oklab, var(--ink), transparent 70%); }
 .record { padding: clamp(60px, 10vh, 120px) var(--gutter); display: grid; gap: 1.2em; font-size: clamp(17px, 1.3vw, 21px); line-height: 1.55; max-width: calc(64ch + 2 * var(--gutter)); }
 .record p { margin: 0; }
 .gallery { display: grid; gap: clamp(40px, 8vh, 100px); padding: 0 0 clamp(40px, 8vh, 100px); }

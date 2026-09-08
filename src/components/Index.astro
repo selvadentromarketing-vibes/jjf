@@ -3,8 +3,8 @@
 import { Picture, getImage } from 'astro:assets';
 import type { CollectionEntry } from 'astro:content';
 import { href, type Lang } from '../routes';
-interface Props { lang: Lang; projects: CollectionEntry<'projects'>[]; title: string[] }
-const { lang, projects, title } = Astro.props;
+interface Props { lang: Lang; projects: CollectionEntry<'projects'>[]; title: string[]; lede?: string }
+const { lang, projects, title, lede } = Astro.props;
 const staging = import.meta.env.PUBLIC_STAGING === '1';
 
 // One optimised plate per row for the desktop hover panel (src/scripts/panel.ts). Resolved at
@@ -25,6 +25,7 @@ const rows = await Promise.all(
 <section class="roca stratum" data-stratum="roca" data-ground="shade" id="roca">
   <header class="sec-head">
     <h2 class="display" data-reveal="lines">{title.map((l, i) => <span class="line" style={`--i:${i}`}><span>{l}</span></span>)}</h2>
+    {lede && <p class="sec-lede" data-reveal="fade">{lede}</p>}
   </header>
   <ol class="index" data-reveal="fade" data-index>
     {rows.map(({ p, i, still, plate }) => (

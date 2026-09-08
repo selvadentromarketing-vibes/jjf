@@ -3,6 +3,7 @@ export type Lang = (typeof LOCALES)[number];
 
 const R = {
   home: { es: '/es/', en: '/en/' },
+  projects: { es: '/es/proyectos/', en: '/en/projects/' },
   project: { es: '/es/proyectos/[slug]/', en: '/en/projects/[slug]/' },
   vision: { es: '/es/vision/', en: '/en/vision/' },
   track: { es: '/es/trayectoria/', en: '/en/track-record/' },

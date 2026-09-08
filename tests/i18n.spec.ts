@@ -4,6 +4,7 @@ const SITE = 'https://jjfcreando.com';
 const PAIRS: [string, string][] = [
   ['/es/', '/en/'],
   ['/es/contacto/', '/en/contact/'],
+  ['/es/proyectos/', '/en/projects/'],
   ['/es/proyectos/selvadentro/', '/en/projects/selvadentro/'],
   ['/es/vision/', '/en/vision/'],
   ['/es/trayectoria/', '/en/track-record/'],

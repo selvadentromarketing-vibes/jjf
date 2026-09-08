@@ -8,6 +8,7 @@ const { lang } = Astro.props;
   <p>JJF Creando</p>
   <p>{t(lang, 'footer.place')}</p>
   <nav class="footer-links" aria-label={t(lang, 'footer.nav')}>
+    <a href={href('projects', lang)}>{t(lang, 'nav.projects')}</a>
     <a href={href('vision', lang)}>{t(lang, 'nav.vision')}</a>
     <a href={href('track', lang)}>{t(lang, 'nav.track')}</a>
     <a href={href('how', lang)}>{t(lang, 'nav.how')}</a>

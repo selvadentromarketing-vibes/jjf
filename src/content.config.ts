@@ -93,7 +93,7 @@ const site = defineCollection({
     entity: z.object({ legalName: z.string(), domicilio: z.string(), arco: z.string() }).default({ legalName: '', domicilio: '', arco: '' }),
     notFoundLine: z.string(),
     thanks: z.array(z.string()).min(1),
-    pages: z.object({ home: pageMeta, vision: pageMeta, track: pageMeta, how: pageMeta, contact: pageMeta, privacy: pageMeta, thanks: pageMeta }),
+    pages: z.object({ home: pageMeta, projects: pageMeta, vision: pageMeta, track: pageMeta, how: pageMeta, contact: pageMeta, privacy: pageMeta, thanks: pageMeta }),
   }),
 });
 

@@ -20,11 +20,23 @@ const staging = import.meta.env.PUBLIC_STAGING === '1';
 const plate = p.hero && (!p.heroStaging || staging) ? p.hero : undefined;
 const gallery = p.gallery.filter((g) => !g.staging || staging);
 const url = new URL(href('project', lang, { slug: p.key }), Astro.site ?? 'https://jjfcreando.com').href;
-const jsonLd = {
-  '@context': 'https://schema.org', '@type': 'Residence', name: p.name, url, description: `${p.place} · ${p.character}`,
-  address: { '@type': 'PostalAddress', addressLocality: p.locality, addressRegion: p.region, addressCountry: 'MX' },
-  ...(p.coordinates ? { geo: { '@type': 'GeoCoordinates', latitude: p.coordinates.lat, longitude: p.coordinates.lng } } : {}),
-};
+const abs = (path: string) => new URL(path, Astro.site ?? 'https://jjfcreando.com').href;
+const jsonLd = [
+  {
+    '@context': 'https://schema.org', '@type': 'Residence', name: p.name, url, description: `${p.place} · ${p.character}`,
+    address: { '@type': 'PostalAddress', addressLocality: p.locality, addressRegion: p.region, addressCountry: 'MX' },
+    ...(p.coordinates ? { geo: { '@type': 'GeoCoordinates', latitude: p.coordinates.lat, longitude: p.coordinates.lng } } : {}),
+  },
+  // Home → the six → this one. The middle step only became true when /proyectos/ stopped being a 404.
+  {
+    '@context': 'https://schema.org', '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'JJF Creando', item: abs(href('home', lang)) },
+      { '@type': 'ListItem', position: 2, name: t(lang, 'projects.all'), item: abs(href('projects', lang)) },
+      { '@type': 'ListItem', position: 3, name: p.name, item: url },
+    ],
+  },
+];
 ---
 <Base lang={lang} title={`${p.name} — JJF Creando`} description={`${p.place} · ${p.character}`} route="project" params={{ slug: p.key }} ground="linen" jsonLd={jsonLd} bodyClass="page-project">
   <article class="project" data-project-page={p.key} data-ground="linen">
@@ -34,7 +46,7 @@ const jsonLd = {
       <div class="project-title">
         <p class="eyebrow">{p.place}</p>
         <h1 class="display">{p.name}</h1>
-        <p class="folio-marker" data-figures-ok>{String(idx + 1).padStart(2, '0')}/{String(all.length).padStart(2, '0')}</p>
+        <a class="folio-marker" href={href('projects', lang)} data-figures-ok aria-label={t(lang, 'projects.all')}>{String(idx + 1).padStart(2, '0')}/{String(all.length).padStart(2, '0')}</a>
       </div>
     </header>
     <section class="record"><Content /></section>

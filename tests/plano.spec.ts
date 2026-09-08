@@ -21,6 +21,7 @@ test.describe('el plano — the drawing becomes the place', () => {
     await expect(page.locator('.plano.is-done')).toHaveCount(1, { timeout: 12_000 });
     await expect(page.locator('.project-hero.is-dawn, .project-hero.is-rest')).toHaveCount(1);
     await expect(page.locator('.hero-plate')).toBeVisible();
+    await expect(page.locator('.plano.is-gone')).toHaveCount(1);
   });
 
   test('the door parts onto a drawing in progress, not a finished one', async ({ page }) => {
@@ -43,6 +44,28 @@ test.describe('el plano — the drawing becomes the place', () => {
     // back inside the same session: the photograph is simply there, at rest
     await expect(page.locator('.plano.is-done')).toHaveCount(1, { timeout: 2000 });
     await expect(page.locator('.project-hero.is-rest')).toHaveCount(1);
+  });
+
+  test('a project with no publishable plate keeps its drawing as the hero', async ({ page }) => {
+    test.skip(test.info().project.name !== 'desktop');
+    // Three of the six have only a staging-flagged plate, which never ships (§10). Stripping the
+    // class is exactly what the build does for them: the drawing must then draw and stay, not
+    // fade out onto an empty sheet of paper.
+    await page.addInitScript(() => {
+      const strip = () => {
+        const h = document.querySelector('.project-hero');
+        if (!h) return false;
+        h.classList.remove('has-plate');
+        return true;
+      };
+      // document, not documentElement: at document-start the root element does not exist yet and
+      // observing null throws, which fails the whole init script silently.
+      if (!strip()) new MutationObserver((_m, o) => { if (strip()) o.disconnect(); }).observe(document, { childList: true, subtree: true });
+    });
+    await page.goto('/es/proyectos/selvadentro/');
+    await expect(page.locator('.plano.is-done')).toHaveCount(1, { timeout: 12_000 });
+    await expect(page.locator('.plano.is-gone')).toHaveCount(0);
+    expect(await page.locator('.plano').evaluate((el) => getComputedStyle(el).opacity)).toBe('1');
   });
 
   test('reduced motion: the photograph, no drawing', async ({ page }) => {

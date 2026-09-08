@@ -30,15 +30,28 @@ export function initPlano() {
 function draw(hero: HTMLElement, el: HTMLElement) {
   const key = 'jjf-plano:' + el.dataset.plano;
   const strokes = Array.from(el.querySelectorAll<SVGGeometryElement>(SHAPES));
-  if (reduce() || ss.get(key) || !strokes.length) { el.classList.add('is-done'); hero.classList.add('is-rest'); return; }
+  // Three of the six have no photograph the plan will let us publish yet (§10). There the drawing
+  // is not an overture to a plate, it is the hero: it draws, and it stays. Fading it out would
+  // leave those pages opening on an empty rectangle of paper.
+  const plate = hero.classList.contains('has-plate');
+
+  if (reduce() || ss.get(key) || !strokes.length) {
+    el.classList.add('is-done');
+    if (plate) el.classList.add('is-gone');
+    hero.classList.add('is-rest');
+    return;
+  }
   ss.set(key, '1');
   const groups = ['#boundary', '#built', '#landscape'].map((s) => el.querySelector(s)).filter((g): g is Element => !!g);
   const sets = groups.length ? groups.map((g) => Array.from(g.querySelectorAll<SVGGeometryElement>(SHAPES))) : [strokes];
   gsap.set(strokes, { drawSVG: '0%' });
   const tl = gsap.timeline({ defaults: { ease: 'signature' } });
   sets.forEach((s, i) => { if (s.length) tl.to(s, { drawSVG: '0% 100%', duration: 1.1 }, i * 0.13); });
-  tl.addLabel('drawn')
-    .add(() => hero.classList.add('is-dawn'), 'drawn+=0.18')
-    .to(el, { opacity: 0, duration: 0.6, ease: 'power1.inOut' }, 'drawn+=0.18')
-    .add(() => el.classList.add('is-done'));
+  tl.addLabel('drawn');
+  if (plate) {
+    tl.add(() => hero.classList.add('is-dawn'), 'drawn+=0.18')
+      .to(el, { opacity: 0, duration: 0.6, ease: 'power1.inOut' }, 'drawn+=0.18')
+      .add(() => el.classList.add('is-gone'));
+  }
+  tl.add(() => el.classList.add('is-done'));
 }

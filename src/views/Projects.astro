@@ -1,0 +1,36 @@
+---
+// The six, standing on their own — the Roca stratum as a page.
+//
+// Every project has had a real URL since Phase 0, but their parent had none: /es/proyectos/ was a
+// 404, which is a URL people type, share and link to, and the only route into the six was the
+// homepage's fourth screen. This is that route.
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import Index from '../components/Index.astro';
+import Silence from '../components/Silence.astro';
+import { t } from '../i18n';
+import { href, type Lang } from '../routes';
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const site = (await getCollection('site')).find((s) => s.data.lang === lang)!.data;
+const projects = (await getCollection('projects', (e) => e.data.lang === lang && !e.data.draft)).sort((a, b) => a.data.order - b.data.order);
+const url = (p: string) => new URL(p, Astro.site ?? 'https://jjfcreando.com').href;
+// One list, in the founder's order, so a search engine and an assistant read the six as a set
+// rather than as six unrelated pages.
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'ItemList',
+  name: t(lang, 'projects.all'),
+  itemListOrder: 'https://schema.org/ItemListOrderAscending',
+  numberOfItems: projects.length,
+  itemListElement: projects.map((p, i) => ({
+    '@type': 'ListItem', position: i + 1, name: p.data.name, url: url(href('project', lang, { slug: p.data.key })),
+  })),
+};
+---
+<Base lang={lang} title={site.pages.projects.title} description={site.pages.projects.description} route="projects" ground="shade" jsonLd={jsonLd} bodyClass="page-projects">
+  <div class="projects-page">
+    <Index lang={lang} projects={projects} title={site.indexTitle} lede={t(lang, 'projects.lede')} />
+  </div>
+  <Silence sentences={site.closingSentences} signature={site.signature} />
+</Base>

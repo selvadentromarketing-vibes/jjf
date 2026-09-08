@@ -10,7 +10,7 @@ import { alternates, type Lang, type RouteKey } from '../routes';
 
 interface Props {
   lang: Lang; title: string; description: string; route: RouteKey; params?: Record<string, string>;
-  ogImage?: string; noindex?: boolean; ground?: 'forest' | 'canopy' | 'linen' | 'shade'; strata?: boolean; jsonLd?: object; bodyClass?: string;
+  ogImage?: string; noindex?: boolean; ground?: 'forest' | 'canopy' | 'linen' | 'shade'; strata?: boolean; jsonLd?: object | object[]; bodyClass?: string;
 }
 const { lang, title, description, route, params = {}, ogImage, noindex = false, ground = 'forest', strata = false, jsonLd, bodyClass = '' } = Astro.props;
 const site = Astro.site ?? new URL('https://jjfcreando.com');
@@ -28,7 +28,9 @@ const org = {
   logo: abs('/brand/logo.png'),
   areaServed: ['Tulum', 'Quintana Roo', 'Yucatán', 'México'],
 };
-const ld = jsonLd ? [org, jsonLd] : org;
+// A page may bring more than one node (a project brings its Residence and its breadcrumb);
+// they join the organisation in one flat graph rather than nesting an array inside an array.
+const ld = jsonLd ? [org, ...(Array.isArray(jsonLd) ? jsonLd : [jsonLd])] : org;
 const staging = import.meta.env.PUBLIC_STAGING === '1';
 ---
 <!doctype html>
