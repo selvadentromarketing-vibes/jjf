@@ -15,7 +15,7 @@ src/scripts/            door (la marca), reveal, ground (color-as-weather), sola
 src/styles/global.css   tokens de color, duración y easing (plan §5–§6)
 src/assets/brand/       jjf-mark.svg (trazado desde logo.png con scripts/trace-mark.mjs — sustituir por el vector del diseñador cuando llegue)
 src/assets/plans/       los planos para El Plano, uno por proyecto (ver README ahí)
-netlify/                edge function de idioma, noindex en previews, functions/lead.mjs (el embudo)
+netlify/                edge function de idioma, noindex en previews, functions/lead.mjs (el embudo) y leads.mjs (leerlo)
 tests/                  Playwright: hreflang recíproco, sin cifras fuera de lugar, la puerta una vez por sesión, sin overflow, tier in-app
 legacy/                 la landing anterior (HTML + Tailwind), sólo como referencia de contenido
 ```
@@ -51,6 +51,23 @@ reenvía a LeadConnector con proyecto, idioma, origen y UTMs.
 
 Sin JavaScript el formulario funciona igual: la función responde 303 a `/es/gracias/` o
 `/en/thank-you/` según el idioma.
+
+### Leer las consultas
+
+`GET /api/leads` devuelve lo guardado; `?format=csv` lo baja como hoja de cálculo, `?since=2026-09-01`
+recorta por fecha, `?limit=` por cantidad. Va protegido por `LEADS_TOKEN` (mínimo 24 caracteres), en
+la cabecera `Authorization: Bearer …` o como `?token=`:
+
+```bash
+curl -H "Authorization: Bearer $LEADS_TOKEN" https://jjfcreando.com/api/leads
+curl -o leads.csv "https://jjfcreando.com/api/leads?format=csv&token=$LEADS_TOKEN"
+```
+
+Sin la variable puesta el endpoint responde 404: devuelve nombres, teléfonos y correos, así que
+falla cerrado. Trátala como una contraseña y rótala si alguna vez viaja en un enlace compartido.
+
+Mientras no haya variables de entorno en el sitio, cada consulta sigue estando en el log de la
+función (`LEAD {...}`), que se lee desde el panel de Netlify.
 
 ## Contenido
 
