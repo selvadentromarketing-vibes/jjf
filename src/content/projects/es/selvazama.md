@@ -17,6 +17,11 @@ heroAlt: Selvazama, entre la selva y el mar de Tulum
 closingSentence:
   - Naturaleza viva, y un profundo respeto por el entorno.
 copyStatus: propuesta
+plan:
+  svg: selvazama.svg
+  source: traced
+  from: selvazama.jpg
+  asOf: 2026-09-08
 ---
 Selvazama está en la zona hotelera de Tulum, entre la selva y el mar. Reúne lo residencial, lo hotelero, lo comercial y lo cultural en un mismo territorio, con la selva como hilo.
 

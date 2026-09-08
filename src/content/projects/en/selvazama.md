@@ -17,6 +17,11 @@ heroAlt: Selvazama, between the jungle and the sea in Tulum
 closingSentence:
   - Living nature, and a deep respect for the surroundings.
 copyStatus: propuesta
+plan:
+  svg: selvazama.svg
+  source: traced
+  from: selvazama.jpg
+  asOf: 2026-09-08
 ---
 Selvazama lies in the hotel zone of Tulum, between the jungle and the sea. It brings residential, hotel, commercial and cultural life onto one territory, with the jungle as the thread.
 

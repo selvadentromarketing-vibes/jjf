@@ -17,6 +17,11 @@ heroAlt: Hacienda Sacalá, piedra y luz de la tarde en Izamal
 closingSentence:
   - Belleza atemporal.
 copyStatus: propuesta
+plan:
+  svg: hacienda-sacala.svg
+  source: traced
+  from: hacienda-sacala.webp
+  asOf: 2026-09-08
 ---
 Hacienda Sacalá está en Izamal, Yucatán, un pueblo mágico de calles amarillas e historia larga.
 

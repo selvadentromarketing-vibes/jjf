@@ -16,6 +16,11 @@ heroAlt: Amelia Tulum, la estructura elevada sobre la selva
 closingSentence:
   - Vivir con calma.
 copyStatus: propuesta
+plan:
+  svg: amelia-tulum.svg
+  source: traced
+  from: amelia.webp
+  asOf: 2026-09-08
 ---
 Amelia Tulum nace del respeto por el clima, la topografía y la vegetación del lugar.
 

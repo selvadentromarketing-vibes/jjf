@@ -17,6 +17,11 @@ heroAlt: Aldea Zama at dusk
 closingSentence:
   - To inhabit with purpose.
 copyStatus: propuesta
+plan:
+  svg: aldea-zama.svg
+  source: traced
+  from: aldea-zama.jpg
+  asOf: 2026-09-08
 ---
 Aldea Zama is a master-planned community in Tulum that now has a life of its own. It joins the Mayan heritage of the place with an international, contemporary way of living.
 

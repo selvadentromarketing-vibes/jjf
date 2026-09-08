@@ -16,6 +16,11 @@ heroAlt: Yucatán Country Club al amanecer, con el campo de golf y el lago
 closingSentence:
   - Una sensación de pertenencia difícil de explicar, pero imposible de ignorar.
 copyStatus: propuesta
+plan:
+  svg: yucatan-country-club.svg
+  source: traced
+  from: yucatan.webp
+  asOf: 2026-09-08
 ---
 Yucatán Country Club es una comunidad privada a las afueras de Mérida, alrededor de un campo de golf diseñado por Jack Nicklaus y un lago.
 

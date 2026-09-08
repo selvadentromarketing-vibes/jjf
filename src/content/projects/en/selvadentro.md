@@ -16,6 +16,11 @@ heroAlt: Aerial view of Selvadentro, the Tulum jungle and a cenote between the r
 closingSentence:
   - An invitation to reconnect with the essential.
 copyStatus: propuesta
+plan:
+  svg: selvadentro.svg
+  source: traced
+  from: selvadentro.webp
+  asOf: 2026-09-08
 ---
 Selvadentro sits in the heart of the Tulum jungle. Here the architecture does not impose itself; it appears between native vegetation, cenotes and open canopy.
 

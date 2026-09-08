@@ -16,6 +16,11 @@ heroAlt: Amelia Tulum, the structure raised above the jungle
 closingSentence:
   - To live calmly.
 copyStatus: propuesta
+plan:
+  svg: amelia-tulum.svg
+  source: traced
+  from: amelia.webp
+  asOf: 2026-09-08
 ---
 Amelia Tulum is born of respect for the climate, the topography and the vegetation of the place.
 

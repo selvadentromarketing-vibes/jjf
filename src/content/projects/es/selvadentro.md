@@ -16,6 +16,11 @@ heroAlt: Vista aérea de Selvadentro, con la selva de Tulum y un cenote entre la
 closingSentence:
   - Invitan a reconectar con lo esencial.
 copyStatus: propuesta
+plan:
+  svg: selvadentro.svg
+  source: traced
+  from: selvadentro.webp
+  asOf: 2026-09-08
 ---
 Selvadentro está en el corazón de la selva de Tulum. Aquí la arquitectura no se impone: se deja ver entre la vegetación nativa, los cenotes y el dosel abierto.
 

@@ -8,3 +8,8 @@ dist/
 test-results/
 playwright-report/
 .DS_Store
+
+# root-level review scratch: one-off probe scripts and the screenshots they produce
+/_*.mjs
+/*.jpg
+/*.png

@@ -48,11 +48,15 @@ const projects = defineCollection({
       plan: z
         .object({
           svg: z.string().regex(/\.svg$/),
-          source: z.enum(['architect', 'ai-derived']),
+          source: z.enum(['architect', 'ai-derived', 'traced']),
+          // A traced drawing names the plate it came from: the claim is checkable against the
+          // photograph on the same page, which is what keeps it from inventing anything.
+          from: z.string().optional(),
           approvedBy: z.string().optional(),
           asOf: date,
         })
         .refine((p) => p.source !== 'ai-derived' || !!p.approvedBy, { message: 'ai-derived plans require approvedBy' })
+        .refine((p) => p.source !== 'traced' || !!p.from, { message: 'traced plans must name the plate they were traced from' })
         .optional(),
       years: z.object({ start: z.number().int(), end: z.number().int().optional(), verified: z.literal(true), source: z.string().min(3), asOf: date }).optional(),
       hectares: figure.optional(),

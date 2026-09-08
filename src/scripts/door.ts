@@ -38,7 +38,9 @@ function overture(door: HTMLElement) {
     .to(e.top, { clipPath: 'inset(0% 0% 100% 0%)', duration: 0.6 }, 1.0)
     .to(e.bottom, { clipPath: 'inset(100% 0% 0% 0%)', duration: 0.6 }, 1.0)
     .to(e.hair, { opacity: 0, duration: 0.24 }, 1.2)
-    .add(() => html.classList.add('door-open'), 1.0);
+    // The curtains starting to part is the cue anything behind them waits for: El Plano
+    // begins here so the visitor watches the drawing arrive, not a finished one (plan §S2).
+    .add(() => { html.classList.add('door-open'); dispatchEvent(new Event('jjf:door-open')); }, 1.0);
 }
 
 function beatIn(door: HTMLElement): Promise<void> {

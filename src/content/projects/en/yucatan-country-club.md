@@ -16,6 +16,11 @@ heroAlt: Yucatán Country Club at dawn, with the golf course and the lake
 closingSentence:
   - A sense of belonging that is hard to explain, but impossible to ignore.
 copyStatus: propuesta
+plan:
+  svg: yucatan-country-club.svg
+  source: traced
+  from: yucatan.webp
+  asOf: 2026-09-08
 ---
 Yucatán Country Club is a private community on the edge of Mérida, around a golf course designed by Jack Nicklaus and a lake.
 

@@ -14,7 +14,8 @@
     "check": "astro check",
     "test": "playwright test",
     "trace:mark": "node scripts/trace-mark.mjs",
-    "check:plans": "node scripts/check-plans.mjs"
+    "check:plans": "node scripts/check-plans.mjs",
+    "trace:plans": "node scripts/trace-plans.mjs"
   },
   "dependencies": {
     "@astrojs/sitemap": "3.7.4",
