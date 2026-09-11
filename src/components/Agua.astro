@@ -1,5 +1,11 @@
 ---
-// Agua: the ledger and the invitation. The water plate and the lid-off reveal arrive in Phase 2 with the commissioned photograph.
+// Agua: the water table. The ledger and the invitation stand on it.
+//
+// The plan wanted a photograph here — a cenote at water level — and the lid of rock above
+// scrolling off it. That plate was never commissioned, so for months this stratum was a colour.
+// The caustics do not need it: water light is the one thing in the whole descent that is cheaper
+// to compute than to photograph. The surface below is drawn, the rock above is opaque, and
+// scrolling still takes the lid off the water exactly as §S1 describes it.
 import type { CollectionEntry } from 'astro:content';
 import Ledger from './Ledger.astro';
 import Doors from './Doors.astro';
@@ -8,6 +14,7 @@ interface Props { lang: Lang; site: CollectionEntry<'site'>['data']; projects: C
 const { lang, site, projects } = Astro.props;
 ---
 <section class="agua stratum" data-stratum="agua" data-ground="forest" id="agua">
+  <div class="agua-water" data-light="D" data-light-blend="screen" aria-hidden="true"></div>
   <h2 class="display" data-reveal="lines"><span class="line"><span>{site.aguaTitle}</span></span></h2>
   <Ledger lang={lang} projects={projects} />
   <p class="display invitation" data-reveal="lines"><span class="line"><span>{site.invitation}</span></span></p>

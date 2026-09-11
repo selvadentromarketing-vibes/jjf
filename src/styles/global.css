@@ -6,6 +6,10 @@
   --color-forest: #0A0D0A;
   --color-canopy: #141A14;
   --color-shade: #1E241D;
+  /* The one colour in the palette that is not forest, linen or stone. A cenote is the most
+     recognisable fact about this land, and the water stratum has no photograph to say so — so
+     the ground says it, kept dark enough to stay a place rather than become an accent. */
+  --color-water: #0C1A1C;
   --color-limestone: #C4B7A0;
   --color-bone-dim: #B9B4A7;
   --color-linen: #EDE7DA;
@@ -238,7 +242,16 @@ html.returning:not(.door-pending) .hero.is-dawn .hero-dawn { animation-duration:
 }
 .row a:focus-visible { opacity: 1; }
 
-.agua { padding: clamp(80px, 14vh, 160px) var(--gutter) clamp(80px, 12vh, 140px); display: grid; gap: clamp(36px, 6vh, 72px); }
+.agua { position: relative; padding: clamp(80px, 14vh, 160px) var(--gutter) clamp(80px, 12vh, 140px); display: grid; gap: clamp(36px, 6vh, 72px); }
+/* The water was already beneath the rock: it holds still while the opaque stratum above scrolls
+   up off it. Sticky rather than fixed, and pulled back out of flow, so nothing below moves. */
+.agua-water { position: sticky; top: 0; height: 100svh; margin-inline: calc(var(--gutter) * -1); margin-bottom: -100svh; z-index: 0; pointer-events: none; background: radial-gradient(120% 90% at 50% 30%, var(--color-water) 0%, #060B0C 62%, var(--color-forest) 100%); }
+/* A veil between the water and the words. The ledger is the point of this stratum; caustics that
+   read across a project name are an effect competing with the thing it is meant to sit under. */
+.agua-water::after { content: ""; position: absolute; inset: 0; background: linear-gradient(to bottom, rgb(10 13 10 / .62) 0%, rgb(10 13 10 / .46) 45%, rgb(10 13 10 / .66) 100%); }
+.agua > :not(.agua-water) { position: relative; z-index: 1; }
+/* Screen, not soft-light: there is no photograph here for the light to modulate. */
+.light-field.is-additive { mix-blend-mode: screen; }
 .agua h2 { max-width: 14em; }
 .ledger { list-style: none; margin: 0; padding: 0; max-width: 640px; position: relative; }
 .ledger .hair { display: block; height: 1px; background: var(--color-limestone); transform-origin: left; transform: scaleX(0); transition: transform var(--dur-cine) var(--ease-signature); }

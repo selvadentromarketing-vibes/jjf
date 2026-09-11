@@ -17,11 +17,17 @@ test.describe('the light layer', () => {
   test('it never intercepts a pointer or reaches a screen reader', async ({ page }) => {
     await page.goto('/es/');
     await page.waitForTimeout(2600);
-    const field = page.locator('canvas.light-field');
-    if (await field.count()) {
-      await expect(field).toHaveAttribute('aria-hidden', 'true');
-      expect(await field.evaluate((el) => getComputedStyle(el).pointerEvents)).toBe('none');
-      expect(await field.evaluate((el) => getComputedStyle(el).mixBlendMode)).toBe('soft-light');
+    // There is more than one surface now — the canopy and the water — and the contract is the
+    // same for every one of them.
+    const fields = page.locator('canvas.light-field');
+    const n = await fields.count();
+    for (let i = 0; i < n; i++) {
+      const f = fields.nth(i);
+      await expect(f).toHaveAttribute('aria-hidden', 'true');
+      const s = await f.evaluate((el) => ({ pe: getComputedStyle(el).pointerEvents, blend: getComputedStyle(el).mixBlendMode, additive: el.classList.contains('is-additive') }));
+      expect(s.pe).toBe('none');
+      // Soft-light where it modulates a photograph; screen where it is the photograph.
+      expect(s.blend).toBe(s.additive ? 'screen' : 'soft-light');
     }
   });
 
