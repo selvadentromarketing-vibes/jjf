@@ -17,12 +17,21 @@ test.describe('no horizontal overflow', () => {
   }
 });
 
-test('in-app tier is named and never gets a canvas', async ({ page }) => {
+// The plan said the in-app arrival never sees a canvas. That was written to protect the browser
+// where 99.6 % of Meta leads land — and then it became the rule that gave the site's primary
+// arrival the least. The contract is now narrower and says what it was actually protecting
+// against: no ambient light layer, because that is the one that runs a shader continuously over
+// a whole surface. The index panel is allowed, because it is event-driven, idles to zero rAF the
+// moment it goes dark, and is the only showpiece a phone has.
+test('in-app tier is named and never gets the ambient light layer', async ({ page }) => {
   test.skip(test.info().project.name !== 'in-app');
   await page.goto('/es/');
   await expect(page.locator('html')).toHaveAttribute('data-tier', 'in_app');
-  expect(await page.locator('canvas').count()).toBe(0);
+  await page.waitForTimeout(2600);
+  expect(await page.locator('canvas.light-field').count()).toBe(0);
   await expect(page.locator('h1.hero-title')).toBeVisible();
+  // ...and the photograph is there without it, which was always the point.
+  await expect(page.locator('.hero .hero-plate')).toBeVisible();
 });
 
 test('the phone sees the strata and the doors', async ({ page }) => {

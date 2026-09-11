@@ -159,6 +159,26 @@ html.door-pending .door[data-state="pending"], .door[data-state="overture"], .do
 }
 .index-panel.is-on { opacity: 1; }
 
+/* On a phone the empty column is the page: the photograph lies behind the whole list instead of
+   beside it. Quieter than the desktop panel, because here the type sits on top of it rather than
+   next to it — the index is still the point of the stratum. */
+.index-panel.is-ambient {
+  inset: 0; right: auto; top: auto; transform: none;
+  width: 100%; height: 100svh; aspect-ratio: auto;
+  z-index: 0;
+}
+.index-panel.is-ambient.is-on { opacity: .46; }
+.index-veil { position: fixed; inset: 0; z-index: 0; pointer-events: none; opacity: 0; transition: opacity var(--dur-micro-l) var(--ease-signature); background: linear-gradient(to bottom, rgb(10 13 10 / .58) 0%, rgb(10 13 10 / .44) 42%, rgb(10 13 10 / .62) 100%); }
+.index-veil.is-on { opacity: 1; }
+.index.has-panel .row .still { display: none; }
+.page-home .roca, .projects-page .roca { position: relative; z-index: 1; }
+/* The row you have scrolled to is the one that is lit — the others recede, exactly as they do
+   under a cursor on a desktop. */
+@media not all and (hover: hover) and (pointer: fine) {
+  .index:has(.is-lit-row) .row a { opacity: .38; transition: opacity var(--dur-trans) var(--ease-state); }
+  .index .row a.is-lit-row { opacity: 1; transition-duration: var(--dur-micro-l); }
+}
+
 @media (prefers-reduced-motion: reduce) { .index-panel { display: none !important; } }
 
 /* ===== the light layer (plan §S1) =====
