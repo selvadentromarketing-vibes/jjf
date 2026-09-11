@@ -13,6 +13,7 @@ statusVerified: false
 lightMode: A
 hero: ../../../assets/img/yucatan.webp
 heroAlt: Yucatán Country Club al amanecer, con el campo de golf y el lago
+masterplan: ../../../assets/masterplans/yucatan-country-club.webp
 closingSentence:
   - Una sensación de pertenencia difícil de explicar, pero imposible de ignorar.
 copyStatus: propuesta

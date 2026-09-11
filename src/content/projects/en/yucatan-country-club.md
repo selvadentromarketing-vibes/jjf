@@ -13,6 +13,7 @@ statusVerified: false
 lightMode: A
 hero: ../../../assets/img/yucatan.webp
 heroAlt: Yucatán Country Club at dawn, with the golf course and the lake
+masterplan: ../../../assets/masterplans/yucatan-country-club.webp
 closingSentence:
   - A sense of belonging that is hard to explain, but impossible to ignore.
 copyStatus: propuesta

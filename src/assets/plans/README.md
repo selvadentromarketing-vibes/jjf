@@ -21,13 +21,23 @@ measure.
 Illustrator), stripped of text and dimensions, merged and simplified into the three groups. This is
 what every one of these should eventually be; §14 #12 asks the founder which studios hold them.
 
-**`traced`** — what ships today, and what `npm run trace:plans` produces: a drawing read off the
-project's own aerial by `scripts/trace-plan.mjs`. It thresholds the plate three ways — the hard
-un-green surfaces become the smallest rectangle around each one (`#built`), their hull becomes the
-site outline (`#boundary`), and the blurred luminance and the water become smooth contours
-(`#landscape`) — so every stroke is a statement about pixels that are actually in the photograph.
-It cannot invent a building, which is the whole reason it is allowed to stand in. `from` names the
-plate so anyone can check the drawing against the picture on the same page.
+**`traced`** — what ships today, and what `npm run trace:plans` produces: a drawing read by
+`scripts/trace-plan.mjs` off whatever `from` names — a published plan where one exists, the
+project's own aerial where it does not. The tracer tells them apart by how much of the sheet is
+paper and reads each accordingly.
+
+*From a plan* it follows the ink: the outermost contour is the property edge (`#boundary`), marks
+too thick to be a line are the parcels drawn solid (`#built`), and the rest is the road and lot
+fabric (`#landscape`). Everything below a size floor is dropped, which is how the logo, the legend
+and the wordmark come off — a drawing that keeps its labels is a drawing that measures.
+
+*From an aerial* it thresholds the plate three ways: hard un-green surfaces become the smallest
+rectangle around each one (`#built`), their hull becomes the site outline (`#boundary`), and the
+blurred luminance and the water become smooth contours (`#landscape`).
+
+Either way every stroke is a statement about pixels that are actually in the source, so it cannot
+invent a building — the whole reason it is allowed to stand in. `from` names that source, so the
+drawing is checkable against it.
 
 **`ai-derived`** — a generative line-art pass over a render. A model can put a building where none
 was built, so this needs `approvedBy` — the founder or the studio — before it ships, is set in a
