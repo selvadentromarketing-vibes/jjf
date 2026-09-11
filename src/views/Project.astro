@@ -1,6 +1,6 @@
 ---
 import { getCollection, render, type CollectionEntry } from 'astro:content';
-import { Picture } from 'astro:assets';
+import { Picture, getImage } from 'astro:assets';
 import Base from '../layouts/Base.astro';
 import Plano from '../components/Plano.astro';
 import Ficha from '../components/Ficha.astro';
@@ -19,6 +19,10 @@ const site = (await getCollection('site')).find((s) => s.data.lang === lang)!.da
 const staging = import.meta.env.PUBLIC_STAGING === '1';
 const plate = p.hero && (!p.heroStaging || staging) ? p.hero : undefined;
 const gallery = p.gallery.filter((g) => !g.staging || staging);
+// The masterplan is the drawing a buyer zooms into: lot numbers, phases, what is still for sale.
+// Scaled into a phone it is unreadable, and the plan bans modals, so the figure links to the full
+// image and the browser's own viewer does the pinching — no script, and it works offline of us.
+const masterplanFull = p.masterplan ? await getImage({ src: p.masterplan, format: 'webp', quality: 88 }) : undefined;
 const url = new URL(href('project', lang, { slug: p.key }), Astro.site ?? 'https://jjfcreando.com').href;
 const abs = (path: string) => new URL(path, Astro.site ?? 'https://jjfcreando.com').href;
 const jsonLd = [
@@ -63,7 +67,10 @@ const jsonLd = [
     {p.masterplan && (
       <figure class="masterplan">
         <figcaption class="caption">{t(lang, 'project.masterplan')}{p.sellsVerified && p.sells && ` · ${t(lang, `sells.${p.sells}` as any)}`}{p.availability && ` · ${p.availability}`}</figcaption>
-        <Picture src={p.masterplan} widths={[640, 1280, 1920]} sizes="100vw" formats={['avif', 'webp']} fallbackFormat="webp" alt={t(lang, 'project.masterplan')} loading="lazy" />
+        <a href={masterplanFull!.src} class="masterplan-open" target="_blank" rel="noopener">
+          <Picture src={p.masterplan} widths={[640, 1280, 1920]} sizes="100vw" formats={['avif', 'webp']} fallbackFormat="webp" alt={t(lang, 'project.masterplanAlt', { name: p.name })} loading="lazy" />
+          <span class="masterplan-hint">{t(lang, 'project.masterplanOpen')}</span>
+        </a>
       </figure>
     )}
     <Ficha lang={lang} project={p} />

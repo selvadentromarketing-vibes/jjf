@@ -13,6 +13,7 @@ statusVerified: false
 lightMode: F
 hero: ../../../assets/img/selvadentro.webp
 heroAlt: Vista aérea de Selvadentro, con la selva de Tulum y un cenote entre las residencias
+masterplan: ../../../assets/masterplans/selvadentro.webp
 closingSentence:
   - Invitan a reconectar con lo esencial.
 copyStatus: propuesta

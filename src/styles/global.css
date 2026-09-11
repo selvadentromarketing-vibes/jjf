@@ -314,6 +314,9 @@ html.js .door-pane:not(.is-open) { display: none; }
 .gallery img { width: 100%; height: auto; filter: saturate(.84); }
 .masterplan { margin: 0; padding: clamp(40px, 8vh, 100px) var(--gutter); }
 .masterplan img { width: 100%; height: auto; }
+.masterplan-open { position: relative; display: block; text-decoration: none; }
+.masterplan-hint { position: absolute; right: 10px; bottom: 10px; padding: 7px 12px; font-size: 12px; letter-spacing: .08em; color: var(--color-linen); background: color-mix(in oklab, var(--color-forest), transparent 12%); transition: opacity var(--dur-micro) var(--ease-state); }
+.masterplan-open:hover .masterplan-hint, .masterplan-open:focus-visible .masterplan-hint { opacity: .7; }
 .ficha { padding: clamp(40px, 8vh, 100px) var(--gutter); max-width: 720px; }
 .ficha dl { display: grid; grid-template-columns: auto 1fr; gap: 10px 28px; margin: 0; border-top: 1px solid var(--hair); padding-top: 14px; }
 .ficha dt { font-size: 11px; letter-spacing: .12em; color: var(--ink-dim); }

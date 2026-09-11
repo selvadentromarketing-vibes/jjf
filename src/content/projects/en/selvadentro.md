@@ -13,6 +13,7 @@ statusVerified: false
 lightMode: F
 hero: ../../../assets/img/selvadentro.webp
 heroAlt: Aerial view of Selvadentro, the Tulum jungle and a cenote between the residences
+masterplan: ../../../assets/masterplans/selvadentro.webp
 closingSentence:
   - An invitation to reconnect with the essential.
 copyStatus: propuesta

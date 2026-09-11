@@ -41,6 +41,8 @@
   "booking.open": "Open the calendar",
   "project.record": "The place",
   "project.masterplan": "Master plan",
+  "project.masterplanAlt": "Masterplan of {name}",
+  "project.masterplanOpen": "Open full size",
   "project.ficha": "Fact sheet",
   "project.talk": "Let's talk about {name}",
   "project.next": "Next place",

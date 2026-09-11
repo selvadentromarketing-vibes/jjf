@@ -41,6 +41,8 @@
   "booking.open": "Abrir la agenda",
   "project.record": "El lugar",
   "project.masterplan": "Plan maestro",
+  "project.masterplanAlt": "Plan maestro de {name}",
+  "project.masterplanOpen": "Ver en grande",
   "project.ficha": "Ficha",
   "project.talk": "Hablemos sobre {name}",
   "project.next": "Siguiente lugar",

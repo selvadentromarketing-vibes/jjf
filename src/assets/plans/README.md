@@ -44,6 +44,14 @@ was built, so this needs `approvedBy` — the founder or the studio — before i
 looser sketch register, and is never the sales masterplan (that stays the static labelled figure
 lower on the page, §10).
 
+## Look at every drawing before it ships
+
+`npm run trace:plans` writes a file; it does not judge one. Point `from` at a labelled sales
+masterplan and the tracer will hand you its sector names and lot letters as rectangles, because to
+a threshold a word is just a bright compact shape — Selvadentro's masterplan does exactly this,
+which is why its drawing still comes from its aerial and the masterplan stays a figure lower on the
+page. Render each result over its source and look at it.
+
 ## Replacing a traced plan with the real one
 
 Drop the studio's SVG in as `<slug>.svg`, set `source: architect`, remove `from`, run
