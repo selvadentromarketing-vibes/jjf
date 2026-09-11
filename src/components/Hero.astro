@@ -1,15 +1,29 @@
 ---
-// Dosel (plan §S1, CSS tier). The plate is present from first paint under the dawn-in filter; nothing interim ever ships to the production hero.
+// Dosel (plan §S1). The hero is the land, moving.
+//
+// Three things share this frame and the order matters:
+//
+//   1. the poster, painted at first paint, at full brightness. It is the LCP element, and it is
+//      also the whole designed experience wherever the video cannot play — iOS Low Power Mode,
+//      Save-Data, reduced motion, a blocked autoplay. Never a fallback, always the floor.
+//   2. the dawn, a forest scrim over the poster that lifts. The darkening used to be a filter on
+//      the image itself, which is how the homepage ended up with a 5.9 s LCP on a phone: the
+//      largest element Chrome would score was the lede paragraph, revealed at 1.7 s.
+//   3. the video, loaded only after the page has, and cross-faded in when it actually plays.
 import { Picture } from 'astro:assets';
-import canopy from '../assets/img/hero-bg.webp';
+import canopy from '../assets/img/hero-canopy.webp';
 interface Props { headline: string[]; lede: string }
 const { headline, lede } = Astro.props;
-const staging = import.meta.env.PUBLIC_STAGING === '1';
 ---
 <section class="hero stratum" data-stratum="dosel" data-ground="canopy" data-light="A" id="dosel">
-  {staging && (
-    <Picture class="hero-plate" pictureAttributes={{ class: 'hero-media', 'data-staging': '1' }} src={canopy} widths={[640, 1280, 1920]} sizes="100vw" formats={['avif', 'webp']} fallbackFormat="webp" alt="" loading="eager" fetchpriority="high" decoding="async" />
-  )}
+  <div class="hero-media">
+    <Picture class="hero-plate" src={canopy} widths={[640, 1280]} sizes="100vw" formats={['avif', 'webp']} fallbackFormat="webp" alt="" loading="eager" fetchpriority="high" decoding="async" />
+    <video class="hero-video" muted loop playsinline preload="none" tabindex="-1" aria-hidden="true" data-hero-video>
+      <source data-src="/media/hero/hero.webm" type="video/webm; codecs=av01.0.05M.08" />
+      <source data-src="/media/hero/hero.mp4" type="video/mp4; codecs=avc1.640028" />
+    </video>
+  </div>
+  <div class="hero-dawn" aria-hidden="true"></div>
   <div class="hero-scrim" aria-hidden="true"></div>
   <div class="hero-tint" aria-hidden="true"></div>
   <div class="hero-copy">

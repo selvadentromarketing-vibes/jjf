@@ -180,16 +180,31 @@ html.door-pending .door[data-state="pending"], .door[data-state="overture"], .do
 
 /* ===== strata ===== */
 .stratum { position: relative; }
-.hero { position: relative; min-height: 100svh; display: flex; flex-direction: column; justify-content: flex-end; padding: 0 var(--gutter) clamp(38px, 7vh, 84px); isolation: isolate; overflow: hidden; background: var(--color-canopy); }
-.hero .hero-media { position: absolute; inset: 0; z-index: 0; filter: brightness(.35); }
-.hero .hero-media img { width: 100%; height: 100%; object-fit: cover; }
-.hero.is-dawn .hero-media { animation: dawn var(--dur-cine-l) var(--ease-signature) var(--door-offset) forwards; }
-html.returning:not(.door-pending) .hero.is-dawn .hero-media { animation-duration: var(--dur-micro-l); }
-@keyframes dawn { to { filter: brightness(1); } }
+/* A grid of one cell with everything stacked in it, rather than a flex column with the picture
+   positioned out of flow behind it. That is not a style preference: Chrome does not score an
+   absolutely positioned image as an LCP candidate, so with the old markup the largest element it
+   would score was the lede paragraph — revealed at 1.7 s, which is how the homepage measured a
+   5.9 s LCP on a phone against a 2.5 s gate. In flow, the plate is scored the moment it paints. */
+.hero { position: relative; min-height: 100svh; display: grid; isolation: isolate; overflow: hidden; background: var(--color-canopy); }
+.hero > * { grid-area: 1 / 1; min-width: 0; }
+/* The plate also paints at full brightness from the first frame; the dawn is a scrim above it
+   that lifts, not a filter on it that clears. The same picture growing lighter, either way. */
+.hero .hero-media { position: relative; z-index: 0; }
+.hero .hero-media img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.hero .hero-video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.hero .hero-video { opacity: 0; transition: opacity var(--dur-trans-l) var(--ease-signature); }
+.hero .hero-video.is-ready { opacity: 1; }
+.hero-dawn { position: absolute; inset: 0; z-index: 1; pointer-events: none; background: var(--color-forest); opacity: .82; }
+.hero.is-dawn .hero-dawn { animation: dawn var(--dur-cine-l) var(--ease-signature) var(--door-offset) forwards; }
+html.returning:not(.door-pending) .hero.is-dawn .hero-dawn { animation-duration: var(--dur-micro-l); }
+@keyframes dawn { to { opacity: 0; } }
 @keyframes fade-in { to { opacity: 1; } }
-.hero-scrim { position: absolute; inset: 0; z-index: 2; pointer-events: none; background: linear-gradient(to top, rgb(10 13 10 / .9) 0%, rgb(10 13 10 / .5) 30%, transparent 62%), linear-gradient(to right, rgb(10 13 10 / .55) 0%, rgb(10 13 10 / .1) 45%, transparent 70%); }
+/* Enough to carry bone type over a canopy, not so much that it eats the canopy. The bottom stop
+   was .9, which on a phone — where the copy sits across the lower third — turned half the hero
+   black. */
+.hero-scrim { position: absolute; inset: 0; z-index: 2; pointer-events: none; background: linear-gradient(to top, rgb(10 13 10 / .82) 0%, rgb(10 13 10 / .42) 34%, transparent 66%), linear-gradient(to right, rgb(10 13 10 / .5) 0%, rgb(10 13 10 / .08) 45%, transparent 70%); }
 .hero-tint { position: absolute; inset: 0; z-index: 3; pointer-events: none; background: var(--tint); mix-blend-mode: soft-light; opacity: var(--tint-strength); }
-.hero-copy { position: relative; z-index: 4; max-width: min(1180px, 92vw); }
+.hero-copy { position: relative; z-index: 4; align-self: end; justify-self: start; width: 100%; max-width: min(1180px, 92vw); padding: 0 var(--gutter) clamp(38px, 7vh, 84px); }
 .hero-title { max-width: 12em; color: var(--color-bone); }
 .hero .lede { margin: clamp(20px, 3.4vh, 32px) 0 0; max-width: 44ch; font-size: clamp(15px, 1.15vw, 17px); line-height: 1.7; color: var(--color-bone-dim); }
 .passage { min-height: 16vh; }
@@ -447,6 +462,8 @@ html.js .door-pane:not(.is-open) { display: none; }
   [data-reveal], .line > span { transition: none !important; transform: none !important; opacity: 1 !important; clip-path: none !important; }
   [data-reveal="scrim"]::after { display: none !important; }
   .hero .hero-media, .project-hero .hero-media { filter: none !important; opacity: 1 !important; animation: none !important; }
+  .hero-dawn { opacity: 0 !important; animation: none !important; }
+  .hero .hero-video { display: none !important; }
   .grain::after { animation: none !important; }
   .marker { opacity: 1; animation: none; }
   .door { display: none !important; }

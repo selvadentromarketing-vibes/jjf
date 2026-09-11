@@ -8,7 +8,7 @@ test.describe('the light layer', () => {
   test('the photograph is present and correct with or without it', async ({ page }) => {
     await page.goto('/es/');
     await page.waitForTimeout(2600);
-    const plate = page.locator('.hero picture.hero-media img').first();
+    const plate = page.locator('.hero .hero-plate').first();
     await expect(plate).toBeVisible();
     // A hero that only exists inside the canvas would vanish on every device that drops the layer.
     expect(await plate.evaluate((img: HTMLImageElement) => img.naturalWidth)).toBeGreaterThan(100);

@@ -2,6 +2,7 @@ import { initTier } from './tier';
 import { initSolar } from './solar';
 import { initSmooth } from './smooth';
 import { initDoor } from './door';
+import { initHero } from './hero';
 import { initReveals } from './reveal';
 import { initGround } from './ground';
 import { initPlano } from './plano';
@@ -12,7 +13,7 @@ import { initAnalytics } from './analytics';
 import { initVitals } from './vitals';
 import { ls } from './motion';
 
-function perPage() { initReveals(); initGround(); initPlano(); initLight(); initPanel(); initContact(); }
+function perPage() { initReveals(); initGround(); initHero(); initPlano(); initLight(); initPanel(); initContact(); }
 
 initTier();
 initSolar();
