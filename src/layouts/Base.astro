@@ -10,9 +10,9 @@ import { alternates, type Lang, type RouteKey } from '../routes';
 
 interface Props {
   lang: Lang; title: string; description: string; route: RouteKey; params?: Record<string, string>;
-  ogImage?: string; noindex?: boolean; ground?: 'forest' | 'canopy' | 'linen' | 'shade'; strata?: boolean; jsonLd?: object | object[]; bodyClass?: string;
+  ogImage?: string; ogImageAlt?: string; noindex?: boolean; ground?: 'forest' | 'canopy' | 'linen' | 'shade'; strata?: boolean; jsonLd?: object | object[]; bodyClass?: string;
 }
-const { lang, title, description, route, params = {}, ogImage, noindex = false, ground = 'forest', strata = false, jsonLd, bodyClass = '' } = Astro.props;
+const { lang, title, description, route, params = {}, ogImage, ogImageAlt, noindex = false, ground = 'forest', strata = false, jsonLd, bodyClass = '' } = Astro.props;
 const site = Astro.site ?? new URL('https://jjfcreando.com');
 const alt = alternates(route, params);
 const abs = (p: string) => new URL(p, site).href;
@@ -53,6 +53,8 @@ const staging = import.meta.env.PUBLIC_STAGING === '1';
     <meta property="og:image" content={abs(ogImage ?? `/og/default-${lang}.png`)} />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
+    <meta property="og:image:type" content={(ogImage ?? '.png').endsWith('.png') ? 'image/png' : 'image/jpeg'} />
+    {ogImageAlt && <meta property="og:image:alt" content={ogImageAlt} />}
     <meta property="og:locale" content={lang === 'es' ? 'es_MX' : 'en_US'} />
     <meta property="og:locale:alternate" content={lang === 'es' ? 'en_US' : 'es_MX'} />
     <meta name="twitter:card" content="summary_large_image" />

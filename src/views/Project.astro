@@ -23,6 +23,14 @@ const gallery = p.gallery.filter((g) => !g.staging || staging);
 // Scaled into a phone it is unreadable, and the plan bans modals, so the figure links to the full
 // image and the browser's own viewer does the pinching — no script, and it works offline of us.
 const masterplanFull = p.masterplan ? await getImage({ src: p.masterplan, format: 'webp', quality: 88 }) : undefined;
+// The card that appears when someone sends this link over WhatsApp. Nearly every arrival JJF has
+// comes through a phone and a message, so a project link showing the house headline and no place
+// is a wasted introduction: where a plate is publishable, the card is the plate, cropped to the
+// card's own shape, and the place's name sits beside it as the title. Where it is not, the
+// typographic card stands — never black either way (§11).
+const ogImage = plate
+  ? (await getImage({ src: plate, width: 1200, height: 630, fit: 'cover', position: 'center', format: 'jpeg', quality: 76 })).src
+  : undefined;
 const url = new URL(href('project', lang, { slug: p.key }), Astro.site ?? 'https://jjfcreando.com').href;
 const abs = (path: string) => new URL(path, Astro.site ?? 'https://jjfcreando.com').href;
 // A trailing "## Preguntas" / "## Questions" section is the page's FAQ: its ### headings are the
@@ -52,7 +60,7 @@ const jsonLd = [
   },
 ];
 ---
-<Base lang={lang} title={`${p.name} — JJF Creando`} description={p.summary ?? `${p.place} · ${p.character}`} route="project" params={{ slug: p.key }} ground="linen" jsonLd={jsonLd} bodyClass="page-project">
+<Base lang={lang} title={`${p.name} — JJF Creando`} description={p.summary ?? `${p.place} · ${p.character}`} route="project" params={{ slug: p.key }} ground="linen" jsonLd={jsonLd} bodyClass="page-project" ogImage={ogImage} ogImageAlt={plate ? p.heroAlt : undefined}>
   <article class="project" data-project-page={p.key} data-ground="linen">
     <header class:list={['project-hero', { 'has-plano': !!p.plan, 'has-plate': !!plate }]} data-light={p.lightMode}>
       <Plano slug={p.key} plan={p.plan} />
