@@ -1,6 +1,8 @@
 import { test, expect } from '@playwright/test';
+import { readdirSync } from 'node:fs';
 
 const SITE = 'https://jjfcreando.com';
+const guideKeys = () => readdirSync('src/content/guides/es').filter((f) => f.endsWith('.md')).map((f) => f.replace(/\.md$/, ''));
 const PAIRS: [string, string][] = [
   ['/es/', '/en/'],
   ['/es/contacto/', '/en/contact/'],
@@ -10,7 +12,8 @@ const PAIRS: [string, string][] = [
   ['/es/trayectoria/', '/en/track-record/'],
   ['/es/como-se-compra/', '/en/how-it-works/'],
   ['/es/guias/', '/en/guides/'],
-  ['/es/guias/comprar-terreno-en-tulum/', '/en/guides/comprar-terreno-en-tulum/'],
+  // Every guide, taken from the content directory, so a new one cannot ship without its pair.
+  ...guideKeys().map((k) => [`/es/guias/${k}/`, `/en/guides/${k}/`] as [string, string]),
   ['/es/aviso-de-privacidad/', '/en/privacy/'],
 ];
 

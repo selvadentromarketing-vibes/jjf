@@ -23,13 +23,13 @@ Lo primero es la historia jurídica de la tierra, no el render. Pide la escritur
 
 Lo segundo son los permisos. Un desarrollo en Tulum necesita autorizaciones federales y municipales y, cuando aplica, la de impacto ambiental. Pide verlas y pide que te digan qué falta. Nosotros te las mostramos por desarrollo, vigentes, y te decimos qué sigue.
 
-Lo tercero es el desarrollador: qué ha terminado y si lo terminado está habitado. Visita algo que ya exista antes de comprar algo que existirá.
+Lo tercero es el desarrollador: qué ha terminado y si lo terminado está habitado. Visita algo que ya exista antes de comprar algo que existirá. Si vas a comprar sobre plano, la lista completa está en nuestra guía de [comprar en preventa](/es/guias/comprar-en-preventa-en-tulum/).
 
 Lo cuarto son los servicios: agua, energía, drenaje y conectividad. Se ven en el plan maestro y, mejor, en sitio. Un terreno sin servicios resueltos es un terreno con un costo escondido.
 
 ## Cómo compra un extranjero en Tulum
 
-Tulum está dentro de la franja costera que la ley mexicana reserva, y ahí las personas extranjeras adquieren mediante un fideicomiso con un banco mexicano autorizado. El banco es el titular formal y tú eres el beneficiario, con todos los derechos: usar, rentar, vender y heredar. Es un contrato de largo plazo, renovable, que se hereda y se cede al vender.
+Tulum está dentro de la franja costera que la ley mexicana reserva, y ahí las personas extranjeras adquieren mediante un [fideicomiso con un banco mexicano autorizado](/es/guias/el-fideicomiso-explicado/). El banco es el titular formal y tú eres el beneficiario, con todos los derechos: usar, rentar, vender y heredar. Es un contrato de largo plazo, renovable, que se hereda y se cede al vender.
 
 No necesitas residencia mexicana para comprar: basta el pasaporte y una visa de turista. Tampoco necesitas estar en México para firmar; el fideicomiso y la escritura pueden firmarse mediante un poder notarial. Aun así, casi todos nuestros compradores vienen una o dos veces antes de decidir, y nosotros preferimos que vengas.
 

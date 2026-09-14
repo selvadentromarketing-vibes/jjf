@@ -425,6 +425,11 @@ html.js .door-pane:not(.is-open) { display: none; }
    head: the min-height gives it the target, the negative margin hands the space straight back. */
 .page-head .caption a.crumb { display: inline-flex; align-items: center; min-height: 36px; margin: -10px 0; text-decoration: none; color: inherit; border-bottom: 1px solid transparent; transition: color var(--dur-micro) var(--ease-state), border-color var(--dur-micro) var(--ease-state); }
 .page-head .caption a.crumb:hover, .page-head .caption a.crumb:focus-visible { color: var(--ink); border-bottom-color: color-mix(in oklab, var(--ink), transparent 70%); }
+/* A link in running text is a tap target too. The padding grows the hit box without moving the
+   line, because vertical padding on an inline box does not affect layout; the rule stays on the
+   baseline because it is drawn on the text rather than on the box. */
+.prose p a, .prose li a { text-decoration: underline; text-decoration-color: color-mix(in oklab, currentColor, transparent 62%); text-underline-offset: .2em; padding-block: 6px; transition: text-decoration-color var(--dur-micro) var(--ease-state); }
+.prose p a:hover, .prose p a:focus-visible, .prose li a:hover, .prose li a:focus-visible { text-decoration-color: currentColor; }
 .guide-meta { display: flex; gap: 24px; flex-wrap: wrap; font-size: 12px; letter-spacing: .06em; color: var(--ink-dim); }
 .guide-related { display: grid; gap: 8px; max-width: 64ch; }
 .guide-related a { display: inline-flex; align-items: center; min-height: 36px; font-family: var(--font-serif); font-size: clamp(20px, 1.7vw, 26px); text-decoration: none; color: var(--ink); border-bottom: 1px solid var(--hair); }

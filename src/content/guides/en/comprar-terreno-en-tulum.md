@@ -23,13 +23,13 @@ The first thing is the legal history of the land, not the rendering. Ask for the
 
 The second thing is permits. A development in Tulum needs federal and municipal authorisations and, where it applies, environmental impact approval. Ask to see them and ask what is still pending. We show you ours per development, current, and tell you what comes next.
 
-The third is the developer: what they have finished and whether the finished work is lived in. Visit something that already exists before buying something that will.
+The third is the developer: what they have finished and whether the finished work is lived in. Visit something that already exists before buying something that will. If you are buying off plan, the full checklist is in our guide to [buying preconstruction](/en/guides/comprar-en-preventa-en-tulum/).
 
 The fourth is services: water, power, drainage and connectivity. You see them on the masterplan and, better, on site. A lot without its services resolved is a lot with a hidden cost.
 
 ## How a foreigner buys in Tulum
 
-Tulum lies within the coastal strip Mexican law reserves, and there foreign buyers acquire through a trust — the fideicomiso — with an authorised Mexican bank. The bank is the formal titleholder and you are the beneficiary, with every right: to use, rent, sell and bequeath. It is a long-term, renewable contract that is inherited and assigned on sale.
+Tulum lies within the coastal strip Mexican law reserves, and there foreign buyers acquire through a trust, [the fideicomiso](/en/guides/el-fideicomiso-explicado/), with an authorised Mexican bank. The bank is the formal titleholder and you are the beneficiary, with every right: to use, rent, sell and bequeath. It is a long-term, renewable contract that is inherited and assigned on sale.
 
 You do not need Mexican residency to buy: a passport and a tourist visa are enough. Nor do you need to be in Mexico to sign; the trust and the deed can be signed by power of attorney. Even so, almost all our buyers come once or twice before deciding, and we would rather you came.
 
