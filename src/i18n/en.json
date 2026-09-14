@@ -47,6 +47,8 @@
   "project.ficha": "Fact sheet",
   "project.talk": "Let's talk about {name}",
   "project.next": "Next place",
+  "project.updated": "Updated",
+  "project.site": "{name} site",
   "project.planAria": "The project's plan drawing itself",
   "sells.lotes": "lots",
   "sells.villas": "villas",

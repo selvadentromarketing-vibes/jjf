@@ -25,12 +25,22 @@ const gallery = p.gallery.filter((g) => !g.staging || staging);
 const masterplanFull = p.masterplan ? await getImage({ src: p.masterplan, format: 'webp', quality: 88 }) : undefined;
 const url = new URL(href('project', lang, { slug: p.key }), Astro.site ?? 'https://jjfcreando.com').href;
 const abs = (path: string) => new URL(path, Astro.site ?? 'https://jjfcreando.com').href;
+// A trailing "## Preguntas" / "## Questions" section is the page's FAQ: its ### headings are the
+// questions, their paragraphs the answers. Same authoring as /como-se-compra/, same schema.
+const body = entry.body ?? '';
+const faqHead = lang === 'es' ? '## Preguntas' : '## Questions';
+const faqBlock = body.includes(faqHead) ? body.slice(body.indexOf(faqHead) + faqHead.length) : '';
+const faq = faqBlock.split(/^### /m).slice(1).map((s) => { const [q, ...a] = s.trim().split('\n'); return { '@type': 'Question', name: q.trim(), acceptedAnswer: { '@type': 'Answer', text: a.join(' ').trim() } }; });
 const jsonLd = [
   {
     '@context': 'https://schema.org', '@type': 'Residence', name: p.name, url, description: `${p.place} · ${p.character}`,
     address: { '@type': 'PostalAddress', addressLocality: p.locality, addressRegion: p.region, addressCountry: 'MX' },
     ...(p.coordinates ? { geo: { '@type': 'GeoCoordinates', latitude: p.coordinates.lat, longitude: p.coordinates.lng } } : {}),
+    ...(p.siteUrl ? { sameAs: [p.siteUrl] } : {}),
+    ...(p.summary ? { description: p.summary } : {}),
   },
+  ...(faq.length ? [{ '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: faq }] : []),
+  ...(p.updated ? [{ '@context': 'https://schema.org', '@type': 'WebPage', url, dateModified: p.updated, inLanguage: lang === 'es' ? 'es-MX' : 'en', about: { '@type': 'Residence', name: p.name } }] : []),
   // Home → the six → this one. The middle step only became true when /proyectos/ stopped being a 404.
   {
     '@context': 'https://schema.org', '@type': 'BreadcrumbList',
@@ -42,7 +52,7 @@ const jsonLd = [
   },
 ];
 ---
-<Base lang={lang} title={`${p.name} — JJF Creando`} description={`${p.place} · ${p.character}`} route="project" params={{ slug: p.key }} ground="linen" jsonLd={jsonLd} bodyClass="page-project">
+<Base lang={lang} title={`${p.name} — JJF Creando`} description={p.summary ?? `${p.place} · ${p.character}`} route="project" params={{ slug: p.key }} ground="linen" jsonLd={jsonLd} bodyClass="page-project">
   <article class="project" data-project-page={p.key} data-ground="linen">
     <header class:list={['project-hero', { 'has-plano': !!p.plan, 'has-plate': !!plate }]} data-light={p.lightMode}>
       <Plano slug={p.key} plan={p.plan} />
@@ -53,7 +63,14 @@ const jsonLd = [
         <a class="folio-marker" href={href('projects', lang)} data-figures-ok aria-label={t(lang, 'projects.all')}>{String(idx + 1).padStart(2, '0')}/{String(all.length).padStart(2, '0')}</a>
       </div>
     </header>
-    <section class="record"><Content /></section>
+    {p.summary && <p class="lede project-summary" data-reveal="fade">{p.summary}</p>}
+    <section class="record prose-record"><Content /></section>
+    {(p.updated || p.siteUrl) && (
+      <p class="project-meta" data-figures-ok>
+        {p.updated && <span>{t(lang, 'project.updated')} {p.updated}</span>}
+        {p.siteUrl && <a href={p.siteUrl} rel="noopener">{t(lang, 'project.site', { name: p.name })}</a>}
+      </p>
+    )}
     {gallery.length > 0 && (
       <section class="gallery">
         {gallery.map((g) => (

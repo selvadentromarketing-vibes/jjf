@@ -364,6 +364,17 @@ html.js .door-pane:not(.is-open) { display: none; }
 .project-title a.folio-marker:hover, .project-title a.folio-marker:focus-visible { color: var(--ink); border-bottom-color: color-mix(in oklab, var(--ink), transparent 70%); }
 .record { padding: clamp(60px, 10vh, 120px) var(--gutter); display: grid; gap: 1.2em; font-size: clamp(17px, 1.3vw, 21px); line-height: 1.55; max-width: calc(64ch + 2 * var(--gutter)); }
 .record p { margin: 0; }
+/* A deep page reads as chapters: the record's headings are quiet running heads, not display. */
+.prose-record h2 { font-family: var(--font-text); font-size: 12px; letter-spacing: .14em; text-transform: none; color: var(--ink-dim); margin: clamp(28px, 5vh, 56px) 0 0; font-weight: 500; }
+.prose-record h3 { font-family: var(--font-serif); font-weight: 400; font-size: clamp(20px, 1.6vw, 26px); line-height: 1.25; margin: clamp(20px, 3vh, 32px) 0 0; }
+.prose-record h2 + p, .prose-record h3 + p { margin-top: .6em; }
+.prose-record ul { margin: 0; padding-left: 1.1em; }
+.project-summary { padding: clamp(40px, 7vh, 90px) var(--gutter) 0; max-width: calc(64ch + 2 * var(--gutter)); font-size: clamp(18px, 1.4vw, 23px); line-height: 1.5; color: var(--ink); }
+.project-meta { padding: 0 var(--gutter) clamp(40px, 7vh, 90px); display: flex; gap: 24px; flex-wrap: wrap; font-size: 12px; letter-spacing: .06em; color: var(--ink-dim); }
+/* Thumb-sized without looking it: the padding makes the target, the negative margin gives the
+   space back, as on the folio. */
+.project-meta a { color: var(--ink-dim); border-bottom: 1px solid var(--hair); text-decoration: none; display: inline-flex; align-items: center; min-height: 36px; margin: -12px 0; }
+.project-meta span { display: inline-flex; align-items: center; min-height: 36px; margin: -12px 0; }
 .gallery { display: grid; gap: clamp(40px, 8vh, 100px); padding: 0 0 clamp(40px, 8vh, 100px); }
 .gallery figure { margin: 0; }
 .gallery figcaption { padding: 0 var(--gutter); }

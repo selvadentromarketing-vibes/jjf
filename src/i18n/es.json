@@ -47,6 +47,8 @@
   "project.ficha": "Ficha",
   "project.talk": "Hablemos sobre {name}",
   "project.next": "Siguiente lugar",
+  "project.updated": "Actualizado",
+  "project.site": "Sitio de {name}",
   "project.planAria": "Plano del proyecto dibujándose",
   "sells.lotes": "lotes",
   "sells.villas": "villas",

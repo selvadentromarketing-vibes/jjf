@@ -45,6 +45,14 @@ const projects = defineCollection({
       coordinates: z.object({ lat: z.number(), lng: z.number() }).optional(),
       draft: z.boolean().default(false),
       copyStatus: z.enum(['propuesta', 'aprobada']).default('propuesta'),
+      // The page's first paragraph, answer first: what this is, where, for whom — the 40–60 words
+      // an assistant lifts when it cites the page, and the meta description when present.
+      summary: z.string().min(40).optional(),
+      // When the words were last touched. Rendered, dated content is cited over undated content.
+      updated: date.optional(),
+      // The development's own sales site, where one exists (§14 #9: the sister sites stay and
+      // are canonicalised carefully). Cross-linked and declared as sameAs, never duplicated.
+      siteUrl: z.string().url().optional(),
       plan: z
         .object({
           svg: z.string().regex(/\.svg$/),
