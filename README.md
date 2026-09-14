@@ -69,6 +69,12 @@ falla cerrado. Trátala como una contraseña y rótala si alguna vez viaja en un
 Mientras no haya variables de entorno en el sitio, cada consulta sigue estando en el log de la
 función (`LEAD {...}`), que se lee desde el panel de Netlify.
 
+## Visibilidad en asistentes
+
+`docs/visibilidad-ia.md` — la revisión mensual a mano de lo que contestan ChatGPT, Perplexity y las
+respuestas generadas de Google a veinte preguntas fijas. No hay panel que lo mida; sin ella,
+«dominar» no tiene marcador.
+
 ## Contenido
 
 - Los textos de proyecto están en `src/content/projects/{es,en}/*.md` con `copyStatus: propuesta` hasta que el fundador los apruebe.
