@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 
 // No figure ships unverified (plan §8): outside the Ficha, the ledger and /trayectoria/, the body carries no digit at all.
-const PAGES = ['/es/', '/en/', '/es/vision/', '/en/vision/', '/es/proyectos/selvadentro/', '/en/projects/amelia-tulum/', '/es/proyectos/aldea-zama/'];
+const PAGES = ['/es/', '/en/', '/es/vision/', '/en/vision/', '/es/proyectos/selvadentro/', '/en/projects/amelia-tulum/', '/es/proyectos/aldea-zama/', '/es/guias/comprar-terreno-en-tulum/', '/en/guides/comprar-terreno-en-tulum/', '/en/guides/'];
 
 test.describe('no figures where figures are forbidden', () => {
   test.beforeEach(async ({ page: _page }, testInfo) => { testInfo.skip(testInfo.project.name !== 'desktop', 'desktop only'); });

@@ -10,6 +10,7 @@ export const GET: APIRoute = async ({ site }) => {
   const sites = await getCollection('site');
   const projects = (await getCollection('projects', (e) => !e.data.draft)).sort((a, b) => a.data.order - b.data.order);
   const how = await getCollection('how');
+  const guides = (await getCollection('guides', (e) => !e.data.draft)).sort((a, b) => a.data.order - b.data.order);
   const parts: string[] = ['# JJF Creando — full text', ''];
   for (const lang of ['es', 'en'] as const) {
     const s = sites.find((x) => x.data.lang === lang)!.data;
@@ -21,6 +22,7 @@ export const GET: APIRoute = async ({ site }) => {
       parts.push((p.body ?? '').trim(), '');
       if (p.data.updated) parts.push(`${lang === 'es' ? 'Actualizado' : 'Updated'}: ${p.data.updated}`, '');
     }
+    for (const g of guides.filter((x) => x.data.lang === lang)) parts.push(`## ${g.data.title}`, abs(href('guide', lang, { slug: g.data.key })), '', g.data.summary, '', (g.body ?? '').trim(), '', `${lang === 'es' ? 'Actualizado' : 'Updated'}: ${g.data.updated}`, '');
     const h = how.find((x) => x.data.lang === lang);
     if (h) parts.push(`## ${h.data.title}`, abs(href('how', lang)), '', h.data.intro, '', (h.body ?? '').trim(), '');
   }

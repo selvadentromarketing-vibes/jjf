@@ -102,7 +102,7 @@ const site = defineCollection({
     entity: z.object({ legalName: z.string(), domicilio: z.string(), arco: z.string() }).default({ legalName: '', domicilio: '', arco: '' }),
     notFoundLine: z.string(),
     thanks: z.array(z.string()).min(1),
-    pages: z.object({ home: pageMeta, projects: pageMeta, vision: pageMeta, track: pageMeta, how: pageMeta, contact: pageMeta, privacy: pageMeta, thanks: pageMeta }),
+    pages: z.object({ home: pageMeta, projects: pageMeta, guides: pageMeta, vision: pageMeta, track: pageMeta, how: pageMeta, contact: pageMeta, privacy: pageMeta, thanks: pageMeta }),
   }),
 });
 
@@ -111,9 +111,30 @@ const how = defineCollection({
   schema: z.object({ lang: z.enum(['es', 'en']), title: z.string(), intro: z.string(), reviewed: z.boolean().default(false), asOf: date }),
 });
 
+// Guides (plan E2): the format assistants cite most — a definitive answer to one question a buyer
+// actually asks, with the same discipline as everything else here: no figure unverified, no
+// superlative, first-person plural. A trailing "## Preguntas" / "## Questions" becomes FAQPage.
+const guides = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: './src/content/guides' }),
+  schema: z.object({
+    key: z.string().regex(/^[a-z0-9-]+$/),
+    lang: z.enum(['es', 'en']),
+    order: z.number().int().min(1),
+    title: z.string().min(1),
+    // The one-sentence answer the page exists to give; also the meta description.
+    summary: z.string().min(40),
+    intro: z.string().min(1),
+    updated: date,
+    reviewed: z.boolean().default(false),
+    // Project keys this guide should point at, in order.
+    related: z.array(z.string()).default([]),
+    draft: z.boolean().default(false),
+  }),
+});
+
 const legal = defineCollection({
   loader: glob({ pattern: '*.md', base: './src/content/legal' }),
   schema: z.object({ lang: z.enum(['es', 'en']), title: z.string(), reviewed: z.boolean().default(false), asOf: date }),
 });
 
-export const collections = { projects, site, how, legal };
+export const collections = { projects, site, how, guides, legal };

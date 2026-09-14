@@ -10,6 +10,7 @@ export const GET: APIRoute = async ({ site }) => {
   const es = (await getCollection('site')).find((s) => s.data.lang === 'es')!.data;
   const en = (await getCollection('site')).find((s) => s.data.lang === 'en')!.data;
   const projects = (await getCollection('projects', (e) => !e.data.draft)).sort((a, b) => a.data.order - b.data.order);
+  const guides = (await getCollection('guides', (e) => !e.data.draft)).sort((a, b) => a.data.order - b.data.order);
   const line = (p: (typeof projects)[number]) => `- [${p.data.name}](${abs(href('project', p.data.lang, { slug: p.data.key }))}): ${p.data.summary ?? `${p.data.place} · ${p.data.character}`}`;
 
   const out = [
@@ -25,6 +26,11 @@ export const GET: APIRoute = async ({ site }) => {
     ...projects.filter((p) => p.data.lang === 'es').map(line),
     '',
     ...projects.filter((p) => p.data.lang === 'en').map(line),
+    '',
+    '## Guías / Guides',
+    '',
+    ...guides.filter((g) => g.data.lang === 'es').map((g) => `- [${g.data.title}](${abs(href('guide', 'es', { slug: g.data.key }))}): ${g.data.summary}`),
+    ...guides.filter((g) => g.data.lang === 'en').map((g) => `- [${g.data.title}](${abs(href('guide', 'en', { slug: g.data.key }))}): ${g.data.summary}`),
     '',
     '## Cómo se compra / How it works',
     '',

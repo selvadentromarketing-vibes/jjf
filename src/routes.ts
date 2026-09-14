@@ -8,6 +8,8 @@ const R = {
   vision: { es: '/es/vision/', en: '/en/vision/' },
   track: { es: '/es/trayectoria/', en: '/en/track-record/' },
   how: { es: '/es/como-se-compra/', en: '/en/how-it-works/' },
+  guides: { es: '/es/guias/', en: '/en/guides/' },
+  guide: { es: '/es/guias/[slug]/', en: '/en/guides/[slug]/' },
   contact: { es: '/es/contacto/', en: '/en/contact/' },
   thanks: { es: '/es/gracias/', en: '/en/thank-you/' },
   privacy: { es: '/es/aviso-de-privacidad/', en: '/en/privacy/' },

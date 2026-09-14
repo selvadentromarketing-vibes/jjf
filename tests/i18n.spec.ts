@@ -9,6 +9,8 @@ const PAIRS: [string, string][] = [
   ['/es/vision/', '/en/vision/'],
   ['/es/trayectoria/', '/en/track-record/'],
   ['/es/como-se-compra/', '/en/how-it-works/'],
+  ['/es/guias/', '/en/guides/'],
+  ['/es/guias/comprar-terreno-en-tulum/', '/en/guides/comprar-terreno-en-tulum/'],
   ['/es/aviso-de-privacidad/', '/en/privacy/'],
 ];
 

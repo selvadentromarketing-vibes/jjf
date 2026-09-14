@@ -1,0 +1,55 @@
+---
+// A guide (plan E2): one question a buyer actually asks, answered the way we answer it in person.
+// Article for the assistants, FAQPage for the questions at the end, breadcrumbs for the path.
+import { getCollection, render, type CollectionEntry } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import { t } from '../i18n';
+import { href, type Lang } from '../routes';
+interface Props { lang: Lang; entry: CollectionEntry<'guides'> }
+const { lang, entry } = Astro.props;
+const g = entry.data;
+const { Content } = await render(entry);
+const abs = (p: string) => new URL(p, Astro.site ?? 'https://jjfcreando.com').href;
+const url = abs(href('guide', lang, { slug: g.key }));
+const projects = (await getCollection('projects', (e) => e.data.lang === lang && !e.data.draft));
+const related = g.related.map((k) => projects.find((p) => p.data.key === k)).filter((p): p is (typeof projects)[number] => !!p);
+const body = entry.body ?? '';
+const faqHead = lang === 'es' ? '## Preguntas' : '## Questions';
+const faqBlock = body.includes(faqHead) ? body.slice(body.indexOf(faqHead) + faqHead.length) : '';
+const faq = faqBlock.split(/^### /m).slice(1).map((s) => { const [q, ...a] = s.trim().split('\n'); return { '@type': 'Question', name: q.trim(), acceptedAnswer: { '@type': 'Answer', text: a.join(' ').trim() } }; });
+const jsonLd = [
+  {
+    '@context': 'https://schema.org', '@type': 'Article', headline: g.title, description: g.summary, url,
+    inLanguage: lang === 'es' ? 'es-MX' : 'en', dateModified: g.updated, datePublished: g.updated,
+    author: { '@id': abs('/#org') }, publisher: { '@id': abs('/#org') },
+    about: related.map((p) => ({ '@type': 'Residence', name: p.data.name, url: abs(href('project', lang, { slug: p.data.key })) })),
+  },
+  ...(faq.length ? [{ '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: faq }] : []),
+  {
+    '@context': 'https://schema.org', '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'JJF Creando', item: abs(href('home', lang)) },
+      { '@type': 'ListItem', position: 2, name: t(lang, 'guides.eyebrow'), item: abs(href('guides', lang)) },
+      { '@type': 'ListItem', position: 3, name: g.title, item: url },
+    ],
+  },
+];
+---
+<Base lang={lang} title={`${g.title} — JJF Creando`} description={g.summary} route="guide" params={{ slug: g.key }} ground="linen" jsonLd={jsonLd}>
+  <article class="page" data-ground="linen">
+    <header class="page-head">
+      <p class="caption"><a class="crumb" href={href('guides', lang)}>{t(lang, 'guides.eyebrow')}</a></p>
+      <h1 class="display">{g.title}</h1>
+      <p class="measure lede">{g.summary}</p>
+      <p class="guide-meta" data-figures-ok><span>{t(lang, 'guides.by')}</span><span>{t(lang, 'project.updated')} {g.updated}</span></p>
+    </header>
+    <div class="prose"><Content /></div>
+    {related.length > 0 && (
+      <nav class="guide-related" aria-label={t(lang, 'guides.related')}>
+        <p class="caption">{t(lang, 'guides.related')}</p>
+        {related.map((p) => <a href={href('project', lang, { slug: p.data.key })}>{p.data.name}</a>)}
+      </nav>
+    )}
+    <p class="note">{t(lang, 'how.confirm')}</p>
+  </article>
+</Base>

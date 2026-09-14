@@ -4,8 +4,8 @@ const ES_COUNTRIES = new Set(['MX', 'ES', 'AR', 'CO', 'CL', 'PE', 'VE', 'EC', 'G
 
 // Segments unique to one tree decide the language on their own. 'vision' and 'contacto'/'contact'
 // style collisions are handled by only trusting a segment when exactly one tree claims it.
-const ES_SEGMENTS = new Set(['proyectos', 'vision', 'trayectoria', 'como-se-compra', 'contacto', 'gracias', 'aviso-de-privacidad']);
-const EN_SEGMENTS = new Set(['projects', 'vision', 'track-record', 'how-it-works', 'contact', 'thank-you', 'privacy']);
+const ES_SEGMENTS = new Set(['proyectos', 'guias', 'vision', 'trayectoria', 'como-se-compra', 'contacto', 'gracias', 'aviso-de-privacidad']);
+const EN_SEGMENTS = new Set(['projects', 'guides', 'vision', 'track-record', 'how-it-works', 'contact', 'thank-you', 'privacy']);
 const LOCALES = new Set(['es', 'en']);
 
 function pick(acceptLanguage: string | null, country: string | undefined): 'es' | 'en' {

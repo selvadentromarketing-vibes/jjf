@@ -1,0 +1,31 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import { t } from '../i18n';
+import { href, type Lang } from '../routes';
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const site = (await getCollection('site')).find((s) => s.data.lang === lang)!.data;
+const guides = (await getCollection('guides', (e) => e.data.lang === lang && !e.data.draft)).sort((a, b) => a.data.order - b.data.order);
+const abs = (p: string) => new URL(p, Astro.site ?? 'https://jjfcreando.com').href;
+const jsonLd = {
+  '@context': 'https://schema.org', '@type': 'ItemList', name: t(lang, 'guides.all'), numberOfItems: guides.length,
+  itemListElement: guides.map((g, i) => ({ '@type': 'ListItem', position: i + 1, name: g.data.title, url: abs(href('guide', lang, { slug: g.data.key })) })),
+};
+---
+<Base lang={lang} title={site.pages.guides.title} description={site.pages.guides.description} route="guides" ground="linen" jsonLd={jsonLd}>
+  <article class="page" data-ground="linen">
+    <header class="page-head">
+      <h1 class="display">{t(lang, 'guides.eyebrow')}</h1>
+      <p class="measure">{site.pages.guides.description}</p>
+    </header>
+    <ol class="guides-list">
+      {guides.map((g) => (
+        <li>
+          <h2><a href={href('guide', lang, { slug: g.data.key })}>{g.data.title}</a></h2>
+          <p>{g.data.intro}</p>
+        </li>
+      ))}
+    </ol>
+  </article>
+</Base>
