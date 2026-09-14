@@ -19,7 +19,10 @@
   function = "locale"
   # /api/* must be excluded or the enquiry endpoint gets redirected to /en/api/lead/ and the
   # funnel breaks. Anything that is not a page belongs on this list.
-  excludedPath = ["/es/*", "/en/*", "/api/*", "/_astro/*", "/media/*", "/og/*", "/favicon.svg", "/robots.txt", "/sitemap-index.xml", "/sitemap-0.xml", "/404.html", "/.netlify/*"]
+  # tests/edge-exclusions.spec.ts checks this list against everything the build puts at the root:
+  # /brand/logo.png (the Organization logo in every page's JSON-LD) and /llms.txt were both being
+  # redirected to /en/…/ and 404ing for as long as they existed.
+  excludedPath = ["/es/*", "/en/*", "/api/*", "/_astro/*", "/media/*", "/og/*", "/brand/*", "/favicon.svg", "/robots.txt", "/sitemap-index.xml", "/sitemap-0.xml", "/llms.txt", "/llms-full.txt", "/404.html", "/.netlify/*"]
 
 # Deploy previews and branch deploys are never indexed.
 [[edge_functions]]
