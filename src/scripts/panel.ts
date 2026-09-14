@@ -311,7 +311,7 @@ export function initPanel() {
       if (!best || best === current) return;
       current = best;
       rows.forEach((r) => r.classList.toggle('is-lit-row', r === best));
-      show(best.dataset.plate!);
+      show(best.dataset.plateSm || best.dataset.plate!);
       // The rake leans with where the row sits on the screen — the closest a phone has to a hand.
       const r = best.getBoundingClientRect();
       wantY = ((r.top + r.height / 2) / innerHeight) * 2 - 1;

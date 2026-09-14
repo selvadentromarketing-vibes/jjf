@@ -34,6 +34,10 @@ const rows = await Promise.all(
       i,
       still: usable,
       plate: usable ? (await getImage({ src: usable, width: 900, format: 'webp' })).src : undefined,
+      // The ambient panel behind a phone's list renders the plate as light, at low opacity under a
+      // veil, not as a photograph to inspect. A desktop-sized plate for that costs a phone on
+      // cellular roughly half of what the whole page weighs, so it gets its own smaller source.
+      plateSm: usable ? (await getImage({ src: usable, width: 560, format: 'webp' })).src : undefined,
       plan: await planSvg(p),
     };
   })
@@ -45,9 +49,9 @@ const rows = await Promise.all(
     {lede && <p class="sec-lede" data-reveal="fade">{lede}</p>}
   </header>
   <ol class:list={["index", { "has-plans": plans }]} data-reveal="fade" data-index>
-    {rows.map(({ p, i, still, plate, plan }) => (
+    {rows.map(({ p, i, still, plate, plateSm, plan }) => (
       <li class="row">
-        <a href={href('project', lang, { slug: p.data.key })} data-project={p.data.key} data-plate={plate} data-event="project_open" data-section="index">
+        <a href={href('project', lang, { slug: p.data.key })} data-project={p.data.key} data-plate={plate} data-plate-sm={plateSm} data-event="project_open" data-section="index">
           <span class="folio" data-figures-ok>{String(i + 1).padStart(2, '0')}</span>
           <span class="name display">{p.data.name}</span>
           <span class="meta">{p.data.place} · {p.data.character}</span>
