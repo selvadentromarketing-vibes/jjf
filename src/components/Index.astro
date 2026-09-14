@@ -2,10 +2,26 @@
 // Roca: the six developments as a private archive. Folio, name, place · character. No figure — the schema forbids it.
 import { Picture, getImage } from 'astro:assets';
 import type { CollectionEntry } from 'astro:content';
+import { readFile } from 'node:fs/promises';
+import path from 'node:path';
 import { href, type Lang } from '../routes';
-interface Props { lang: Lang; projects: CollectionEntry<'projects'>[]; title: string[]; lede?: string }
-const { lang, projects, title, lede } = Astro.props;
+interface Props { lang: Lang; projects: CollectionEntry<'projects'>[]; title: string[]; lede?: string; plans?: boolean }
+const { lang, projects, title, lede, plans = false } = Astro.props;
 const staging = import.meta.env.PUBLIC_STAGING === '1';
+
+// B6 — the drawn line, at index scale. On /proyectos/ each row carries its own plan and draws it
+// as the row arrives, the same gesture the project page opens on. Two transforms happen here and
+// not in <Plano>: the group ids become data attributes, because six drawings on one page would
+// otherwise repeat #boundary six times; and the drawing is fitted rather than cropped, because a
+// row shows the whole plan while a hero crops into it.
+const planSvg = async (p: CollectionEntry<'projects'>) => {
+  if (!plans || !p.data.plan) return undefined;
+  const raw = await readFile(path.resolve('src/assets/plans', p.data.plan.svg), 'utf8');
+  return raw
+    .replace(/\sid="(boundary|built|landscape)"/g, ' data-group="$1"')
+    .replace(/<svg\b([^>]*)>/, (_m, attrs: string) =>
+      `<svg${attrs.replace(/\spreserveAspectRatio="[^"]*"/, '')} preserveAspectRatio="xMidYMid meet" focusable="false">`);
+};
 
 // One optimised plate per row for the desktop hover panel (src/scripts/panel.ts). Resolved at
 // build time so the panel has a real URL to load on hover intent rather than guessing one, and
@@ -18,6 +34,7 @@ const rows = await Promise.all(
       i,
       still: usable,
       plate: usable ? (await getImage({ src: usable, width: 900, format: 'webp' })).src : undefined,
+      plan: await planSvg(p),
     };
   })
 );
@@ -27,14 +44,16 @@ const rows = await Promise.all(
     <h2 class="display" data-reveal="lines">{title.map((l, i) => <span class="line" style={`--i:${i}`}><span>{l}</span></span>)}</h2>
     {lede && <p class="sec-lede" data-reveal="fade">{lede}</p>}
   </header>
-  <ol class="index" data-reveal="fade" data-index>
-    {rows.map(({ p, i, still, plate }) => (
+  <ol class:list={["index", { "has-plans": plans }]} data-reveal="fade" data-index>
+    {rows.map(({ p, i, still, plate, plan }) => (
       <li class="row">
         <a href={href('project', lang, { slug: p.data.key })} data-project={p.data.key} data-plate={plate} data-event="project_open" data-section="index">
           <span class="folio" data-figures-ok>{String(i + 1).padStart(2, '0')}</span>
           <span class="name display">{p.data.name}</span>
           <span class="meta">{p.data.place} · {p.data.character}</span>
-          {still && <Picture class="still-img" pictureAttributes={{ class: 'still' }} src={still} widths={[320, 640]} sizes="120px" formats={['avif', 'webp']} fallbackFormat="webp" alt="" loading="lazy" />}
+          {plan
+            ? <span class="row-plan" data-row-plan={p.data.key} aria-hidden="true" set:html={plan} />
+            : still && <Picture class="still-img" pictureAttributes={{ class: 'still' }} src={still} widths={[320, 640]} sizes="120px" formats={['avif', 'webp']} fallbackFormat="webp" alt="" loading="lazy" />}
         </a>
       </li>
     ))}

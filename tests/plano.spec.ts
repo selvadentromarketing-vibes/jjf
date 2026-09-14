@@ -100,3 +100,58 @@ test.describe('el plano — the drawing becomes the place', () => {
     }
   });
 });
+
+// B6 — the same drawn line at index scale, on /proyectos/ only.
+test.describe('the index of the six draws its plans', () => {
+  test('every row carries its own plan, and no two repeat an id', async ({ page }) => {
+    test.skip(test.info().project.name !== 'desktop');
+    await page.goto('/es/proyectos/');
+    for (const slug of SLUGS) await expect(page.locator(`[data-row-plan="${slug}"]`), slug).toHaveCount(1);
+    // Six drawings on one page would otherwise repeat #boundary six times, which is invalid and
+    // makes every lookup find the first row's drawing.
+    for (const id of ['boundary', 'built', 'landscape']) {
+      expect(await page.locator(`#${id}`).count(), id).toBe(0);
+      expect(await page.locator(`[data-group="${id}"]`).count(), id).toBe(SLUGS.length);
+    }
+  });
+
+  test('a row draws as it arrives, and stays drawn when you scroll back', async ({ page }) => {
+    test.skip(test.info().project.name !== 'desktop');
+    await page.goto('/es/proyectos/');
+    const first = page.locator('[data-row-plan]').first();
+    await expect(first).toHaveClass(/is-drawn/, { timeout: 6000 });
+    // The last row is below the fold and has not been drawn yet: the strokes are held at nothing.
+    const last = page.locator('[data-row-plan]').last();
+    expect(await last.evaluate((el) => el.classList.contains('is-drawn'))).toBe(false);
+    await last.scrollIntoViewIfNeeded();
+    await expect(last).toHaveClass(/is-drawn/, { timeout: 6000 });
+    // Once, never replayed: scrolling back up leaves the drawings where they are.
+    await page.evaluate(() => window.scrollTo(0, 0));
+    await page.waitForTimeout(400);
+    expect(await last.evaluate((el) => el.classList.contains('is-drawn'))).toBe(true);
+  });
+
+  test('nothing but the stroke moves, and nothing overflows', async ({ page }) => {
+    test.skip(test.info().project.name !== 'iphone');
+    await page.goto('/es/proyectos/');
+    await page.waitForTimeout(600);
+    const before = await page.locator('.row').first().boundingBox();
+    await page.waitForTimeout(1600);
+    const after = await page.locator('.row').first().boundingBox();
+    expect(Math.round(after!.height)).toBe(Math.round(before!.height));
+    const overflow = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
+    expect(overflow).toBeLessThanOrEqual(0);
+  });
+
+  test('reduced motion gets the plans, finished', async ({ page }) => {
+    test.skip(test.info().project.name !== 'reduced');
+    await page.goto('/es/proyectos/');
+    await expect(page.locator('[data-row-plan].is-drawn')).toHaveCount(SLUGS.length, { timeout: 6000 });
+  });
+
+  test('the homepage index keeps its photographs; the drawing belongs to the six', async ({ page }) => {
+    test.skip(test.info().project.name !== 'desktop');
+    await page.goto('/es/');
+    await expect(page.locator('[data-row-plan]')).toHaveCount(0);
+  });
+});

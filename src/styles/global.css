@@ -261,6 +261,17 @@ html.returning:not(.door-pending) .hero.is-dawn .hero-dawn { animation-duration:
 .folio { font-size: 10px; letter-spacing: .16em; color: var(--color-limestone); align-self: start; padding-top: .55em; }
 .row .name { font-size: clamp(26px, 4.6vw, 60px); line-height: 1.06; }
 .row .meta { grid-column: 2; font-size: 12px; letter-spacing: .06em; color: var(--ink-dim); margin-top: 6px; }
+/* B6 — the plan in the row (src/scripts/index-plano.ts). It sits where the still would, in the
+   column the hover panel leaves empty, and it is a drawing on dark: a hairline in bone, brighter
+   on the row that has your attention. Nothing here moves; only the stroke's length animates. */
+/* The drawing hangs beside the row rather than inside its grid, so a plan taller than the two
+   lines of text cannot stretch the row and open a gap under the name. The anchor reserves the
+   width it needs. */
+.index.has-plans .row a { position: relative; padding-right: clamp(112px, 17vw, 204px); }
+.row .row-plan { position: absolute; right: 0; top: 50%; transform: translateY(-50%); width: clamp(96px, 15vw, 180px); aspect-ratio: 3 / 2; display: block; color: color-mix(in oklab, var(--color-bone), transparent 70%); transition: color var(--dur-trans) var(--ease-state); }
+.row .row-plan svg { width: 100%; height: 100%; display: block; }
+.row .row-plan :is(path, line, polyline, polygon, circle, ellipse, rect) { fill: none; stroke: currentColor; stroke-width: 1; vector-effect: non-scaling-stroke; stroke-linecap: round; stroke-linejoin: round; }
+.row a:hover .row-plan, .row a:focus-visible .row-plan, .row a.is-lit-row .row-plan { color: color-mix(in oklab, var(--color-bone), transparent 26%); transition-duration: var(--dur-micro-l); }
 .row .still { grid-row: 1 / span 2; grid-column: 3; width: clamp(72px, 12vw, 120px); aspect-ratio: 3 / 2; overflow: hidden; }
 .row .still img { width: 100%; height: 100%; object-fit: cover; filter: saturate(.84); }
 @media (hover: hover) and (pointer: fine) {
