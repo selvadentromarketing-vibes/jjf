@@ -16,6 +16,12 @@ const all = (await getCollection('projects', (e) => e.data.lang === lang && !e.d
 const idx = all.findIndex((e) => e.data.key === p.key);
 const next = all[(idx + 1) % all.length];
 const site = (await getCollection('site')).find((s) => s.data.lang === lang)!.data;
+// The guides name the places they talk about, so a place can find its guides without a second
+// list to keep in step. Someone reading about Selvadentro is one question away from the
+// fideicomiso, and until now the site made them go looking.
+const guides = (await getCollection('guides', (e) => e.data.lang === lang && !e.data.draft))
+  .filter((g) => g.data.related.includes(p.key))
+  .sort((a, b) => a.data.order - b.data.order);
 const staging = import.meta.env.PUBLIC_STAGING === '1';
 const plate = p.hero && (!p.heroStaging || staging) ? p.hero : undefined;
 const gallery = p.gallery.filter((g) => !g.staging || staging);
@@ -101,6 +107,12 @@ const jsonLd = [
     <Ficha lang={lang} project={p} />
     <Preguntas lang={lang} />
     <p class="project-talk"><a class="display" href={`${href('contact', lang)}?project=${p.key}`} data-event="cta_click" data-section="project" data-project={p.key}>{t(lang, 'project.talk', { name: p.name })}</a></p>
+    {guides.length > 0 && (
+      <nav class="guide-related project-guides" aria-label={t(lang, 'guides.forPlace')}>
+        <p class="caption">{t(lang, 'guides.forPlace')}</p>
+        {guides.map((g) => <a href={href('guide', lang, { slug: g.data.key })}>{g.data.title}</a>)}
+      </nav>
+    )}
     <p class="project-next"><span>{t(lang, 'project.next')}</span><a href={href('project', lang, { slug: next.data.key })}>{next.data.name}</a></p>
   </article>
   <Silence sentences={p.closingSentence} signature={site.signature} />
