@@ -17,7 +17,7 @@ masterplan: ../../../assets/masterplans/selvadentro.webp
 closingSentence:
   - An invitation to reconnect with the essential.
 copyStatus: propuesta
-summary: Selvadentro is a low-density residential community in the Tulum jungle, laid out around its cenotes and the vegetation that was already there. You live among trees, with the house as a refuge and the land as a garden shared with the forest.
+summary: "Selvadentro is a low-density residential community in the Tulum jungle, laid out around its cenotes and the vegetation that was already there. You live among trees, with the house as a refuge and the land as a garden shared with the forest."
 updated: 2026-09-14
 siteUrl: https://selvadentrotulum.com
 plan:
