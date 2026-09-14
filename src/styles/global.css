@@ -226,19 +226,27 @@ html.returning:not(.door-pending) .hero.is-dawn .hero-dawn { animation-duration:
 /* Enough to carry bone type over a canopy, not so much that it eats the canopy. The bottom stop
    was .9, which on a phone — where the copy sits across the lower third — turned half the hero
    black. */
-.hero-scrim { position: absolute; inset: 0; z-index: 2; pointer-events: none; background: linear-gradient(to top, rgb(10 13 10 / .82) 0%, rgb(10 13 10 / .42) 34%, transparent 66%), linear-gradient(to right, rgb(10 13 10 / .5) 0%, rgb(10 13 10 / .08) 45%, transparent 70%); }
+.hero-scrim { position: absolute; inset: 0; z-index: 2; pointer-events: none; background: linear-gradient(to top, rgb(10 13 10 / .74) 0%, rgb(10 13 10 / .32) 26%, transparent 50%), linear-gradient(to right, rgb(10 13 10 / .44) 0%, rgb(10 13 10 / .05) 45%, transparent 70%); }
 .hero-tint { position: absolute; inset: 0; z-index: 3; pointer-events: none; background: var(--tint); mix-blend-mode: soft-light; opacity: var(--tint-strength); }
 .hero-copy { position: relative; z-index: 4; align-self: end; justify-self: start; width: 100%; max-width: min(1180px, 92vw); padding: 0 var(--gutter) clamp(38px, 7vh, 84px); }
 .hero-title { max-width: 12em; color: var(--color-bone); }
 .hero .lede { margin: clamp(20px, 3.4vh, 32px) 0 0; max-width: 44ch; font-size: clamp(15px, 1.15vw, 17px); line-height: 1.7; color: var(--color-bone-dim); }
 .passage { min-height: 16vh; }
 
-.claro { padding: clamp(90px, 16vh, 180px) var(--gutter) clamp(80px, 14vh, 160px); display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: clamp(32px, 6vw, 96px); align-items: start; }
-.claro-text { display: grid; gap: clamp(20px, 3vh, 32px); }
+/* Daylight, and room to read in it. Claro is the stratum the darkness budget is measured against
+   and the plan puts it at three viewports or more; type on paper wants that room anyway. */
+.claro { padding: clamp(110px, 18vh, 200px) var(--gutter) clamp(100px, 16vh, 180px); display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: clamp(48px, 8vh, 120px) clamp(32px, 6vw, 96px); align-items: start; }
+.claro-text { display: grid; gap: clamp(28px, 4.5vh, 44px); }
+.claro-text .founder { font-size: clamp(19px, 1.35vw, 22px); line-height: 1.62; }
 .claro-sketches { margin: 0; align-self: center; }
 .sketches { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
 .sketches img { width: 100%; height: auto; filter: grayscale(.25) contrast(.96); }
-.claro-line { grid-column: 1 / -1; font-size: clamp(28px, 4.2vw, 56px); margin-top: clamp(40px, 7vh, 90px); max-width: 16em; }
+/* The building, full width, after the pencil: caption before plate, as everywhere. */
+.claro-plate { grid-column: 1 / -1; margin: clamp(24px, 4vh, 48px) 0 0; }
+.claro-plate img { width: 100%; height: auto; aspect-ratio: 3 / 2; object-fit: cover; filter: saturate(.84); }
+/* The line stands alone: it is the one sentence of Claro said in display type, and it gets the
+   beat a sentence like that gets on a page. */
+.claro-line { grid-column: 1 / -1; font-size: clamp(30px, 4.6vw, 60px); margin: clamp(72px, 12vh, 160px) 0 clamp(40px, 7vh, 72px); max-width: 16em; }
 @media (max-width: 900px) { .claro { grid-template-columns: 1fr; } }
 
 .roca { padding: clamp(80px, 14vh, 160px) var(--gutter) clamp(60px, 11vh, 130px); }

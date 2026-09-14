@@ -77,6 +77,7 @@ const site = defineCollection({
     lede: z.string(),
     claro: z.array(z.string()).min(1),
     claroCaption: z.string(),
+    claroSketchCaption: z.string(),
     claroLine: z.string(),
     indexTitle: z.array(z.string()).min(1).max(2),
     aguaTitle: z.string(),
