@@ -5,8 +5,12 @@ import type { CollectionEntry } from 'astro:content';
 import { readFile } from 'node:fs/promises';
 import path from 'node:path';
 import { href, type Lang } from '../routes';
-interface Props { lang: Lang; projects: CollectionEntry<'projects'>[]; title: string[]; lede?: string; plans?: boolean }
-const { lang, projects, title, lede, plans = false } = Astro.props;
+interface Props { lang: Lang; projects: CollectionEntry<'projects'>[]; title: string[]; lede?: string; plans?: boolean; opening?: boolean }
+// `opening` means this index is the page's own first screen rather than the fourth stratum of a
+// scroll. A reveal there costs the page its Largest Contentful Paint: the heading is the largest
+// thing on it, and a heading held at nothing until the script runs is a heading Chrome does not
+// score (plan A3). Deep in a scroll the same reveal is right, because you arrive already reading.
+const { lang, projects, title, lede, plans = false, opening = false } = Astro.props;
 const staging = import.meta.env.PUBLIC_STAGING === '1';
 
 // B6 — the drawn line, at index scale. On /proyectos/ each row carries its own plan and draws it
@@ -45,8 +49,8 @@ const rows = await Promise.all(
 ---
 <section class="roca stratum" data-stratum="roca" data-ground="shade" id="roca">
   <header class="sec-head">
-    <h2 class="display" data-reveal="lines">{title.map((l, i) => <span class="line" style={`--i:${i}`}><span>{l}</span></span>)}</h2>
-    {lede && <p class="sec-lede" data-reveal="fade">{lede}</p>}
+    <h2 class="display" data-reveal={opening ? undefined : 'lines'}>{title.map((l, i) => <span class="line" style={`--i:${i}`}><span>{l}</span></span>)}</h2>
+    {lede && <p class="sec-lede" data-reveal={opening ? undefined : 'fade'}>{lede}</p>}
   </header>
   <ol class:list={["index", { "has-plans": plans }]} data-reveal="fade" data-index>
     {rows.map(({ p, i, still, plate, plateSm, plan }) => (

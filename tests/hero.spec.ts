@@ -56,3 +56,30 @@ test.describe('the hero', () => {
     expect(await page.locator('.hero-video source').first().getAttribute('src')).toBeNull();
   });
 });
+
+// The same failure, one page along: /proyectos/ opens on a heading and a lede and nothing else, so
+// if those wait on the reveal script they are the Largest Contentful Paint and they are late. On a
+// phone at 1.6 Mbps it measured 2,296 ms against a 2,500 ms gate before the section head on that
+// page stopped revealing, and 764 ms after.
+test.describe('a page that opens on type', () => {
+  test('the projects index paints its own head without waiting for the script', async ({ page }) => {
+    test.skip(test.info().project.name === 'reduced');
+    await page.addInitScript(() => {
+      (window as any).__lcp = [];
+      new PerformanceObserver((l) => {
+        for (const e of l.getEntries() as any[]) (window as any).__lcp.push({ t: e.startTime, cls: String(e.element?.className || '') });
+      }).observe({ type: 'largest-contentful-paint', buffered: true } as any);
+    });
+    await page.goto('/es/proyectos/');
+    await page.waitForTimeout(3000);
+    const lcp = await page.evaluate(() => (window as any).__lcp as { t: number; cls: string }[]);
+    expect(lcp.length, 'no LCP candidate at all').toBeGreaterThan(0);
+    expect(lcp[lcp.length - 1].t).toBeLessThan(2500);
+    // The head of this page is not held at nothing; the same head on the homepage still reveals,
+    // because you arrive at the fourth stratum already reading.
+    expect(await page.locator('.projects-page .sec-head [data-reveal]').count()).toBe(0);
+    await page.goto('/es/');
+    expect(await page.locator('.roca .sec-head [data-reveal]').count()).toBeGreaterThan(0);
+  });
+});
+
