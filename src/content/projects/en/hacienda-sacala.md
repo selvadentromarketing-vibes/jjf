@@ -12,7 +12,6 @@ statusLabel: in development
 statusVerified: false
 lightMode: G
 hero: ../../../assets/img/hacienda-sacala.webp
-heroStaging: true
 heroAlt: Hacienda Sacalá, stone and afternoon light in Izamal
 closingSentence:
   - Timeless beauty.

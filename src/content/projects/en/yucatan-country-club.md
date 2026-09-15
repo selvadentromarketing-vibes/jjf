@@ -49,7 +49,7 @@ Mérida has a way of living the rest of Mexico recognises: calm, safe, with long
 
 Days pass inside the club: golf early, the children walking to school, the clubhouse in the afternoon. And a drive away, everything a city has: hospitals, restaurants, an international airport.
 
-A sense of belonging hard to explain, but impossible to ignore. People who live here put it that way.
+A sense of belonging hard to explain, but impossible to ignore.
 
 ## How you buy here
 

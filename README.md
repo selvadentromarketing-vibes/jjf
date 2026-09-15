@@ -34,7 +34,7 @@ CHROMIUM_PATH=/ruta/a/chromium npm test   # Playwright (sin la variable usa su p
 
 ## Despliegue
 
-Netlify construye con `npm run build` y publica `dist/`. Variables en Netlify: las de `.env.example`. Sin `PUBLIC_STAGING` el hero de la portada no lleva placa (nada provisional llega a producción); las imágenes marcadas `heroStaging: true` tampoco.
+Netlify construye con `npm run build` y publica `dist/`. Variables en Netlify: las de `.env.example`. La portada lleva siempre su placa (`src/assets/img/hero-bg.webp`). `PUBLIC_STAGING` sólo enciende las imágenes de proyecto marcadas `heroStaging: true`; hoy ninguna lo está.
 
 La edge function `locale` manda toda ruta sin prefijo a `/es/` o `/en/` (idioma del navegador, luego país) conservando UTMs. Los deploy previews llevan `X-Robots-Tag: noindex`.
 

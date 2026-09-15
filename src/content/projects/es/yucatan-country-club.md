@@ -49,7 +49,7 @@ Mérida tiene una forma de vivir que el resto de México reconoce: tranquila, se
 
 Los días transcurren dentro del club: el golf temprano, los niños a pie a la escuela, la casa club por la tarde. Y a la distancia de un coche, todo lo que tiene una ciudad: hospitales, restaurantes, aeropuerto internacional.
 
-Es una sensación de pertenencia difícil de explicar, pero imposible de ignorar. Quien vive aquí lo dice así.
+Es una sensación de pertenencia difícil de explicar, pero imposible de ignorar.
 
 ## Cómo se compra aquí
 

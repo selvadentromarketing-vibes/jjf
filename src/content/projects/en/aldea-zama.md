@@ -12,7 +12,6 @@ statusLabel: completed
 statusVerified: false
 lightMode: C
 hero: ../../../assets/img/aldea-zama.jpg
-heroStaging: true
 heroAlt: Aldea Zama at dusk
 masterplan: ../../../assets/masterplans/aldea-zama.jpg
 closingSentence:

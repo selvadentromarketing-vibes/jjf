@@ -12,13 +12,12 @@ statusLabel: terminado
 statusVerified: false
 lightMode: C
 hero: ../../../assets/img/aldea-zama.jpg
-heroStaging: true
 heroAlt: Aldea Zama al atardecer
 masterplan: ../../../assets/masterplans/aldea-zama.jpg
 closingSentence:
   - Habitar con propósito.
 copyStatus: propuesta
-summary: "Aldea Zama es una comunidad planeada en Tulum que hoy funciona como un pueblo: barrios residenciales privados, calles comerciales con vida y una infraestructura trazada desde el primer plano. Está entre el pueblo de Tulum y la zona hotelera, y es el lugar donde más se ve lo que un plan maestro puede llegar a ser."
+summary: "Aldea Zama es una comunidad planeada en Tulum que hoy funciona como un pueblo: barrios residenciales privados, calles comerciales con vida y una infraestructura trazada desde el primer trazo. Está entre el pueblo de Tulum y la zona hotelera, y es el lugar donde más se ve lo que un plan maestro puede llegar a ser."
 updated: 2026-09-14
 plan:
   svg: aldea-zama.svg

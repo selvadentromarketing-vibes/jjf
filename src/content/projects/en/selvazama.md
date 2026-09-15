@@ -12,7 +12,6 @@ statusLabel: in development
 statusVerified: false
 lightMode: B
 hero: ../../../assets/img/selvazama.jpg
-heroStaging: true
 heroAlt: Selvazama, between the jungle and the sea in Tulum
 closingSentence:
   - Living nature, and a deep respect for the surroundings.

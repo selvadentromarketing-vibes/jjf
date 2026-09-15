@@ -12,7 +12,6 @@ statusLabel: en desarrollo
 statusVerified: false
 lightMode: G
 hero: ../../../assets/img/hacienda-sacala.webp
-heroStaging: true
 heroAlt: Hacienda Sacalá, piedra y luz de la tarde en Izamal
 closingSentence:
   - Belleza atemporal.

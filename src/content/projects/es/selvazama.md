@@ -12,7 +12,6 @@ statusLabel: en desarrollo
 statusVerified: false
 lightMode: B
 hero: ../../../assets/img/selvazama.jpg
-heroStaging: true
 heroAlt: Selvazama, entre la selva y el mar de Tulum
 closingSentence:
   - Naturaleza viva, y un profundo respeto por el entorno.
