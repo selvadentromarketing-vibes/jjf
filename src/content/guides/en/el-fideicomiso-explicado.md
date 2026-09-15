@@ -1,9 +1,10 @@
 ---
 key: el-fideicomiso-explicado
+slug: the-fideicomiso-explained
 lang: en
 order: 2
 title: The fideicomiso, explained
-summary: "The fideicomiso is the bank trust through which a foreign buyer owns property on the Mexican coast: an authorised bank holds formal title and you are the beneficiary, with every right to use, rent, sell and bequeath. It is not a lease and not a temporary permit, it runs for a long, renewable term, and inland in Yucatán you do not need one at all."
+summary: "The fideicomiso is the bank trust through which a foreign buyer owns property on the Mexican coast: an authorized bank holds formal title and you are the beneficiary, with every right to use, rent, sell and bequeath. It is not a lease and not a temporary permit, it runs for a long, renewable term, and inland in Yucatán you do not need one at all."
 intro: What the fideicomiso is, why it exists, what rights it gives you, what it costs to open and hold, and where on the peninsula it is not needed.
 updated: 2026-09-14
 reviewed: false
@@ -11,7 +12,7 @@ related: [selvadentro, selvazama, yucatan-country-club]
 ---
 ## What the fideicomiso is
 
-A fideicomiso is a contract with a Mexican bank authorised to act as trustee. The bank holds formal title to the property and you are the beneficiary, with every right that matters: to use it, rent it, sell it and leave it to your heirs. It is how a foreign buyer acquires property in the coastal strip, and it is how our clients who are not Mexican buy in Tulum.
+A fideicomiso is a contract with a Mexican bank authorized to act as trustee. The bank holds formal title to the property and you are the beneficiary, with every right that matters: to use it, rent it, sell it and leave it to your heirs. It is how a foreign buyer acquires property in the coastal strip, and it is how our clients who are not Mexican buy in Tulum.
 
 Put plainly: the bank's name is on the deed, and the decisions about the property are yours. The bank does not live in it, rent it or sell it on its own account. It acts on your instructions as beneficiary.
 
@@ -76,7 +77,7 @@ This is where a good tax adviser earns their keep, and it is why we press you to
 ## Questions
 
 ### What is a fideicomiso?
-It is a contract with an authorised Mexican bank under which the bank holds formal title to the property and you are the beneficiary, with the right to use, rent, sell and bequeath it. It is how a foreign buyer purchases in Mexico's coastal strip, where Tulum is.
+It is a contract with an authorized Mexican bank under which the bank holds formal title to the property and you are the beneficiary, with the right to use, rent, sell and bequeath it. It is how a foreign buyer purchases in Mexico's coastal strip, where Tulum is.
 
 ### Does the bank own my house?
 The bank holds formal title; the rights to use, rent, sell and bequeath are yours. It does not live in the property, rent it or sell it on its own account. It acts on your instructions as beneficiary.

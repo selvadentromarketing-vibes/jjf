@@ -17,7 +17,7 @@ masterplan: ../../../assets/masterplans/yucatan-country-club.webp
 closingSentence:
   - A sense of belonging that is hard to explain, but impossible to ignore.
 copyStatus: propuesta
-summary: "Yucatán Country Club is a private community north of Mérida, laid out around a golf course designed by Jack Nicklaus and a lake, with a clubhouse at its centre. You live in villas, houses or apartments, with an international school and a university next door, in the part of Yucatán where the city turns into countryside."
+summary: "Yucatán Country Club is a private community north of Mérida, laid out around a golf course designed by Jack Nicklaus and a lake, with a clubhouse at its center. You live in villas, houses or apartments, with an international school and a university next door, in the part of Yucatán where the city turns into countryside."
 updated: 2026-09-14
 siteUrl: https://www.yucatancountryclub.com
 ---
@@ -25,7 +25,7 @@ siteUrl: https://www.yucatancountryclub.com
 
 Yucatán Country Club is a private community on the edge of Mérida, around a golf course designed by Jack Nicklaus and a lake.
 
-It offers different ways of living: villas, houses and apartments, with a clubhouse at the centre.
+It offers different ways of living: villas, houses and apartments, with a clubhouse at the center.
 
 It is a place to live calmly, with the order of a master plan and the shade of the trees of northern Yucatán.
 
@@ -33,11 +33,11 @@ It is a place to live calmly, with the order of a master plan and the shade of t
 
 Yucatán Country Club lies north of Mérida, in the direction the city grows toward the coast. It is the part of Mérida with the schools, the universities and the new hospitals, and where houses have gardens.
 
-Beside the club is the campus of an international school, and very near it a private university. The main entrance opens onto an avenue that leads to the area's shopping centre and, beyond it, to the centre of Mérida.
+Beside the club is the campus of an international school, and very near it a private university. The main entrance opens onto an avenue that leads to the area's shopping center and, beyond it, to the center of Mérida.
 
 ## How it is laid out
 
-The golf course is the centre of the plan. The holes run between lakes and trees, and the residential quarters settle around them, so that most streets end in green.
+The golf course is the center of the plan. The holes run between lakes and trees, and the residential quarters settle around them, so that most streets end in green.
 
 The clubhouse sits in the middle, beside the main lake. Around it are courts, a pool and the services that make the club somewhere you go daily, not only to play.
 
@@ -45,7 +45,7 @@ The quarters have different lot sizes and different kinds of home: villas along 
 
 ## How you live here
 
-Mérida has a way of living the rest of Mexico recognises: calm, safe, with long afternoons. Yucatán Country Club is that way of living with golf, a lake and a school around the corner.
+Mérida has a way of living the rest of Mexico recognizes: calm, safe, with long afternoons. Yucatán Country Club is that way of living with golf, a lake and a school around the corner.
 
 Days pass inside the club: golf early, the children walking to school, the clubhouse in the afternoon. And a drive away, everything a city has: hospitals, restaurants, an international airport.
 
@@ -75,4 +75,4 @@ The clubhouse, the golf and the facilities are part of the community. We explain
 Calm, safe, with long afternoons. It has hospitals, universities, restaurants and an international airport, and it is a reasonable distance from the coast and from Yucatán's colonial towns.
 
 ### Who designed the golf course?
-Jack Nicklaus. The course is the centre of the masterplan: the residential quarters settle around the holes and the lakes, so that most streets end in green.
+Jack Nicklaus. The course is the center of the masterplan: the residential quarters settle around the holes and the lakes, so that most streets end in green.

@@ -22,9 +22,7 @@ const rows = [
 ].filter((r) => r.value);
 
 const complete = rows.length === 3 && entry.data.reviewed;
-const pending = lang === 'es'
-  ? 'Este aviso está pendiente de revisión legal. El domicilio del responsable y el correo para ejercer derechos ARCO se publicarán en cuanto estén confirmados; mientras tanto puedes escribirnos por cualquiera de los medios de contacto del sitio.'
-  : 'This notice is pending legal review. The controller’s address and the email for exercising ARCO rights will be published once confirmed; in the meantime you can reach us through any of the contact routes on this site.';
+const pending = t(lang, 'legal.pending');
 ---
 <Base lang={lang} title={site.pages.privacy.title} description={site.pages.privacy.description} route="privacy" ground="linen" noindex={!complete}>
   <article class="page" data-figures-ok data-ground="linen">

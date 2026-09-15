@@ -1,4 +1,8 @@
-# jjfcreando.com — everything is open to be read and cited.
+// robots.txt, generated so the sitemap line follows the site URL of the build rather than
+// advertising production's sitemap from a preview.
+import type { APIRoute } from 'astro';
+
+const BODY = `# jjfcreando.com — everything is open to be read and cited.
 User-agent: *
 Allow: /
 
@@ -27,5 +31,9 @@ Allow: /
 # Left open for now, deliberately, as a decision rather than a default.
 User-agent: CCBot
 Allow: /
+`;
 
-Sitemap: https://jjfcreando.com/sitemap-index.xml
+export const GET: APIRoute = ({ site }) => {
+  const base = site ?? new URL('https://jjfcreando.com');
+  return new Response(`${BODY}\nSitemap: ${new URL('/sitemap-index.xml', base).href}\n`, { headers: { 'Content-Type': 'text/plain; charset=utf-8' } });
+};

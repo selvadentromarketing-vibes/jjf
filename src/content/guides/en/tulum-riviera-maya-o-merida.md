@@ -1,5 +1,6 @@
 ---
 key: tulum-riviera-maya-o-merida
+slug: tulum-riviera-maya-or-merida
 lang: en
 order: 3
 title: "Tulum, the Riviera Maya or Mérida: how to choose"
@@ -19,7 +20,7 @@ The peninsula is one limestone shelf with one water table beneath it. What chang
 
 The Riviera Maya is the coastal corridor south of Cancún, and Tulum sits at its southern end. It is where the Caribbean is, where most of the visitors are, and where most of the region's new building happens.
 
-Tulum is not one place either. There is the town, with the daily life in it: market, schools, workshops. There is the strip joining the town to the beach, where Aldea Zama is, the planned community that now works as a town, with commercial streets and residential neighbourhoods. There is the hotel zone along the coast, where Selvazama is growing between the jungle and the sea with houses, hotels, a commercial street and a school. And there is the jungle inland, where Selvadentro holds its cenotes inside the community at low density.
+Tulum is not one place either. There is the town, with the daily life in it: market, schools, workshops. There is the strip joining the town to the beach, where Aldea Zama is, the planned community that now works as a town, with commercial streets and residential neighborhoods. There is the hotel zone along the coast, where Selvazama is growing between the jungle and the sea with houses, hotels, a commercial street and a school. And there is the jungle inland, where Selvadentro holds its cenotes inside the community at low density.
 
 Living on the coast means living under the jungle with the sea close by, in high humidity, through a rainy season, in a town that changes size with the month. Many people love exactly that. It is worth knowing beforehand rather than afterwards.
 
@@ -31,7 +32,7 @@ Inland, the air changes. There is less humidity, less closed jungle and more ope
 
 Mérida is a large city with a city's services: hospitals, universities, culture. To the north, where the city turns into country, is the Yucatán Country Club: a private community arranged around a golf course designed by Jack Nicklaus and a lake, with a club house, villas, houses and apartments, and an international school and a university next door.
 
-Izamal is a pueblo mágico of yellow streets and long history, an easy distance from Mérida. Hacienda Sacalá is there, bringing together a golf course, a boutique hotel and a neighbourhood with the region's cooking, culture and art, designed by Muñoz Arquitectos and AS Arquitectura with the local stone and light as materials.
+Izamal is a pueblo mágico of yellow streets and long history, an easy distance from Mérida. Hacienda Sacalá is there, bringing together a golf course, a boutique hotel and a neighborhood with the region's cooking, culture and art, designed by Muñoz Arquitectos and AS Arquitectura with the local stone and light as materials.
 
 Inland you buy more space and more quiet, and you trade the sea for the country. For someone coming to live all year, that is a different equation from the coast.
 
@@ -39,7 +40,7 @@ Inland you buy more space and more quiet, and you trade the sea for the country.
 
 This is the most important practical difference, and it surprises nearly everyone.
 
-Tulum lies inside the coastal strip that Mexican law reserves, so a foreign buyer purchases there through a fideicomiso with an authorised Mexican bank: the bank holds formal title and you are the beneficiary, with the right to use, rent, sell and bequeath.
+Tulum lies inside the coastal strip that Mexican law reserves, so a foreign buyer purchases there through a fideicomiso with an authorized Mexican bank: the bank holds formal title and you are the beneficiary, with the right to use, rent, sell and bequeath.
 
 Inland in Yucatán, in Izamal or Mérida, the strip does not apply: you can buy directly or through a Mexican company. If you are Mexican you buy directly in both cases.
 
@@ -53,7 +54,7 @@ It does not change your rights, but it changes the paperwork, part of the closin
 
 **Do you want the place to exist already, or to watch it grow?** Aldea Zama is finished and inhabited: you can walk it. Selvadentro, Selvazama, Hacienda Sacalá and the Yucatán Country Club are at different moments of their development. Buying what is built costs differently from buying what is coming, and it feels different too.
 
-**Who will be there with you?** A golf course with a school beside it draws a family that stays. A hotel zone draws something else. Neither is better; they are different neighbourhoods.
+**Who will be there with you?** A golf course with a school beside it draws a family that stays. A hotel zone draws something else. Neither is better; they are different neighborhoods.
 
 ## The six places where we build
 
@@ -69,7 +70,7 @@ Six places on the same stone, with one way of looking at land. Each has its own 
 It depends on how you want to live, not on price. Tulum is jungle, sea, high humidity and a long visitor season. Mérida is city, open country, less humidity and its own pace all year. To live all year with a city's services nearby, Yucatán usually wins; to be beside the Caribbean, Tulum.
 
 ### Is Tulum in the Riviera Maya?
-Yes. The Riviera Maya is the coastal corridor south of Cancún, and Tulum is at its southern end. Within Tulum there are very different places: the town, the strip towards the beach, the hotel zone and the jungle inland.
+Yes. The Riviera Maya is the coastal corridor south of Cancún, and Tulum is at its southern end. Within Tulum there are very different places: the town, the strip toward the beach, the hotel zone and the jungle inland.
 
 ### Is the purchase different on the coast and inland?
 Yes. Tulum is inside the reserved coastal strip, so a foreign buyer purchases through a bank trust. In Izamal or Mérida they can buy directly or through a Mexican company. Your rights are the same; the paperwork, part of the closing cost and the timing change.

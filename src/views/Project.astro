@@ -14,10 +14,10 @@ import Base from '../layouts/Base.astro';
 import Plano from '../components/Plano.astro';
 import Facts from '../components/Facts.astro';
 import Doors from '../components/Doors.astro';
-import Silence from '../components/Silence.astro';
 import { t } from '../i18n';
 import { href, type Lang } from '../routes';
 import { parseRecord, inline } from '../lib/record';
+import { guideSlug } from '../lib/guides';
 interface Props { lang: Lang; entry: CollectionEntry<'projects'> }
 const { lang, entry } = Astro.props;
 const p = entry.data;
@@ -32,6 +32,8 @@ const staging = import.meta.env.PUBLIC_STAGING === '1';
 const usable = (e: CollectionEntry<'projects'>) => (e.data.hero && (!e.data.heroStaging || staging) ? e.data.hero : undefined);
 const plate = usable(entry);
 const nextPlate = usable(next);
+// The gallery: the record's own photographs, when it has them. Nothing renders until it does.
+const gallery = p.gallery.filter((g) => !g.staging || staging);
 // The master plan is the drawing a buyer zooms into. Scaled into a phone it is unreadable, and the
 // plan bans modals, so the figure links to the full image and the browser's own viewer does the
 // pinching — no script, and it works offline of us.
@@ -113,6 +115,18 @@ const jsonLd = [
               <div class="scene-text">{c.paragraphs.map((para, j) => <p data-reveal="rise" style={`--i:${Math.min(j, 3)}`} set:html={inline(para)} />)}</div>
             </>
           )}
+          {i === 3 && gallery.length > 0 && (
+            <div class="scene-gallery">
+              {gallery.map((g, j) => (
+                <figure class="scene-figure">
+                  <figcaption class="caption" data-reveal="fade">{g.caption}</figcaption>
+                  <div class="scene-img" data-reveal="image" style={`--i:${Math.min(j, 3)}`}>
+                    <div class="img-wrap"><Picture src={g.src} widths={[640, 1280, 1920]} sizes="(min-width: 1024px) 84vw, 100vw" formats={['avif', 'webp']} fallbackFormat="webp" alt={g.caption} loading="lazy" decoding="async" /></div>
+                  </div>
+                </figure>
+              ))}
+            </div>
+          )}
           {i === 2 && p.masterplan && (
             <figure class="scene-figure masterplan">
               <figcaption class="caption" data-reveal="fade">{t(lang, 'project.masterplan')}{p.sellsVerified && p.sells && ` · ${t(lang, `sells.${p.sells}` as any)}`}{p.availability && ` · ${p.availability}`}</figcaption>
@@ -139,7 +153,7 @@ const jsonLd = [
       )}
       <section class="project-act" id="hablemos">
         <div class="act-head">
-          <h2 class="display">{t(lang, 'project.talk', { name: p.name })}</h2>
+          <h2 class="display">{site.invitation}</h2>
           <p class="act-lede">{t(lang, 'project.actLede')}</p>
         </div>
         <Doors lang={lang} site={site} projects={all} />
@@ -147,7 +161,7 @@ const jsonLd = [
       {guides.length > 0 && (
         <nav class="guide-related project-guides" aria-label={t(lang, 'guides.forPlace')}>
           <p class="caption">{t(lang, 'guides.forPlace')}</p>
-          {guides.map((g) => <a href={href('guide', lang, { slug: g.data.key })}>{g.data.title}</a>)}
+          {guides.map((g) => <a href={href('guide', lang, { slug: guideSlug(g) })}>{g.data.title}</a>)}
         </nav>
       )}
       {nextPlate ? (
@@ -164,5 +178,4 @@ const jsonLd = [
       )}
     </div>
   </article>
-  <Silence sentences={p.closingSentence} signature={site.signature} />
 </Base>

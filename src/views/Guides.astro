@@ -5,6 +5,7 @@ import Band from '../components/Band.astro';
 import plate from '../assets/img/hero-bg.webp';
 import { t } from '../i18n';
 import { href, type Lang } from '../routes';
+import { guideSlug } from '../lib/guides';
 interface Props { lang: Lang }
 const { lang } = Astro.props;
 const site = (await getCollection('site')).find((s) => s.data.lang === lang)!.data;
@@ -12,7 +13,7 @@ const guides = (await getCollection('guides', (e) => e.data.lang === lang && !e.
 const abs = (p: string) => new URL(p, Astro.site ?? 'https://jjfcreando.com').href;
 const jsonLd = {
   '@context': 'https://schema.org', '@type': 'ItemList', name: t(lang, 'guides.all'), numberOfItems: guides.length,
-  itemListElement: guides.map((g, i) => ({ '@type': 'ListItem', position: i + 1, name: g.data.title, url: abs(href('guide', lang, { slug: g.data.key })) })),
+  itemListElement: guides.map((g, i) => ({ '@type': 'ListItem', position: i + 1, name: g.data.title, url: abs(href('guide', lang, { slug: guideSlug(g) })) })),
 };
 ---
 <Base lang={lang} title={site.pages.guides.title} description={site.pages.guides.description} route="guides" ground="linen" jsonLd={jsonLd}>
@@ -25,7 +26,7 @@ const jsonLd = {
     <ol class="guides-list">
       {guides.map((g) => (
         <li>
-          <h2><a href={href('guide', lang, { slug: g.data.key })}>{g.data.title}</a></h2>
+          <h2><a href={href('guide', lang, { slug: guideSlug(g) })}>{g.data.title}</a></h2>
           <p>{g.data.intro}</p>
         </li>
       ))}

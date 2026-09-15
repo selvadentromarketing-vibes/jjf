@@ -8,15 +8,15 @@ Sitio bilingüe (`/es/` + `/en/`) de JJF Creando, construido con Astro 7 y despl
 astro.config.mjs        i18n, sitemap, Tailwind 4, fuentes autoalojadas (Instrument Serif + Instrument Sans)
 src/content.config.ts   colecciones: projects (es/en), site (textos de marca), how (cómo se compra), legal (aviso)
 src/content/            el contenido — cada cifra es un objeto {value, verified, source, asOf}; sin verificar no se renderiza
-src/layouts/Base.astro  head (canonical, hreflang, OG, JSON-LD), la puerta, nav, footer, marcador de estratos
-src/components/         Hero · Claro · Index · Agua · Ledger · Doors · ContactForm · Booking · Silence · Plano · Ficha · Door · Mark
+src/layouts/Base.astro  head (canonical, hreflang, OG, JSON-LD: Organization + WebSite + WebPage), la puerta, nav, footer
+src/components/         Nav (secciones + hoja en el teléfono) · Hero · Claro · Proof · Now · Index · Agua · Doors · ContactForm · Booking · Silence · Plano · Facts · Door · Mark · Footer
 src/views/              una vista por tipo de página; src/pages/{es,en}/ son envoltorios finos con las rutas localizadas
-src/scripts/            door (la marca), reveal, ground (color-as-weather), solar (hora de Tulum), tier, plano, contact, analytics, vitals
+src/scripts/            app (orquesta), lifecycle (lo que cada página suelta al cambiar), nav (la hoja), door (la marca), reveal, ground (color-as-weather), solar (hora de Tulum), tier, hero (la película), plano, light y panel (WebGL, cargados sólo donde hay superficie), contact, reading, analytics, vitals
 src/styles/global.css   tokens de color, duración y easing (plan §5–§6)
 src/assets/brand/       jjf-mark.svg (trazado desde logo.png con scripts/trace-mark.mjs — sustituir por el vector del diseñador cuando llegue)
 src/assets/plans/       los planos para El Plano, uno por proyecto (ver README ahí)
 netlify/                edge function de idioma, noindex en previews, functions/lead.mjs (el embudo) y leads.mjs (leerlo)
-tests/                  Playwright: hreflang recíproco, sin cifras fuera de lugar, la puerta una vez por sesión, sin overflow, tier in-app
+tests/                  Playwright: hreflang recíproco, sin cifras fuera de lugar, la puerta una vez por sesión, la hoja de navegación, sin fugas entre páginas, presupuestos de peso y oscuridad, sin overflow, tier in-app
 legacy/                 la landing anterior (HTML + Tailwind), sólo como referencia de contenido
 ```
 
@@ -30,6 +30,8 @@ npm run build && npm run preview
 npm run check             # astro check
 npm run check:plans       # valida los SVG de planos
 CHROMIUM_PATH=/ruta/a/chromium npm test   # Playwright (sin la variable usa su propio Chromium)
+# Playwright levanta `node scripts/preview.mjs`: astro preview se va a segundo plano cuando no hay
+# terminal, y el envoltorio lo mantiene en primer plano y lo detiene al terminar.
 ```
 
 ## Despliegue
@@ -78,6 +80,9 @@ respuestas generadas de Google a veinte preguntas fijas. No hay panel que lo mid
 ## Contenido
 
 - Los textos de proyecto están en `src/content/projects/{es,en}/*.md` con `copyStatus: propuesta` hasta que el fundador los apruebe.
+- Las guías en inglés llevan su propio `slug` en el frontmatter; la clave sigue siendo la española y `src/lib/guides.ts` resuelve la URL.
+- El estado de cada lugar (`status` + `statusVerified`) es la única marca editorial que aparece en el índice; el que está `en-venta` y verificado ocupa además el estrato «Ahora» de la portada.
+- Las cifras (`years`, `hectares`, `homes`, `cenotes`…) alimentan la tira de pruebas del Claro y la Trayectoria en cuanto llevan `verified: true` y `source`.
 - `statusVerified`, `sellsVerified`, `years`, `hectares`, etc. sólo se muestran cuando están verificados contra un documento de JJF.
 - `src/content/how/*.md` y `src/content/legal/*.md` llevan `reviewed: false`: requieren revisión legal antes de salir a producción.
 - El número de WhatsApp en `src/content/site/*.json` está marcado `verified: false` y sólo aparece en staging hasta confirmar el titular.

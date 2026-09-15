@@ -10,12 +10,17 @@ import Rail from '../components/Rail.astro';
 import fallback from '../assets/img/hero-bg.webp';
 import { t } from '../i18n';
 import { href, type Lang } from '../routes';
+import { guideSlug } from '../lib/guides';
 interface Props { lang: Lang; entry: CollectionEntry<'guides'> }
 const { lang, entry } = Astro.props;
 const g = entry.data;
 const { Content, headings } = await render(entry);
 const abs = (p: string) => new URL(p, Astro.site ?? 'https://jjfcreando.com').href;
-const url = abs(href('guide', lang, { slug: g.key }));
+const slug = guideSlug(entry);
+const url = abs(href('guide', lang, { slug }));
+// The other language's copy of this guide has its own slug; hreflang and the language switch need it.
+const pair = (await getCollection('guides', (e) => e.data.key === g.key && e.data.lang !== lang))[0];
+const alt = { [lang]: href('guide', lang, { slug }), [lang === 'es' ? 'en' : 'es']: href('guide', lang === 'es' ? 'en' : 'es', { slug: pair ? guideSlug(pair) : g.key }) } as Record<Lang, string>;
 const staging = import.meta.env.PUBLIC_STAGING === '1';
 const projects = (await getCollection('projects', (e) => e.data.lang === lang && !e.data.draft));
 const related = g.related.map((k) => projects.find((p) => p.data.key === k)).filter((p): p is (typeof projects)[number] => !!p);
@@ -45,14 +50,14 @@ const jsonLd = [
   },
 ];
 ---
-<Base lang={lang} title={`${g.title} — JJF Creando`} description={g.summary} route="guide" params={{ slug: g.key }} ground="linen" jsonLd={jsonLd}>
+<Base lang={lang} title={`${g.title} — JJF Creando`} description={g.summary} route="guide" params={{ slug }} alt={alt} ogType="article" ground="linen" jsonLd={jsonLd}>
   <article class="page has-band" data-ground="linen">
     <Band src={band.src} alt={band.alt} caption={band.caption} />
     <header class="page-head">
       <p class="caption"><a class="crumb" href={href('guides', lang)}>{t(lang, 'guides.eyebrow')}</a></p>
       <h1 class="display">{g.title}</h1>
       <p class="lede">{g.summary}</p>
-      <p class="guide-meta" data-figures-ok><span>{t(lang, 'guides.by')}</span><span>{t(lang, 'project.updated')} {g.updated}</span></p>
+      <p class="guide-meta" data-figures-ok><span>{t(lang, 'guides.by')}</span><span>{t(lang, 'project.updated')} {g.updated}</span>{!g.reviewed && <span class="review-note">{t(lang, 'review.pending')}</span>}</p>
     </header>
     <div class="reading">
       <Rail label={t(lang, 'reading.label')} items={railItems}>

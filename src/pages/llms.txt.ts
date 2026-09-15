@@ -3,6 +3,7 @@
 import type { APIRoute } from 'astro';
 import { getCollection } from 'astro:content';
 import { href } from '../routes';
+import { guideSlug } from '../lib/guides';
 
 export const GET: APIRoute = async ({ site }) => {
   const base = site ?? new URL('https://jjfcreando.com');
@@ -29,8 +30,8 @@ export const GET: APIRoute = async ({ site }) => {
     '',
     '## Guías / Guides',
     '',
-    ...guides.filter((g) => g.data.lang === 'es').map((g) => `- [${g.data.title}](${abs(href('guide', 'es', { slug: g.data.key }))}): ${g.data.summary}`),
-    ...guides.filter((g) => g.data.lang === 'en').map((g) => `- [${g.data.title}](${abs(href('guide', 'en', { slug: g.data.key }))}): ${g.data.summary}`),
+    ...guides.filter((g) => g.data.lang === 'es').map((g) => `- [${g.data.title}](${abs(href('guide', 'es', { slug: guideSlug(g) }))}): ${g.data.summary}`),
+    ...guides.filter((g) => g.data.lang === 'en').map((g) => `- [${g.data.title}](${abs(href('guide', 'en', { slug: guideSlug(g) }))}): ${g.data.summary}`),
     '',
     '## Cómo se compra / How it works',
     '',

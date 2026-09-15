@@ -1,6 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
+import Proof from '../components/Proof.astro';
 import { t } from '../i18n';
 import { href, type Lang } from '../routes';
 interface Props { lang: Lang }
@@ -16,7 +17,7 @@ const years = (p: (typeof projects)[number]) =>
   p.data.years?.verified ? `${p.data.years.start}${p.data.years.end ? `–${p.data.years.end}` : ''}` : '';
 
 const COLUMNS = [
-  { key: 'status', head: t(lang, 'track.status'), value: (p: (typeof projects)[number]) => (p.data.statusVerified && p.data.statusLabel) || '' },
+  { key: 'status', head: t(lang, 'track.status'), value: (p: (typeof projects)[number]) => (p.data.statusVerified && p.data.status ? t(lang, `status.${p.data.status}` as any) : '') },
   { key: 'years', head: t(lang, 'track.years'), value: years },
   { key: 'hectares', head: t(lang, 'track.hectares'), value: (p: (typeof projects)[number]) => (p.data.hectares?.verified ? String(p.data.hectares.value) : '') },
 ].filter((col) => projects.some((p) => col.value(p) !== ''));
@@ -25,9 +26,9 @@ const COLUMNS = [
   <article class="page" data-ground="linen">
     <header class="page-head">
       <h1 class="display">{t(lang, 'ledger.title')}</h1>
-      <p class="lede">{site.pages.track.description}</p>
-      <p class="note">{t(lang, 'track.note')}</p>
+      <p class="lede">{t(lang, 'track.intro')}</p>
     </header>
+    <Proof lang={lang} projects={projects} />
     <div style="overflow-x:auto">
       <table class="ledger-table" data-figures-ok>
         <thead>

@@ -3,6 +3,7 @@
 import type { APIRoute } from 'astro';
 import { getCollection } from 'astro:content';
 import { href } from '../routes';
+import { guideSlug } from '../lib/guides';
 
 export const GET: APIRoute = async ({ site }) => {
   const base = site ?? new URL('https://jjfcreando.com');
@@ -22,7 +23,7 @@ export const GET: APIRoute = async ({ site }) => {
       parts.push((p.body ?? '').trim(), '');
       if (p.data.updated) parts.push(`${lang === 'es' ? 'Actualizado' : 'Updated'}: ${p.data.updated}`, '');
     }
-    for (const g of guides.filter((x) => x.data.lang === lang)) parts.push(`## ${g.data.title}`, abs(href('guide', lang, { slug: g.data.key })), '', g.data.summary, '', (g.body ?? '').trim(), '', `${lang === 'es' ? 'Actualizado' : 'Updated'}: ${g.data.updated}`, '');
+    for (const g of guides.filter((x) => x.data.lang === lang)) parts.push(`## ${g.data.title}`, abs(href('guide', lang, { slug: guideSlug(g) })), '', g.data.summary, '', (g.body ?? '').trim(), '', `${lang === 'es' ? 'Actualizado' : 'Updated'}: ${g.data.updated}`, '');
     const h = how.find((x) => x.data.lang === lang);
     if (h) parts.push(`## ${h.data.title}`, abs(href('how', lang)), '', h.data.intro, '', (h.body ?? '').trim(), '');
   }

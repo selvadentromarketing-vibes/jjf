@@ -5,19 +5,23 @@
 // page under the statement, the way a specification reads.
 import type { CollectionEntry } from 'astro:content';
 import { t } from '../i18n';
+import { getCollection } from 'astro:content';
 import { href, type Lang } from '../routes';
+import { guideSlug } from '../lib/guides';
 interface Props { lang: Lang; project: CollectionEntry<'projects'>['data'] }
 const { lang, project: p } = Astro.props;
 const coast = p.region === 'Quintana Roo';
+const fideicomiso = (await getCollection('guides', (e) => e.data.lang === lang && e.data.key === 'el-fideicomiso-explicado'))[0];
+const howHref = fideicomiso ? href('guide', lang, { slug: guideSlug(fideicomiso) }) : href('how', lang);
 const rows: { label: string; value: string; href?: string; figures?: boolean }[] = [
   { label: t(lang, 'facts.where'), value: p.place },
-  { label: t(lang, 'facts.how'), value: t(lang, coast ? 'facts.howCoast' : 'facts.howInland'), href: href('guide', lang, { slug: 'el-fideicomiso-explicado' }) },
+  { label: t(lang, 'facts.how'), value: t(lang, coast ? 'facts.howCoast' : 'facts.howInland'), href: howHref },
 ];
-if (p.statusVerified && p.statusLabel) rows.push({ label: t(lang, 'track.status'), value: p.statusLabel });
+if (p.statusVerified && p.status) rows.push({ label: t(lang, 'track.status'), value: t(lang, `status.${p.status}` as any) });
 if (p.sellsVerified && p.sells) rows.push({ label: t(lang, 'facts.sells'), value: t(lang, `sells.${p.sells}` as any) + (p.availability ? ` · ${p.availability}` : '') });
 if (p.years?.verified) rows.push({ label: t(lang, 'track.years'), value: `${p.years.start}${p.years.end ? `–${p.years.end}` : ''}`, figures: true });
 if (p.hectares?.verified) rows.push({ label: t(lang, 'track.hectares'), value: `${p.hectares.value} ha`, figures: true });
-if (p.cenotes?.verified) rows.push({ label: 'Cenotes', value: String(p.cenotes.value), figures: true });
+if (p.cenotes?.verified) rows.push({ label: t(lang, 'facts.cenotes'), value: String(p.cenotes.value), figures: true });
 if (p.siteUrl) rows.push({ label: t(lang, 'facts.site'), value: new URL(p.siteUrl).hostname.replace(/^www\./, ''), href: p.siteUrl });
 if (p.updated) rows.push({ label: t(lang, 'project.updated'), value: p.updated, figures: true });
 ---

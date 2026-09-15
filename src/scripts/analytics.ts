@@ -1,4 +1,6 @@
-// One analytics list (plan §9): GA4 + Meta Pixel, loaded after LCP via requestIdleCallback, only when configured. Consent Mode v2 defaults granted (MX-first, plan §14).
+// One analytics list (plan §9): GA4 + Meta Pixel, loaded after LCP via requestIdleCallback, only when configured.
+// Consent Mode v2 defaults granted for the Americas (MX-first, plan §14) and denied for a visitor whose clock is
+// set to Europe, where consent has to come first. No banner: nothing is stored there until one exists.
 export function track(name: string, params: Record<string, unknown> = {}) {
   const w = window as any;
   const base = { tier: document.documentElement.dataset.tier, lang: document.documentElement.dataset.lang, ...params };
@@ -17,12 +19,14 @@ function load() {
   if (ga) {
     w.dataLayer = w.dataLayer || [];
     w.gtag = function () { w.dataLayer.push(arguments); };
-    w.gtag('consent', 'default', { ad_storage: 'granted', ad_user_data: 'granted', ad_personalization: 'granted', analytics_storage: 'granted' });
+    const eu = /^Europe\//.test(Intl.DateTimeFormat().resolvedOptions().timeZone || '');
+    const mode = eu ? 'denied' : 'granted';
+    w.gtag('consent', 'default', { ad_storage: mode, ad_user_data: mode, ad_personalization: mode, analytics_storage: mode });
     w.gtag('js', new Date());
     w.gtag('config', ga, { send_page_view: false });
     const s = document.createElement('script'); s.async = true; s.src = `https://www.googletagmanager.com/gtag/js?id=${encodeURIComponent(ga)}`; document.head.appendChild(s);
   }
-  if (px) {
+  if (px && !/^Europe\//.test(Intl.DateTimeFormat().resolvedOptions().timeZone || '')) {
     const f: any = (w.fbq = function () { f.callMethod ? f.callMethod.apply(f, arguments) : f.queue.push(arguments); });
     if (!w._fbq) w._fbq = f; f.push = f; f.loaded = true; f.version = '2.0'; f.queue = [];
     const s = document.createElement('script'); s.async = true; s.src = 'https://connect.facebook.net/en_US/fbevents.js'; document.head.appendChild(s);

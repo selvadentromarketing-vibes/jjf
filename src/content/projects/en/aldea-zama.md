@@ -35,7 +35,7 @@ It is proof that a master plan can become a town with soul.
 
 ## Where it is
 
-Aldea Zama lies between Tulum town and the hotel zone, on the stretch that joins them. From here you walk or cycle to both: to the centre one way, to the beach the other. That position explains almost everything else about it — it is the point where Tulum's daily life and its coast touch.
+Aldea Zama lies between Tulum town and the hotel zone, on the stretch that joins them. From here you walk or cycle to both: to the center one way, to the beach the other. That position explains almost everything else about it — it is the point where Tulum's daily life and its coast touch.
 
 Which is why the masterplan called it, from the start, the heart of Tulum. Not as a promise, but as a description of where it stands.
 
@@ -45,7 +45,7 @@ The masterplan is clear about what belongs to whom. There are lots for houses, l
 
 The streets were drawn before the buildings. That is why Aldea Zama has what almost no development in Tulum has: continuous pavements, roundabouts, street trees and services underground.
 
-It was built in phases. Some are finished neighbourhoods now, with neighbours and shops open; others are under way and follow the same layout. The availability plan shows which lots remain in each.
+It was built in phases. Some are finished neighborhoods now, with neighbours and shops open; others are under way and follow the same layout. The availability plan shows which lots remain in each.
 
 ## How you live here
 
@@ -70,7 +70,7 @@ Between the two. Aldea Zama occupies the stretch between Tulum town and the hote
 The masterplan includes residential lots, lots for apartment buildings, commercial frontages, mixed-use stretches and a hotel strip. What remains available changes over time; when we speak we tell you exactly what there is, with the plan in hand.
 
 ### Is Aldea Zama finished or still under construction?
-Both, in phases. There are finished neighbourhoods, with neighbours and shops open, and there are phases under way that follow the same layout. You can live in Aldea Zama today.
+Both, in phases. There are finished neighborhoods, with neighbours and shops open, and there are phases under way that follow the same layout. You can live in Aldea Zama today.
 
 ### Can I buy if I am a foreigner?
 Yes. Tulum is in the reserved coastal strip, so foreign buyers purchase through a trust with a Mexican bank, with the right to use, rent, sell and inherit. It is the same instrument used along the whole Riviera Maya.

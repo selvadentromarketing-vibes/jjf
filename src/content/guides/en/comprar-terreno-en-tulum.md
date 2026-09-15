@@ -1,5 +1,6 @@
 ---
 key: comprar-terreno-en-tulum
+slug: buying-land-in-tulum
 lang: en
 order: 1
 title: Buying land in Tulum
@@ -21,7 +22,7 @@ A beachfront lot and a jungle lot are not expensive and cheap versions of the sa
 
 The first thing is the legal history of the land, not the rendering. Ask for the deed and the land's registry history, and ask directly whether the land was ejido and, if so, with what documents it was privatised. A clear answer with papers is a good sign; a long answer without papers is not.
 
-The second thing is permits. A development in Tulum needs federal and municipal authorisations and, where it applies, environmental impact approval. Ask to see them and ask what is still pending. We show you ours per development, current, and tell you what comes next.
+The second thing is permits. A development in Tulum needs federal and municipal authorizations and, where it applies, environmental impact approval. Ask to see them and ask what is still pending. We show you ours per development, current, and tell you what comes next.
 
 The third is the developer: what they have finished and whether the finished work is lived in. Visit something that already exists before buying something that will. If you are buying off plan, the full checklist is in our guide to [buying preconstruction](/en/guides/comprar-en-preventa-en-tulum/).
 
@@ -29,7 +30,7 @@ The fourth is services: water, power, drainage and connectivity. You see them on
 
 ## How a foreigner buys in Tulum
 
-Tulum lies within the coastal strip Mexican law reserves, and there foreign buyers acquire through a trust, [the fideicomiso](/en/guides/el-fideicomiso-explicado/), with an authorised Mexican bank. The bank is the formal titleholder and you are the beneficiary, with every right: to use, rent, sell and bequeath. It is a long-term, renewable contract that is inherited and assigned on sale.
+Tulum lies within the coastal strip Mexican law reserves, and there foreign buyers acquire through a trust, [the fideicomiso](/en/guides/el-fideicomiso-explicado/), with an authorized Mexican bank. The bank is the formal titleholder and you are the beneficiary, with every right: to use, rent, sell and bequeath. It is a long-term, renewable contract that is inherited and assigned on sale.
 
 You do not need Mexican residency to buy: a passport and a tourist visa are enough. Nor do you need to be in Mexico to sign; the trust and the deed can be signed by power of attorney. Even so, almost all our buyers come once or twice before deciding, and we would rather you came.
 
@@ -66,7 +67,7 @@ Selvadentro, in the jungle inland, with cenotes inside the community and low den
 ## Questions
 
 ### Can I buy land in Tulum as a foreigner?
-Yes. Tulum is in the coastal strip reserved by Mexican law, so foreign buyers purchase through a trust with an authorised Mexican bank. You are the beneficiary, with the right to use, rent, sell and inherit. You do not need residency: a passport and a tourist visa are enough.
+Yes. Tulum is in the coastal strip reserved by Mexican law, so foreign buyers purchase through a trust with an authorized Mexican bank. You are the beneficiary, with the right to use, rent, sell and inherit. You do not need residency: a passport and a tourist visa are enough.
 
 ### What documents should I ask for before reserving a lot?
 The deed and the land's registry history; if the land was ejido, the documents by which it was privatised; the development's current permits, including environmental impact approval where it applies; and the building rules. A serious developer shows them without being pressed.
@@ -80,5 +81,5 @@ The reservation is signed in days. The deed or the trust takes weeks, depending 
 ### What does it cost beyond the price of the lot?
 Closing costs — notary, acquisition tax, registry, the Foreign Affairs permit and the trust where it applies — and annual costs: property tax, the trust fee and the development's maintenance. We give you the figures in writing for your case, because they change over time and with the bank.
 
-### Can I buy without travelling to Mexico?
+### Can I buy without traveling to Mexico?
 Yes. The trust and the deed can be signed by power of attorney and visits can be done by video. Even so, almost all our buyers come once or twice before deciding, and we would rather you came.

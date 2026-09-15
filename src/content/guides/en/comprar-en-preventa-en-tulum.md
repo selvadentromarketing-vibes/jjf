@@ -1,5 +1,6 @@
 ---
 key: comprar-en-preventa-en-tulum
+slug: buying-preconstruction-in-tulum
 lang: en
 order: 4
 title: Buying preconstruction in Tulum
@@ -21,7 +22,7 @@ Which is why all the diligence in a preconstruction purchase is about the party 
 
 **The land's legal history.** The deed and the registry record. Ask directly whether the land was ejido and, if it was, with what documents it was privatised. A clear answer with papers is a good sign; a long answer without papers is not.
 
-**Current permits.** The development's federal and municipal authorisations, including the environmental impact permit where it applies, and how much land is protected by contract. Ask what is still outstanding and when it is expected. Building with the jungle starts with having the papers in order.
+**Current permits.** The development's federal and municipal authorizations, including the environmental impact permit where it applies, and how much land is protected by contract. Ask what is still outstanding and when it is expected. Building with the jungle starts with having the papers in order.
 
 **The master plan with services.** Water, power, drainage and connectivity, and how they reach your lot. Land without services resolved is land with a hidden cost.
 
@@ -43,7 +44,7 @@ From day one you receive receipts and a payment schedule. We tell you, per proje
 
 The hard question in a preconstruction purchase has a simple answer: look at what they have already finished and see whether people live in it.
 
-Not a render of something finished. Something built, handed over, lived in, that you can walk through. Aldea Zama is a planned community that now works as a town, with commercial streets and neighbourhoods; Amelia Tulum is a house on stilts, already delivered. Both can be visited.
+Not a render of something finished. Something built, handed over, lived in, that you can walk through. Aldea Zama is a planned community that now works as a town, with commercial streets and neighborhoods; Amelia Tulum is a house on stilts, already delivered. Both can be visited.
 
 Ask too how long the developer has been in the region and who answers when something goes wrong. A developer who will still be there after delivery shows it in how they answer before the sale.
 
@@ -85,7 +86,7 @@ The deed and registry record for the land; if it was ejido, the documents of its
 ### What guarantee do I have that what was promised is delivered?
 Contracts with dates and penalties, documented construction progress, and a track record you can visit: our finished developments are lived in.
 
-### Can I buy preconstruction without travelling to Mexico?
+### Can I buy preconstruction without traveling to Mexico?
 Yes. The deed and the trust can be signed through a power of attorney and viewings can be done over video. Even so, nearly all our buyers come once or twice before deciding, and we would rather you came.
 
 ### What happens after delivery?

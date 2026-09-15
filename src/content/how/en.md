@@ -9,7 +9,7 @@ asOf: 2026-09-06
 Yes. In the coastal strip, where Tulum is, foreigners acquire through a bank trust called a fideicomiso: a Mexican bank is the formal titleholder and you are the beneficiary, with every right to use, rent, sell and bequeath. Inland in Yucatán, in Izamal or Mérida, you can buy directly or through a Mexican company. We explain which suits your case.
 
 ## What exactly is the fideicomiso and how long does it last?
-A contract with an authorised trustee bank. It is set up for a long term and is renewable; it is inherited and can be assigned when you sell. There is a set-up cost and an annual bank fee. We share the current figures of the bank we work with when we talk.
+A contract with an authorized trustee bank. It is set up for a long term and is renewable; it is inherited and can be assigned when you sell. There is a set-up cost and an annual bank fee. We share the current figures of the bank we work with when we talk.
 
 ## Who is the notary and what does the notary do?
 In Mexico the notary is a lawyer with public faith, appointed by the State. The notary gives the sale its legal form, verifies title, calculates and withholds taxes and records the deed in the Public Registry. You choose the notary; we can recommend those who know our developments.
@@ -45,7 +45,7 @@ Contracts with dates and penalties, documented construction progress, and a trac
 Each development has its own legal history and we show it to you with documents — the deed, the registry background and, where it applies, the full-title resolution — before you sign anything. If something is not clear, nothing is signed.
 
 ## Which environmental permits does the project hold?
-We show you each development's current permits — federal and municipal authorisations, including environmental impact where it applies — and which area is protected by contract. Building with the jungle begins with having the papers in order.
+We show you each development's current permits — federal and municipal authorizations, including environmental impact where it applies — and which area is protected by contract. Building with the jungle begins with having the papers in order.
 
 ## How long does it all take?
 A reservation is signed in days; a deed or a fideicomiso takes weeks, depending on the bank and the notary. We give you a realistic calendar at the start.

@@ -1,12 +1,15 @@
 import { test, expect } from '@playwright/test';
-import { readdirSync } from 'node:fs';
+import { readdirSync, readFileSync } from 'node:fs';
 
 // No figure ships unverified (plan §8): outside the Ficha, the ledger and /trayectoria/, the body carries no digit at all.
 const PAGES = ['/es/', '/en/', '/es/vision/', '/en/vision/', '/es/proyectos/selvadentro/', '/en/projects/amelia-tulum/', '/es/proyectos/aldea-zama/', '/en/guides/',
   // Guides carry no figure either: they are read by people deciding, and a number we have not
   // verified is worse than no number. Taken from the directory so a new guide is covered on sight.
-  ...readdirSync('src/content/guides/es').filter((f) => f.endsWith('.md')).map((f) => f.replace(/\.md$/, ''))
-    .flatMap((k) => [`/es/guias/${k}/`, `/en/guides/${k}/`])];
+  ...readdirSync('src/content/guides/es').filter((f) => f.endsWith('.md')).flatMap((f) => {
+    const key = f.replace(/\.md$/, '');
+    const en = readFileSync(`src/content/guides/en/${f}`, 'utf8').match(/^slug:\s*(\S+)/m)?.[1] ?? key;
+    return [`/es/guias/${key}/`, `/en/guides/${en}/`];
+  })];
 
 test.describe('no figures where figures are forbidden', () => {
   test.beforeEach(async ({ page: _page }, testInfo) => { testInfo.skip(testInfo.project.name !== 'desktop', 'desktop only'); });

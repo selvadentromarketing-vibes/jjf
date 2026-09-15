@@ -9,6 +9,7 @@ import Rail from '../components/Rail.astro';
 import plate from '../assets/img/hero-bg.webp';
 import { t } from '../i18n';
 import { href, type Lang } from '../routes';
+import { guideSlug } from '../lib/guides';
 interface Props { lang: Lang }
 const { lang } = Astro.props;
 const site = (await getCollection('site')).find((s) => s.data.lang === lang)!.data;
@@ -38,6 +39,7 @@ const railItems = headings.filter((h) => h.depth === 2).map((h) => ({ text: h.te
     <header class="page-head">
       <h1 class="display">{entry.data.title}</h1>
       <p class="lede">{entry.data.intro}</p>
+      {!entry.data.reviewed && <p class="small review-note">{t(lang, 'review.pending')}</p>}
     </header>
     <div class="reading">
       <Rail label={t(lang, 'reading.label')} items={railItems} class="rail-dense">
@@ -49,7 +51,7 @@ const railItems = headings.filter((h) => h.depth === 2).map((h) => ({ text: h.te
     {guides.length > 0 && (
       <nav class="guide-related" aria-label={t(lang, 'guides.forHow')}>
         <p class="caption">{t(lang, 'guides.forHow')}</p>
-        {guides.map((g) => <a href={href('guide', lang, { slug: g.data.key })}>{g.data.title}</a>)}
+        {guides.map((g) => <a href={href('guide', lang, { slug: guideSlug(g) })}>{g.data.title}</a>)}
       </nav>
     )}
   </article>
