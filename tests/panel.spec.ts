@@ -22,7 +22,7 @@ test.describe('the index hover panel', () => {
     expect(await page.locator('canvas.index-panel.is-ambient').count()).toBe(1);
   });
 
-  test('it lights on hover and goes dark on leave', async ({ page, isMobile }) => {
+  test('it rests on a photograph, follows the hover, and goes dark only when the list has gone', async ({ page, isMobile }) => {
     test.skip(isMobile, 'desktop projects only');
     await page.goto('/es/');
     await page.locator('#roca').scrollIntoViewIfNeeded();
@@ -31,12 +31,20 @@ test.describe('the index hover panel', () => {
     const panel = page.locator('canvas.index-panel');
     if (!(await panel.count())) test.skip(true, 'no WebGL in this environment');
 
+    // At rest, with the list on screen, the column beside the names is a photograph, not a hole.
+    await expect(panel).toHaveClass(/is-on/, { timeout: 2000 });
+
     await page.hover('#roca .row:nth-child(3) a');
     await expect(panel).toHaveClass(/is-on/, { timeout: 2000 });
 
-    // Out is slower than in, and it must actually finish rather than decay forever.
+    // Leaving the list leaves the last photograph where it was.
     await page.hover('#roca .sec-head h2');
-    await expect(panel).not.toHaveClass(/is-on/, { timeout: 2000 });
+    await page.waitForTimeout(700);
+    await expect(panel).toHaveClass(/is-on/);
+
+    // Scrolling past the list is what turns it off — and it must finish rather than decay forever.
+    await page.evaluate(() => window.scrollTo({ top: document.body.scrollHeight, behavior: 'instant' as ScrollBehavior }));
+    await expect(panel).not.toHaveClass(/is-on/, { timeout: 2500 });
   });
 
   test('focus is hover, so the keyboard sees the same thing', async ({ page, isMobile }) => {

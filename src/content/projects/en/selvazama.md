@@ -19,11 +19,6 @@ closingSentence:
 copyStatus: propuesta
 summary: "Selvazama is a territory in Tulum's hotel zone, between the jungle and the sea, where homes, hotels, a shopping street and a school share the ground with the trees that were there first. It grows in phases around one idea: build with the jungle, not over it."
 updated: 2026-09-14
-plan:
-  svg: selvazama.svg
-  source: traced
-  from: selvazama.jpg
-  asOf: 2026-09-08
 ---
 ## The place
 

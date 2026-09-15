@@ -279,16 +279,28 @@ export function initPanel() {
   const disarm = () => { clearTimeout(intent); hide(); };
 
   if (hover) {
+    // At rest the panel is not dark. While the list is on screen it holds the last place that had
+    // your attention — the first of the six before you have touched anything — so the column beside
+    // the names is a photograph and not a hole. Hover moves the light; leaving the list leaves the
+    // photograph where it was; scrolling past the list is what turns it off.
+    const rows = Array.from(index.querySelectorAll<HTMLElement>('a[data-plate]'));
+    let rest = rows[0]?.dataset.plate;
+    let onScreen = false;
+    const settle = () => { if (onScreen && rest) show(rest); else hide(); };
     index.addEventListener('pointerover', (e) => {
       const row = (e.target as HTMLElement).closest<HTMLElement>('a[data-plate]');
-      if (row) arm(row);
+      if (row) { rest = row.dataset.plate; arm(row); }
     });
-    index.addEventListener('pointerleave', disarm);
+    index.addEventListener('pointerleave', () => { clearTimeout(intent); settle(); });
     addEventListener('pointermove', (e) => {
       if (!active) return;
       wantX = (e.clientX / innerWidth) * 2 - 1;
       wantY = (e.clientY / innerHeight) * 2 - 1;
     }, { passive: true });
+    new IntersectionObserver((entries) => {
+      onScreen = entries[0].isIntersecting;
+      settle();
+    }, { rootMargin: '-12% 0px -12% 0px' }).observe(index);
   } else {
     // The lit place is the one nearest the middle of the screen. Read on a rAF tick rather than
     // on every scroll event, and only when the list is actually on screen.

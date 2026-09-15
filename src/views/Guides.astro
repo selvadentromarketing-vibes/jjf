@@ -1,6 +1,8 @@
 ---
 import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
+import Band from '../components/Band.astro';
+import plate from '../assets/img/hero-bg.webp';
 import { t } from '../i18n';
 import { href, type Lang } from '../routes';
 interface Props { lang: Lang }
@@ -14,10 +16,11 @@ const jsonLd = {
 };
 ---
 <Base lang={lang} title={site.pages.guides.title} description={site.pages.guides.description} route="guides" ground="linen" jsonLd={jsonLd}>
-  <article class="page" data-ground="linen">
+  <article class="page has-band" data-ground="linen">
+    <Band src={plate} alt={t(lang, 'band.alt')} />
     <header class="page-head">
       <h1 class="display">{t(lang, 'guides.eyebrow')}</h1>
-      <p class="measure">{site.pages.guides.description}</p>
+      <p class="lede">{site.pages.guides.description}</p>
     </header>
     <ol class="guides-list">
       {guides.map((g) => (

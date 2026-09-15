@@ -14,6 +14,6 @@ const alt = alternates(route, params);
       <i></i>
       {lang === 'en' ? <span aria-current="true">EN</span> : <a href={alt.en} hreflang="en" lang="en" data-lang-toggle aria-label={t(lang, 'nav.switch')}>EN</a>}
     </div>
-    <a class="cta" href={href('contact', lang)} data-event="cta_click" data-section="nav">{t(lang, 'nav.talk')}</a>
+    <a class="cta btn btn-sm" href={href('contact', lang)} data-event="cta_click" data-section="nav">{t(lang, 'nav.talk')}</a>
   </nav>
 </header>

@@ -78,6 +78,11 @@ test.describe('a page that opens on type', () => {
     // The head of this page is not held at nothing; the same head on the homepage still reveals,
     // because you arrive at the fourth stratum already reading.
     expect(await page.locator('.projects-page .sec-head [data-reveal]').count()).toBe(0);
+    // ...and it is actually visible: the masked lines are released, not painted inside their own
+    // mask where nobody sees them — which is exactly what happened the first time.
+    const shift = await page.locator('.projects-page .sec-head h2 .line > span').first().evaluate((el) => getComputedStyle(el).transform);
+    expect(shift === 'none' || shift === 'matrix(1, 0, 0, 1, 0, 0)').toBe(true);
+    await expect(page.locator('.projects-page .sec-head h2')).toBeInViewport();
     await page.goto('/es/');
     expect(await page.locator('.roca .sec-head [data-reveal]').count()).toBeGreaterThan(0);
   });

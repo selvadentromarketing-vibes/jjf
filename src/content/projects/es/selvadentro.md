@@ -20,11 +20,6 @@ copyStatus: propuesta
 summary: "Selvadentro es una comunidad residencial de baja densidad en la selva de Tulum, ordenada alrededor de sus cenotes y de la vegetación que ya estaba ahí. Se vive entre árboles, con la casa como refugio y el terreno como jardín compartido con la selva."
 updated: 2026-09-14
 siteUrl: https://selvadentrotulum.com
-plan:
-  svg: selvadentro.svg
-  source: traced
-  from: selvadentro.webp
-  asOf: 2026-09-08
 ---
 ## El lugar
 

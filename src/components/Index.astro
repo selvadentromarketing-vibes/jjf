@@ -10,6 +10,8 @@ interface Props { lang: Lang; projects: CollectionEntry<'projects'>[]; title: st
 // scroll. A reveal there costs the page its Largest Contentful Paint: the heading is the largest
 // thing on it, and a heading held at nothing until the script runs is a heading Chrome does not
 // score (plan A3). Deep in a scroll the same reveal is right, because you arrive already reading.
+// The masked lines are released with `is-in` from the start, or the heading paints inside its own
+// mask and is never seen at all.
 const { lang, projects, title, lede, plans = false, opening = false } = Astro.props;
 const staging = import.meta.env.PUBLIC_STAGING === '1';
 
@@ -49,7 +51,7 @@ const rows = await Promise.all(
 ---
 <section class="roca stratum" data-stratum="roca" data-ground="shade" id="roca">
   <header class="sec-head">
-    <h2 class="display" data-reveal={opening ? undefined : 'lines'}>{title.map((l, i) => <span class="line" style={`--i:${i}`}><span>{l}</span></span>)}</h2>
+    <h2 class:list={['display', { 'is-in': opening }]} data-reveal={opening ? undefined : 'lines'}>{title.map((l, i) => <span class="line" style={`--i:${i}`}><span>{l}</span></span>)}</h2>
     {lede && <p class="sec-lede" data-reveal={opening ? undefined : 'fade'}>{lede}</p>}
   </header>
   <ol class:list={["index", { "has-plans": plans }]} data-reveal="fade" data-index>

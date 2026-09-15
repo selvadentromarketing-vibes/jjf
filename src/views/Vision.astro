@@ -1,7 +1,12 @@
 ---
+// The founder's words, verbatim, with his pencil beside them. On a desktop the sketches hold the
+// rail while the text scrolls; on a phone they follow it.
 import { getCollection } from 'astro:content';
+import { Picture } from 'astro:assets';
 import Base from '../layouts/Base.astro';
 import Silence from '../components/Silence.astro';
+import sketchA from '../assets/img/sketch-vision.webp';
+import sketchB from '../assets/img/sketch-philosophy.webp';
 import { t } from '../i18n';
 import type { Lang } from '../routes';
 interface Props { lang: Lang }
@@ -16,7 +21,16 @@ const es = all.find((s) => s.data.lang === 'es')!.data;
       <p class="eyebrow">{t(lang, 'vision.title')}</p>
       <h1 class="display" data-reveal="lines">{site.headline.map((l, i) => <span class="line" style={`--i:${i}`}><span set:html={l} /></span>)}</h1>
     </header>
-    <div class="prose prose-founder">{site.vision.map((p) => <p data-reveal="fade">{p}</p>)}</div>
+    <div class="reading text-first">
+      <figure class="rail vision-sketches">
+        <figcaption class="caption">{site.claroSketchCaption}</figcaption>
+        <div class="sketches">
+          <Picture src={sketchA} widths={[480, 640, 800]} sizes="(min-width: 1024px) 232px, 44vw" formats={['avif', 'webp']} fallbackFormat="webp" alt={t(lang, 'claro.altA')} loading="lazy" decoding="async" />
+          <Picture src={sketchB} widths={[480, 640, 800]} sizes="(min-width: 1024px) 232px, 44vw" formats={['avif', 'webp']} fallbackFormat="webp" alt={t(lang, 'claro.altB')} loading="lazy" decoding="async" />
+        </div>
+      </figure>
+      <div class="body prose prose-founder">{site.vision.map((p) => <p data-reveal="fade">{p}</p>)}</div>
+    </div>
     {lang === 'en' && (
       <aside class="original" lang="es-MX">
         <p class="caption">{t(lang, 'vision.original')}</p>

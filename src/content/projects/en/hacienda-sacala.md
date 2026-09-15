@@ -20,11 +20,6 @@ copyStatus: propuesta
 summary: "Hacienda Sacalá is in Izamal, Yucatán, a pueblo mágico of yellow streets and long history, and it brings together a golf course, a boutique hotel and a neighbourhood with the cooking, culture and art of the region. Muñoz Arquitectos and AS Arquitectura designed it with the stone and the light of the place as materials."
 updated: 2026-09-14
 siteUrl: https://sacala.mx
-plan:
-  svg: hacienda-sacala.svg
-  source: traced
-  from: hacienda-sacala.webp
-  asOf: 2026-09-08
 ---
 ## The place
 

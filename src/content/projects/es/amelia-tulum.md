@@ -18,11 +18,6 @@ closingSentence:
 copyStatus: propuesta
 summary: "Amelia Tulum es una casa construida en Tulum sobre palafitos, levantada del suelo para tocar la tierra lo menos posible y dejar que la selva pase por debajo. Es la muestra más clara, ya hecha y habitada, de cómo construye JJF Creando: a partir del clima, la topografía y la vegetación del lugar."
 updated: 2026-09-14
-plan:
-  svg: amelia-tulum.svg
-  source: traced
-  from: amelia.webp
-  asOf: 2026-09-08
 ---
 ## El lugar
 

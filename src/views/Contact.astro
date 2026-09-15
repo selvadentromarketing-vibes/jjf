@@ -1,20 +1,37 @@
 ---
+// Ser recibido (plan §7). The doors are the page; beside them, how to reach us and what to expect.
 import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
+import Band from '../components/Band.astro';
 import Doors from '../components/Doors.astro';
+import plate from '../assets/img/hero-bg.webp';
 import { t } from '../i18n';
 import { href, type Lang } from '../routes';
 interface Props { lang: Lang }
 const { lang } = Astro.props;
 const site = (await getCollection('site')).find((s) => s.data.lang === lang)!.data;
 const projects = (await getCollection('projects', (e) => e.data.lang === lang && !e.data.draft)).sort((a, b) => a.data.order - b.data.order);
+const staging = import.meta.env.PUBLIC_STAGING === '1';
+const showWa = site.whatsapp.verified || staging;
+const waDigits = site.whatsapp.number.replace(/\D/g, '');
 ---
 <Base lang={lang} title={site.pages.contact.title} description={site.pages.contact.description} route="contact" ground="shade" bodyClass="contact-page">
-  <section class="page" data-ground="shade">
+  <section class="page has-band" data-ground="shade">
+    <Band src={plate} alt={t(lang, 'band.alt')} />
     <header class="page-head">
       <h1 class="display" data-reveal="lines"><span class="line"><span>{site.invitation}</span></span></h1>
-      <p class="contact-ledger">{t(lang, 'contact.ledgerLine')} <a href={href('track', lang)}>{t(lang, 'ledger.more')}</a></p>
+      <p class="lede">{site.pages.contact.description}</p>
     </header>
-    <Doors lang={lang} site={site} projects={projects} />
+    <div class="reading text-first">
+      <aside class="rail contact-facts">
+        <p class="caption rail-label">{t(lang, 'contact.reach')}</p>
+        <dl class="facts-list">
+          {showWa && <div class="facts-row" data-figures-ok><dt>WhatsApp</dt><dd><a href={`https://wa.me/${waDigits}`} target="_blank" rel="noopener" data-event="whatsapp_click" data-section="contact-facts">{site.whatsapp.number}</a></dd></div>}
+          <div class="facts-row"><dt>{t(lang, 'contact.response')}</dt><dd>{site.responsePromise}{site.namedPerson && ` — ${site.namedPerson}`}</dd></div>
+          <div class="facts-row"><dt>{t(lang, 'nav.projects')}</dt><dd>{t(lang, 'contact.ledgerLine')} <a href={href('track', lang)}>{t(lang, 'ledger.more')}</a></dd></div>
+        </dl>
+      </aside>
+      <div class="body"><Doors lang={lang} site={site} projects={projects} /></div>
+    </div>
   </section>
 </Base>

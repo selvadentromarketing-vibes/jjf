@@ -1,22 +1,32 @@
 ---
 // A guide (plan E2): one question a buyer actually asks, answered the way we answer it in person.
 // Article for the assistants, FAQPage for the questions at the end, breadcrumbs for the path.
+// Laid out as reading: a photograph of a place the guide talks about, a rail of its chapters, the
+// text at a measure — and the invitation in the rail, because a guide is read by someone deciding.
 import { getCollection, render, type CollectionEntry } from 'astro:content';
 import Base from '../layouts/Base.astro';
+import Band from '../components/Band.astro';
+import Rail from '../components/Rail.astro';
+import fallback from '../assets/img/hero-bg.webp';
 import { t } from '../i18n';
 import { href, type Lang } from '../routes';
 interface Props { lang: Lang; entry: CollectionEntry<'guides'> }
 const { lang, entry } = Astro.props;
 const g = entry.data;
-const { Content } = await render(entry);
+const { Content, headings } = await render(entry);
 const abs = (p: string) => new URL(p, Astro.site ?? 'https://jjfcreando.com').href;
 const url = abs(href('guide', lang, { slug: g.key }));
+const staging = import.meta.env.PUBLIC_STAGING === '1';
 const projects = (await getCollection('projects', (e) => e.data.lang === lang && !e.data.draft));
 const related = g.related.map((k) => projects.find((p) => p.data.key === k)).filter((p): p is (typeof projects)[number] => !!p);
+// The band is the first related place with a publishable photograph; JJF's own jungle otherwise.
+const bandFrom = related.find((p) => p.data.hero && (!p.data.heroStaging || staging));
+const band = bandFrom ? { src: bandFrom.data.hero!, alt: bandFrom.data.heroAlt, caption: bandFrom.data.name } : { src: fallback, alt: t(lang, 'band.alt'), caption: undefined };
 const body = entry.body ?? '';
 const faqHead = lang === 'es' ? '## Preguntas' : '## Questions';
 const faqBlock = body.includes(faqHead) ? body.slice(body.indexOf(faqHead) + faqHead.length) : '';
 const faq = faqBlock.split(/^### /m).slice(1).map((s) => { const [q, ...a] = s.trim().split('\n'); return { '@type': 'Question', name: q.trim(), acceptedAnswer: { '@type': 'Answer', text: a.join(' ').trim() } }; });
+const railItems = headings.filter((h) => h.depth === 2).map((h) => ({ text: h.text, href: `#${h.slug}` }));
 const jsonLd = [
   {
     '@context': 'https://schema.org', '@type': 'Article', headline: g.title, description: g.summary, url,
@@ -36,14 +46,20 @@ const jsonLd = [
 ];
 ---
 <Base lang={lang} title={`${g.title} — JJF Creando`} description={g.summary} route="guide" params={{ slug: g.key }} ground="linen" jsonLd={jsonLd}>
-  <article class="page" data-ground="linen">
+  <article class="page has-band" data-ground="linen">
+    <Band src={band.src} alt={band.alt} caption={band.caption} />
     <header class="page-head">
       <p class="caption"><a class="crumb" href={href('guides', lang)}>{t(lang, 'guides.eyebrow')}</a></p>
       <h1 class="display">{g.title}</h1>
-      <p class="measure lede">{g.summary}</p>
+      <p class="lede">{g.summary}</p>
       <p class="guide-meta" data-figures-ok><span>{t(lang, 'guides.by')}</span><span>{t(lang, 'project.updated')} {g.updated}</span></p>
     </header>
-    <div class="prose"><Content /></div>
+    <div class="reading">
+      <Rail label={t(lang, 'reading.label')} items={railItems}>
+        <a class="btn desk" href={href('contact', lang)} data-event="cta_click" data-section="rail">{t(lang, 'nav.talk')}</a>
+      </Rail>
+      <div class="body prose"><Content /></div>
+    </div>
     {related.length > 0 && (
       <nav class="guide-related" aria-label={t(lang, 'guides.related')}>
         <p class="caption">{t(lang, 'guides.related')}</p>

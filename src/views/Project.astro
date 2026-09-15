@@ -1,50 +1,62 @@
 ---
-import { getCollection, render, type CollectionEntry } from 'astro:content';
+// A place, as a page you can read and act on.
+//
+// The record used to arrive as a thousand words in a narrow column down the left of an empty
+// screen, with the one photograph at the top and the master plan at the very bottom. It is now
+// composed: what a buyer needs first in a rail beside the answer-first paragraph, the chapters with
+// a spine, the master plan inside the chapter about the plan, the questions on rock, and the doors
+// on the page itself. Each place has one photograph; it is not repeated lower down as a "detail".
+import { getCollection, type CollectionEntry } from 'astro:content';
 import { Picture, getImage } from 'astro:assets';
 import Base from '../layouts/Base.astro';
 import Plano from '../components/Plano.astro';
-import Ficha from '../components/Ficha.astro';
-import Preguntas from '../components/Preguntas.astro';
+import Facts from '../components/Facts.astro';
+import Rail from '../components/Rail.astro';
+import Doors from '../components/Doors.astro';
 import Silence from '../components/Silence.astro';
 import { t } from '../i18n';
 import { href, type Lang } from '../routes';
+import { parseRecord, inline } from '../lib/record';
 interface Props { lang: Lang; entry: CollectionEntry<'projects'> }
 const { lang, entry } = Astro.props;
 const p = entry.data;
-const { Content } = await render(entry);
 const all = (await getCollection('projects', (e) => e.data.lang === lang && !e.data.draft)).sort((a, b) => a.data.order - b.data.order);
 const idx = all.findIndex((e) => e.data.key === p.key);
 const next = all[(idx + 1) % all.length];
 const site = (await getCollection('site')).find((s) => s.data.lang === lang)!.data;
 // The guides name the places they talk about, so a place can find its guides without a second
-// list to keep in step. Someone reading about Selvadentro is one question away from the
-// fideicomiso, and until now the site made them go looking.
+// list to keep in step.
 const guides = (await getCollection('guides', (e) => e.data.lang === lang && !e.data.draft))
   .filter((g) => g.data.related.includes(p.key))
   .sort((a, b) => a.data.order - b.data.order);
 const staging = import.meta.env.PUBLIC_STAGING === '1';
-const plate = p.hero && (!p.heroStaging || staging) ? p.hero : undefined;
-const gallery = p.gallery.filter((g) => !g.staging || staging);
-// The masterplan is the drawing a buyer zooms into: lot numbers, phases, what is still for sale.
+const usable = (e: CollectionEntry<'projects'>) => (e.data.hero && (!e.data.heroStaging || staging) ? e.data.hero : undefined);
+const plate = usable(entry);
+const nextPlate = usable(next);
+// The master plan is the drawing a buyer zooms into: lot numbers, phases, what is still for sale.
 // Scaled into a phone it is unreadable, and the plan bans modals, so the figure links to the full
 // image and the browser's own viewer does the pinching — no script, and it works offline of us.
 const masterplanFull = p.masterplan ? await getImage({ src: p.masterplan, format: 'webp', quality: 88 }) : undefined;
-// The card that appears when someone sends this link over WhatsApp. Nearly every arrival JJF has
-// comes through a phone and a message, so a project link showing the house headline and no place
-// is a wasted introduction: where a plate is publishable, the card is the plate, cropped to the
-// card's own shape, and the place's name sits beside it as the title. Where it is not, the
-// typographic card stands — never black either way (§11).
+// The card that appears when someone sends this link over WhatsApp: the plate where one is
+// publishable, the typographic card where it is not. Never black (§11).
 const ogImage = plate
   ? (await getImage({ src: plate, width: 1200, height: 630, fit: 'cover', position: 'center', format: 'jpeg', quality: 76 })).src
   : undefined;
+// WhatsApp opens on this place by name. Shown only once the number is verified, or on staging.
+const showWa = site.whatsapp.verified || staging;
+const wa = showWa ? `https://wa.me/${site.whatsapp.number.replace(/\D/g, '')}?text=${encodeURIComponent(t(lang, 'doors.waText', { project: p.name }))}` : undefined;
 const url = new URL(href('project', lang, { slug: p.key }), Astro.site ?? 'https://jjfcreando.com').href;
 const abs = (path: string) => new URL(path, Astro.site ?? 'https://jjfcreando.com').href;
-// A trailing "## Preguntas" / "## Questions" section is the page's FAQ: its ### headings are the
-// questions, their paragraphs the answers. Same authoring as /como-se-compra/, same schema.
-const body = entry.body ?? '';
-const faqHead = lang === 'es' ? '## Preguntas' : '## Questions';
-const faqBlock = body.includes(faqHead) ? body.slice(body.indexOf(faqHead) + faqHead.length) : '';
-const faq = faqBlock.split(/^### /m).slice(1).map((s) => { const [q, ...a] = s.trim().split('\n'); return { '@type': 'Question', name: q.trim(), acceptedAnswer: { '@type': 'Answer', text: a.join(' ').trim() } }; });
+// The body, as chapters: the closing "Preguntas" / "Questions" chapter is the page's FAQ.
+const faqHead = lang === 'es' ? 'Preguntas' : 'Questions';
+const chapters = parseRecord(entry.body ?? '', faqHead);
+const prose = chapters.filter((c) => !c.faq);
+const faqChapter = chapters.find((c) => c.faq);
+const faq = (faqChapter?.qa ?? []).map((x) => ({ '@type': 'Question', name: x.q, acceptedAnswer: { '@type': 'Answer', text: x.a } }));
+const railItems = [
+  ...prose.map((c) => ({ text: c.title, href: `#${c.slug}` })),
+  ...(faq.length ? [{ text: faqChapter!.title, href: '#preguntas' }] : []),
+];
 const jsonLd = [
   {
     '@context': 'https://schema.org', '@type': 'Residence', name: p.name, url, description: `${p.place} · ${p.character}`,
@@ -55,7 +67,6 @@ const jsonLd = [
   },
   ...(faq.length ? [{ '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: faq }] : []),
   ...(p.updated ? [{ '@context': 'https://schema.org', '@type': 'WebPage', url, dateModified: p.updated, inLanguage: lang === 'es' ? 'es-MX' : 'en', about: { '@type': 'Residence', name: p.name } }] : []),
-  // Home → the six → this one. The middle step only became true when /proyectos/ stopped being a 404.
   {
     '@context': 'https://schema.org', '@type': 'BreadcrumbList',
     itemListElement: [
@@ -67,53 +78,78 @@ const jsonLd = [
 ];
 ---
 <Base lang={lang} title={`${p.name} — JJF Creando`} description={p.summary ?? `${p.place} · ${p.character}`} route="project" params={{ slug: p.key }} ground="linen" jsonLd={jsonLd} bodyClass="page-project" ogImage={ogImage} ogImageAlt={plate ? p.heroAlt : undefined}>
-  <article class="project" data-project-page={p.key} data-ground="linen">
-    <header class:list={['project-hero', { 'has-plano': !!p.plan, 'has-plate': !!plate }]} data-light={p.lightMode}>
-      <Plano slug={p.key} plan={p.plan} />
-      {plate && <Picture class="hero-plate" pictureAttributes={{ class: 'hero-media' }} src={plate} widths={[640, 1280, 1920]} sizes="100vw" formats={['avif', 'webp']} fallbackFormat="webp" alt={p.heroAlt} loading="eager" fetchpriority="high" decoding="async" />}
-      <div class="project-title">
-        <p class="eyebrow">{p.place}</p>
-        <h1 class="display">{p.name}</h1>
-        <a class="folio-marker" href={href('projects', lang)} data-figures-ok aria-label={t(lang, 'projects.all')}>{String(idx + 1).padStart(2, '0')}/{String(all.length).padStart(2, '0')}</a>
+  <article class="project" data-project-page={p.key}>
+    <div data-ground="linen">
+      <header class:list={['project-hero', { 'has-plano': !!p.plan, 'has-plate': !!plate }]} data-light={p.lightMode}>
+        <Plano slug={p.key} plan={p.plan} />
+        {plate && <Picture class="hero-plate" pictureAttributes={{ class: 'hero-media' }} src={plate} widths={[640, 1280, 1920]} sizes="100vw" formats={['avif', 'webp']} fallbackFormat="webp" alt={p.heroAlt} loading="eager" fetchpriority="high" decoding="async" />}
+        <div class="project-title">
+          <p class="eyebrow">{p.place}</p>
+          <h1 class="display">{p.name}</h1>
+          <a class="folio-marker" href={href('projects', lang)} data-figures-ok aria-label={t(lang, 'projects.all')}>{String(idx + 1).padStart(2, '0')}/{String(all.length).padStart(2, '0')}</a>
+        </div>
+      </header>
+
+      <div class="project-intro reading text-first">
+        <aside class="rail"><Facts lang={lang} project={p} wa={wa} /></aside>
+        <div class="body">
+          {p.summary && <p class="project-summary" data-reveal="fade">{p.summary}</p>}
+          {p.updated && <p class="small" data-figures-ok style="margin-top:18px">{t(lang, 'project.updated')} {p.updated}</p>}
+        </div>
       </div>
-    </header>
-    {p.summary && <p class="lede project-summary" data-reveal="fade">{p.summary}</p>}
-    <section class="record prose-record"><Content /></section>
-    {(p.updated || p.siteUrl) && (
-      <p class="project-meta" data-figures-ok>
-        {p.updated && <span>{t(lang, 'project.updated')} {p.updated}</span>}
-        {p.siteUrl && <a href={p.siteUrl} rel="noopener">{t(lang, 'project.site', { name: p.name })}</a>}
-      </p>
-    )}
-    {gallery.length > 0 && (
-      <section class="gallery">
-        {gallery.map((g) => (
-          <figure>
-            <figcaption class="caption" data-reveal="fade">{g.caption}</figcaption>
-            <div data-reveal="scrim"><Picture src={g.src} widths={[640, 1280, 1920]} sizes="100vw" formats={['avif', 'webp']} fallbackFormat="webp" alt={g.caption} loading="lazy" /></div>
-          </figure>
+
+      <section class="record reading" aria-label={t(lang, 'project.chapters')}>
+        <Rail label={t(lang, 'project.chapters')} items={railItems} class="chapters" />
+        {prose.map((c, i) => (
+          <>
+            <div class="body chapter" id={c.slug}>
+              <h2>{c.title}</h2>
+              {c.paragraphs.map((para, j) => <p class:list={{ 'chapter-open': i === 3 && j === 0 }} set:html={inline(para)} />)}
+            </div>
+            {i === 2 && p.masterplan && (
+              <figure class="bleed masterplan">
+                <figcaption class="caption">{t(lang, 'project.masterplan')}{p.sellsVerified && p.sells && ` · ${t(lang, `sells.${p.sells}` as any)}`}{p.availability && ` · ${p.availability}`}</figcaption>
+                <a href={masterplanFull!.src} class="masterplan-open" target="_blank" rel="noopener">
+                  <Picture src={p.masterplan} widths={[640, 1280, 1920]} sizes="(min-width: 1024px) 70vw, 100vw" formats={['avif', 'webp']} fallbackFormat="webp" alt={t(lang, 'project.masterplanAlt', { name: p.name })} loading="lazy" />
+                  <span class="masterplan-hint">{t(lang, 'project.masterplanOpen')}</span>
+                </a>
+              </figure>
+            )}
+          </>
         ))}
       </section>
-    )}
-    {p.masterplan && (
-      <figure class="masterplan">
-        <figcaption class="caption">{t(lang, 'project.masterplan')}{p.sellsVerified && p.sells && ` · ${t(lang, `sells.${p.sells}` as any)}`}{p.availability && ` · ${p.availability}`}</figcaption>
-        <a href={masterplanFull!.src} class="masterplan-open" target="_blank" rel="noopener">
-          <Picture src={p.masterplan} widths={[640, 1280, 1920]} sizes="100vw" formats={['avif', 'webp']} fallbackFormat="webp" alt={t(lang, 'project.masterplanAlt', { name: p.name })} loading="lazy" />
-          <span class="masterplan-hint">{t(lang, 'project.masterplanOpen')}</span>
+    </div>
+
+    <div class="project-tail" data-ground="shade">
+      {faq.length > 0 && (
+        <section class="project-faq" id="preguntas">
+          <h2 class="display">{faqChapter!.title}</h2>
+          <dl class="faq-list">
+            {faqChapter!.qa.map((x) => <div class="faq-item"><dt>{x.q}</dt><dd set:html={inline(x.a)} /></div>)}
+          </dl>
+        </section>
+      )}
+      <section class="project-act" id="hablemos">
+        <div class="act-head">
+          <h2 class="display">{t(lang, 'project.talk', { name: p.name })}</h2>
+          <p class="act-lede">{t(lang, 'project.actLede')}</p>
+        </div>
+        <Doors lang={lang} site={site} projects={all} />
+      </section>
+      {guides.length > 0 && (
+        <nav class="guide-related project-guides" aria-label={t(lang, 'guides.forPlace')}>
+          <p class="caption">{t(lang, 'guides.forPlace')}</p>
+          {guides.map((g) => <a href={href('guide', lang, { slug: g.data.key })}>{g.data.title}</a>)}
+        </nav>
+      )}
+      <p class="project-next">
+        <span class="caption">{t(lang, 'project.next')}</span>
+        <a href={href('project', lang, { slug: next.data.key })}>
+          <span>{next.data.name}</span>
+          {nextPlate && <Picture class="next-thumb" src={nextPlate} widths={[320, 640]} sizes="240px" formats={['avif', 'webp']} fallbackFormat="webp" alt="" loading="lazy" />}
         </a>
-      </figure>
-    )}
-    <Ficha lang={lang} project={p} />
-    <Preguntas lang={lang} />
-    <p class="project-talk"><a class="display" href={`${href('contact', lang)}?project=${p.key}`} data-event="cta_click" data-section="project" data-project={p.key}>{t(lang, 'project.talk', { name: p.name })}</a></p>
-    {guides.length > 0 && (
-      <nav class="guide-related project-guides" aria-label={t(lang, 'guides.forPlace')}>
-        <p class="caption">{t(lang, 'guides.forPlace')}</p>
-        {guides.map((g) => <a href={href('guide', lang, { slug: g.data.key })}>{g.data.title}</a>)}
-      </nav>
-    )}
-    <p class="project-next"><span>{t(lang, 'project.next')}</span><a href={href('project', lang, { slug: next.data.key })}>{next.data.name}</a></p>
+      </p>
+    </div>
   </article>
   <Silence sentences={p.closingSentence} signature={site.signature} />
 </Base>

@@ -82,5 +82,18 @@
   "notfound.title": "Página no encontrada",
   "notfound.back": "Volver al inicio",
   "lang.es": "Español",
-  "lang.en": "English"
+  "lang.en": "English",
+  "facts.where": "Dónde",
+  "facts.how": "Cómo se compra",
+  "facts.howCoast": "Extranjeros mediante fideicomiso; mexicanos ante notario",
+  "facts.howInland": "Compra directa, también para extranjeros",
+  "facts.sells": "Se vende",
+  "facts.site": "Sitio del proyecto",
+  "project.chapters": "En esta página",
+  "project.faq": "Preguntas",
+  "project.actLede": "Te decimos qué hay disponible, con su plano y su precio, en tu idioma.",
+  "contact.reach": "Cómo llegar a nosotros",
+  "contact.response": "Respuesta",
+  "band.alt": "La selva y un cenote en la península de Yucatán",
+  "reading.label": "En esta página"
 }

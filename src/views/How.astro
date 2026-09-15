@@ -1,17 +1,20 @@
 ---
+// The buying page: the questions we are asked, each answered in a paragraph. Sixteen of them is a
+// long read, so the rail lists them and knows which one you are on, and the guides that answer
+// four of them at length wait at the end.
 import { getCollection, render } from 'astro:content';
 import Base from '../layouts/Base.astro';
+import Band from '../components/Band.astro';
+import Rail from '../components/Rail.astro';
+import plate from '../assets/img/hero-bg.webp';
 import { t } from '../i18n';
 import { href, type Lang } from '../routes';
 interface Props { lang: Lang }
 const { lang } = Astro.props;
 const site = (await getCollection('site')).find((s) => s.data.lang === lang)!.data;
 const entry = (await getCollection('how')).find((e) => e.data.lang === lang)!;
-const { Content } = await render(entry);
+const { Content, headings } = await render(entry);
 const faq = { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: (entry.body ?? '').split(/^## /m).slice(1).map((s) => { const [q, ...a] = s.trim().split('\n'); return { '@type': 'Question', name: q.trim(), acceptedAnswer: { '@type': 'Answer', text: a.join(' ').trim() } }; }) };
-// This page answers the questions in a paragraph each; the guides answer four of them at length.
-// It is the natural place to hand a reader over, and the only route into the guides from the
-// answer they arrived for.
 const guides = (await getCollection('guides', (e) => e.data.lang === lang && !e.data.draft)).sort((a, b) => a.data.order - b.data.order);
 const abs = (p: string) => new URL(p, Astro.site ?? 'https://jjfcreando.com').href;
 const jsonLd = [
@@ -27,14 +30,21 @@ const jsonLd = [
     ],
   },
 ];
+const railItems = headings.filter((h) => h.depth === 2).map((h) => ({ text: h.text, href: `#${h.slug}` }));
 ---
 <Base lang={lang} title={site.pages.how.title} description={site.pages.how.description} route="how" ground="linen" jsonLd={jsonLd}>
-  <article class="page" data-ground="linen">
+  <article class="page has-band" data-ground="linen">
+    <Band src={plate} alt={t(lang, 'band.alt')} />
     <header class="page-head">
       <h1 class="display">{entry.data.title}</h1>
-      <p class="measure">{entry.data.intro}</p>
+      <p class="lede">{entry.data.intro}</p>
     </header>
-    <div class="prose"><Content /></div>
+    <div class="reading">
+      <Rail label={t(lang, 'reading.label')} items={railItems} class="rail-dense">
+        <a class="btn desk" href={href('contact', lang)} data-event="cta_click" data-section="rail">{t(lang, 'nav.talk')}</a>
+      </Rail>
+      <div class="body prose"><Content /></div>
+    </div>
     <p class="note">{t(lang, 'how.confirm')}</p>
     {guides.length > 0 && (
       <nav class="guide-related" aria-label={t(lang, 'guides.forHow')}>

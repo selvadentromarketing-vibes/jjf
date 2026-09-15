@@ -1,0 +1,20 @@
+---
+// The reading rail (desktop): what is on this page, where you are in it, and the one thing you
+// can do next — held in the left column while the text scrolls past. On a phone it sits under the
+// head as a line of chapters you can swipe. It exists because a long page of good writing was
+// arriving as a wall: the rail gives it a spine.
+interface Item { text: string; href: string }
+interface Props { label: string; items: Item[]; class?: string }
+const { label, items, class: cls = '' } = Astro.props;
+---
+<nav class:list={['rail', cls]} aria-label={label} data-rail>
+  {items.length > 0 && (
+    <>
+      <p class="caption rail-label">{label}</p>
+      <ol class="rail-list">
+        {items.map((it) => <li><a href={it.href}>{it.text}</a></li>)}
+      </ol>
+    </>
+  )}
+  <div class="rail-act"><slot /></div>
+</nav>

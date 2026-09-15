@@ -20,11 +20,6 @@ copyStatus: propuesta
 summary: "Yucatán Country Club is a private community north of Mérida, laid out around a golf course designed by Jack Nicklaus and a lake, with a clubhouse at its centre. You live in villas, houses or apartments, with an international school and a university next door, in the part of Yucatán where the city turns into countryside."
 updated: 2026-09-14
 siteUrl: https://www.yucatancountryclub.com
-plan:
-  svg: yucatan-country-club.svg
-  source: traced
-  from: yucatan.webp
-  asOf: 2026-09-08
 ---
 ## The place
 

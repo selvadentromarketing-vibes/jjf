@@ -1,0 +1,13 @@
+---
+// A photograph across the page, melting into the ground beneath it. It gives a page of type a
+// place to stand on — the guides, the contact page, the buying page — without pretending to be a
+// hero: shorter than a screen, caption before plate, no words on top of it.
+import { Picture } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+interface Props { src: ImageMetadata; alt: string; caption?: string; class?: string }
+const { src, alt, caption, class: cls = '' } = Astro.props;
+---
+<figure class:list={['band', cls]}>
+  {caption && <figcaption class="caption">{caption}</figcaption>}
+  <Picture src={src} widths={[640, 1280, 1920]} sizes="100vw" formats={['avif', 'webp']} fallbackFormat="webp" alt={alt} loading="eager" fetchpriority="high" decoding="async" />
+</figure>

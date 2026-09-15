@@ -82,5 +82,18 @@
   "notfound.title": "Page not found",
   "notfound.back": "Back to the start",
   "lang.es": "Español",
-  "lang.en": "English"
+  "lang.en": "English",
+  "facts.where": "Where",
+  "facts.how": "How you buy",
+  "facts.howCoast": "Foreigners through a bank trust; Mexicans directly before a notary",
+  "facts.howInland": "Direct title, for foreign buyers too",
+  "facts.sells": "For sale",
+  "facts.site": "Project site",
+  "project.chapters": "On this page",
+  "project.faq": "Questions",
+  "project.actLede": "We tell you what is available, with its plan and its price, in your language.",
+  "contact.reach": "How to reach us",
+  "contact.response": "Response",
+  "band.alt": "The jungle and a cenote on the Yucatán peninsula",
+  "reading.label": "On this page"
 }

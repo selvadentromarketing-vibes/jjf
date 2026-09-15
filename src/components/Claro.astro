@@ -22,8 +22,8 @@ const { lang, paragraphs, caption, sketchCaption, line } = Astro.props;
   <figure class="claro-sketches">
     <figcaption class="caption" data-reveal="fade">{sketchCaption}</figcaption>
     <div class="sketches" data-reveal="scrim">
-      <Picture src={sketchA} widths={[480, 640, 800, 960]} sizes="(min-width: 900px) 20vw, 42vw" formats={['avif', 'webp']} fallbackFormat="webp" alt={t(lang, 'claro.altA')} loading="lazy" decoding="async" />
-      <Picture src={sketchB} widths={[480, 640, 800, 960]} sizes="(min-width: 900px) 20vw, 42vw" formats={['avif', 'webp']} fallbackFormat="webp" alt={t(lang, 'claro.altB')} loading="lazy" decoding="async" />
+      <Picture src={sketchA} widths={[480, 640, 800, 960]} sizes="(min-width: 900px) 38vw, 44vw" formats={['avif', 'webp']} fallbackFormat="webp" alt={t(lang, 'claro.altA')} loading="lazy" decoding="async" />
+      <Picture src={sketchB} widths={[480, 640, 800, 960]} sizes="(min-width: 900px) 38vw, 44vw" formats={['avif', 'webp']} fallbackFormat="webp" alt={t(lang, 'claro.altB')} loading="lazy" decoding="async" />
     </div>
   </figure>
   <figure class="claro-plate">

@@ -7,6 +7,7 @@ import { initReveals } from './reveal';
 import { initGround } from './ground';
 import { initPlano } from './plano';
 import { initIndexPlanos } from './index-plano';
+import { initReading } from './reading';
 import { initLight } from './light';
 import { initPanel } from './panel';
 import { initContact } from './contact';
@@ -14,7 +15,7 @@ import { initAnalytics } from './analytics';
 import { initVitals } from './vitals';
 import { ls } from './motion';
 
-function perPage() { initReveals(); initGround(); initHero(); initPlano(); initIndexPlanos(); initLight(); initPanel(); initContact(); }
+function perPage() { initReveals(); initGround(); initHero(); initPlano(); initIndexPlanos(); initReading(); initLight(); initPanel(); initContact(); }
 
 initTier();
 initSolar();

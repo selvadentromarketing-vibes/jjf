@@ -19,11 +19,6 @@ closingSentence:
 copyStatus: propuesta
 summary: "Selvazama es un territorio en la zona hotelera de Tulum, entre la selva y el mar, donde conviven casas, hoteles, una calle comercial y una escuela con los árboles que estaban antes. Crece por fases con una sola idea: construir con la selva, no sobre ella."
 updated: 2026-09-14
-plan:
-  svg: selvazama.svg
-  source: traced
-  from: selvazama.jpg
-  asOf: 2026-09-08
 ---
 ## El lugar
 

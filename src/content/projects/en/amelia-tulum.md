@@ -18,11 +18,6 @@ closingSentence:
 copyStatus: propuesta
 summary: "Amelia Tulum is a built house in Tulum on stilts, raised off the ground to touch the earth as little as possible and let the jungle pass underneath. It is the clearest demonstration, already built and lived in, of how JJF Creando builds: from the climate, the topography and the vegetation of the place."
 updated: 2026-09-14
-plan:
-  svg: amelia-tulum.svg
-  source: traced
-  from: amelia.webp
-  asOf: 2026-09-08
 ---
 ## The place
 
