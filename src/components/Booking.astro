@@ -7,5 +7,6 @@ const BOOKING = 'https://api.leadconnectorhq.com/widget/booking/DD1xkh0ObvHQFhcy
 ---
 <div class="booking" data-booking data-src={BOOKING} data-title={t(lang, 'doors.booking')}>
   <p class="booking-note">{t(lang, 'booking.note')}</p>
+  <p class="booking-loading" aria-live="polite"><span>{t(lang, 'booking.loading')}</span></p>
   <noscript><a href={BOOKING} rel="noopener">{t(lang, 'booking.open')}</a></noscript>
 </div>

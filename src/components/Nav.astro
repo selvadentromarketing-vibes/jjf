@@ -1,19 +1,77 @@
 ---
+// The header. A mark, the four sections, the language pair and one filled button; below 900px the
+// sections fold into a sheet that opens in the current ground with the six places in the house
+// serif. The sheet is the only place on a phone that lists the whole site, so it also carries
+// WhatsApp and the language switch.
+import { getCollection } from 'astro:content';
 import Mark from './Mark.astro';
 import { t } from '../i18n';
 import { href, alternates, type Lang, type RouteKey } from '../routes';
-interface Props { lang: Lang; route: RouteKey; params?: Record<string, string> }
-const { lang, route, params = {} } = Astro.props;
-const alt = alternates(route, params);
+interface Props { lang: Lang; route: RouteKey; params?: Record<string, string>; alt?: Record<Lang, string> }
+const { lang, route, params = {}, alt: altProp } = Astro.props;
+const alt = altProp ?? alternates(route, params);
+const site = (await getCollection('site')).find((s) => s.data.lang === lang)!.data;
+const projects = (await getCollection('projects', (e) => e.data.lang === lang && !e.data.draft)).sort((a, b) => a.data.order - b.data.order);
+const sections: { key: RouteKey; label: string; also?: RouteKey[] }[] = [
+  { key: 'projects', label: t(lang, 'nav.projects'), also: ['project'] },
+  { key: 'how', label: t(lang, 'nav.how') },
+  { key: 'guides', label: t(lang, 'nav.guides'), also: ['guide'] },
+  { key: 'vision', label: t(lang, 'nav.vision'), also: ['track'] },
+];
+const current = (s: { key: RouteKey; also?: RouteKey[] }) => (s.key === route || s.also?.includes(route) ? 'page' : undefined);
+const staging = import.meta.env.PUBLIC_STAGING === '1';
+const showWa = site.whatsapp.verified || staging;
+const waHref = `https://wa.me/${site.whatsapp.number.replace(/\D/g, '')}?text=${encodeURIComponent(t(lang, 'doors.waGeneric'))}`;
 ---
-<header class="nav" data-figures-ok>
+<header class="nav" data-figures-ok data-nav>
   <a class="nav-mark" href={href('home', lang)} aria-label="JJF Creando"><Mark /></a>
-  <nav class="nav-right" aria-label={t(lang, 'nav.label')}>
+  <nav class="nav-links" aria-label={t(lang, 'nav.label')}>
+    <ul>
+      {sections.map((s) => <li><a href={href(s.key, lang)} aria-current={current(s)}>{s.label}</a></li>)}
+    </ul>
+  </nav>
+  <div class="nav-right">
     <div class="lang">
       {lang === 'es' ? <span aria-current="true">ES</span> : <a href={alt.es} hreflang="es" lang="es" data-lang-toggle aria-label={t(lang, 'nav.switch')}>ES</a>}
       <i></i>
       {lang === 'en' ? <span aria-current="true">EN</span> : <a href={alt.en} hreflang="en" lang="en" data-lang-toggle aria-label={t(lang, 'nav.switch')}>EN</a>}
     </div>
-    <a class="cta btn btn-sm" href={href('contact', lang)} data-event="cta_click" data-section="nav">{t(lang, 'nav.talk')}</a>
-  </nav>
+    <a class="cta btn btn-sm btn-primary" href={href('contact', lang)} data-event="cta_click" data-section="nav">{t(lang, 'nav.talk')}</a>
+    <button class="nav-menu btn btn-sm" type="button" aria-expanded="false" aria-controls="sheet" data-sheet-open>{t(lang, 'nav.menu')}</button>
+  </div>
+
+  <div class="sheet" id="sheet" hidden data-sheet role="dialog" aria-modal="true" aria-label={t(lang, 'nav.sheet')}>
+    <div class="sheet-top">
+      <a class="nav-mark" href={href('home', lang)} aria-label="JJF Creando" data-sheet-link><Mark /></a>
+      <button class="btn btn-sm" type="button" data-sheet-close>{t(lang, 'nav.close')}</button>
+    </div>
+    <div class="sheet-body">
+      <div>
+        <p class="caption">{t(lang, 'nav.places')}</p>
+        <ol class="sheet-places">
+          {projects.map((p, i) => (
+            <li class="line" style={`--i:${i}`}><span><a class="display" href={href('project', lang, { slug: p.data.key })} aria-current={route === 'project' && params.slug === p.data.key ? 'page' : undefined} data-sheet-link>{p.data.name}</a></span></li>
+          ))}
+        </ol>
+      </div>
+      <div>
+        <p class="caption">{t(lang, 'nav.sections')}</p>
+        <ul class="sheet-links">
+          {sections.map((s, i) => <li class="line" style={`--i:${i + 6}`}><span><a href={href(s.key, lang)} aria-current={current(s)} data-sheet-link>{s.label}</a></span></li>)}
+          <li class="line" style="--i:10"><span><a href={href('contact', lang)} aria-current={route === 'contact' ? 'page' : undefined} data-sheet-link>{t(lang, 'nav.contact')}</a></span></li>
+        </ul>
+      </div>
+    </div>
+    <div class="sheet-foot">
+      <div class="lang">
+        {lang === 'es' ? <span aria-current="true">ES</span> : <a href={alt.es} hreflang="es" lang="es" data-lang-toggle aria-label={t(lang, 'nav.switch')} data-sheet-link>ES</a>}
+        <i></i>
+        {lang === 'en' ? <span aria-current="true">EN</span> : <a href={alt.en} hreflang="en" lang="en" data-lang-toggle aria-label={t(lang, 'nav.switch')} data-sheet-link>EN</a>}
+      </div>
+      <div class="btn-row">
+        {showWa && <a class="btn" href={waHref} target="_blank" rel="noopener" data-event="whatsapp_click" data-section="sheet">{t(lang, 'doors.whatsapp')}</a>}
+        <a class="btn btn-primary" href={href('contact', lang)} data-event="cta_click" data-section="sheet" data-sheet-link>{t(lang, 'nav.talk')}</a>
+      </div>
+    </div>
+  </div>
 </header>

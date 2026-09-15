@@ -1,24 +1,29 @@
 ---
 import '../styles/global.css';
 import { ClientRouter } from 'astro:transitions';
+import { getCollection } from 'astro:content';
 import { Font } from 'astro:assets';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
 import Door from '../components/Door.astro';
-import Marker from '../components/Marker.astro';
 import { alternates, type Lang, type RouteKey } from '../routes';
+import { t } from '../i18n';
 
 interface Props {
   lang: Lang; title: string; description: string; route: RouteKey; params?: Record<string, string>;
-  ogImage?: string; ogImageAlt?: string; noindex?: boolean; ground?: 'forest' | 'canopy' | 'linen' | 'shade'; strata?: boolean; jsonLd?: object | object[]; bodyClass?: string;
+  ogImage?: string; ogImageAlt?: string; ogType?: 'website' | 'article'; noindex?: boolean; ground?: 'forest' | 'canopy' | 'linen' | 'shade'; jsonLd?: object | object[]; bodyClass?: string;
+  // The page's own address in each language, when the two slugs differ (the guides).
+  alt?: Record<Lang, string>;
 }
-const { lang, title, description, route, params = {}, ogImage, ogImageAlt, noindex = false, ground = 'forest', strata = false, jsonLd, bodyClass = '' } = Astro.props;
+const { lang, title, description, route, params = {}, ogImage, ogImageAlt, ogType = 'website', noindex = false, ground = 'forest', jsonLd, bodyClass = '', alt: altProp } = Astro.props;
 const site = Astro.site ?? new URL('https://jjfcreando.com');
-const alt = alternates(route, params);
+const alt = altProp ?? alternates(route, params);
 const abs = (p: string) => new URL(p, site).href;
 const canonical = abs(alt[lang]);
 // A real square mark, not the Spanish social card that was being served to English pages too.
 // The @id gives every page's graph one node to point at instead of repeating the organisation.
+const siteData = (await getCollection('site')).find((s) => s.data.lang === lang)!.data;
+const staging = import.meta.env.PUBLIC_STAGING === '1';
 const org = {
   '@context': 'https://schema.org',
   '@type': 'Organization',
@@ -27,11 +32,30 @@ const org = {
   url: abs('/'),
   logo: abs('/brand/logo.png'),
   areaServed: ['Tulum', 'Quintana Roo', 'Yucatán', 'México'],
+  address: { '@type': 'PostalAddress', addressLocality: 'Tulum', addressRegion: 'Quintana Roo', addressCountry: 'MX' },
+  ...(siteData.whatsapp.verified ? { telephone: siteData.whatsapp.number.replace(/\s/g, '') } : {}),
+  ...(siteData.email ? { email: siteData.email } : {}),
+  ...(siteData.social.length ? { sameAs: siteData.social.map((s) => s.url) } : {}),
 };
 // A page may bring more than one node (a project brings its Residence and its breadcrumb);
 // they join the organisation in one flat graph rather than nesting an array inside an array.
-const ld = jsonLd ? [org, ...(Array.isArray(jsonLd) ? jsonLd : [jsonLd])] : org;
-const staging = import.meta.env.PUBLIC_STAGING === '1';
+const website = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  '@id': abs('/#website'),
+  url: abs('/'),
+  name: 'JJF Creando',
+  inLanguage: ['es-MX', 'en'],
+  publisher: { '@id': abs('/#org') },
+};
+const own = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [];
+// Every page names itself once. A view that brings its own WebPage (with a date) keeps it.
+const hasPage = own.some((n: any) => n['@type'] === 'WebPage');
+const webPage = hasPage ? [] : [{
+  '@context': 'https://schema.org', '@type': 'WebPage', '@id': canonical, url: canonical, name: title, description,
+  inLanguage: lang === 'es' ? 'es-MX' : 'en', isPartOf: { '@id': abs('/#website') },
+}];
+const ld = [org, website, ...webPage, ...own];
 ---
 <!doctype html>
 <html lang={lang === 'es' ? 'es-MX' : 'en'} data-ground={ground} data-lang={lang} transition:animate="none">
@@ -46,7 +70,7 @@ const staging = import.meta.env.PUBLIC_STAGING === '1';
     <link rel="alternate" hreflang="x-default" href={abs(alt.es)} />
     {noindex && <meta name="robots" content="noindex, nofollow" />}
     <meta property="og:site_name" content="JJF Creando" />
-    <meta property="og:type" content="website" />
+    <meta property="og:type" content={ogType} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
@@ -60,6 +84,8 @@ const staging = import.meta.env.PUBLIC_STAGING === '1';
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="theme-color" content="#0A0D0A" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/brand/favicon-32.png" type="image/png" sizes="32x32" />
+    <link rel="apple-touch-icon" href="/brand/apple-touch-icon.png" />
     <link rel="sitemap" href="/sitemap-index.xml" />
     <Font cssVariable="--font-display" preload />
     <Font cssVariable="--font-text" preload />
@@ -77,11 +103,10 @@ const staging = import.meta.env.PUBLIC_STAGING === '1';
   </head>
   <body class={bodyClass} data-staging={staging ? '1' : undefined}>
     <Door />
-    <a class="skip" href="#main">{lang === 'es' ? 'Ir al contenido' : 'Skip to content'}</a>
-    <Nav lang={lang} route={route} params={params} />
+    <a class="skip" href="#main">{t(lang, 'skip')}</a>
+    <Nav lang={lang} route={route} params={params} alt={alt} />
     <main id="main"><slot /></main>
     <Footer lang={lang} />
-    {strata && <Marker lang={lang} />}
     <script src="../scripts/app.ts"></script>
   </body>
 </html>

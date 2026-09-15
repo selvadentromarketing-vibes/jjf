@@ -3,14 +3,12 @@
   "headline": [
     "<em>True</em> luxury",
     "is not measured",
-    "in square metres."
+    "in square meters."
   ],
   "lede": "…but in the quality of life a space can offer.",
   "claro": [
-    "At JJF Creando we believe that true luxury is not measured in square metres, but in the quality of life a space can offer. We design projects that awaken something more than admiration: they invite you to reconnect with the essential, to live calmly, and to inhabit with purpose.",
-    "Our vision is to create places that elevate the human experience, combining minimalist architecture, living nature and a deep respect for the surroundings. Every detail is considered to bring wellbeing, timeless beauty and a sense of belonging that is hard to explain but impossible to ignore.",
-    "The idea behind JJF Creando is to go beyond simply creating developments or building. What we are after are spaces that truly make you feel something: places that invite you to live calmly, surrounded by nature, without giving up design or detail.",
-    "For us, luxury is not ostentatious. It lies in something subtler, with better taste, more connected to the surroundings and to the way one wants to live. That is why our projects mix the aesthetic with the functional, the natural with the well made.",
+    "We have spent years building on the peninsula: planned communities, houses among trees, a golf course, a school. What they share is not their size but the way we look at the land before we touch it: first the cenote, the shade and the water under the stone; then the house.",
+    "Luxury, for us, is not in the ostentatious. It is shade at the right hour, a cenote left where it was, a house that barely touches the ground. That is why our projects mix the aesthetic with the functional, the natural with the well made.",
     "More than building properties, we design refuges where life feels different."
   ],
   "claroCaption": "The natural and the well made",
@@ -22,8 +20,11 @@
   ],
   "aguaTitle": "Six places on the same stone.",
   "invitation": "Whenever you like, we can talk.",
+  "nowLine": "Residences among cenotes in the Tulum jungle. With plan and price in your language.",
+  "email": "",
+  "social": [],
   "vision": [
-    "At JJF Creando we believe that true luxury is not measured in square metres, but in the quality of life a space can offer. We design projects that awaken something more than admiration: they invite you to reconnect with the essential, to live calmly, and to inhabit with purpose.",
+    "At JJF Creando we believe that true luxury is not measured in square meters, but in the quality of life a space can offer. We design projects that awaken something more than admiration: they invite you to reconnect with the essential, to live calmly, and to inhabit with purpose.",
     "Our vision is to create places that elevate the human experience, combining minimalist architecture, living nature and a deep respect for the surroundings. Every detail is considered to bring wellbeing, timeless beauty and a sense of belonging that is hard to explain but impossible to ignore.",
     "More than building properties, we design refuges where life feels different. Because when a project is born with soul, it transforms not only the landscape, but also the people who live in it.",
     "The idea behind JJF Creando is to go beyond simply creating developments or building. What we are after are spaces that truly make you feel something: places that invite you to live calmly, surrounded by nature, without giving up design or detail.",
@@ -32,9 +33,9 @@
   ],
   "visionStatus": "authored-draft",
   "closingSentences": [
-    "Because when a project is born with soul, it transforms not only the landscape, but also the people who live in it.",
-    "Places that invite you to live calmly, surrounded by nature, without giving up design or detail.",
-    "Luxury is not in the ostentatious. It is in something subtler, more connected to the place."
+    "The jungle was here first. We only learned how to enter it.",
+    "A well-placed house shows in what it leaves standing.",
+    "Here, silence is designed too."
   ],
   "signature": "JJF Creando · Tulum, Riviera Maya",
   "responsePromise": "We write back within one working day.",
@@ -68,7 +69,7 @@
     },
     "vision": {
       "title": "Our vision — JJF Creando",
-      "description": "True luxury is not measured in square metres, but in the quality of life a space can offer. JJF Creando's vision, in the founder's words."
+      "description": "True luxury is not measured in square meters, but in the quality of life a space can offer. JJF Creando's vision, in the founder's words."
     },
     "track": {
       "title": "Track record — JJF Creando",

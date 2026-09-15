@@ -1,5 +1,4 @@
-// Colour-as-weather: the ground follows the stratum you are entering, in both directions. The
-// marker changes colour only.
+// Colour-as-weather: the ground follows the stratum you are entering, in both directions.
 //
 // It used to switch when a stratum reached the centre of the screen. Measured at 390×844 that
 // meant you scrolled half a viewport into Claro — the daylight stratum the darkness budget (§1)
@@ -7,6 +6,8 @@
 // ground on the way back out of every stratum. Now the probe sits ahead of you: at 62 % of the
 // viewport height scrolling down, 38 % scrolling up, so the ground you are arriving at is the
 // ground you see arrive.
+import { listen } from './lifecycle';
+
 let scrollBound = false;
 
 export function initGround() {
@@ -22,16 +23,10 @@ export function initGround() {
   // Not the root: Base.astro stamps the page's opening ground on <html>, which matches the same
   // selector and, being first in the document, was the "stratum" the probe found at every scroll.
   const sections = Array.from(document.querySelectorAll<HTMLElement>('[data-ground]')).filter((s) => s !== html);
-  const marker = document.querySelector<HTMLElement>('[data-marker]');
   if (!sections.length) return;
-
-  const setStratum = (s?: string) => {
-    if (!marker) return;
-    marker.querySelectorAll<HTMLElement>('[data-stratum-label]').forEach((l) => {
-      if (l.dataset.stratumLabel === s) l.setAttribute('data-active', ''); else l.removeAttribute('data-active');
-    });
-    marker.classList.toggle('is-out', s === 'cenote');
-  };
+  // The browser's own chrome follows the ground too.
+  const theme = document.querySelector<HTMLMetaElement>('meta[name="theme-color"]');
+  const GROUNDS: Record<string, string> = { forest: '#0A0D0A', canopy: '#141A14', shade: '#1E241D', linen: '#EDE7DA' };
 
   let lastY = window.scrollY;
   let down = true;
@@ -53,12 +48,14 @@ export function initGround() {
     // Between strata — a passage with no ground of its own — keep the last one rather than flicker.
     if (!hit || hit === current) return;
     current = hit;
-    if (hit.dataset.ground) html.dataset.ground = hit.dataset.ground;
-    if (hit.dataset.stratum) setStratum(hit.dataset.stratum);
+    if (hit.dataset.ground) {
+      html.dataset.ground = hit.dataset.ground;
+      if (theme && GROUNDS[hit.dataset.ground]) theme.content = GROUNDS[hit.dataset.ground];
+    }
   };
 
   const onScroll = () => { if (!ticking) { ticking = true; requestAnimationFrame(pick); } };
-  addEventListener('scroll', onScroll, { passive: true });
-  addEventListener('resize', onScroll, { passive: true });
+  listen(window, 'scroll', onScroll, { passive: true });
+  listen(window, 'resize', onScroll, { passive: true });
   pick();
 }

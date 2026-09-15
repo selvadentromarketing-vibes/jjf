@@ -9,7 +9,7 @@ locality: Tulum
 region: Quintana Roo
 status: en-venta
 statusLabel: en venta
-statusVerified: false
+statusVerified: true
 lightMode: F
 hero: ../../../assets/img/selvadentro.webp
 heroAlt: Vista aérea de Selvadentro, con la selva de Tulum y un cenote entre las residencias

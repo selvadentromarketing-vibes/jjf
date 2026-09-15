@@ -33,6 +33,8 @@ export function initContact() {
         pane.classList.add('is-open');
         btn.setAttribute('aria-expanded', 'true');
         if (btn.dataset.open === 'booking') mountBooking(pane);
+        // The pane opens under the button, which on a desktop is often below the fold: bring it up.
+        requestAnimationFrame(() => pane.scrollIntoView({ block: 'start', behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' }));
         // The first real field, not the first input. The honeypot has no type attribute, so a
         // ':not([type=hidden])' selector matched it: the caret landed in an off-screen,
         // aria-hidden trap, the visitor typed their name into nothing, and the server then
@@ -57,7 +59,10 @@ function mountBooking(pane: HTMLElement) {
   url.searchParams.set('lang', document.documentElement.dataset.lang || 'es');
   UTMS.forEach((k) => { const v = ss.get(k); if (v) url.searchParams.set(k, v); });
   const f = document.createElement('iframe');
-  f.src = url.toString(); f.title = b.dataset.title || 'Booking'; f.loading = 'lazy'; f.setAttribute('scrolling', 'no');
+  f.src = url.toString(); f.title = b.dataset.title || ''; f.loading = 'lazy'; f.setAttribute('scrolling', 'no');
+  // Until the calendar paints there is a 720px hole; a hairline that breathes says it is coming.
+  b.classList.add('is-loading');
+  f.addEventListener('load', () => b.classList.remove('is-loading'), { once: true });
   b.appendChild(f);
 }
 

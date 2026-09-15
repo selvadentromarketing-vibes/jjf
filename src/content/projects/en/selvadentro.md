@@ -9,7 +9,7 @@ locality: Tulum
 region: Quintana Roo
 status: en-venta
 statusLabel: for sale
-statusVerified: false
+statusVerified: true
 lightMode: F
 hero: ../../../assets/img/selvadentro.webp
 heroAlt: Aerial view of Selvadentro, the Tulum jungle and a cenote between the residences
@@ -41,7 +41,7 @@ The masterplan divides the land into sectors named for what lives in it: Cenote,
 
 A trail crosses the whole development from one end to the other. It links the shared spaces, passes beside the water and is walked under the canopy. It is the most-used part of the place and the least visible from the air.
 
-The cenotes are inside the community. They are not an annex or a viewpoint: they are the centre everything else was planned around. The density is low for that reason, not as a matter of taste.
+The cenotes are inside the community. They are not an annex or a viewpoint: they are the center everything else was planned around. The density is low for that reason, not as a matter of taste.
 
 ## How you live here
 
@@ -68,7 +68,7 @@ Yes. Tulum is in the coastal strip reserved by Mexican law, so foreign buyers ac
 The masterplan orders Selvadentro into residential lots within the jungle, each meant for a house of your own. What is available in each sector changes over time, so we tell you precisely when we speak, with the plan in hand.
 
 ### Are there cenotes inside the community?
-Yes. The cenotes are inside the development and are the centre everything else was planned around. One of the plan's sectors carries their name. The water is fresh, cold and a few steps from the houses.
+Yes. The cenotes are inside the development and are the center everything else was planned around. One of the plan's sectors carries their name. The water is fresh, cold and a few steps from the houses.
 
 ### How dense is Selvadentro?
 It is a low-density community by design. The lots sit along looping lanes so the jungle stays between all the houses, the large trees are kept, and the buildings rest in the clearings that already existed.

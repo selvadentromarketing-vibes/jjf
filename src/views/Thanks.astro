@@ -1,14 +1,33 @@
 ---
+// After the form: the thank-you, and somewhere to go. A page that says "gracias" and stops is a
+// dead end for the one visitor who has just told us who they are.
 import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
-import type { Lang } from '../routes';
+import { t } from '../i18n';
+import { href, type Lang } from '../routes';
+import { guideSlug } from '../lib/guides';
 interface Props { lang: Lang }
 const { lang } = Astro.props;
 const site = (await getCollection('site')).find((s) => s.data.lang === lang)!.data;
+const projects = (await getCollection('projects', (e) => e.data.lang === lang && !e.data.draft)).sort((a, b) => a.data.order - b.data.order);
+const selling = projects.find((p) => p.data.status === 'en-venta');
+const guide = (await getCollection('guides', (e) => e.data.lang === lang && !e.data.draft)).find((g) => g.data.key === 'el-fideicomiso-explicado');
+const staging = import.meta.env.PUBLIC_STAGING === '1';
+const showWa = site.whatsapp.verified || staging;
+const waHref = `https://wa.me/${site.whatsapp.number.replace(/\D/g, '')}?text=${encodeURIComponent(t(lang, 'doors.waGeneric'))}`;
 ---
 <Base lang={lang} title={site.pages.thanks.title} description={site.pages.thanks.description} route="thanks" ground="forest" noindex>
-  <section class="cenote grain" data-ground="forest">
+  <section class="thanks grain" data-ground="forest">
     <p class="display silence-line">{site.thanks[0]}</p>
-    <p class="silence-sig">{site.thanks[1]}</p>
+    <p class="silence-sig">{site.thanks[1]}{site.namedPerson && ` — ${site.namedPerson}`}</p>
+    <nav class="thanks-next" aria-label={t(lang, 'thanks.meanwhile')}>
+      <p class="caption">{t(lang, 'thanks.meanwhile')}</p>
+      <ul>
+        {showWa && <li><a href={waHref} target="_blank" rel="noopener" data-event="whatsapp_click" data-section="thanks">{t(lang, 'doors.whatsapp')}</a></li>}
+        {selling && <li><a href={href('project', lang, { slug: selling.data.key })}>{t(lang, 'now.see', { name: selling.data.name })}</a></li>}
+        {guide && <li><a href={href('guide', lang, { slug: guideSlug(guide) })}>{t(lang, 'thanks.read', { title: guide.data.title })}</a></li>}
+        <li><a href={href('home', lang)}>{t(lang, 'back.home')}</a></li>
+      </ul>
+    </nav>
   </section>
 </Base>

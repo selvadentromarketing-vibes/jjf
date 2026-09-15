@@ -5,6 +5,7 @@ import type { CollectionEntry } from 'astro:content';
 import { readFile } from 'node:fs/promises';
 import path from 'node:path';
 import { href, type Lang } from '../routes';
+import { t } from '../i18n';
 interface Props { lang: Lang; projects: CollectionEntry<'projects'>[]; title: string[]; lede?: string; plans?: boolean; opening?: boolean }
 // `opening` means this index is the page's own first screen rather than the fourth stratum of a
 // scroll. A reveal there costs the page its Largest Contentful Paint: the heading is the largest
@@ -60,7 +61,7 @@ const rows = await Promise.all(
         <a href={href('project', lang, { slug: p.data.key })} data-project={p.data.key} data-plate={plate} data-plate-sm={plateSm} data-event="project_open" data-section="index">
           <span class="folio" data-figures-ok>{String(i + 1).padStart(2, '0')}</span>
           <span class="name display">{p.data.name}</span>
-          <span class="meta">{p.data.place} · {p.data.character}</span>
+          <span class="meta">{p.data.place} · {p.data.character}{p.data.statusVerified && p.data.status && <span class="status">{t(lang, `status.${p.data.status}` as any)}</span>}</span>
           {plan
             ? <span class="row-plan" data-row-plan={p.data.key} aria-hidden="true" set:html={plan} />
             : still && <Picture class="still-img" pictureAttributes={{ class: 'still' }} src={still} widths={[320, 640]} sizes="120px" formats={['avif', 'webp']} fallbackFormat="webp" alt="" loading="lazy" />}

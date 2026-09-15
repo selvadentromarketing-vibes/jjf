@@ -1,19 +1,44 @@
 ---
+// The foot of every page: who this is, where, how to reach them, and the sections. One ground —
+// forest — whatever the page above was standing on.
+import { getCollection } from 'astro:content';
 import { t } from '../i18n';
 import { href, type Lang } from '../routes';
 interface Props { lang: Lang }
 const { lang } = Astro.props;
+const site = (await getCollection('site')).find((s) => s.data.lang === lang)!.data;
+const staging = import.meta.env.PUBLIC_STAGING === '1';
+const showWa = site.whatsapp.verified || staging;
+const waDigits = site.whatsapp.number.replace(/\D/g, '');
+const year = new Date().getFullYear();
 ---
 <footer class="footer" data-figures-ok>
-  <p>JJF Creando</p>
-  <p>{t(lang, 'footer.place')}</p>
-  <nav class="footer-links" aria-label={t(lang, 'footer.nav')}>
-    <a href={href('projects', lang)}>{t(lang, 'nav.projects')}</a>
-    <a href={href('vision', lang)}>{t(lang, 'nav.vision')}</a>
-    <a href={href('track', lang)}>{t(lang, 'nav.track')}</a>
-    <a href={href('how', lang)}>{t(lang, 'nav.how')}</a>
-    <a href={href('guides', lang)}>{t(lang, 'nav.guides')}</a>
-    <a href={href('contact', lang)}>{t(lang, 'nav.contact')}</a>
-  </nav>
-  <p><a href={href('privacy', lang)}>{t(lang, 'footer.privacy')}</a></p>
+  <div class="footer-grid">
+    <div class="footer-id">
+      <p class="footer-name">JJF Creando</p>
+      <p>{t(lang, 'footer.place')}</p>
+      {site.entity.legalName && <p class="footer-legal">© {year} {site.entity.legalName} · {t(lang, 'footer.legal')}</p>}
+    </div>
+    <div class="footer-reach">
+      <p class="caption">{t(lang, 'contact.reach')}</p>
+      {showWa && <p><a href={`https://wa.me/${waDigits}`} target="_blank" rel="noopener" data-event="whatsapp_click" data-section="footer">WhatsApp {site.whatsapp.number}</a></p>}
+      {site.email && <p><a href={`mailto:${site.email}`}>{site.email}</a></p>}
+      {site.social.length > 0 && (
+        <p class="footer-links">{site.social.map((s) => <a href={s.url} target="_blank" rel="noopener">{s.label}</a>)}</p>
+      )}
+      <p><a class="btn btn-sm" href={href('contact', lang)} data-event="cta_click" data-section="footer">{t(lang, 'footer.talk')}</a></p>
+    </div>
+    <nav class="footer-nav" aria-label={t(lang, 'footer.nav')}>
+      <p class="caption">{t(lang, 'footer.nav')}</p>
+      <div class="footer-links">
+        <a href={href('projects', lang)}>{t(lang, 'nav.projects')}</a>
+        <a href={href('how', lang)}>{t(lang, 'nav.how')}</a>
+        <a href={href('guides', lang)}>{t(lang, 'nav.guides')}</a>
+        <a href={href('vision', lang)}>{t(lang, 'nav.vision')}</a>
+        <a href={href('track', lang)}>{t(lang, 'nav.track')}</a>
+        <a href={href('contact', lang)}>{t(lang, 'nav.contact')}</a>
+        <a href={href('privacy', lang)}>{t(lang, 'footer.privacy')}</a>
+      </div>
+    </nav>
+  </div>
 </footer>

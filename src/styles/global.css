@@ -1,5 +1,4 @@
 @import "tailwindcss";
-@import "lenis/dist/lenis.css";
 
 /* ===== tokens (plan §5–§6) ===== */
 @theme {
@@ -38,13 +37,13 @@
   --hair: rgb(242 238 229 / .16);
   --focus: var(--color-limestone);
   --gutter: clamp(20px, 5vw, 64px);
-  --t0: .3s; --door-offset: 0ms; --marker-in: 1.4s;
+  --t0: .3s; --door-offset: 0ms;
   /* Otherwise the enquiry form's radios and checkbox arrive in platform blue, the one colour
      that is in no part of this palette. */
   accent-color: var(--color-limestone);
 }
-html.door-pending { --t0: 1.7s; --door-offset: .6s; --marker-in: 3s; }
-html.returning:not(.door-pending) { --t0: .1s; --marker-in: .6s; }
+html.door-pending { --t0: .8s; --door-offset: .45s; }
+html.returning:not(.door-pending) { --t0: .1s; }
 html[data-ground="canopy"] { --ground: var(--color-canopy); }
 html[data-ground="shade"] { --ground: var(--color-shade); --hair: rgb(242 238 229 / .12); }
 html[data-ground="linen"] {
@@ -108,7 +107,18 @@ html[data-ground="linen"] .display em { color: var(--color-forest); }
 
 /* ===== nav (never moves; colour follows the ground) ===== */
 .nav { position: fixed; inset: 0 0 auto 0; z-index: 50; display: flex; align-items: center; justify-content: space-between; gap: 24px; padding: 20px var(--gutter); color: var(--ink); transition: color var(--dur-cine) var(--ease-signature); }
-html.door-pending .nav { opacity: 0; animation: fade-in var(--dur-micro) var(--ease-signature) 1.2s forwards; }
+/* The sections, in the header, from 900px. Small tracked sans; the current one carries the ink. */
+.nav-links ul { list-style: none; margin: 0; padding: 0; display: flex; gap: clamp(18px, 2.4vw, 34px); }
+.nav-links a { display: inline-flex; align-items: center; min-height: 44px; font-size: 13px; letter-spacing: .06em; color: var(--ink-dim); border-bottom: 1px solid transparent; transition: color var(--dur-micro-l) var(--ease-state), border-color var(--dur-micro-l) var(--ease-state); }
+.nav-links a:hover, .nav-links a:focus-visible { color: var(--ink); }
+.nav-links a[aria-current="page"] { color: var(--ink); border-bottom-color: color-mix(in oklab, var(--ink), transparent 55%); }
+.nav-right .nav-menu { display: none; }
+@media (max-width: 899px) {
+  .nav-links { display: none; }
+  .nav-right .nav-menu { display: inline-flex; }
+  /* On a phone the header holds the mark, the button and the menu; the language pair lives in the sheet. */
+  .nav > .nav-right > .lang { display: none; }
+}
 /* once scrolled, a soft veil of the current ground sits behind the nav so it never collides with type beneath it */
 .nav::before { content: ""; position: absolute; inset: 0 0 -70% 0; z-index: -1; pointer-events: none; background: linear-gradient(to bottom, var(--ground) 0%, var(--ground) 45%, color-mix(in oklab, var(--ground), transparent 40%) 70%, transparent 100%); opacity: 0; transition: opacity var(--dur-trans) var(--ease-state); }
 html.scrolled .nav::before { opacity: 1; }
@@ -122,7 +132,29 @@ html.scrolled .nav::before { opacity: 1; }
 .lang a:hover { color: var(--ink); transition-duration: var(--dur-micro-l); }
 .lang i { width: 1px; height: 11px; background: var(--hair); display: block; }
 .cta { white-space: nowrap; }
-@media (max-width: 560px) { .nav { padding: 16px 20px; } .nav-mark .mark svg { height: 30px; } .cta.btn-sm { min-height: 36px; padding: 0 14px; font-size: 12px; } }
+@media (max-width: 560px) { .nav { padding: 16px 20px; } .nav-mark .mark svg { height: 30px; } .nav .btn-sm { min-height: 36px; padding: 0 14px; font-size: 12px; } }
+
+/* ===== the sheet (phone navigation) =====
+   The current ground fills the screen; the six places rise in the house serif, then the sections.
+   No scrim and no slide: it is the page's own colour, and the lines arrive the way every other
+   line on the site does. */
+.sheet { position: fixed; inset: 0; z-index: 80; display: grid; grid-template-rows: auto 1fr auto; gap: clamp(24px, 5vh, 48px); padding: max(16px, env(safe-area-inset-top)) var(--gutter) max(24px, env(safe-area-inset-bottom)); background: var(--ground); color: var(--ink); opacity: 0; transition: opacity var(--dur-micro-l) var(--ease-state); overflow-y: auto; }
+.sheet[hidden] { display: none; }
+.sheet.is-in { opacity: 1; }
+.sheet-top { display: flex; align-items: center; justify-content: space-between; min-height: 44px; }
+.sheet-body { display: grid; gap: clamp(28px, 5vh, 56px); align-content: start; }
+.sheet ol, .sheet ul { list-style: none; margin: 0; padding: 0; }
+.sheet .caption { margin-bottom: 10px; }
+.sheet-places li { padding: 0; }
+.sheet-places a { display: inline-flex; align-items: center; min-height: 44px; font-size: clamp(30px, 8.6vw, 44px); line-height: 1.02; letter-spacing: -.012em; color: var(--ink); }
+.sheet-links a { display: inline-flex; align-items: center; min-height: 40px; font-size: 16px; letter-spacing: .02em; color: var(--ink-dim); }
+.sheet a[aria-current="page"] { color: var(--ink); text-decoration: underline; text-decoration-color: color-mix(in oklab, var(--ink), transparent 55%); text-underline-offset: .18em; }
+.sheet-foot { display: grid; gap: 18px; }
+.sheet-foot .lang { font-size: 13px; }
+.sheet .line > span { transition-delay: calc(var(--i, 0) * 45ms + 60ms); }
+html.sheet-open { overflow: hidden; }
+@media (min-width: 560px) { .sheet-body { grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); } }
+@media (min-width: 900px) { .sheet { display: none !important; } }
 
 /* ===== the door (plan §S0) ===== */
 .door { display: none; position: fixed; inset: 0; z-index: 100; pointer-events: none; color: var(--color-bone); }
@@ -157,18 +189,6 @@ html.door-pending .door[data-state="pending"], .door[data-state="overture"], .do
 }
 .index-panel.is-on { opacity: 1; }
 
-/* On a phone the empty column is the page: the photograph lies behind the whole list instead of
-   beside it. Quieter than the desktop panel, because here the type sits on top of it rather than
-   next to it — the index is still the point of the stratum. */
-.index-panel.is-ambient {
-  inset: 0; right: auto; top: auto; transform: none;
-  width: 100%; height: 100svh; aspect-ratio: auto;
-  z-index: 0;
-}
-.index-panel.is-ambient.is-on { opacity: .46; }
-.index-veil { position: fixed; inset: 0; z-index: 0; pointer-events: none; opacity: 0; transition: opacity var(--dur-micro-l) var(--ease-signature); background: linear-gradient(to bottom, rgb(10 13 10 / .58) 0%, rgb(10 13 10 / .44) 42%, rgb(10 13 10 / .62) 100%); }
-.index-veil.is-on { opacity: 1; }
-.index.has-panel .row .still { display: none; }
 .page-home .roca, .projects-page .roca { position: relative; z-index: 1; }
 /* The row you have scrolled to is the one that is lit — the others recede, exactly as they do
    under a cursor on a desktop. */
@@ -192,13 +212,6 @@ html.door-pending .door[data-state="pending"], .door[data-state="overture"], .do
 .light-field.is-lit { opacity: 1; }
 @media (prefers-reduced-motion: reduce) { .light-field { display: none !important; } }
 
-/* ===== stratum marker ===== */
-.marker { position: fixed; right: clamp(8px, 1.6vw, 26px); top: 50%; transform: translateY(-50%); z-index: 40; display: flex; flex-direction: row; gap: 18px; font-size: 10px; letter-spacing: .16em; color: var(--ink-dim); writing-mode: vertical-rl; pointer-events: none; }
-.marker span { transition: color var(--dur-micro-l) var(--ease-state); }
-.marker span[data-active] { color: var(--ink); }
-.marker { opacity: 0; animation: fade-in var(--dur-micro) var(--ease-signature) var(--marker-in) forwards; }
-.marker.is-out { opacity: 0; animation: none; transition: opacity var(--dur-trans) var(--ease-state); }
-@media (max-width: 560px) { .marker { right: 6px; gap: 12px; font-size: 9px; } }
 
 /* ===== strata ===== */
 .stratum { position: relative; }
@@ -237,8 +250,11 @@ html.returning:not(.door-pending) .hero.is-dawn .hero-plate { animation-duration
 .hero .hero-video { position: relative; z-index: 1; width: 100%; height: calc(100% - 1px); object-fit: cover; opacity: 0; transition: opacity var(--dur-cine-l) var(--ease-signature); pointer-events: none; }
 .hero .hero-video.is-ready { opacity: 1; }
 /* one hairline that draws itself downward and lets go: the only instruction the hero gives */
-.hero-cue { position: absolute; right: var(--gutter); bottom: clamp(28px, 5vh, 56px); z-index: 4; width: 1px; height: clamp(48px, 8vh, 72px); overflow: hidden; opacity: 0; animation: fade-in var(--dur-micro) var(--ease-signature) calc(var(--t0) + 1.2s) forwards; }
-.hero-cue span { display: block; width: 1px; height: 100%; background: var(--color-bone); opacity: .75; animation: cue 2.4s var(--ease-signature) infinite; }
+.hero-cue { position: absolute; right: var(--gutter); bottom: clamp(28px, 5vh, 56px); z-index: 4; display: grid; justify-items: center; gap: 10px; opacity: 0; animation: fade-in var(--dur-micro) var(--ease-signature) calc(var(--t0) + 1.2s) forwards; }
+.hero-cue .cue-label { font-size: 10px; letter-spacing: .18em; text-transform: uppercase; color: var(--color-bone-dim); }
+.hero-cue .cue-line { display: block; width: 1px; height: clamp(40px, 7vh, 64px); overflow: hidden; }
+.hero-cue .cue-line span { display: block; width: 1px; height: 100%; background: var(--color-bone); opacity: .75; animation: cue 2.4s var(--ease-signature) infinite; }
+@media (max-width: 700px) { .hero-cue { display: none; } }
 @keyframes cue { 0% { transform: scaleY(0); transform-origin: top; } 48% { transform: scaleY(1); transform-origin: top; } 52% { transform: scaleY(1); transform-origin: bottom; } 100% { transform: scaleY(0); transform-origin: bottom; } }
 @keyframes fade-in { to { opacity: 1; } }
 /* Enough to carry bone type over a canopy, not so much that it eats the canopy. The bottom stop
@@ -251,6 +267,9 @@ html.returning:not(.door-pending) .hero.is-dawn .hero-plate { animation-duration
 .hero-tint { position: absolute; inset: 0; z-index: 3; pointer-events: none; background: var(--tint); mix-blend-mode: soft-light; opacity: var(--tint-strength); }
 .hero-copy { position: relative; z-index: 4; align-self: end; justify-self: start; width: 100%; max-width: min(1240px, 92vw); padding: 0 var(--gutter) clamp(38px, 7vh, 84px); }
 .hero-title { max-width: 12em; color: var(--color-bone); }
+.hero-eyebrow { margin: 0 0 clamp(14px, 2.2vh, 22px); color: var(--color-bone-dim); font-size: 12.5px; }
+.hero-act { margin-top: clamp(22px, 3.6vh, 34px); }
+.hero .btn { --ink: var(--color-bone); --ground: var(--color-forest); }
 .hero .lede { margin: clamp(20px, 3.4vh, 32px) 0 0; max-width: 40ch; font-size: clamp(16px, 1.3vw, 19px); line-height: 1.6; color: var(--color-bone-dim); }
 .passage { min-height: 16vh; }
 
@@ -260,6 +279,11 @@ html.returning:not(.door-pending) .hero.is-dawn .hero-plate { animation-duration
    one closing line. The same words as before; a page instead of a wall. */
 .claro { padding: clamp(110px, 18vh, 200px) var(--gutter) clamp(100px, 16vh, 180px); display: grid; gap: clamp(72px, 12vh, 170px); }
 .claro-statement { font-size: clamp(32px, 4.6vw, 70px); line-height: 1.08; max-width: 14em; }
+.proof { display: flex; flex-wrap: wrap; gap: clamp(18px, 3vh, 28px) clamp(28px, 4vw, 64px); margin: 0; padding: clamp(18px, 3vh, 28px) 0 0; border-top: 1px solid var(--hair); }
+.proof-row { display: grid; gap: 4px; }
+.proof-row dd { margin: 0; font-size: clamp(30px, 3.4vw, 48px); line-height: 1; font-variant-numeric: tabular-nums; }
+.proof-row dt { font-size: 12px; letter-spacing: .14em; color: var(--ink-dim); }
+@media (min-width: 1024px) { .proof { margin-left: calc(100% / 12 * 3); } }
 .claro-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(28px, 4vh, 44px) clamp(40px, 6vw, 110px); }
 .claro-grid p { margin: 0; font-size: clamp(17px, 1.3vw, 19px); line-height: 1.62; max-width: 46ch; }
 .claro-sketches { margin: 0; display: grid; gap: 20px; }
@@ -289,7 +313,10 @@ html.returning:not(.door-pending) .hero.is-dawn .hero-plate { animation-duration
 .folio { font-size: 10px; letter-spacing: .16em; color: var(--color-limestone); align-self: start; padding-top: .55em; }
 .row .name { font-size: clamp(26px, 4.6vw, 60px); line-height: 1.06; }
 .row .meta { grid-column: 2; font-size: 13.5px; letter-spacing: .04em; color: var(--ink-dim); margin-top: 6px; }
-/* B6 — the plan in the row (src/scripts/index-plano.ts). It sits where the still would, in the
+/* The one editorial state a row may carry: which door is open today. Limestone, small caps spacing, never a figure. */
+.row .status { display: inline-block; margin-left: 14px; padding-left: 14px; border-left: 1px solid var(--hair); font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: var(--color-limestone); }
+html[data-ground="linen"] .row .status { color: var(--color-forest); }
+/* B6 — the plan in the row (parked; the code path was removed with the traced plans). It sat where the still would, in the
    column the hover panel leaves empty, and it is a drawing on dark: a hairline in bone, brighter
    on the row that has your attention. Nothing here moves; only the stroke's length animates. */
 /* The drawing hangs beside the row rather than inside its grid, so a plan taller than the two
@@ -301,13 +328,17 @@ html.returning:not(.door-pending) .hero.is-dawn .hero-plate { animation-duration
 .row .row-plan :is(path, line, polyline, polygon, circle, ellipse, rect) { fill: none; stroke: currentColor; stroke-width: 1; vector-effect: non-scaling-stroke; stroke-linecap: round; stroke-linejoin: round; }
 .row a:hover .row-plan, .row a:focus-visible .row-plan, .row a.is-lit-row .row-plan { color: color-mix(in oklab, var(--color-bone), transparent 26%); transition-duration: var(--dur-micro-l); }
 .row .still { grid-row: 1 / span 2; grid-column: 3; width: clamp(72px, 12vw, 120px); aspect-ratio: 3 / 2; overflow: hidden; }
-.row .still img { width: 100%; height: 100%; object-fit: cover; filter: saturate(.84); }
+.row .still img { width: 100%; height: 100%; object-fit: cover; filter: saturate(.84); transition: filter var(--dur-trans) var(--ease-state); }
+.row a.is-lit-row .still img { filter: saturate(1); }
 @media (hover: hover) and (pointer: fine) {
   .index:hover .row a { opacity: .34; }
   .index .row a:hover { opacity: 1; transition-duration: var(--dur-micro-l); }
   .row .still { display: none; }
 }
 .row a:focus-visible { opacity: 1; }
+.row a:hover .meta, .row a:focus-visible .meta, .row a.is-lit-row .meta { color: var(--ink); transition: color var(--dur-micro-l) var(--ease-state); }
+/* Keyboard parity for the dimming a cursor gets. */
+.index:focus-within .row a:not(:focus-visible) { opacity: .34; }
 
 .agua { position: relative; padding: clamp(80px, 14vh, 160px) var(--gutter) clamp(80px, 12vh, 140px); display: grid; gap: clamp(36px, 6vh, 72px); }
 /* The water was already beneath the rock: it holds still while the opaque stratum above scrolls
@@ -319,7 +350,12 @@ html.returning:not(.door-pending) .hero.is-dawn .hero-plate { animation-duration
 .agua > :not(.agua-water) { position: relative; z-index: 1; }
 /* Screen, not soft-light: there is no photograph here for the light to modulate. */
 .light-field.is-additive { mix-blend-mode: screen; }
+/* The water lives where the words do not: to the right of the doors on a desktop, above them on a
+   phone. Masked rather than dimmed, so where it is, it is water. */
+@media (min-width: 1024px) { .agua-water .light-field.is-additive { -webkit-mask-image: linear-gradient(to right, transparent 0%, rgb(0 0 0 / .18) 42%, #000 72%); mask-image: linear-gradient(to right, transparent 0%, rgb(0 0 0 / .18) 42%, #000 72%); } }
+@media (max-width: 1023px) { .agua-water .light-field.is-additive { -webkit-mask-image: linear-gradient(to bottom, #000 0%, rgb(0 0 0 / .5) 45%, transparent 82%); mask-image: linear-gradient(to bottom, #000 0%, rgb(0 0 0 / .5) 45%, transparent 82%); } }
 .agua h2 { max-width: 14em; }
+.agua .invitation { margin-top: clamp(12px, 4vh, 40px); }
 .ledger { list-style: none; margin: 0; padding: 0; max-width: 640px; position: relative; }
 .ledger .hair { display: block; height: 1px; background: var(--color-limestone); transform-origin: left; transform: scaleX(0); transition: transform var(--dur-cine) var(--ease-signature); }
 .ledger.is-in .hair { transform: scaleX(1); }
@@ -332,8 +368,15 @@ html.returning:not(.door-pending) .hero.is-dawn .hero-plate { animation-duration
    filled when open. No modal anywhere: the panes open beneath. */
 .doors { max-width: 720px; display: grid; gap: 22px; }
 .door-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
-.door-link { display: flex; align-items: center; width: 100%; min-height: 66px; padding: 18px 26px; text-align: left; font-family: var(--font-display); font-size: clamp(21px, 1.8vw, 27px); line-height: 1.1; letter-spacing: -.005em; background: transparent; border: 1px solid color-mix(in oklab, var(--ink), transparent 52%); border-radius: 0; cursor: pointer; color: var(--ink); transition: background-color var(--dur-micro) var(--ease-state), color var(--dur-micro) var(--ease-state), border-color var(--dur-micro) var(--ease-state); }
+.door-link { display: flex; flex-direction: column; align-items: flex-start; justify-content: center; gap: 4px; width: 100%; min-height: 66px; padding: 16px 26px 18px; text-align: left; font-family: var(--font-display); font-size: clamp(21px, 1.8vw, 27px); line-height: 1.1; letter-spacing: -.005em; background: transparent; border: 1px solid color-mix(in oklab, var(--ink), transparent 52%); border-radius: 0; cursor: pointer; color: var(--ink); text-decoration: none; transition: background-color var(--dur-micro) var(--ease-state), color var(--dur-micro) var(--ease-state), border-color var(--dur-micro) var(--ease-state); }
+.door-link .door-sub { font-family: var(--font-text); font-size: 13px; letter-spacing: .02em; line-height: 1.4; color: var(--ink-dim); transition: color var(--dur-micro) var(--ease-state); }
 .door-link:hover, .door-link:focus-visible, .door-link[aria-expanded="true"] { background: var(--ink); color: var(--ground); border-color: var(--ink); }
+.door-link:hover .door-sub, .door-link:focus-visible .door-sub, .door-link[aria-expanded="true"] .door-sub { color: color-mix(in oklab, var(--ground), transparent 30%); }
+/* The filled door is the one most people take. */
+.door-link.door-primary { background: var(--ink); color: var(--ground); border-color: var(--ink); }
+.door-link.door-primary .door-sub { color: color-mix(in oklab, var(--ground), transparent 30%); }
+.door-link.door-primary:hover, .door-link.door-primary:focus-visible { background: transparent; color: var(--ink); }
+.door-link.door-primary:hover .door-sub, .door-link.door-primary:focus-visible .door-sub { color: var(--ink-dim); }
 .door-pane { padding: 8px 0 4px; }
 html.js .door-pane:not(.is-open) { display: none; }
 .reassure { margin: 0; font-size: 14px; color: var(--ink-dim); }
@@ -350,28 +393,49 @@ html.js .door-pane:not(.is-open) { display: none; }
 .consent { display: flex; gap: 12px; align-items: flex-start; font-size: 13px; color: var(--ink-dim); padding: 18px 0 6px; }
 .consent a { border-bottom: 1px solid var(--hair); color: var(--ink); }
 .consent input { margin-top: 4px; }
-.submit { justify-self: start; margin-top: 12px; background: none; border: 0; padding: 12px 0; cursor: pointer; }
+.submit { justify-self: start; margin-top: 18px; }
 .form-note { font-size: 12px; color: var(--ink-dim); margin-top: 8px; }
 .form-error { font-size: 13px; color: var(--ink); margin-top: 10px; }
 .hp { position: absolute; left: -10000px; top: auto; width: 1px; height: 1px; overflow: hidden; }
 .form-sent .display { font-size: clamp(24px, 3vw, 40px); font-style: italic; max-width: 22em; }
 .contact-form.is-sending { opacity: .6; transition: opacity var(--dur-trans) var(--ease-state); }
-.booking { min-height: 80px; }
+.booking { min-height: 80px; position: relative; }
 .booking iframe { width: 100%; min-height: 720px; border: 0; background: transparent; }
+.booking-loading { display: none; font-size: 13px; color: var(--ink-dim); padding: 18px 0; }
+.booking-loading span { display: inline-block; border-bottom: 1px solid var(--hair); }
+.booking.is-loading .booking-loading { display: block; }
+.booking.is-loading iframe { position: absolute; opacity: 0; pointer-events: none; }
 .booking-note { font-size: 13px; color: var(--ink-dim); margin-bottom: 14px; }
+
+/* ===== ahora — the place selling today ===== */
+.now { position: relative; display: grid; isolation: isolate; min-height: min(92svh, 860px); align-content: end; padding: clamp(80px, 14vh, 160px) var(--gutter) clamp(56px, 9vh, 100px); background: var(--color-canopy); overflow: hidden; }
+.now .now-plate { position: absolute; inset: 0; z-index: 0; }
+.now .now-plate picture { top: -6%; bottom: -6%; }
+.now::after { content: ""; position: absolute; inset: 0; z-index: 1; pointer-events: none; background: linear-gradient(to top, rgb(10 13 10 / .78) 0%, rgb(10 13 10 / .42) 38%, rgb(10 13 10 / .08) 70%, transparent 100%); }
+.now-copy { position: relative; z-index: 2; display: grid; gap: clamp(14px, 2.4vh, 22px); max-width: 44em; color: var(--color-bone); }
+.now-copy .eyebrow { color: var(--color-limestone); }
+.now-copy h2 { font-size: clamp(40px, 7vw, 96px); max-width: 10em; color: var(--color-bone); }
+.now-line { max-width: 40ch; font-size: clamp(16px, 1.3vw, 19px); line-height: 1.55; color: var(--color-bone-dim); }
+.now .btn { --ink: var(--color-bone); --ground: var(--color-forest); }
+.now .btn-row { margin-top: 6px; }
+@media (max-width: 700px) { .now { min-height: 86svh; } }
 
 /* the silence */
 /* The Silence carries its own darkness rather than borrowing the page's ground through the scroll
    observer. Without this it inherits whatever the page is standing on — linen, on every project
    page — and "the light goes out" becomes a viewport of empty cream that reads as unfinished. */
 .cenote {
-  min-height: 100svh;
+  min-height: 60svh;
   display: grid; align-content: end;
-  padding: 0 var(--gutter) clamp(60px, 10vh, 120px);
+  padding: clamp(80px, 14vh, 160px) var(--gutter) clamp(60px, 10vh, 120px);
   isolation: isolate;
   background: var(--color-forest);
   transition: background-color var(--dur-cine) var(--ease-signature);
 }
+.thanks { min-height: 82svh; display: grid; align-content: end; gap: clamp(28px, 5vh, 48px); padding: clamp(120px, 20vh, 220px) var(--gutter) clamp(60px, 10vh, 120px); isolation: isolate; position: relative; background: var(--color-forest); }
+.thanks-next ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; max-width: 560px; }
+.thanks-next a { display: inline-flex; align-items: center; min-height: 44px; font-family: var(--font-display); font-size: clamp(20px, 1.8vw, 26px); color: var(--color-bone); border-bottom: 1px solid var(--hair); }
+.thanks-next a:hover, .thanks-next a:focus-visible { border-bottom-color: var(--color-bone); }
 .silence-line { font-style: italic; font-size: clamp(24px, 3vw, 44px); max-width: 24em; color: var(--color-bone); }
 .silence-line em { color: inherit; }
 .silence-sig { margin-top: 26px; font-size: 12px; letter-spacing: .14em; color: var(--color-bone-dim); }
@@ -460,6 +524,10 @@ html.js .door-pane:not(.is-open) { display: none; }
 .prose p a, .prose li a { text-decoration: underline; text-decoration-color: color-mix(in oklab, currentColor, transparent 62%); text-underline-offset: .2em; padding-block: 6px; transition: text-decoration-color var(--dur-micro) var(--ease-state); }
 .prose p a:hover, .prose p a:focus-visible, .prose li a:hover, .prose li a:focus-visible { text-decoration-color: currentColor; }
 .guide-meta { display: flex; gap: 24px; flex-wrap: wrap; font-size: 12px; letter-spacing: .06em; color: var(--ink-dim); }
+.review-note { color: var(--ink-dim); }
+.review-note::before { content: ""; display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: var(--color-limestone); margin-right: 8px; vertical-align: middle; }
+.scene-gallery { grid-column: 1 / -1; display: grid; gap: clamp(28px, 4vh, 48px); }
+@media (min-width: 1024px) { .scene-gallery { grid-column: 2 / 13; grid-template-columns: repeat(2, minmax(0, 1fr)); } .scene-gallery .scene-figure { grid-column: auto; } }
 .guide-related { display: grid; gap: 8px; max-width: 64ch; }
 .guide-related a { display: inline-flex; align-items: center; min-height: 36px; font-family: var(--font-serif); font-size: clamp(20px, 1.7vw, 26px); text-decoration: none; color: var(--ink); border-bottom: 1px solid var(--hair); }
 .guides-list { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: clamp(28px, 4vh, 48px) clamp(32px, 4vw, 72px); }
@@ -499,7 +567,14 @@ html.js .door-pane:not(.is-open) { display: none; }
   color: var(--color-bone-dim);
 }
 .footer a { color: var(--color-bone); }
+.footer-grid { display: grid; gap: clamp(28px, 5vh, 48px) clamp(32px, 5vw, 96px); }
+.footer-id, .footer-reach, .footer-nav { display: grid; gap: 8px; align-content: start; justify-items: start; }
+.footer-name { font-family: var(--font-display); font-size: 22px; color: var(--color-bone); }
+.footer-legal { font-size: 12.5px; }
+.footer .caption { margin: 0 0 4px; color: var(--color-bone-dim); }
+.footer .btn { --ink: var(--color-bone); --ground: var(--color-forest); margin-top: 6px; }
 .footer-links { display: flex; flex-wrap: wrap; gap: 6px 14px; }
+@media (min-width: 800px) { .footer-grid { grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr) minmax(0, 1fr); } }
 
 
 
@@ -588,6 +663,7 @@ html.js .door-pane:not(.is-open) { display: none; }
    still make it obvious what you can do. */
 .btn { display: inline-flex; align-items: center; justify-content: center; gap: 12px; min-height: 52px; padding: 0 26px; font-family: var(--font-text); font-size: 13.5px; letter-spacing: .06em; line-height: 1.25; text-decoration: none; text-align: center; color: var(--ink); background: transparent; border: 1px solid color-mix(in oklab, var(--ink), transparent 52%); border-radius: 0; cursor: pointer; white-space: nowrap; transition: background-color var(--dur-micro) var(--ease-state), color var(--dur-micro) var(--ease-state), border-color var(--dur-micro) var(--ease-state); }
 .btn:hover, .btn:focus-visible { background: var(--ink); color: var(--ground); border-color: var(--ink); }
+.btn:active { transform: translateY(1px); }
 .btn-primary { background: var(--ink); color: var(--ground); border-color: var(--ink); }
 .btn-primary:hover, .btn-primary:focus-visible { background: transparent; color: var(--ink); }
 .btn-sm { min-height: 40px; padding: 0 18px; font-size: 12.5px; }
@@ -682,10 +758,6 @@ html.js .door-pane:not(.is-open) { display: none; }
   body { font-size: 16px; }
   .small, .form-note, .reassure, .note, .contact-ledger { font-size: 13.5px; }
 
-  /* The stratum marker sat over the photograph on a narrow screen. On a phone the whole
-     viewport is the picture, so the chrome goes rather than the view. */
-  .marker { display: none; }
-
   /* A row is a tap target: the whole thing, comfortably. */
   .row a { padding: 18px 0; gap: 12px 14px; }
   .row .still { width: 84px; }
@@ -705,7 +777,7 @@ html.js .door-pane:not(.is-open) { display: none; }
 /* ===== reduced motion: nothing moves; everything is present ===== */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: .001ms !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; }
-  body, .nav, .lang a, .cta::after, .row a, .door-link, .field, .marker span { transition-duration: .001ms !important; }
+  body, .nav, .lang a, .cta::after, .row a, .door-link, .field, .sheet { transition-duration: .001ms !important; }
   [data-reveal], .line > span { transition: none !important; transform: none !important; opacity: 1 !important; clip-path: none !important; }
   [data-reveal="scrim"]::after { display: none !important; }
   .hero .hero-media, .hero .hero-plate, .hero-copy, .project-hero .hero-media, .project-hero .hero-media img, .project-hero .hero-sink, .project-hero .project-title { filter: none !important; opacity: 1 !important; animation: none !important; transform: none !important; }
@@ -714,7 +786,6 @@ html.js .door-pane:not(.is-open) { display: none; }
   [data-reveal="image"] .img-wrap { clip-path: none !important; transition: none !important; }
   [data-reveal="image"] picture, .scene-img img { transform: none !important; animation: none !important; transition: none !important; }
   .grain::after { animation: none !important; }
-  .marker { opacity: 1; animation: none; }
   .door { display: none !important; }
   .ledger .hair { transform: none !important; transition: none !important; }
   .plano { display: none !important; }

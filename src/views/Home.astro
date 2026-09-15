@@ -3,19 +3,28 @@ import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
 import Hero from '../components/Hero.astro';
 import Claro from '../components/Claro.astro';
+import Now from '../components/Now.astro';
 import Index from '../components/Index.astro';
 import Agua from '../components/Agua.astro';
 import Silence from '../components/Silence.astro';
+import { t } from '../i18n';
 import type { Lang } from '../routes';
 interface Props { lang: Lang }
 const { lang } = Astro.props;
 const site = (await getCollection('site')).find((s) => s.data.lang === lang)!.data;
 const projects = (await getCollection('projects', (e) => e.data.lang === lang && !e.data.draft)).sort((a, b) => a.data.order - b.data.order);
+// The place selling today, if a record says so. Its WhatsApp opens on the place by name.
+const selling = projects.find((p) => p.data.status === 'en-venta' && p.data.statusVerified);
+const staging = import.meta.env.PUBLIC_STAGING === '1';
+const wa = selling && (site.whatsapp.verified || staging)
+  ? `https://wa.me/${site.whatsapp.number.replace(/\D/g, '')}?text=${encodeURIComponent(t(lang, 'doors.waText', { project: selling.data.name }))}`
+  : undefined;
 ---
-<Base lang={lang} title={site.pages.home.title} description={site.pages.home.description} route="home" ground="canopy" strata bodyClass="page-home">
-  <Hero headline={site.headline} lede={site.lede} />
+<Base lang={lang} title={site.pages.home.title} description={site.pages.home.description} route="home" ground="canopy" bodyClass="page-home">
+  <Hero lang={lang} headline={site.headline} lede={site.lede} />
   <div class="passage stratum" data-stratum="dosel" data-ground="forest" aria-hidden="true"></div>
-  <Claro lang={lang} paragraphs={site.claro} caption={site.claroCaption} sketchCaption={site.claroSketchCaption} line={site.claroLine} />
+  <Claro lang={lang} paragraphs={site.claro} caption={site.claroCaption} sketchCaption={site.claroSketchCaption} line={site.claroLine} projects={projects} />
+  {selling && <Now lang={lang} project={selling} line={site.nowLine} wa={wa} />}
   <Index lang={lang} projects={projects} title={site.indexTitle} />
   <Agua lang={lang} site={site} projects={projects} />
   <Silence sentences={site.closingSentences} signature={site.signature} />

@@ -2,12 +2,13 @@
 import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
 import { href } from '../routes';
+import { t } from '../i18n';
 const all = await getCollection('site');
 const es = all.find((s) => s.data.lang === 'es')!.data;
 const en = all.find((s) => s.data.lang === 'en')!.data;
 const projects = (await getCollection('projects', (e) => e.data.lang === 'es' && !e.data.draft)).sort((a, b) => a.data.order - b.data.order);
 ---
-<Base lang="es" title="JJF Creando" description={es.notFoundLine} route="home" ground="forest" noindex>
+<Base lang="es" title={`${t('es', 'notfound.title')} — JJF Creando`} description={es.notFoundLine} route="home" ground="forest" noindex>
   <section class="notfound">
     <h1 class="display">{es.notFoundLine}</h1>
     <p class="small" lang="en">{en.notFoundLine}</p>
@@ -16,6 +17,6 @@ const projects = (await getCollection('projects', (e) => e.data.lang === 'es' &&
         <li class="row"><a href={href('project', 'es', { slug: p.data.key })}><span class="folio" data-figures-ok>{String(i + 1).padStart(2, '0')}</span><span class="name display">{p.data.name}</span><span class="meta">{p.data.place}</span></a></li>
       ))}
     </ol>
-    <p><a class="cta" href="/es/">Volver al inicio</a> &nbsp; <a class="cta" href="/en/">Back to the start</a></p>
+    <p class="btn-row"><a class="btn" href="/es/">{t('es', 'back.home')}</a> <a class="btn" href="/en/" lang="en">{t('en', 'back.home')}</a></p>
   </section>
 </Base>

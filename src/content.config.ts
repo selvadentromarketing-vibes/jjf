@@ -72,6 +72,7 @@ const projects = defineCollection({
       priceFrom: figure.optional(),
       soldPct: figure.optional(),
       cenotes: figure.optional(),
+      homes: figure.optional(),
     }),
 });
 
@@ -90,6 +91,10 @@ const site = defineCollection({
     indexTitle: z.array(z.string()).min(1).max(2),
     aguaTitle: z.string(),
     invitation: z.string(),
+    // The one place selling today, in one line under its name. Rendered only while a record says en-venta.
+    nowLine: z.string().default(''),
+    email: z.string().default(''),
+    social: z.array(z.object({ label: z.string(), url: z.string().url() })).default([]),
     vision: z.array(z.string()).min(1),
     visionStatus: z.enum(['verbatim', 'authored-draft', 'authored']),
     closingSentences: z.array(z.string()).min(1),
@@ -118,6 +123,8 @@ const guides = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/content/guides' }),
   schema: z.object({
     key: z.string().regex(/^[a-z0-9-]+$/),
+    // The URL segment in this language. The key is Spanish; an English guide names its own.
+    slug: z.string().regex(/^[a-z0-9-]+$/).optional(),
     lang: z.enum(['es', 'en']),
     order: z.number().int().min(1),
     title: z.string().min(1),
