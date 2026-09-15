@@ -1,11 +1,12 @@
 ---
 // Dosel (plan §S1, revised 15 September). The hero is the land, and the camera moves.
 //
-// The loop cut from the brand film was 640 px wide; at the size of a screen it read as dark, soft
-// green with words on it, and the founder said so. The real hero cut sits on a Drive the build
-// cannot reach, so until it arrives the hero is JJF's own aerial — the jungle with its cenote, the
-// image the old site opened on — at the best resolution in the repo. The motion is the camera's:
-// an arrival that comes into focus and settles, a slow drift while you look, a sink as you scroll.
+// Two layers. The plate — JJF's own aerial, the jungle with its cenote — paints first, in flow, as
+// the LCP element, and is the whole hero wherever the film cannot play. The film is the founder's
+// own hero cut (1080p, five shots), slowed to half speed, its letterbox and burned-in subtitles
+// cropped away, looped through a dissolve; it is fetched only after the page has loaded and fades
+// in once the plate has finished arriving. The motion under it is the camera's: an arrival that
+// comes into focus and settles, a slow drift while you look, a sink as you scroll.
 // None of it needs a script, and the plate is still painted first, in flow, as the LCP element —
 // with the <picture> itself as the grid item. A plain wrapper box between the grid and the image
 // takes the image out of Chrome's largest-contentful-paint candidates entirely (measured: the same
@@ -19,6 +20,12 @@ const { headline, lede } = Astro.props;
 ---
 <section class="hero stratum" data-stratum="dosel" data-ground="canopy" data-light="A" id="dosel">
   <Picture class="hero-plate" pictureAttributes={{ class: 'hero-media' }} src={plate} widths={[640, 960, 1200, 1400]} sizes="100vw" formats={['avif', 'webp']} fallbackFormat="webp" alt="" loading="eager" fetchpriority="high" decoding="async" />
+  <video class="hero-video" muted loop playsinline preload="none" tabindex="-1" aria-hidden="true" data-hero-video>
+    <source data-src="/media/hero/hero-desk.webm" type="video/webm; codecs=av01.0.08M.08" media="(min-width: 1024px)" />
+    <source data-src="/media/hero/hero-desk.mp4" type="video/mp4; codecs=avc1.640028" media="(min-width: 1024px)" />
+    <source data-src="/media/hero/hero-phone.webm" type="video/webm; codecs=av01.0.05M.08" />
+    <source data-src="/media/hero/hero-phone.mp4" type="video/mp4; codecs=avc1.64001f" />
+  </video>
   <div class="hero-scrim" aria-hidden="true"></div>
   <div class="hero-tint" aria-hidden="true"></div>
   <div class="hero-copy">

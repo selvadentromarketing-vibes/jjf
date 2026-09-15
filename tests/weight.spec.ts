@@ -22,9 +22,10 @@ const SHARED = { html: 200, js: 110, css: 40, font: 140 }; // measured: 16 · 56
 // behind the index are pulled depends on how fast the scroll passes each row. The caps sit above
 // the heaviest run seen, not above the average.
 const ROUTES: Record<string, Budget> = {
-  // The homepage carries the most photographs of any route: a real aerial as the hero (the 640 px
-  // video loop is gone), the building across the page in Claro, six plates behind the index.
-  '/es/': { total: 760 },                      // measured: 690 on 15 September (476–580 before the aerial)
+  // The homepage carries the most photographs of any route: a real aerial as the hero, the
+  // building across the page in Claro, six plates behind the index — and, as media, the founder's
+  // own hero cut at phone size, fetched only after the page has loaded.
+  '/es/': { total: 760, media: 700 },          // measured: 690 without media · media 580 (the phone webm)
   // The index: six plates behind the list on a phone, all of them if the scroll passes every row.
   '/es/proyectos/': { total: 480 },            // measured: 285–454
   // A project page now ends on the next place's photograph across the page.

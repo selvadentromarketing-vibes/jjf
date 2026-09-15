@@ -36,6 +36,27 @@ test.describe('the hero', () => {
     expect(pos).not.toContain('fixed');
   });
 
+  test('the film is an enhancement: nothing is fetched before the page has loaded', async ({ page }) => {
+    test.skip(test.info().project.name === 'reduced');
+    // At parse time the sources carry data-src only, so the film can never compete with the plate.
+    const html = await (await page.request.get('/es/')).text();
+    expect(html).toContain('data-src="/media/hero/hero-desk.webm"');
+    expect(html).toContain('data-src="/media/hero/hero-phone.mp4"');
+    expect(html).not.toMatch(/<source[^>]+\ssrc="\/media\/hero/);
+    expect(html).toContain('preload="none"');
+    // ...and the plate stays the LCP element; the film fades in over it once it plays.
+    await page.goto('/es/');
+    await expect(page.locator('.hero .hero-video.is-ready')).toHaveCount(1, { timeout: 12_000 });
+  });
+
+  test('reduced motion keeps the plate and never loads the film', async ({ page }) => {
+    test.skip(test.info().project.name !== 'reduced');
+    await page.goto('/es/');
+    await page.waitForTimeout(2500);
+    expect(await page.locator('.hero .hero-video source[src]').count()).toBe(0);
+    await expect(page.locator('.hero .hero-video')).toBeHidden();
+  });
+
   test('the camera moves without a script: the plate arrives, breathes and sinks', async ({ page }) => {
     test.skip(test.info().project.name !== 'desktop');
     await page.goto('/es/');
@@ -45,6 +66,7 @@ test.describe('the hero', () => {
     expect(plate).toContain('hero-breathe');
     // No wrapper box between the grid and the picture: that is what keeps the plate an LCP candidate.
     expect(await page.locator('.hero > picture.hero-media > img.hero-plate').count()).toBe(1);
+    expect(await page.locator('.hero > video.hero-video').count()).toBe(1);
     // the sink is scroll-driven where the browser can, and simply absent where it cannot
     const sink = await page.evaluate(() => getComputedStyle(document.querySelector('.hero .hero-media')!).animationName);
     expect(sink === 'hero-sink' || sink === 'none').toBe(true);

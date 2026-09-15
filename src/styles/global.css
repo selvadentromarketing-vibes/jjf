@@ -233,6 +233,9 @@ html.returning:not(.door-pending) .hero.is-dawn .hero-plate { animation-duration
   .hero .hero-copy { animation: hero-lift linear both; animation-timeline: scroll(root); animation-range: 0 75vh; }
   @keyframes hero-lift { to { transform: translateY(-9vh); opacity: 0; } }
 }
+/* the film, over the plate, in the same grid cell: nothing until it plays, then a slow cross-fade */
+.hero .hero-video { position: relative; z-index: 1; width: 100%; height: calc(100% - 1px); object-fit: cover; opacity: 0; transition: opacity var(--dur-cine-l) var(--ease-signature); pointer-events: none; }
+.hero .hero-video.is-ready { opacity: 1; }
 /* one hairline that draws itself downward and lets go: the only instruction the hero gives */
 .hero-cue { position: absolute; right: var(--gutter); bottom: clamp(28px, 5vh, 56px); z-index: 4; width: 1px; height: clamp(48px, 8vh, 72px); overflow: hidden; opacity: 0; animation: fade-in var(--dur-micro) var(--ease-signature) calc(var(--t0) + 1.2s) forwards; }
 .hero-cue span { display: block; width: 1px; height: 100%; background: var(--color-bone); opacity: .75; animation: cue 2.4s var(--ease-signature) infinite; }
@@ -241,7 +244,10 @@ html.returning:not(.door-pending) .hero.is-dawn .hero-plate { animation-duration
 /* Enough to carry bone type over a canopy, not so much that it eats the canopy. The bottom stop
    was .9, which on a phone — where the copy sits across the lower third — turned half the hero
    black. */
-.hero-scrim { position: absolute; inset: 0; z-index: 2; pointer-events: none; background: linear-gradient(to top, rgb(10 13 10 / .74) 0%, rgb(10 13 10 / .32) 26%, transparent 50%), linear-gradient(to right, rgb(10 13 10 / .44) 0%, rgb(10 13 10 / .05) 45%, transparent 70%); }
+/* Lighter than it was: the film's jungle shots are darker than the aerial, and with the old stops
+   the hero read as black on a phone and tipped the darkness budget. The headline is display size
+   and sits over the darkest stop; the lede sits at the very foot, where the scrim is strongest. */
+.hero-scrim { position: absolute; inset: 0; z-index: 2; pointer-events: none; background: linear-gradient(to top, rgb(10 13 10 / .62) 0%, rgb(10 13 10 / .24) 26%, transparent 50%), linear-gradient(to right, rgb(10 13 10 / .36) 0%, rgb(10 13 10 / .04) 45%, transparent 70%); }
 .hero-tint { position: absolute; inset: 0; z-index: 3; pointer-events: none; background: var(--tint); mix-blend-mode: soft-light; opacity: var(--tint-strength); }
 .hero-copy { position: relative; z-index: 4; align-self: end; justify-self: start; width: 100%; max-width: min(1240px, 92vw); padding: 0 var(--gutter) clamp(38px, 7vh, 84px); }
 .hero-title { max-width: 12em; color: var(--color-bone); }
@@ -704,6 +710,7 @@ html.js .door-pane:not(.is-open) { display: none; }
   [data-reveal="scrim"]::after { display: none !important; }
   .hero .hero-media, .hero .hero-plate, .hero-copy, .project-hero .hero-media, .project-hero .hero-media img, .project-hero .hero-sink, .project-hero .project-title { filter: none !important; opacity: 1 !important; animation: none !important; transform: none !important; }
   .hero-cue { display: none !important; }
+  .hero .hero-video { display: none !important; }
   [data-reveal="image"] .img-wrap { clip-path: none !important; transition: none !important; }
   [data-reveal="image"] picture, .scene-img img { transform: none !important; animation: none !important; transition: none !important; }
   .grain::after { animation: none !important; }
