@@ -1,11 +1,10 @@
 ---
-// Claro: daylight on linen. The founder speaks verbatim; the sketches on paper; caption before
-// plate. The one stratum specified at three viewports or more, because it is the daylight the
-// darkness budget (§1) is measured against — and it had been built at one and a half.
+// Claro: daylight on linen. The founder speaks verbatim — as scenes, not as an essay.
 //
-// Three things stand on the paper, in the order JJF makes anything: the words, the pencil, the
-// building. The architecture plate is the plan's own ("one architecture plate beside them"),
-// carrying the caption the plan gave it; the sketches take a caption of their own.
+// One statement in display type, four short paragraphs in two columns, his two pencil sheets at
+// the size a drawing deserves, the building across the whole page arriving by camera, and one
+// closing line. Every word is the same as before; the difference is that each thing is said once,
+// at one size, in one place.
 import { Picture } from 'astro:assets';
 import sketchA from '../assets/img/sketch-vision.webp';
 import sketchB from '../assets/img/sketch-philosophy.webp';
@@ -14,23 +13,29 @@ import { t } from '../i18n';
 import type { Lang } from '../routes';
 interface Props { lang: Lang; paragraphs: string[]; caption: string; sketchCaption: string; line: string }
 const { lang, paragraphs, caption, sketchCaption, line } = Astro.props;
+// The last paragraph is the one that reads as a closing line; the rest make the grid.
+const closing = paragraphs[paragraphs.length - 1];
+const body = paragraphs.slice(0, -1);
 ---
 <section class="claro stratum" data-stratum="claro" data-ground="linen" id="claro">
-  <div class="claro-text measure-founder">
-    {paragraphs.map((p, i) => <p class="founder" data-reveal="fade" style={`--i:${Math.min(i, 3)}`} set:html={p} />)}
+  <p class="display claro-statement" data-reveal="lines"><span class="line"><span>{line}</span></span></p>
+  <div class="claro-grid">
+    {body.map((p, i) => <p data-reveal="rise" style={`--i:${Math.min(i, 3)}`} set:html={p} />)}
   </div>
   <figure class="claro-sketches">
     <figcaption class="caption" data-reveal="fade">{sketchCaption}</figcaption>
     <div class="sketches" data-reveal="scrim">
-      <Picture src={sketchA} widths={[480, 640, 800, 960]} sizes="(min-width: 900px) 38vw, 44vw" formats={['avif', 'webp']} fallbackFormat="webp" alt={t(lang, 'claro.altA')} loading="lazy" decoding="async" />
-      <Picture src={sketchB} widths={[480, 640, 800, 960]} sizes="(min-width: 900px) 38vw, 44vw" formats={['avif', 'webp']} fallbackFormat="webp" alt={t(lang, 'claro.altB')} loading="lazy" decoding="async" />
+      <Picture src={sketchA} widths={[480, 640, 800, 960]} sizes="(min-width: 1024px) 34vw, 44vw" formats={['avif', 'webp']} fallbackFormat="webp" alt={t(lang, 'claro.altA')} loading="lazy" decoding="async" />
+      <Picture src={sketchB} widths={[480, 640, 800, 960]} sizes="(min-width: 1024px) 34vw, 44vw" formats={['avif', 'webp']} fallbackFormat="webp" alt={t(lang, 'claro.altB')} loading="lazy" decoding="async" />
     </div>
   </figure>
   <figure class="claro-plate">
     <figcaption class="caption" data-reveal="fade">{caption}</figcaption>
-    <div data-reveal="scrim">
-      <Picture src={plate} widths={[640, 1280, 1920]} sizes="100vw" formats={['avif', 'webp']} fallbackFormat="webp" alt={t(lang, 'claro.altPlate')} loading="lazy" decoding="async" />
+    <div class="scene-img" data-reveal="image">
+      <div class="img-wrap">
+        <Picture src={plate} widths={[640, 1280, 1400]} sizes="100vw" formats={['avif', 'webp']} fallbackFormat="webp" alt={t(lang, 'claro.altPlate')} loading="lazy" decoding="async" />
+      </div>
     </div>
   </figure>
-  <p class="display claro-line" data-reveal="lines"><span class="line"><span>{line}</span></span></p>
+  <p class="display claro-line" data-reveal="lines"><span class="line"><span set:html={closing} /></span></p>
 </section>

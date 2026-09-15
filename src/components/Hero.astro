@@ -1,29 +1,24 @@
 ---
-// Dosel (plan §S1). The hero is the land, moving.
+// Dosel (plan §S1, revised 15 September). The hero is the land, and the camera moves.
 //
-// Three things share this frame and the order matters:
-//
-//   1. the poster, painted at first paint, at full brightness. It is the LCP element, and it is
-//      also the whole designed experience wherever the video cannot play — iOS Low Power Mode,
-//      Save-Data, reduced motion, a blocked autoplay. Never a fallback, always the floor.
-//   2. the dawn, a forest scrim over the poster that lifts. The darkening used to be a filter on
-//      the image itself, which is how the homepage ended up with a 5.9 s LCP on a phone: the
-//      largest element Chrome would score was the lede paragraph, revealed at 1.7 s.
-//   3. the video, loaded only after the page has, and cross-faded in when it actually plays.
+// The loop cut from the brand film was 640 px wide; at the size of a screen it read as dark, soft
+// green with words on it, and the founder said so. The real hero cut sits on a Drive the build
+// cannot reach, so until it arrives the hero is JJF's own aerial — the jungle with its cenote, the
+// image the old site opened on — at the best resolution in the repo. The motion is the camera's:
+// an arrival that comes into focus and settles, a slow drift while you look, a sink as you scroll.
+// None of it needs a script, and the plate is still painted first, in flow, as the LCP element —
+// with the <picture> itself as the grid item. A plain wrapper box between the grid and the image
+// takes the image out of Chrome's largest-contentful-paint candidates entirely (measured: the same
+// file, same size, same position is a candidate as a grid item and is not inside a div), so the
+// three camera moves share two elements: the picture sinks on scroll; the image arrives, then
+// breathes, the second animation starting the moment the first has finished.
 import { Picture } from 'astro:assets';
-import canopy from '../assets/img/hero-canopy.webp';
+import plate from '../assets/img/hero-bg.webp';
 interface Props { headline: string[]; lede: string }
 const { headline, lede } = Astro.props;
 ---
 <section class="hero stratum" data-stratum="dosel" data-ground="canopy" data-light="A" id="dosel">
-  <div class="hero-media">
-    <Picture class="hero-plate" src={canopy} widths={[640, 1280]} sizes="100vw" formats={['avif', 'webp']} fallbackFormat="webp" alt="" loading="eager" fetchpriority="high" decoding="async" />
-    <video class="hero-video" muted loop playsinline preload="none" tabindex="-1" aria-hidden="true" data-hero-video>
-      <source data-src="/media/hero/hero.webm" type="video/webm; codecs=av01.0.05M.08" />
-      <source data-src="/media/hero/hero.mp4" type="video/mp4; codecs=avc1.640028" />
-    </video>
-  </div>
-  <div class="hero-dawn" aria-hidden="true"></div>
+  <Picture class="hero-plate" pictureAttributes={{ class: 'hero-media' }} src={plate} widths={[640, 960, 1200, 1400]} sizes="100vw" formats={['avif', 'webp']} fallbackFormat="webp" alt="" loading="eager" fetchpriority="high" decoding="async" />
   <div class="hero-scrim" aria-hidden="true"></div>
   <div class="hero-tint" aria-hidden="true"></div>
   <div class="hero-copy">
@@ -32,4 +27,5 @@ const { headline, lede } = Astro.props;
     </h1>
     <p class="lede hero-el" data-reveal="fade" style="--i:3" set:html={lede} />
   </div>
+  <div class="hero-cue" aria-hidden="true"><span></span></div>
 </section>

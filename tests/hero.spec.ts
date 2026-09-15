@@ -36,24 +36,30 @@ test.describe('the hero', () => {
     expect(pos).not.toContain('fixed');
   });
 
-  test('the video is an enhancement: nothing is fetched before the page has loaded', async ({ page }) => {
-    test.skip(test.info().project.name === 'reduced');
-    // At parse time the sources carry data-src only, so the video can never compete with the LCP.
-    const html = await (await page.request.get('/es/')).text();
-    expect(html).toContain('data-src="/media/hero/hero.webm"');
-    expect(html).not.toMatch(/<source[^>]+\ssrc="\/media\/hero/);
-    expect(html).toContain('preload="none"');
+  test('the camera moves without a script: the plate arrives, breathes and sinks', async ({ page }) => {
+    test.skip(test.info().project.name !== 'desktop');
     await page.goto('/es/');
-    await expect(page.locator('.hero-video.is-ready')).toHaveCount(1, { timeout: 15_000 });
+    await page.waitForTimeout(400);
+    const plate = await page.evaluate(() => getComputedStyle(document.querySelector('.hero .hero-plate')!).animationName);
+    expect(plate).toMatch(/hero-arrive/);
+    expect(plate).toContain('hero-breathe');
+    // No wrapper box between the grid and the picture: that is what keeps the plate an LCP candidate.
+    expect(await page.locator('.hero > picture.hero-media > img.hero-plate').count()).toBe(1);
+    // the sink is scroll-driven where the browser can, and simply absent where it cannot
+    const sink = await page.evaluate(() => getComputedStyle(document.querySelector('.hero .hero-media')!).animationName);
+    expect(sink === 'hero-sink' || sink === 'none').toBe(true);
   });
 
-  test('reduced motion keeps the still and never loads the video', async ({ page }) => {
+  test('reduced motion holds the camera still', async ({ page }) => {
     test.skip(test.info().project.name !== 'reduced');
     await page.goto('/es/');
-    await page.waitForTimeout(1500);
     await expect(page.locator('.hero .hero-plate')).toBeVisible();
-    await expect(page.locator('.hero-video')).toBeHidden();
-    expect(await page.locator('.hero-video source').first().getAttribute('src')).toBeNull();
+    const anims = await page.evaluate(() => [
+      getComputedStyle(document.querySelector('.hero .hero-media')!).animationName,
+      getComputedStyle(document.querySelector('.hero .hero-plate')!).animationName,
+    ]);
+    expect(anims.every((a) => a === 'none')).toBe(true);
+    await expect(page.locator('.hero-cue')).toBeHidden();
   });
 });
 

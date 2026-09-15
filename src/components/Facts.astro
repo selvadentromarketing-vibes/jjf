@@ -1,13 +1,13 @@
 ---
 // What a buyer wants to know before reading a word: where it is, how it is bought, what is sold,
-// and how to reach us. No figure appears unless verified (plan §8) — but a place, a legal route
-// and a link are facts too, and a page that showed none of them until the last screen read as a
-// page with nothing to say.
+// where the sister site is, when the words were last touched. No figure appears unless verified
+// (plan §8) — but a place, a legal route and a date are facts too. Rendered as one bar across the
+// page under the statement, the way a specification reads.
 import type { CollectionEntry } from 'astro:content';
 import { t } from '../i18n';
 import { href, type Lang } from '../routes';
-interface Props { lang: Lang; project: CollectionEntry<'projects'>['data']; wa?: string }
-const { lang, project: p, wa } = Astro.props;
+interface Props { lang: Lang; project: CollectionEntry<'projects'>['data'] }
+const { lang, project: p } = Astro.props;
 const coast = p.region === 'Quintana Roo';
 const rows: { label: string; value: string; href?: string; figures?: boolean }[] = [
   { label: t(lang, 'facts.where'), value: p.place },
@@ -19,18 +19,13 @@ if (p.years?.verified) rows.push({ label: t(lang, 'track.years'), value: `${p.ye
 if (p.hectares?.verified) rows.push({ label: t(lang, 'track.hectares'), value: `${p.hectares.value} ha`, figures: true });
 if (p.cenotes?.verified) rows.push({ label: 'Cenotes', value: String(p.cenotes.value), figures: true });
 if (p.siteUrl) rows.push({ label: t(lang, 'facts.site'), value: new URL(p.siteUrl).hostname.replace(/^www\./, ''), href: p.siteUrl });
+if (p.updated) rows.push({ label: t(lang, 'project.updated'), value: p.updated, figures: true });
 ---
-<div class="facts">
-  <dl class="facts-list">
-    {rows.map((r) => (
-      <div class="facts-row" data-figures-ok={r.figures ? '' : undefined}>
-        <dt>{r.label}</dt>
-        <dd>{r.href ? <a href={r.href} rel={r.href.startsWith('http') ? 'noopener' : undefined}>{r.value}</a> : r.value}</dd>
-      </div>
-    ))}
-  </dl>
-  <div class="btn-row facts-act">
-    <a class="btn btn-primary" href="#hablemos" data-event="cta_click" data-section="facts" data-project={p.key}>{t(lang, 'project.talk', { name: p.name })}</a>
-    {wa && <a class="btn" href={wa} target="_blank" rel="noopener" data-event="whatsapp_click" data-section="facts" data-wa-project={p.key}>{t(lang, 'doors.whatsapp')}</a>}
-  </div>
-</div>
+<dl class="facts-list specbar" data-reveal="fade">
+  {rows.map((r) => (
+    <div class="facts-row" data-figures-ok={r.figures ? '' : undefined}>
+      <dt>{r.label}</dt>
+      <dd>{r.href ? <a href={r.href} rel={r.href.startsWith('http') ? 'noopener' : undefined}>{r.value}</a> : r.value}</dd>
+    </div>
+  ))}
+</dl>

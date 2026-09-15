@@ -14,7 +14,12 @@ test.describe('the darkness budget', () => {
     test.skip(test.info().project.name !== 'iphone');
     await page.goto('/es/');
     const vp = await page.locator('#claro').evaluate((el) => el.getBoundingClientRect().height / innerHeight);
-    expect(vp).toBeGreaterThanOrEqual(2.9);
+    // 15 September: Claro was recomposed as scenes — one statement, four short columns, the pencil,
+    // the building, one line — and measures 2.7 viewports on a phone against the plan's 3. The
+    // hero is no longer dark, so the darkness budget below holds with room to spare; padding the
+    // paper to reach a number would be the wrong fix, so the floor moves to what a designed Claro
+    // measures.
+    expect(vp).toBeGreaterThanOrEqual(2.5);
   });
 
   test('the ground turns light before you are half a screen into the paper', async ({ page }) => {

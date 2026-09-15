@@ -22,11 +22,13 @@ const SHARED = { html: 200, js: 110, css: 40, font: 140 }; // measured: 16 · 56
 // behind the index are pulled depends on how fast the scroll passes each row. The caps sit above
 // the heaviest run seen, not above the average.
 const ROUTES: Record<string, Budget> = {
-  // The homepage carries the hero loop (media) and the most photographs of any route.
-  '/es/': { total: 680, media: 420 },          // measured: 476–580 without media · media 320
+  // The homepage carries the most photographs of any route: a real aerial as the hero (the 640 px
+  // video loop is gone), the building across the page in Claro, six plates behind the index.
+  '/es/': { total: 760 },                      // measured: 690 on 15 September (476–580 before the aerial)
   // The index: six plates behind the list on a phone, all of them if the scroll passes every row.
   '/es/proyectos/': { total: 480 },            // measured: 285–454
-  '/es/proyectos/selvadentro/': { total: 440 },// measured: 341
+  // A project page now ends on the next place's photograph across the page.
+  '/es/proyectos/selvadentro/': { total: 540 },// measured: 483 (341 before the next-place photograph)
   // Guides and contact carry a band photograph since 15 September; it is the cost of a page of type
   // having a place to stand on.
   '/es/guias/comprar-terreno-en-tulum/': { total: 300 }, // measured: 261

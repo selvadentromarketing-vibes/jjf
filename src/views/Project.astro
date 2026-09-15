@@ -1,17 +1,18 @@
 ---
-// A place, as a page you can read and act on.
+// A place, as a sequence of scenes.
 //
-// The record used to arrive as a thousand words in a narrow column down the left of an empty
-// screen, with the one photograph at the top and the master plan at the very bottom. It is now
-// composed: what a buyer needs first in a rail beside the answer-first paragraph, the chapters with
-// a spine, the master plan inside the chapter about the plan, the questions on rock, and the doors
-// on the page itself. Each place has one photograph; it is not repeated lower down as a "detail".
+// The record used to arrive as a thousand words in a column. It is now a page: the photograph
+// with the camera moving, the answer-first statement in display type with the two things you can
+// do, one bar of facts, then each chapter as a scene — title and text on alternating sides of a
+// twelve-column grid, the master plan inside the chapter about the plan, the chapter about living
+// here opening in display type — then the questions on rock, the doors on the page, and the next
+// place as a photograph you can step into. Each place has one photograph; it is never repeated
+// mid-page as a "detail".
 import { getCollection, type CollectionEntry } from 'astro:content';
 import { Picture, getImage } from 'astro:assets';
 import Base from '../layouts/Base.astro';
 import Plano from '../components/Plano.astro';
 import Facts from '../components/Facts.astro';
-import Rail from '../components/Rail.astro';
 import Doors from '../components/Doors.astro';
 import Silence from '../components/Silence.astro';
 import { t } from '../i18n';
@@ -24,8 +25,6 @@ const all = (await getCollection('projects', (e) => e.data.lang === lang && !e.d
 const idx = all.findIndex((e) => e.data.key === p.key);
 const next = all[(idx + 1) % all.length];
 const site = (await getCollection('site')).find((s) => s.data.lang === lang)!.data;
-// The guides name the places they talk about, so a place can find its guides without a second
-// list to keep in step.
 const guides = (await getCollection('guides', (e) => e.data.lang === lang && !e.data.draft))
   .filter((g) => g.data.related.includes(p.key))
   .sort((a, b) => a.data.order - b.data.order);
@@ -33,12 +32,12 @@ const staging = import.meta.env.PUBLIC_STAGING === '1';
 const usable = (e: CollectionEntry<'projects'>) => (e.data.hero && (!e.data.heroStaging || staging) ? e.data.hero : undefined);
 const plate = usable(entry);
 const nextPlate = usable(next);
-// The master plan is the drawing a buyer zooms into: lot numbers, phases, what is still for sale.
-// Scaled into a phone it is unreadable, and the plan bans modals, so the figure links to the full
-// image and the browser's own viewer does the pinching — no script, and it works offline of us.
+// The master plan is the drawing a buyer zooms into. Scaled into a phone it is unreadable, and the
+// plan bans modals, so the figure links to the full image and the browser's own viewer does the
+// pinching — no script, and it works offline of us.
 const masterplanFull = p.masterplan ? await getImage({ src: p.masterplan, format: 'webp', quality: 88 }) : undefined;
-// The card that appears when someone sends this link over WhatsApp: the plate where one is
-// publishable, the typographic card where it is not. Never black (§11).
+// The card a shared link unfurls: the plate where one is publishable, the typographic card where
+// it is not. Never black (§11).
 const ogImage = plate
   ? (await getImage({ src: plate, width: 1200, height: 630, fit: 'cover', position: 'center', format: 'jpeg', quality: 76 })).src
   : undefined;
@@ -53,10 +52,6 @@ const chapters = parseRecord(entry.body ?? '', faqHead);
 const prose = chapters.filter((c) => !c.faq);
 const faqChapter = chapters.find((c) => c.faq);
 const faq = (faqChapter?.qa ?? []).map((x) => ({ '@type': 'Question', name: x.q, acceptedAnswer: { '@type': 'Answer', text: x.a } }));
-const railItems = [
-  ...prose.map((c) => ({ text: c.title, href: `#${c.slug}` })),
-  ...(faq.length ? [{ text: faqChapter!.title, href: '#preguntas' }] : []),
-];
 const jsonLd = [
   {
     '@context': 'https://schema.org', '@type': 'Residence', name: p.name, url, description: `${p.place} · ${p.character}`,
@@ -81,43 +76,56 @@ const jsonLd = [
   <article class="project" data-project-page={p.key}>
     <div data-ground="linen">
       <header class:list={['project-hero', { 'has-plano': !!p.plan, 'has-plate': !!plate }]} data-light={p.lightMode}>
-        <Plano slug={p.key} plan={p.plan} />
-        {plate && <Picture class="hero-plate" pictureAttributes={{ class: 'hero-media' }} src={plate} widths={[640, 1280, 1920]} sizes="100vw" formats={['avif', 'webp']} fallbackFormat="webp" alt={p.heroAlt} loading="eager" fetchpriority="high" decoding="async" />}
+        <div class="hero-sink">
+          <Plano slug={p.key} plan={p.plan} />
+          {plate && <Picture class="hero-plate" pictureAttributes={{ class: 'hero-media' }} src={plate} widths={[640, 1280, 1920]} sizes="100vw" formats={['avif', 'webp']} fallbackFormat="webp" alt={p.heroAlt} loading="eager" fetchpriority="high" decoding="async" />}
+        </div>
         <div class="project-title">
           <p class="eyebrow">{p.place}</p>
           <h1 class="display">{p.name}</h1>
+          <p class="hero-line">{p.character}</p>
           <a class="folio-marker" href={href('projects', lang)} data-figures-ok aria-label={t(lang, 'projects.all')}>{String(idx + 1).padStart(2, '0')}/{String(all.length).padStart(2, '0')}</a>
         </div>
       </header>
 
-      <div class="project-intro reading text-first">
-        <aside class="rail"><Facts lang={lang} project={p} wa={wa} /></aside>
-        <div class="body">
-          {p.summary && <p class="project-summary" data-reveal="fade">{p.summary}</p>}
-          {p.updated && <p class="small" data-figures-ok style="margin-top:18px">{t(lang, 'project.updated')} {p.updated}</p>}
-        </div>
-      </div>
+      {p.summary && (
+        <section class="statement grid12">
+          <p class="statement-text" data-reveal="rise">{p.summary}</p>
+          <div class="statement-act btn-row" data-reveal="fade" style="--i:1">
+            <a class="btn btn-primary" href="#hablemos" data-event="cta_click" data-section="statement" data-project={p.key}>{t(lang, 'project.talk', { name: p.name })}</a>
+            {wa && <a class="btn" href={wa} target="_blank" rel="noopener" data-event="whatsapp_click" data-section="statement" data-wa-project={p.key}>{t(lang, 'doors.whatsapp')}</a>}
+          </div>
+        </section>
+      )}
+      <Facts lang={lang} project={p} />
 
-      <section class="record reading" aria-label={t(lang, 'project.chapters')}>
-        <Rail label={t(lang, 'project.chapters')} items={railItems} class="chapters" />
-        {prose.map((c, i) => (
-          <>
-            <div class="body chapter" id={c.slug}>
-              <h2>{c.title}</h2>
-              {c.paragraphs.map((para, j) => <p class:list={{ 'chapter-open': i === 3 && j === 0 }} set:html={inline(para)} />)}
-            </div>
-            {i === 2 && p.masterplan && (
-              <figure class="bleed masterplan">
-                <figcaption class="caption">{t(lang, 'project.masterplan')}{p.sellsVerified && p.sells && ` · ${t(lang, `sells.${p.sells}` as any)}`}{p.availability && ` · ${p.availability}`}</figcaption>
-                <a href={masterplanFull!.src} class="masterplan-open" target="_blank" rel="noopener">
-                  <Picture src={p.masterplan} widths={[640, 1280, 1920]} sizes="(min-width: 1024px) 70vw, 100vw" formats={['avif', 'webp']} fallbackFormat="webp" alt={t(lang, 'project.masterplanAlt', { name: p.name })} loading="lazy" />
-                  <span class="masterplan-hint">{t(lang, 'project.masterplanOpen')}</span>
-                </a>
-              </figure>
-            )}
-          </>
-        ))}
-      </section>
+      {prose.map((c, i) => (
+        <section class:list={['scene', 'grid12', { alt: i % 2 === 1 && i !== 3, quote: i === 3, last: i === prose.length - 1 }]} id={c.slug}>
+          {i === 3 ? (
+            <>
+              <h2 class="display scene-title" data-reveal="lines"><span class="line"><span>{c.title}</span></span></h2>
+              <p class="scene-quote" data-reveal="rise" set:html={inline(c.paragraphs[0] ?? '')} />
+              <div class="scene-cols">{c.paragraphs.slice(1).map((para, j) => <p data-reveal="rise" style={`--i:${Math.min(j + 1, 3)}`} set:html={inline(para)} />)}</div>
+            </>
+          ) : (
+            <>
+              <h2 class="display scene-title" data-reveal="lines"><span class="line"><span>{c.title}</span></span></h2>
+              <div class="scene-text">{c.paragraphs.map((para, j) => <p data-reveal="rise" style={`--i:${Math.min(j, 3)}`} set:html={inline(para)} />)}</div>
+            </>
+          )}
+          {i === 2 && p.masterplan && (
+            <figure class="scene-figure masterplan">
+              <figcaption class="caption" data-reveal="fade">{t(lang, 'project.masterplan')}{p.sellsVerified && p.sells && ` · ${t(lang, `sells.${p.sells}` as any)}`}{p.availability && ` · ${p.availability}`}</figcaption>
+              <a href={masterplanFull!.src} class="masterplan-open scene-img" target="_blank" rel="noopener" data-reveal="image">
+                <div class="img-wrap">
+                  <Picture src={p.masterplan} widths={[640, 1280, 1920]} sizes="(min-width: 1024px) 84vw, 100vw" formats={['avif', 'webp']} fallbackFormat="webp" alt={t(lang, 'project.masterplanAlt', { name: p.name })} loading="lazy" />
+                </div>
+                <span class="masterplan-hint">{t(lang, 'project.masterplanOpen')}</span>
+              </a>
+            </figure>
+          )}
+        </section>
+      ))}
     </div>
 
     <div class="project-tail" data-ground="shade">
@@ -142,13 +150,18 @@ const jsonLd = [
           {guides.map((g) => <a href={href('guide', lang, { slug: g.data.key })}>{g.data.title}</a>)}
         </nav>
       )}
-      <p class="project-next">
-        <span class="caption">{t(lang, 'project.next')}</span>
-        <a href={href('project', lang, { slug: next.data.key })}>
-          <span>{next.data.name}</span>
-          {nextPlate && <Picture class="next-thumb" src={nextPlate} widths={[320, 640]} sizes="240px" formats={['avif', 'webp']} fallbackFormat="webp" alt="" loading="lazy" />}
+      {nextPlate ? (
+        <a class="next-scene" href={href('project', lang, { slug: next.data.key })} data-event="project_open" data-section="next" data-project={next.data.key}>
+          <div class="scene-img" data-reveal="image">
+            <div class="img-wrap">
+              <Picture src={nextPlate} widths={[640, 1280, 1920]} sizes="100vw" formats={['avif', 'webp']} fallbackFormat="webp" alt="" loading="lazy" decoding="async" />
+            </div>
+          </div>
+          <span class="next-copy"><span class="caption">{t(lang, 'project.next')}</span><span class="display name">{next.data.name}</span></span>
         </a>
-      </p>
+      ) : (
+        <p class="project-next"><span class="caption">{t(lang, 'project.next')}</span><a href={href('project', lang, { slug: next.data.key })}>{next.data.name}</a></p>
+      )}
     </div>
   </article>
   <Silence sentences={p.closingSentence} signature={site.signature} />

@@ -43,8 +43,10 @@ test.describe('the index hover panel', () => {
     await expect(panel).toHaveClass(/is-on/);
 
     // Scrolling past the list is what turns it off — and it must finish rather than decay forever.
+    // The light goes out over 600 ms once the list has left; under a loaded test runner the frames
+    // that carry it run late, so the wait is generous and the assertion is only that it ends.
     await page.evaluate(() => window.scrollTo({ top: document.body.scrollHeight, behavior: 'instant' as ScrollBehavior }));
-    await expect(panel).not.toHaveClass(/is-on/, { timeout: 2500 });
+    await expect(panel).not.toHaveClass(/is-on/, { timeout: 6000 });
   });
 
   test('focus is hover, so the keyboard sees the same thing', async ({ page, isMobile }) => {
