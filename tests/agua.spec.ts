@@ -43,7 +43,7 @@ test.describe('agua — the water table', () => {
     expect(bg).toContain('gradient');
   });
 
-  test('the ledger stays legible over it', async ({ page }) => {
+  test('the doors stay legible over it', async ({ page }) => {
     await page.goto('/es/');
     await page.evaluate(() => {
       const a = document.querySelector('.agua')!;
@@ -53,6 +53,9 @@ test.describe('agua — the water table', () => {
     // A veil sits between the caustics and the words; without it the light reads across a name.
     const veil = await page.locator('.agua-water').evaluate((el) => getComputedStyle(el, '::after').backgroundImage);
     expect(veil).toContain('gradient');
-    await expect(page.locator('.ledger li').first()).toBeVisible();
+    await expect(page.locator('.agua .door-link').first()).toBeVisible();
+    // The water is masked away from the words on a desktop and from the doors on a phone.
+    const canvas = page.locator('.agua-water canvas.light-field');
+    if (await canvas.count()) expect(await canvas.evaluate((el) => getComputedStyle(el).maskImage || (getComputedStyle(el) as any).webkitMaskImage)).toContain('gradient');
   });
 });

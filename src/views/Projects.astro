@@ -7,7 +7,6 @@
 import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
 import Index from '../components/Index.astro';
-import Silence from '../components/Silence.astro';
 import { t } from '../i18n';
 import { href, type Lang } from '../routes';
 interface Props { lang: Lang }
@@ -32,5 +31,4 @@ const jsonLd = {
   <div class="projects-page">
     <Index lang={lang} projects={projects} title={site.indexTitle} lede={t(lang, 'projects.lede')} opening />
   </div>
-  <Silence sentences={site.closingSentences} signature={site.signature} />
 </Base>

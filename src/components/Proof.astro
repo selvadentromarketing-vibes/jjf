@@ -1,0 +1,31 @@
+---
+// The proof strip: what the record adds up to, in tabular serif, and nothing that is not in a
+// verified record. Places and regions are counts of the records themselves; years and hectares
+// come from figure objects and appear the day the founder signs them. A row that has nothing
+// verified behind it is not rendered as a dash — it is not rendered.
+import type { CollectionEntry } from 'astro:content';
+import { t } from '../i18n';
+import type { Lang } from '../routes';
+interface Props { lang: Lang; projects: CollectionEntry<'projects'>[] }
+const { lang, projects } = Astro.props;
+const regions = new Set(projects.map((p) => p.data.region)).size;
+const starts = projects.map((p) => p.data.years?.verified ? p.data.years.start : undefined).filter((y): y is number => typeof y === 'number');
+const years = starts.length ? new Date().getFullYear() - Math.min(...starts) : undefined;
+const hectares = projects.reduce((n, p) => n + (p.data.hectares?.verified ? p.data.hectares.value : 0), 0);
+const homes = projects.reduce((n, p) => n + (p.data.homes?.verified ? p.data.homes.value : 0), 0);
+const fmt = (n: number) => new Intl.NumberFormat(lang === 'es' ? 'es-MX' : 'en-US').format(n);
+const rows: { value: string; label: string }[] = [];
+if (years && years >= 5) rows.push({ value: `${years}+`, label: t(lang, 'proof.years') });
+rows.push({ value: String(projects.length), label: t(lang, 'proof.places') });
+rows.push({ value: String(regions), label: t(lang, 'proof.regions') });
+if (hectares > 0) rows.push({ value: fmt(hectares), label: t(lang, 'proof.hectares') });
+if (homes > 0) rows.push({ value: fmt(homes), label: t(lang, 'proof.homes') });
+---
+<dl class="proof" data-figures-ok data-reveal="fade" style="--i:1">
+  {rows.map((r) => (
+    <div class="proof-row">
+      <dd class="display">{r.value}</dd>
+      <dt>{r.label}</dt>
+    </div>
+  ))}
+</dl>

@@ -10,7 +10,7 @@ export default defineConfig({
   fullyParallel: true,
   reporter: process.env.CI ? 'github' : 'list',
   use: { baseURL: 'http://localhost:4321', trace: 'retain-on-failure', launchOptions },
-  webServer: { command: 'npm run preview', url: 'http://localhost:4321/es/', reuseExistingServer: true, timeout: 90_000 },
+  webServer: { command: 'node scripts/preview.mjs', url: 'http://localhost:4321/es/', reuseExistingServer: true, timeout: 90_000 },
   projects: [
     { name: 'desktop', use: { ...devices['Desktop Chrome'], launchOptions } },
     { name: 'reduced', use: { ...devices['Desktop Chrome'], contextOptions: { reducedMotion: 'reduce' }, launchOptions } },

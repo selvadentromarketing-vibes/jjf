@@ -13,10 +13,15 @@
 // file, same size, same position is a candidate as a grid item and is not inside a div), so the
 // three camera moves share two elements: the picture sinks on scroll; the image arrives, then
 // breathes, the second animation starting the moment the first has finished.
+//
+// Over the land, four things: who this is (one line), the headline, the lede, and the two things
+// you can do. A first visit used to leave without learning any of the first or the last.
 import { Picture } from 'astro:assets';
 import plate from '../assets/img/hero-bg.webp';
-interface Props { headline: string[]; lede: string }
-const { headline, lede } = Astro.props;
+import { t } from '../i18n';
+import { href, type Lang } from '../routes';
+interface Props { lang: Lang; headline: string[]; lede: string }
+const { lang, headline, lede } = Astro.props;
 ---
 <section class="hero stratum" data-stratum="dosel" data-ground="canopy" data-light="A" id="dosel">
   <Picture class="hero-plate" pictureAttributes={{ class: 'hero-media' }} src={plate} widths={[640, 960, 1200, 1400]} sizes="100vw" formats={['avif', 'webp']} fallbackFormat="webp" alt="" loading="eager" fetchpriority="high" decoding="async" />
@@ -29,10 +34,15 @@ const { headline, lede } = Astro.props;
   <div class="hero-scrim" aria-hidden="true"></div>
   <div class="hero-tint" aria-hidden="true"></div>
   <div class="hero-copy">
+    <p class="eyebrow hero-eyebrow hero-el" data-reveal="fade" style="--i:0">{t(lang, 'hero.eyebrow')}</p>
     <h1 class="display hero-title hero-el" data-reveal="lines">
       {headline.map((l, i) => <span class="line" style={`--i:${i}`}><span set:html={l} /></span>)}
     </h1>
     <p class="lede hero-el" data-reveal="fade" style="--i:3" set:html={lede} />
+    <div class="hero-act btn-row hero-el" data-reveal="fade" style="--i:4">
+      <a class="btn btn-primary" href={href('projects', lang)} data-event="cta_click" data-section="hero">{t(lang, 'hero.see')}</a>
+      <a class="btn" href={href('contact', lang)} data-event="cta_click" data-section="hero">{t(lang, 'nav.talk')}</a>
+    </div>
   </div>
-  <div class="hero-cue" aria-hidden="true"><span></span></div>
+  <div class="hero-cue" aria-hidden="true"><span class="cue-label">{t(lang, 'hero.cue')}</span><span class="cue-line"><span></span></span></div>
 </section>

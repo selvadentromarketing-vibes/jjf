@@ -16,7 +16,23 @@ test.describe('la marca — the door', () => {
     await expect(page.locator('h1.hero-title')).toBeVisible();
   });
 
-  test('every click carries the beat with the mark, then the new page', async ({ page }) => {
+  test('the overture is short, and a gesture ends it early', async ({ page }) => {
+    test.skip(test.info().project.name !== 'desktop');
+    const t0 = Date.now();
+    await page.goto('/es/');
+    await expect(page.locator('#door')).toHaveAttribute('data-state', 'closed', { timeout: 8000 });
+    // Under a second from navigation to an interactive page, load included.
+    expect(Date.now() - t0).toBeLessThan(2500);
+    // The next session's first page: a click during the overture finishes it at once.
+    await page.evaluate(() => sessionStorage.removeItem('jjf-door'));
+    await page.reload();
+    await expect(page.locator('#door')).toHaveAttribute('data-state', 'overture');
+    await page.mouse.click(720, 450);
+    await expect(page.locator('#door')).toHaveAttribute('data-state', 'closed', { timeout: 800 });
+    await expect(page.locator('html')).toHaveClass(/door-open/);
+  });
+
+  test('a click is a cross on the page, not the mark again', async ({ page }) => {
     test.skip(test.info().project.name !== 'desktop');
     await page.goto('/es/');
     await expect(page.locator('#door')).toHaveAttribute('data-state', 'closed', { timeout: 8000 });
@@ -28,8 +44,8 @@ test.describe('la marca — the door', () => {
     });
     await page.click('a.cta[href="/es/contacto/"]');
     await expect(page).toHaveURL(/\/es\/contacto\/$/);
-    await expect(page.locator('#door')).toHaveAttribute('data-state', 'closed', { timeout: 5000 });
-    expect(seen).toContain('beat');
+    await expect(page.locator('#door')).toBeHidden();
+    expect(seen).not.toContain('beat');
     await expect(page.locator('h1')).toContainText('Cuando quieras');
   });
 

@@ -8,6 +8,7 @@
 // The photograph is always present and correct without any of this. The canvas fades in only once
 // it has compiled and proved it can hold frame rate, and removes itself the moment it cannot.
 import { reduce } from './motion';
+import { onSwap } from './lifecycle';
 
 type Mode = 'A' | 'B' | 'C' | 'D' | 'F' | 'G';
 
@@ -19,7 +20,7 @@ const AMPLITUDE: Record<Mode, number> = { A: 0.06, B: 0.05, C: 0.0, D: 0.06, F: 
 // commissioned one does not exist — so there the caustics are not modulating a picture, they are
 // the picture: light on dark water, screened over the ground rather than soft-lit into it. The
 // 6 % ceiling is about not turning a photograph into an effect, and there is no photograph here.
-const ADDITIVE_AMPLITUDE: Record<string, number> = { D: 0.3 };
+const ADDITIVE_AMPLITUDE: Record<string, number> = { D: 0.13 };
 
 const VERT = `
 attribute vec2 aPos;
@@ -72,14 +73,14 @@ void main() {
     // by folding a grid through itself a few times and keeping only the creases.
     float t = uTime * 0.55;
     if (uAdditive > 0.5) {
-      vec2 p = uv * 11.0;
-      float tw = uTime * 0.3;
+      vec2 p = uv * 7.0;
+      float tw = uTime * 0.17;
       for (int i = 0; i < 3; i++) {
         p += 0.38 * vec2(sin(p.y * 1.7 + tw), cos(p.x * 1.5 - tw * 0.8));
       }
-      float crease = pow(1.0 - abs(sin(p.x) * sin(p.y)), 10.0);
+      float crease = pow(1.0 - abs(sin(p.x) * sin(p.y)), 6.0);
       // A second net, larger and slower, so the surface has depth rather than one flat weave.
-      vec2 q = uv * 4.4 + vec2(1.7, 0.4);
+      vec2 q = uv * 3.2 + vec2(1.7, 0.4);
       for (int j = 0; j < 2; j++) {
         q += 0.5 * vec2(sin(q.y * 1.3 - tw * 0.7), cos(q.x * 1.1 + tw * 0.5));
       }
@@ -104,6 +105,9 @@ void main() {
 
   // uWarm tilts the field toward the hour's colour without ever leaving neutral by much.
   vec3 tint = mix(vec3(1.0), vec3(1.06, 1.0, 0.93), uWarm);
+  // Screened light with no photograph under it is the water itself, so it takes the water's
+  // colour — a cenote's green-blue toward limestone — rather than arriving white.
+  if (uAdditive > 0.5) tint *= vec3(0.74, 0.93, 0.9);
   gl_FragColor = vec4(vec3(light) * tint, 1.0);
 }`;
 
@@ -243,6 +247,8 @@ function startField(host: HTMLElement, mode: Mode) {
   }
 
   canvas.addEventListener('webglcontextlost', (e) => { e.preventDefault(); stop(); });
+  // The host leaves with the page; the context and the resize listener must not outlive it.
+  onSwap(stop);
 
   // Nothing runs while the surface is off screen.
   const io = new IntersectionObserver((entries) => {

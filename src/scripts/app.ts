@@ -1,25 +1,34 @@
+import { initLifecycle } from './lifecycle';
 import { initTier } from './tier';
 import { initSolar } from './solar';
-import { initSmooth } from './smooth';
 import { initDoor } from './door';
+import { initNav } from './nav';
 import { initHero } from './hero';
 import { initReveals } from './reveal';
 import { initGround } from './ground';
 import { initPlano } from './plano';
-import { initIndexPlanos } from './index-plano';
 import { initReading } from './reading';
-import { initLight } from './light';
-import { initPanel } from './panel';
 import { initContact } from './contact';
 import { initAnalytics } from './analytics';
 import { initVitals } from './vitals';
-import { ls } from './motion';
+import { ls, reduce } from './motion';
 
-function perPage() { initReveals(); initGround(); initHero(); initPlano(); initIndexPlanos(); initReading(); initLight(); initPanel(); initContact(); }
+// The two WebGL layers are the heaviest code on the site and most pages have no surface for them.
+// They are fetched only on a page that carries a host, and only on a device the tier allows, so a
+// guide or the privacy notice never downloads a shader.
+async function lightAndPanel() {
+  if (reduce()) return;
+  const tier = document.documentElement.dataset.tier;
+  const gl = tier !== 'in_app' && tier !== 'css' && tier !== 'rest';
+  if (gl && document.querySelector('[data-light]')) (await import('./light')).initLight();
+  if (document.querySelector('[data-index]')) (await import('./panel')).initPanel();
+}
 
+function perPage() { initNav(); initReveals(); initGround(); initHero(); initPlano(); initReading(); initContact(); lightAndPanel(); }
+
+initLifecycle();
 initTier();
 initSolar();
-initSmooth();
 initDoor();
 initAnalytics();
 initVitals();

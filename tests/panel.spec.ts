@@ -12,14 +12,14 @@ test.describe('the index hover panel', () => {
     }
   });
 
-  test('the side panel is for cursors; a touch device gets the one behind the list', async ({ page, isMobile }) => {
+  test('the side panel is for cursors; a touch device keeps each row\'s own still', async ({ page, isMobile }) => {
     test.skip(!isMobile, 'phone projects only');
     await page.goto('/es/');
     await page.locator('#roca').scrollIntoViewIfNeeded();
     await page.waitForTimeout(900);
-    // The column panel holds one position beside a cursor; with no cursor there is no column.
-    expect(await page.locator('canvas.index-panel:not(.is-ambient)').count()).toBe(0);
-    expect(await page.locator('canvas.index-panel.is-ambient').count()).toBe(1);
+    // The column panel holds one position beside a cursor; with no cursor there is no canvas at all.
+    expect(await page.locator('canvas.index-panel').count()).toBe(0);
+    await expect(page.locator('#roca .row .still').first()).toBeVisible();
   });
 
   test('it rests on a photograph, follows the hover, and goes dark only when the list has gone', async ({ page, isMobile }) => {
@@ -87,11 +87,9 @@ test.describe('the index hover panel', () => {
     test.skip(test.info().project.name !== 'iphone');
     await page.goto('/es/');
     await page.waitForTimeout(2600);
-    const panel = page.locator('canvas.index-panel.is-ambient');
-    await expect(panel, 'a touch device gets the panel behind the list').toHaveCount(1);
-    // The thumbnails would be the same picture twice.
-    await expect(page.locator('.index.has-panel')).toHaveCount(1);
-    await expect(page.locator('.row .still').first()).toBeHidden();
+    // No plate behind the list any more: the stills carry the photographs and the light is a class.
+    expect(await page.locator('canvas.index-panel').count()).toBe(0);
+    await expect(page.locator('.row .still').first()).toBeVisible();
 
     const litName = async () => page.locator('.row a.is-lit-row .name').textContent().catch(() => null);
     const scrollTo = async (off: number) => {
@@ -104,14 +102,12 @@ test.describe('the index hover panel', () => {
     await scrollTo(120);
     const first = await litName();
     expect(first, 'no row is lit').toBeTruthy();
-    await expect(panel).toHaveClass(/is-on/);
-    await expect(page.locator('.index-veil.is-on'), 'the names need ground over their own plate').toHaveCount(1);
-    // Scrolling on changes which place has your attention, and the panel follows.
+    // Scrolling on changes which place has your attention, and the light follows.
     await scrollTo(520);
     expect(await litName(), 'the lit row did not follow the scroll').not.toBe(first);
     // Past the list, the light goes out.
     await page.evaluate(() => window.scrollTo({ top: document.body.scrollHeight, behavior: 'instant' as ScrollBehavior }));
     await page.waitForTimeout(1400);
-    await expect(panel).not.toHaveClass(/is-on/);
+    await expect(page.locator('.row a.is-lit-row')).toHaveCount(0);
   });
 });

@@ -10,15 +10,11 @@
 //                    the new photograph arrives out of its own shadows.
 //   Slower out than in. 300ms to light, 600ms to go dark. Light arrives faster than it leaves.
 //
-// A phone has no cursor, so for a long time it got six thumbnails the size of a stamp while the
-// desktop got a lit photograph. The grammar translates: on a pointer device the lit place is the
-// one under the hand, and on a phone it is the one you have scrolled to. Same shader, same
-// dissolve, same asymmetry — only the question "which place has your attention" is answered
-// differently. There the panel lies behind the whole list rather than beside it, because on a
-// phone the empty column is the page.
-//
-// Reduced motion gets nothing, and the index is a plain list of links underneath all of it.
+// A phone has no cursor and no empty column: it keeps each row's own still and lights the row
+// you have scrolled to. Reduced motion gets nothing, and the index is a plain list of links
+// underneath all of it.
 import { reduce, ls } from './motion';
+import { onSwap, listen } from './lifecycle';
 
 const IN_MS = 300;
 const OUT_MS = 600;
@@ -100,15 +96,18 @@ export function initPanel() {
   if (reduce()) return;
   if (document.querySelector('.index-panel')) return;
   const hover = matchMedia('(hover: hover) and (pointer: fine)').matches;
-  // Behind the list on a phone, beside it on a desktop.
-  const ambient = !hover;
+  index.addEventListener('click', (e) => {
+    const row = (e.target as HTMLElement).closest<HTMLElement>('a[data-project]');
+    if (row?.dataset.project) ls.set('jjf-last-project', row.dataset.project);
+  });
+  // A phone has no cursor and no empty column. It gets each row's own still, at full opacity,
+  // and the row nearest the middle of the screen is the lit one — the light moves, not a canvas.
+  // This used to be a full-screen WebGL plate under a veil, which cost six photographs and read
+  // as mud behind the names.
+  if (!hover) { litRows(index); return; }
 
   const canvas = document.createElement('canvas');
-  canvas.className = ambient ? 'index-panel is-ambient' : 'index-panel';
-  // Behind the list, the photograph needs a veil the same way the water does: the index is the
-  // point of this stratum, and a place name has to read over its own picture.
-  const veil = ambient ? document.createElement('div') : null;
-  if (veil) veil.className = 'index-veil';
+  canvas.className = 'index-panel';
   canvas.setAttribute('aria-hidden', 'true');
   const gl = canvas.getContext('webgl', { alpha: true, premultipliedAlpha: false, antialias: false, depth: false });
   if (!gl) return;
@@ -232,7 +231,6 @@ export function initPanel() {
     // Idle completely once the panel is dark: no rAF left running behind the page.
     if (poolTo === 0 && pt >= 1) {
       canvas.classList.remove('is-on');
-      veil?.classList.remove('is-on');
       active = false;
       return;
     }
@@ -247,7 +245,6 @@ export function initPanel() {
     const now = performance.now();
     const next = plate(src);
     canvas.classList.add('is-on');
-    veil?.classList.add('is-on');
     active = true;
     if (next !== to) {
       // Coming back from dark starts from nothing; moving between places dissolves from the
@@ -292,53 +289,18 @@ export function initPanel() {
       if (row) { rest = row.dataset.plate; arm(row); }
     });
     index.addEventListener('pointerleave', () => { clearTimeout(intent); settle(); });
-    addEventListener('pointermove', (e) => {
+    listen(window, 'pointermove', (e) => {
       if (!active) return;
       wantX = (e.clientX / innerWidth) * 2 - 1;
       wantY = (e.clientY / innerHeight) * 2 - 1;
     }, { passive: true });
-    new IntersectionObserver((entries) => {
+    const io = new IntersectionObserver((entries) => {
       onScreen = entries[0].isIntersecting;
       settle();
-    }, { rootMargin: '-12% 0px -12% 0px' }).observe(index);
-  } else {
-    // The lit place is the one nearest the middle of the screen. Read on a rAF tick rather than
-    // on every scroll event, and only when the list is actually on screen.
-    const rows = Array.from(index.querySelectorAll<HTMLElement>('a[data-plate]'));
-    let current: HTMLElement | null = null;
-    let ticking = false;
-    let onScreen = false;
-
-    const pick = () => {
-      ticking = false;
-      if (!onScreen) return;
-      const mid = innerHeight / 2;
-      let best: HTMLElement | null = null;
-      let bestD = Infinity;
-      for (const row of rows) {
-        const r = row.getBoundingClientRect();
-        const d = Math.abs(r.top + r.height / 2 - mid);
-        if (d < bestD) { bestD = d; best = row; }
-      }
-      if (!best || best === current) return;
-      current = best;
-      rows.forEach((r) => r.classList.toggle('is-lit-row', r === best));
-      show(best.dataset.plateSm || best.dataset.plate!);
-      // The rake leans with where the row sits on the screen — the closest a phone has to a hand.
-      const r = best.getBoundingClientRect();
-      wantY = ((r.top + r.height / 2) / innerHeight) * 2 - 1;
-    };
-
-    const onScroll = () => { if (!ticking) { ticking = true; requestAnimationFrame(pick); } };
-    addEventListener('scroll', onScroll, { passive: true });
-
-    new IntersectionObserver((entries) => {
-      onScreen = entries[0].isIntersecting;
-      if (onScreen) pick();
-      else { current = null; rows.forEach((r) => r.classList.remove('is-lit-row')); disarm(); }
-    }, { rootMargin: '-25% 0px -25% 0px' }).observe(index);
+    }, { rootMargin: '-12% 0px -12% 0px' });
+    io.observe(index);
+    onSwap(() => io.disconnect());
   }
-
   // Keyboard parity on every device: focus is hover.
   index.addEventListener('focusin', (e) => {
     const row = (e.target as HTMLElement).closest<HTMLElement>('a[data-plate]');
@@ -348,11 +310,7 @@ export function initPanel() {
     if (!index.contains((e as FocusEvent).relatedTarget as Node)) disarm();
   });
 
-  addEventListener('resize', size, { passive: true });
-  index.addEventListener('click', (e) => {
-    const row = (e.target as HTMLElement).closest<HTMLElement>('a[data-project]');
-    if (row?.dataset.project) ls.set('jjf-last-project', row.dataset.project);
-  });
+  listen(window, 'resize', size, { passive: true });
 
   canvas.addEventListener('webglcontextlost', (e) => {
     e.preventDefault();
@@ -361,9 +319,47 @@ export function initPanel() {
   });
 
   document.body.appendChild(canvas);
-  // The plate now carries the photograph for the whole stratum, so the per-row thumbnail is the
-  // same picture twice.
-  if (ambient) index.classList.add('has-panel');
-  if (veil) document.body.appendChild(veil);
   size();
+  // The page goes; so does its context. Left alone, every return to the index made another.
+  onSwap(() => {
+    clearTimeout(intent);
+    if (raf) cancelAnimationFrame(raf);
+    raf = 0;
+    g.getExtension('WEBGL_lose_context')?.loseContext();
+    canvas.remove();
+  });
+}
+
+// The phone's version of attention: the row nearest the middle of the screen, while the list is on
+// screen. Read on a rAF tick rather than on every scroll event.
+function litRows(index: HTMLElement) {
+  const rows = Array.from(index.querySelectorAll<HTMLElement>('.row a'));
+  if (!rows.length) return;
+  let current: HTMLElement | null = null;
+  let ticking = false;
+  let onScreen = false;
+  const pick = () => {
+    ticking = false;
+    if (!onScreen) return;
+    const mid = innerHeight / 2;
+    let best: HTMLElement | null = null;
+    let bestD = Infinity;
+    for (const row of rows) {
+      const r = row.getBoundingClientRect();
+      const d = Math.abs(r.top + r.height / 2 - mid);
+      if (d < bestD) { bestD = d; best = row; }
+    }
+    if (!best || best === current) return;
+    current = best;
+    rows.forEach((r) => r.classList.toggle('is-lit-row', r === best));
+  };
+  const onScroll = () => { if (!ticking) { ticking = true; requestAnimationFrame(pick); } };
+  listen(window, 'scroll', onScroll, { passive: true });
+  const io = new IntersectionObserver((entries) => {
+    onScreen = entries[0].isIntersecting;
+    if (onScreen) pick();
+    else { current = null; rows.forEach((r) => r.classList.remove('is-lit-row')); }
+  }, { rootMargin: '-25% 0px -25% 0px' });
+  io.observe(index);
+  onSwap(() => io.disconnect());
 }

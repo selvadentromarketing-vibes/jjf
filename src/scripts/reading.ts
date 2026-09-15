@@ -1,7 +1,8 @@
 // The reading rail knows where you are: the chapter whose head has passed a line a third of the
 // way down the screen is the current one. Read on a frame, not on every scroll event.
+import { listen } from './lifecycle';
+
 const rails: { links: HTMLAnchorElement[]; targets: HTMLElement[] }[] = [];
-let bound = false;
 let ticking = false;
 
 export function initReading() {
@@ -11,10 +12,9 @@ export function initReading() {
     const targets = links.map((a) => document.getElementById(decodeURIComponent(a.hash.slice(1)))).filter((t): t is HTMLElement => !!t);
     if (targets.length) rails.push({ links, targets });
   });
-  if (!bound) {
-    bound = true;
-    addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(pick); } }, { passive: true });
-  }
+  if (!rails.length) return;
+  ticking = false;
+  listen(window, 'scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(pick); } }, { passive: true });
   pick();
 }
 

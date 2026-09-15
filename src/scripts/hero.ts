@@ -6,6 +6,7 @@
 // If it will not play — Low Power Mode, an in-app browser that blocks autoplay, Save-Data, reduced
 // motion — the plate stays, and the plate is the designed hero.
 import { reduce } from './motion';
+import { onSwap } from './lifecycle';
 
 const ARRIVAL_MS = 2600;
 
@@ -13,7 +14,9 @@ export function initHero() {
   const video = document.querySelector<HTMLVideoElement>('[data-hero-video]');
   if (!video || video.dataset.started) return;
   const saveData = (navigator as any).connection?.saveData === true;
-  if (reduce() || saveData) return;
+  // A device that cannot carry a shader is not asked to decode a film either.
+  const tier = document.documentElement.dataset.tier;
+  if (reduce() || saveData || tier === 'css' || tier === 'rest') return;
   video.dataset.started = '1';
 
   const start = () => {
@@ -42,4 +45,5 @@ export function initHero() {
     else video.pause();
   }, { rootMargin: '10% 0px' });
   io.observe(video);
+  onSwap(() => io.disconnect());
 }
