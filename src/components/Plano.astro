@@ -1,11 +1,17 @@
 ---
 // El Plano (plan §S2): the project's drawing, inlined at build so CSS can draw it — dash-dot strokes
-// and an unrolling mask, both in global.css. Validated by scripts/check-plans.mjs.
+// and a travelling mask, both in global.css. The file is drawn in the plate's coordinates (the film
+// frame it was read from) so the home can register it onto the photograph; `fit="sheet"` reframes
+// it to the printed sheet alone for the project page. Validated by scripts/check-plans.mjs.
 import { readFile } from 'node:fs/promises';
 import path from 'node:path';
-interface Props { slug: string; plan?: { svg: string; source: 'architect' | 'ai-derived' | 'traced' } }
-const { slug, plan } = Astro.props;
+interface Props { slug: string; plan?: { svg: string; source: 'architect' | 'ai-derived' | 'traced' }; fit?: 'plate' | 'sheet' }
+const { slug, plan, fit = 'plate' } = Astro.props;
 let svg = '';
-if (plan) svg = await readFile(path.resolve('src/assets/plans', plan.svg), 'utf8');
+if (plan) {
+  svg = await readFile(path.resolve('src/assets/plans', plan.svg), 'utf8');
+  const sheet = svg.match(/data-sheet-rect="([^"]+)"/)?.[1];
+  if (fit === 'sheet' && sheet) svg = svg.replace(/viewBox="[^"]+"/, `viewBox="${sheet}"`);
+}
 ---
-{plan && <div class="plano" data-plano={slug} data-source={plan.source} aria-hidden="true" set:html={svg} />}
+{plan && <div class="plano" data-plano={slug} data-source={plan.source} data-fit={fit} aria-hidden="true" set:html={svg} />}

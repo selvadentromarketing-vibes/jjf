@@ -102,7 +102,7 @@ const ld = [org, website, ...webPage, ...own];
     <script is:inline type="application/ld+json" set:html={JSON.stringify(ld)} />
   </head>
   <body class={bodyClass} data-staging={staging ? '1' : undefined}>
-    <Door />
+    <Door lang={lang} />
     <a class="skip" href="#main">{t(lang, 'skip')}</a>
     <Nav lang={lang} route={route} params={params} alt={alt} />
     <main id="main"><slot /></main>

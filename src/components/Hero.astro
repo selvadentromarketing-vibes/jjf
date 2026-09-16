@@ -1,42 +1,42 @@
 ---
-// Dosel (plan §S1, revised 16 September). The hero is the land, and the camera moves.
+// Dosel (plan §S1, revised 16 September). The hero is the studio's opening, and the camera moves.
 //
-// Two layers. The plate — JJF's own aerial, the jungle with its cenote — paints first, in flow, as
-// the LCP element, and is the whole hero wherever the film cannot play. The film is the founder's
-// own hero cut, slowed to half speed, its letterbox and burned-in subtitles cropped away, looped
-// through a dissolve; it is fetched only after the page has loaded and fades in once the plate
-// has finished arriving. The motion under it is the camera's: an arrival that comes into focus
-// and settles, a slow drift while you look, a sink as you scroll.
-// None of it needs a script, and the plate is still painted first, in flow, as the LCP element —
-// with the <picture> itself as the grid item. A plain wrapper box between the grid and the image
-// takes the image out of Chrome's largest-contentful-paint candidates entirely (measured: the same
-// file, same size, same position is a candidate as a grid item and is not inside a div), so the
-// three camera moves share two elements: the picture sinks on scroll; the image arrives, then
-// breathes, the second animation starting the moment the first has finished.
+// Three layers in one grid cell, all in the same coordinates. The plate is the first frame of the
+// founder's film — a printed master plan on a table, half under tracing paper — and paints first,
+// in flow, as the LCP element; it is the whole hero wherever the film cannot play. Over it, when a
+// place is selling, El Plano: that place's plan traced from this very frame, drawn in dash-dot so
+// every drawn line sits on a printed one. Then the film itself, which starts on the plate's frame
+// (the cut is invisible), so the hand that pulls the paper away pulls it from under the drawing;
+// after the table the film goes on into the land and loops there (hero.ts, plano.ts).
+// The plate keeps no camera move of its own here: any scale would break the registration and jump
+// at the cut. The <picture> is the grid item, in flow, with no wrapper box between it and the grid —
+// Chrome drops the image from its largest-contentful-paint candidates when a plain div sits in
+// between (measured), and the box is one pixel short of the hero for the same reason (global.css).
 //
-// When one place is selling, the hero is that place. Its plan unrolls over the plate as a dash-dot
-// drawing (El Plano, the same drawing its own page opens on), the door's hairline handing off to
-// the drawing's boundary, and the film — the printed plan being unrolled on a table — takes the
-// drawn one's place. Over the land, four things: who this is and what is happening (one line),
-// the place's name, one sentence of what it is, and the things a buyer can do. Without a selling
-// place the hero says what the studio is, as it did before.
+// Over the land, four things: who this is and what is happening now (one line), the studio's own
+// sentence, the lede, and the things you can do. The selling place is named, not sold: its page and
+// WhatsApp; the sales doors have a stratum of their own further down.
 import { Picture } from 'astro:assets';
 import type { CollectionEntry } from 'astro:content';
-import plate from '../assets/img/hero-bg.webp';
+import plate from '../assets/img/hero-table.webp';
 import Plano from './Plano.astro';
 import { t } from '../i18n';
 import { href, type Lang } from '../routes';
-interface Props {
-  lang: Lang; headline: string[]; lede: string;
-  project?: CollectionEntry<'projects'>; primary?: { label: string; url: string }; wa?: string;
-}
-const { lang, headline, lede, project, primary, wa } = Astro.props;
+interface Props { lang: Lang; headline: string[]; lede: string; project?: CollectionEntry<'projects'>; wa?: string }
+const { lang, headline, lede, project, wa } = Astro.props;
 const p = project?.data;
 const plan = p?.plan;
+// The film's land loop begins here (seconds): after the table, never back to it (hero.ts).
+const LOOP_IN = 4.42;
+// Largest Contentful Paint: Chrome scores an image by the smaller of its natural and its displayed
+// area and replaces the candidate only with a strictly larger one. The plate is wider than a screen
+// (2.2:1) and covers it, so the candidate the browser picks has to be about 1.12× the viewport
+// wide for its natural area to match the box; `sizes` asks for that on a desk, and the film's box
+// is a pixel shorter than the plate's, so the plate stays the element that is scored (hero.spec).
 ---
 <section class:list={['hero', 'stratum', { 'has-plano': !!plan, 'has-plate': true }]} data-stratum="dosel" data-ground="canopy" data-light="A" id="dosel" data-plano-host={plan ? '' : undefined} data-plano-hold={plan ? 'film' : undefined}>
-  <Picture class="hero-plate" pictureAttributes={{ class: 'hero-media' }} src={plate} widths={[640, 960, 1200, 1400]} sizes="100vw" formats={['avif', 'webp']} fallbackFormat="webp" alt="" loading="eager" fetchpriority="high" decoding="async" />
-  <video class="hero-video" muted loop playsinline preload="none" tabindex="-1" aria-hidden="true" data-hero-video>
+  <Picture class="hero-plate" pictureAttributes={{ class: 'hero-media' }} src={plate} widths={[640, 960, 1200, 1600, 1920]} sizes="(min-width: 1024px) 112vw, 100vw" formats={['avif', 'webp']} fallbackFormat="webp" alt="" loading="eager" fetchpriority="high" decoding="async" />
+  <video class="hero-video" muted playsinline preload="none" tabindex="-1" aria-hidden="true" data-hero-video data-loop-in={LOOP_IN}>
     <source data-src="/media/hero/hero-desk.webm" type="video/webm; codecs=av01.0.08M.08" media="(min-width: 1024px)" />
     <source data-src="/media/hero/hero-desk.mp4" type="video/mp4; codecs=avc1.640028" media="(min-width: 1024px)" />
     <source data-src="/media/hero/hero-phone.webm" type="video/webm; codecs=av01.0.05M.08" />
@@ -46,23 +46,24 @@ const plan = p?.plan;
   <div class="hero-scrim" aria-hidden="true"></div>
   <div class="hero-tint" aria-hidden="true"></div>
   <div class="hero-copy">
-    <p class="eyebrow hero-eyebrow hero-el" data-reveal="fade" style="--i:0">{t(lang, p ? 'hero.eyebrowSelling' : 'hero.eyebrow')}</p>
+    <p class="eyebrow hero-eyebrow hero-el" data-reveal="fade" style="--i:0">{p ? t(lang, 'hero.eyebrowNow', { name: p.name }) : t(lang, 'hero.eyebrow')}</p>
     <h1 class="display hero-title hero-el" data-reveal="lines">
       {headline.map((l, i) => <span class="line" style={`--i:${i}`}><span set:html={l} /></span>)}
     </h1>
-    <p class="lede hero-el" data-reveal="fade" style="--i:3" data-figures-ok={p ? '' : undefined} set:html={lede} />
-    {p ? (
-      <div class="hero-act btn-row hero-el" data-reveal="fade" style="--i:4">
-        {primary && <a class="btn btn-primary" href={primary.url} target="_blank" rel="noopener" data-event="funnel_click" data-section="hero" data-project={p.key}>{primary.label}</a>}
-        {wa && <a class="btn" href={wa} target="_blank" rel="noopener" data-event="whatsapp_click" data-section="hero" data-project={p.key}>{t(lang, 'doors.whatsapp')}</a>}
-        <a class="hero-more" href={href('project', lang, { slug: p.key })} data-event="project_open" data-section="hero" data-project={p.key}>{t(lang, 'hero.more')}</a>
-      </div>
-    ) : (
-      <div class="hero-act btn-row hero-el" data-reveal="fade" style="--i:4">
-        <a class="btn btn-primary" href={href('projects', lang)} data-event="cta_click" data-section="hero">{t(lang, 'hero.see')}</a>
-        <a class="btn" href={href('contact', lang)} data-event="cta_click" data-section="hero">{t(lang, 'nav.talk')}</a>
-      </div>
-    )}
+    <p class="lede hero-el" data-reveal="fade" style="--i:3" set:html={lede} />
+    <div class="hero-act btn-row hero-el" data-reveal="fade" style="--i:4">
+      {p ? (
+        <>
+          <a class="btn btn-primary" href={href('project', lang, { slug: p.key })} data-event="project_open" data-section="hero" data-project={p.key}>{t(lang, 'hero.seePlace', { name: p.name })}</a>
+          {wa && <a class="btn" href={wa} target="_blank" rel="noopener" data-event="whatsapp_click" data-section="hero" data-project={p.key}>{t(lang, 'doors.whatsapp')}</a>}
+        </>
+      ) : (
+        <>
+          <a class="btn btn-primary" href={href('projects', lang)} data-event="cta_click" data-section="hero">{t(lang, 'hero.see')}</a>
+          <a class="btn" href={href('contact', lang)} data-event="cta_click" data-section="hero">{t(lang, 'nav.talk')}</a>
+        </>
+      )}
+    </div>
   </div>
   <div class="hero-cue" aria-hidden="true"><span class="cue-label">{t(lang, 'hero.cue')}</span><span class="cue-line"><span></span></span></div>
 </section>

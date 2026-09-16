@@ -49,6 +49,18 @@ test.describe('the hero', () => {
     await expect(page.locator('.hero .hero-video.is-ready')).toHaveCount(1, { timeout: 12_000 });
   });
 
+  test('after the table the film loops in the land, never back to the table', async ({ page }) => {
+    test.skip(test.info().project.name !== 'desktop');
+    await page.goto('/es/');
+    await expect(page.locator('.hero .hero-video.is-ready')).toHaveCount(1, { timeout: 12_000 });
+    const loopIn = await page.locator('.hero .hero-video').evaluate((v) => Number((v as HTMLVideoElement).dataset.loopIn));
+    expect(loopIn).toBeGreaterThan(0);
+    // one full pass plus a loop: the clock must have wrapped to the land, not to zero
+    await page.waitForTimeout(12_000);
+    const t = await page.locator('.hero .hero-video').evaluate((v) => (v as HTMLVideoElement).currentTime);
+    expect(t).toBeGreaterThanOrEqual(loopIn - 0.2);
+  });
+
   test('reduced motion keeps the plate and never loads the film', async ({ page }) => {
     test.skip(test.info().project.name !== 'reduced');
     await page.goto('/es/');
@@ -61,9 +73,13 @@ test.describe('the hero', () => {
     test.skip(test.info().project.name !== 'desktop');
     await page.goto('/es/');
     await page.waitForTimeout(400);
+    // Under a drawing registered onto it the plate cannot move: the plan and the film share its
+    // pixels, and any scale would break the registration and jump at the cut. The camera is the
+    // film's. Where no plan is drawn the plate still arrives and breathes.
     const plate = await page.evaluate(() => getComputedStyle(document.querySelector('.hero .hero-plate')!).animationName);
-    expect(plate).toMatch(/hero-arrive/);
-    expect(plate).toContain('hero-breathe');
+    const hasPlan = await page.locator('.hero.has-plano').count();
+    if (hasPlan) expect(plate).toBe('none');
+    else { expect(plate).toMatch(/hero-arrive/); expect(plate).toContain('hero-breathe'); }
     // No wrapper box between the grid and the picture: that is what keeps the plate an LCP candidate.
     expect(await page.locator('.hero > picture.hero-media > img.hero-plate').count()).toBe(1);
     expect(await page.locator('.hero > video.hero-video').count()).toBe(1);

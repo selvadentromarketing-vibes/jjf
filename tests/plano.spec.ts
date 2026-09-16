@@ -45,6 +45,16 @@ test.describe('el plano — the drawing becomes the place', () => {
     await expect(page.locator('.plano.is-done')).toHaveCount(1, { timeout: 12_000 });
   });
 
+  test('the project page frames the same drawing to the printed sheet', async ({ page }) => {
+    test.skip(test.info().project.name !== 'desktop');
+    await page.goto(`/es/proyectos/${DRAWN}/`);
+    const svg = page.locator('.plano svg');
+    const vb = (await svg.getAttribute('viewBox'))!.split(' ').map(Number);
+    const sheet = (await svg.getAttribute('data-sheet-rect'))!.split(' ').map(Number);
+    expect(vb).toEqual(sheet);
+    expect(vb[2] / vb[3]).toBeGreaterThan(3.5);
+  });
+
   test('it plays once per project per session', async ({ page }) => {
     test.skip(test.info().project.name === 'reduced');
     await page.goto(`/es/proyectos/${DRAWN}/`);
@@ -84,12 +94,27 @@ test.describe('el plano — the drawing becomes the place', () => {
     await page.goto('/es/');
     const plano = page.locator(`.hero .plano[data-plano="${DRAWN}"]`);
     await expect(plano).toHaveCount(1);
-    // it waits for the door, then unrolls; the film waits for it, then it lets go
+    // the drawing is in the plate's coordinates, sliced like the film, with the first road the
+    // door's mark becomes
+    await expect(plano.locator('#seed')).toHaveCount(1);
+    expect(await plano.locator('svg').getAttribute('viewBox')).toBe('0 0 1920 870');
+    await expect(plano.locator('svg')).toHaveAttribute('preserveAspectRatio', 'xMidYMid slice');
+    // it waits for the hand-off (not merely for the curtains), then spreads; the film waits for
+    // it; then the drawing follows the hand and lets go
     await page.waitForFunction(() => document.documentElement.classList.contains('door-open'), null, { timeout: 8000 });
+    expect(await page.locator('.hero .plano.is-drawing').count()).toBe(0);
+    await page.waitForFunction(() => document.documentElement.classList.contains('door-morphed'), null, { timeout: 8000 });
+    await expect(page.locator('.hero .plano.is-drawing')).toHaveCount(1, { timeout: 1000 });
     expect(await page.locator('.hero .plano.is-done').count()).toBe(0);
     await expect(page.locator('.hero .plano.is-done')).toHaveCount(1, { timeout: 12_000 });
     await expect(page.locator('.hero .hero-video.is-ready')).toHaveCount(1, { timeout: 12_000 });
-    await expect(page.locator('.hero .plano.is-gone')).toHaveCount(1, { timeout: 4000 });
+    await expect(page.locator('.hero .plano.is-following')).toHaveCount(1, { timeout: 2000 });
+    const erase = () => plano.evaluate((el) => parseFloat(getComputedStyle(el).getPropertyValue('--erase')));
+    const e1 = await erase();
+    await page.waitForTimeout(800);
+    const e2 = await erase();
+    expect(e2, `the erase edge follows the hand (${e1} → ${e2})`).toBeGreaterThan(e1);
+    await expect(page.locator('.hero .plano.is-gone')).toHaveCount(1, { timeout: 6000 });
     // the plate was held down a step while the drawing was up, and is let back up after
     await expect(page.locator('.hero.plano-drawing')).toHaveCount(0);
     // the place's own page, in the same session, opens on its photograph at rest

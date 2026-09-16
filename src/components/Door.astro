@@ -1,10 +1,20 @@
 ---
-// La Marca (plan §S0): the door once per session; the beat with the mark on every click. Inert without JS.
+// La Marca (plan §S0): the door once per session. The mark draws itself, holds, and — on the home,
+// where the selling place's plan is drawn behind it — its line turns into the plan's first road
+// (door.ts). `door-plan` is that stage: an empty full-screen SVG in the plate's own coordinates
+// (1920×870, sliced like the film), filled at runtime with the mark's paths so the morph lands
+// exactly on the drawing underneath. The caption is the founder's film's own line. Inert without JS.
 import Mark from './Mark.astro';
+import { t } from '../i18n';
+import type { Lang } from '../routes';
+interface Props { lang: Lang }
+const { lang } = Astro.props;
 ---
 <div id="door" class="door" data-state="pending" aria-hidden="true" transition:persist="door">
   <div class="door-panel door-top"></div>
   <div class="door-panel door-bottom"></div>
   <i class="door-hair"></i>
   <div class="door-mark"><Mark /></div>
+  <svg class="door-plan" viewBox="0 0 1920 870" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false"></svg>
+  <p class="door-caption">{t(lang, 'door.line')}</p>
 </div>

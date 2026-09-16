@@ -8,7 +8,8 @@
   "lede": "…but in the quality of life a space can offer.",
   "claro": [
     "We have spent years building on the peninsula: planned communities, houses among trees, a golf course, a school. What they share is not their size but the way we look at the land before we touch it: first the cenote, the shade and the water under the stone; then the house.",
-    "Luxury, for us, is not in the ostentatious. It is shade at the right hour, a cenote left where it was, a house that barely touches the ground. That is why our projects mix the aesthetic with the functional, the natural with the well made."
+    "Luxury, for us, is not in the ostentatious. It is shade at the right hour, a cenote left where it was, a house that barely touches the ground. That is why our projects mix the aesthetic with the functional, the natural with the well made.",
+    "More than building properties, we design refuges where life feels different."
   ],
   "claroCaption": "The natural and the well made",
   "claroSketchCaption": "First, in pencil",
@@ -19,22 +20,12 @@
   ],
   "aguaTitle": "Six places on the same stone.",
   "invitation": "Whenever you like, we can talk.",
-  "heroSelling": {
-    "headline": [
-      "Selvadentro.",
-      "Land",
-      "of cenotes."
-    ],
-    "lede": "Residential lots in a private low-density community: nine cenotes within, 65% of the jungle preserved, from USD 68,000.",
-    "primaryLabel": "See available lots",
-    "primaryUrl": "https://lotes.selvadentrotulum.com/"
-  },
   "funnels": [
     {
       "key": "lotes",
       "label": "Lots",
       "line": "Own a residential lot in a low-density jungle development with nine natural cenotes and most of the jungle preserved.",
-      "url": "https://lotes.selvadentrotulum.com/"
+      "url": "https://www.selvadentrotulum.com/"
     },
     {
       "key": "investor",

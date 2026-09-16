@@ -15,7 +15,8 @@
     "test": "playwright test",
     "trace:mark": "node scripts/trace-mark.mjs",
     "check:plans": "node scripts/check-plans.mjs",
-    "trace:roads": "node scripts/trace-roads.mjs"
+    "trace:roads": "node scripts/trace-roads.mjs",
+    "trace:table": "TRACE_CROP=table TRACE_PLATE=1920x870 TRACE_MIN_COMPONENT=800 TRACE_MIN_SPAN=0.04 TRACE_DILATE=3 TRACE_EDGE=14 TRACE_WATER=grey TRACE_SEED_AT=960,435 node scripts/trace-roads.mjs selvadentro src/assets/plans/source/selvadentro-table.webp"
   },
   "dependencies": {
     "@astrojs/sitemap": "3.7.4",

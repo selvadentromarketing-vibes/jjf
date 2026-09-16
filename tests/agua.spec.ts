@@ -43,6 +43,23 @@ test.describe('agua — the water table', () => {
     expect(bg).toContain('gradient');
   });
 
+  test('the cenote film plays under the caustics on a desk and is never fetched on a phone', async ({ page, isMobile }) => {
+    test.skip(test.info().project.name === 'reduced');
+    await page.goto('/es/');
+    const film = page.locator('.agua-water video.agua-film');
+    await expect(film).toHaveCount(1);
+    // at parse time the sources carry data-src only; both are gated to wide screens
+    expect(await film.locator('source[data-src][media]').count()).toBe(2);
+    await page.evaluate(() => document.querySelector('#agua')!.scrollIntoView({ behavior: 'instant' as ScrollBehavior, block: 'start' }));
+    if (isMobile) {
+      await page.waitForTimeout(1500);
+      expect(await film.evaluate((v) => (v as HTMLVideoElement).currentSrc)).toBe('');
+    } else {
+      await expect(film).toHaveClass(/is-ready/, { timeout: 12_000 });
+      expect(await film.evaluate((v) => (v as HTMLVideoElement).currentSrc)).toContain('/media/agua/');
+    }
+  });
+
   test('the doors stay legible over it', async ({ page }) => {
     await page.goto('/es/');
     await page.evaluate(() => {

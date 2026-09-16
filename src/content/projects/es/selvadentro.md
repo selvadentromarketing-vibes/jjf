@@ -29,7 +29,7 @@ preservedPct: { value: 65, unit: "%", verified: true, source: "selvadentrotulum.
 plan:
   svg: selvadentro.svg
   source: traced
-  from: ../masterplans/selvadentro.webp
+  from: plans/source/selvadentro-table.webp
   asOf: 2026-09-16
 ---
 ## El lugar

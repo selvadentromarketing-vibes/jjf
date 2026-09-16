@@ -13,22 +13,19 @@ interface Props { lang: Lang }
 const { lang } = Astro.props;
 const site = (await getCollection('site')).find((s) => s.data.lang === lang)!.data;
 const projects = (await getCollection('projects', (e) => e.data.lang === lang && !e.data.draft)).sort((a, b) => a.data.order - b.data.order);
-// The place selling today, if a record says so. It is the hero, its WhatsApp opens on the place
-// by name, and its funnels get a stratum of their own. The day that flag changes, the hero says
-// what the studio is again and the funnels go away by themselves.
+// The place selling today, if a record says so. The hero names it and draws its plan; its WhatsApp
+// opens on the place by name; its funnels get a stratum of their own. The day that flag changes,
+// the hero is the studio's alone again and the funnels go away by themselves.
 const selling = projects.find((p) => p.data.status === 'en-venta' && p.data.statusVerified);
 const staging = import.meta.env.PUBLIC_STAGING === '1';
 const wa = selling && (site.whatsapp.verified || staging)
   ? `https://wa.me/${site.whatsapp.number.replace(/\D/g, '')}?text=${encodeURIComponent(t(lang, 'doors.waText', { project: selling.data.name }))}`
   : undefined;
-const heroSelling = selling && site.heroSelling;
 ---
 <Base lang={lang} title={site.pages.home.title} description={site.pages.home.description} route="home" ground="canopy" bodyClass="page-home">
-  {heroSelling
-    ? <Hero lang={lang} headline={heroSelling.headline} lede={heroSelling.lede} project={selling} primary={{ label: heroSelling.primaryLabel, url: heroSelling.primaryUrl }} wa={wa} />
-    : <Hero lang={lang} headline={site.headline} lede={site.lede} />}
+  <Hero lang={lang} headline={site.headline} lede={site.lede} project={selling} wa={wa} />
   <div class="passage stratum" data-stratum="dosel" data-ground="forest" aria-hidden="true"></div>
-  <Claro lang={lang} statement={heroSelling ? site.headline : undefined} paragraphs={site.claro} caption={site.claroCaption} sketchCaption={site.claroSketchCaption} line={site.claroLine} projects={projects} />
+  <Claro lang={lang} paragraphs={site.claro} caption={site.claroCaption} sketchCaption={site.claroSketchCaption} line={site.claroLine} projects={projects} />
   {selling && site.funnels.length > 0 && <Funnels lang={lang} project={selling} funnels={site.funnels} />}
   <Index lang={lang} projects={projects} title={site.indexTitle} />
   <Agua lang={lang} site={site} projects={projects} />

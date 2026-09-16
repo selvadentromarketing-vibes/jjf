@@ -95,7 +95,6 @@ const site = defineCollection({
     // The one place selling today, in one line under its name. Rendered only while a record says en-venta.
     // The place selling today, as the home's hero: its own three lines, its lede (figures inside
     // it come from the record and are marked as such), and the funnel that sells it.
-    heroSelling: z.object({ headline: z.array(z.string()).length(3), lede: z.string(), primaryLabel: z.string(), primaryUrl: z.string().url() }).optional(),
     // The buyer funnels, one page each, in the order this language should read them.
     funnels: z.array(z.object({ key: z.string(), label: z.string(), line: z.string(), url: z.string().url() })).default([]),
     programs: z.array(z.object({ label: z.string(), url: z.string().url() })).default([]),

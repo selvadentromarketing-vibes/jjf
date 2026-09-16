@@ -4,6 +4,7 @@ import { initSolar } from './solar';
 import { initDoor } from './door';
 import { initNav } from './nav';
 import { initHero } from './hero';
+import { initFilms } from './films';
 import { initReveals } from './reveal';
 import { initGround } from './ground';
 import { initPlano } from './plano';
@@ -24,7 +25,7 @@ async function lightAndPanel() {
   if (document.querySelector('[data-index]')) (await import('./panel')).initPanel();
 }
 
-function perPage() { initNav(); initReveals(); initGround(); initHero(); initPlano(); initReading(); initContact(); lightAndPanel(); }
+function perPage() { initNav(); initReveals(); initGround(); initHero(); initPlano(); initFilms(); initReading(); initContact(); lightAndPanel(); }
 
 initLifecycle();
 initTier();

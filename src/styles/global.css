@@ -27,6 +27,8 @@
 @property --ink-dim { syntax: '<color>'; inherits: true; initial-value: #B9B4A7; }
 /* El Plano's unroll: a mask edge that travels across the sheet. Registered so it can transition. */
 @property --unroll { syntax: '<percentage>'; inherits: false; initial-value: 0%; }
+@property --spread { syntax: '<percentage>'; inherits: false; initial-value: 0%; }
+@property --erase { syntax: '<percentage>'; inherits: false; initial-value: 0%; }
 
 :root {
   /* durations: micro 240–320 · trans 600–900 · cine 1100–1600 · beat 180. Nothing in between. */
@@ -44,7 +46,9 @@
      that is in no part of this palette. */
   accent-color: var(--color-limestone);
 }
-html.door-pending { --t0: .8s; --door-offset: .45s; }
+html.door-pending { --t0: 4.5s; --door-offset: 1.7s; }
+/* The nav keeps out of the overture and arrives as the curtains part. */
+html.door-pending .nav { opacity: 0; animation: fade-in var(--dur-micro) var(--ease-signature) 1.9s forwards; }
 html.returning:not(.door-pending) { --t0: .1s; }
 html[data-ground="canopy"] { --ground: var(--color-canopy); }
 html[data-ground="shade"] { --ground: var(--color-shade); --hair: rgb(242 238 229 / .12); }
@@ -161,7 +165,7 @@ html.sheet-open { overflow: hidden; }
 
 /* ===== the door (plan §S0) ===== */
 .door { display: none; position: fixed; inset: 0; z-index: 100; pointer-events: none; color: var(--color-bone); }
-html.door-pending .door[data-state="pending"], .door[data-state="overture"], .door[data-state="beat"], .door[data-state="closing"] { display: block; pointer-events: auto; }
+html.door-pending .door[data-state="pending"], .door[data-state="overture"] { display: block; pointer-events: auto; }
 .door[data-state="closed"] { display: none !important; }
 .door-panel { position: absolute; left: 0; right: 0; background: var(--color-forest); }
 .door-top { top: 0; height: 50%; }
@@ -171,6 +175,12 @@ html.door-pending .door[data-state="pending"], .door[data-state="overture"], .do
 .door-mark .mark svg { width: clamp(96px, 14vw, 160px); height: auto; overflow: visible; }
 .door .mk-fill { opacity: 0; }
 .door .mk-stroke path { stroke-width: 3; vector-effect: non-scaling-stroke; }
+/* The stage for the morph: the plate's coordinates, sliced like the film and the drawing under the
+   door, so the mark's copy sits where the mark was and lands on the drawing's first road. */
+.door-plan { position: absolute; inset: 0; width: 100%; height: 100%; display: none; pointer-events: none; color: var(--color-bone); overflow: visible; }
+.door-plan .dp-stroke { fill: none; stroke: currentColor; stroke-width: 3; vector-effect: non-scaling-stroke; stroke-linecap: round; stroke-linejoin: round; }
+.door-plan .dp-road { fill: none; stroke: currentColor; stroke-width: 1.2; vector-effect: non-scaling-stroke; stroke-linecap: round; stroke-linejoin: round; }
+.door-caption { position: absolute; left: var(--gutter); bottom: clamp(38px, 7vh, 84px); margin: 0; font-size: 12px; letter-spacing: .18em; text-transform: uppercase; color: var(--color-bone-dim); opacity: 0; }
 
 
 
@@ -250,8 +260,12 @@ html.returning:not(.door-pending) .hero.is-dawn .hero-plate { animation-duration
   @keyframes hero-lift { to { transform: translateY(-9vh); opacity: 0; } }
 }
 /* the film, over the plate, in the same grid cell: nothing until it plays, then a slow cross-fade */
-.hero .hero-video { position: relative; z-index: 1; width: 100%; height: calc(100% - 1px); object-fit: cover; opacity: 0; transition: opacity var(--dur-cine-l) var(--ease-signature); pointer-events: none; }
+.hero .hero-video { position: relative; z-index: 1; width: 100%; height: calc(100% - 2px); object-fit: cover; opacity: 0; transition: opacity var(--dur-cine-l) var(--ease-signature); pointer-events: none; }
 .hero .hero-video.is-ready { opacity: 1; }
+/* Under a drawing registered onto it the plate cannot move (any scale breaks the registration and
+   jumps at the cut), and the film's first frame is the plate, so the cross is short. */
+.hero.has-plano.is-dawn .hero-plate, .hero.has-plano .hero-plate { animation: none; }
+.hero.has-plano .hero-video { transition-duration: .4s; }
 /* one hairline that draws itself downward and lets go: the only instruction the hero gives */
 .hero-cue { position: absolute; right: var(--gutter); bottom: clamp(28px, 5vh, 56px); z-index: 4; display: grid; justify-items: center; gap: 10px; opacity: 0; animation: fade-in var(--dur-micro) var(--ease-signature) calc(var(--t0) + 1.2s) forwards; }
 .hero-cue .cue-label { font-size: 10px; letter-spacing: .18em; text-transform: uppercase; color: var(--color-bone-dim); }
@@ -266,7 +280,7 @@ html.returning:not(.door-pending) .hero.is-dawn .hero-plate { animation-duration
 /* Lighter than it was: the film's jungle shots are darker than the aerial, and with the old stops
    the hero read as black on a phone and tipped the darkness budget. The headline is display size
    and sits over the darkest stop; the lede sits at the very foot, where the scrim is strongest. */
-.hero-scrim { position: absolute; inset: 0; z-index: 2; pointer-events: none; background: linear-gradient(to top, rgb(10 13 10 / .62) 0%, rgb(10 13 10 / .24) 26%, transparent 50%), linear-gradient(to right, rgb(10 13 10 / .36) 0%, rgb(10 13 10 / .04) 45%, transparent 70%); }
+.hero-scrim { position: absolute; inset: 0; z-index: 2; pointer-events: none; background: linear-gradient(to top, rgb(10 13 10 / .70) 0%, rgb(10 13 10 / .28) 26%, transparent 50%), linear-gradient(to right, rgb(10 13 10 / .44) 0%, rgb(10 13 10 / .06) 45%, transparent 70%); }
 .hero-tint { position: absolute; inset: 0; z-index: 3; pointer-events: none; background: var(--tint); mix-blend-mode: soft-light; opacity: var(--tint-strength); }
 .hero-copy { position: relative; z-index: 4; align-self: end; justify-self: start; width: 100%; max-width: min(1240px, 92vw); padding: 0 var(--gutter) clamp(38px, 7vh, 84px); }
 .hero-title { max-width: 12em; color: var(--color-bone); }
@@ -360,6 +374,10 @@ html[data-ground="linen"] .row .status { color: var(--color-forest); }
 .agua > :not(.agua-water) { position: relative; z-index: 1; }
 /* Screen, not soft-light: there is no photograph here for the light to modulate. */
 .light-field.is-additive { mix-blend-mode: screen; }
+/* The cenote from the founder's film under the caustics: dim, desaturated a step, and only once it
+   plays. Under the veil (::after) and the light (z 1). */
+.agua-film { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity var(--dur-cine-l) var(--ease-signature); filter: saturate(.85) brightness(.75); pointer-events: none; }
+.agua-film.is-ready { opacity: .6; }
 /* The water lives where the words do not: to the right of the doors on a desktop, above them on a
    phone. Masked rather than dimmed, so where it is, it is water. */
 @media (min-width: 1024px) { .agua-water .light-field.is-additive { -webkit-mask-image: linear-gradient(to right, transparent 0%, rgb(0 0 0 / .18) 42%, #000 72%); mask-image: linear-gradient(to right, transparent 0%, rgb(0 0 0 / .18) 42%, #000 72%); } }
@@ -507,17 +525,28 @@ html.js .door-pane:not(.is-open) { display: none; }
 .plano.is-drawing #landscape { opacity: 1; transition: opacity .5s ease-out .26s; }
 .plano.is-done :is(#built, #landscape) { opacity: 1; }
 .plano.is-gone { opacity: 0; }
-/* On the home the drawing is bone on the canopy plate, above the film and under the scrim's type,
-   and sits in the upper part of the hero, above the copy. While it is up the plate is held down a
-   step so the dash-dot reads; the film then takes the drawing's place (hero.ts, plano.ts). */
-.hero .plano { z-index: 2; color: var(--color-bone); top: clamp(72px, 10vh, 110px); bottom: auto; height: clamp(160px, 22vh, 240px); padding: 0; }
-/* a short phone has no room above the copy for a drawing: there the sequence runs unseen and the
-   plate, then the film, are the hero */
-@media (max-width: 700px) and (max-height: 720px) { .hero .plano { display: none; } }
+/* On the home the drawing is registered onto the photograph: full bleed, the plate's own
+   coordinates, sliced like the film (plano.ts). It is masked twice. A window opens from the first
+   road outward in both directions — that road is where the door's mark landed, so the plan spreads
+   from the signature — and, once the film plays, an edge erases the drawing from the left up to the
+   roll of tracing paper, frame by frame, so drawn lines become printed ones where the paper lifts.
+   While the drawing is up the plate is held a step down; the film's first frame is the plate. */
+.hero .plano { z-index: 3; color: var(--color-bone); inset: 0; padding: 0; opacity: 0; --c: 50%; --seed-w: 6%; --spread: var(--seed-w); --erase: 0%;
+  -webkit-mask-image: linear-gradient(to right, transparent calc(var(--c) - var(--spread) - 6%), #000 calc(var(--c) - var(--spread)), #000 calc(var(--c) + var(--spread)), transparent calc(var(--c) + var(--spread) + 6%)), linear-gradient(to right, transparent calc(var(--erase) - 2%), #000 var(--erase));
+  mask-image: linear-gradient(to right, transparent calc(var(--c) - var(--spread) - 6%), #000 calc(var(--c) - var(--spread)), #000 calc(var(--c) + var(--spread)), transparent calc(var(--c) + var(--spread) + 6%)), linear-gradient(to right, transparent calc(var(--erase) - 2%), #000 var(--erase));
+  -webkit-mask-composite: source-in; mask-composite: intersect; }
+.hero .plano.is-drawing { opacity: 1; transition: --spread 1.6s cubic-bezier(.55, 0, .12, 1), opacity .6s ease-in-out; }
+.hero .plano.is-drawing, .hero .plano.is-done { --spread: 110%; }
+.hero .plano.is-following { transition: --erase .35s ease-out, opacity .6s ease-in-out; }
+.hero .plano.is-tracking { transition: opacity .6s ease-in-out; }
+.plano #seed { opacity: 1; }
+/* the visitor ended the door early: the drawing catches up rather than making them wait */
+.plano.is-skip, .plano.is-skip #built, .plano.is-skip #landscape { transition-duration: .3s !important; transition-delay: 0s !important; }
+/* the cenotes, drawn last, breathe once: they are the point of the place */
+.plano.is-done #landscape { animation: plano-pulse .9s ease-in-out 1; }
+@keyframes plano-pulse { 0% { opacity: .35; } 55% { opacity: 1; } 80% { opacity: .8; } 100% { opacity: 1; } }
 .hero .hero-media { transition: filter .9s var(--ease-signature); }
 .hero.plano-drawing .hero-media { filter: brightness(.6); }
-/* wide screens: the copy owns the left, so the sheet unrolls beside it, across the right */
-@media (min-width: 1024px) { .hero .plano { left: 44%; right: var(--gutter); top: clamp(120px, 15vh, 170px); height: clamp(220px, 44vh, 420px); } }
 .project-title { position: relative; z-index: 3; display: grid; gap: 10px; transition: color var(--dur-cine) var(--ease-signature); }
 .project-title .eyebrow, .project-title .folio-marker { transition: color var(--dur-cine) var(--ease-signature); }
 /* The folio is also the way back to the six, so it has to be thumb-sized without growing: the
@@ -836,7 +865,7 @@ html.js .door-pane:not(.is-open) { display: none; }
   [data-reveal="scrim"]::after { display: none !important; }
   .hero .hero-media, .hero .hero-plate, .hero-copy, .project-hero .hero-media, .project-hero .hero-media img, .project-hero .hero-sink, .project-hero .project-title { filter: none !important; opacity: 1 !important; animation: none !important; transform: none !important; }
   .hero-cue { display: none !important; }
-  .hero .hero-video { display: none !important; }
+  .hero .hero-video, .agua-film { display: none !important; }
   [data-reveal="image"] .img-wrap { clip-path: none !important; transition: none !important; }
   [data-reveal="image"] picture, .scene-img img { transform: none !important; animation: none !important; transition: none !important; }
   .grain::after { animation: none !important; }

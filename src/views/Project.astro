@@ -79,7 +79,7 @@ const jsonLd = [
     <div data-ground="linen">
       <header class:list={['project-hero', { 'has-plano': !!p.plan, 'has-plate': !!plate }]} data-light={p.lightMode} data-plano-host>
         <div class="hero-sink">
-          <Plano slug={p.key} plan={p.plan} />
+          <Plano slug={p.key} plan={p.plan} fit="sheet" />
           {plate && <Picture class="hero-plate" pictureAttributes={{ class: 'hero-media' }} src={plate} widths={[640, 1280, 1920]} sizes="100vw" formats={['avif', 'webp']} fallbackFormat="webp" alt={p.heroAlt} loading="eager" fetchpriority="high" decoding="async" />}
         </div>
         <div class="project-title">

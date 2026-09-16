@@ -13,7 +13,14 @@ interface Props { lang: Lang; site: CollectionEntry<'site'>['data']; projects: C
 const { lang, site, projects } = Astro.props;
 ---
 <section class="agua stratum" data-stratum="agua" data-ground="forest" id="agua">
-  <div class="agua-water" data-light="D" data-light-blend="screen" aria-hidden="true"></div>
+  <div class="agua-water" data-light="D" data-light-blend="screen" aria-hidden="true">
+    <!-- The cenote from the founder's film, under the caustics: desk only (no source matches on a
+         phone, so nothing is fetched there), loaded when the stratum comes near (films.ts). -->
+    <video class="agua-film" muted loop playsinline preload="none" tabindex="-1" aria-hidden="true" data-lazy-film>
+      <source data-src="/media/agua/cenote.webm" type="video/webm; codecs=av01.0.08M.08" media="(min-width: 1024px)" />
+      <source data-src="/media/agua/cenote.mp4" type="video/mp4; codecs=avc1.640028" media="(min-width: 1024px)" />
+    </video>
+  </div>
   <h2 class="display invitation" data-reveal="lines"><span class="line"><span>{site.invitation}</span></span></h2>
   <Doors lang={lang} site={site} projects={projects} />
 </section>
