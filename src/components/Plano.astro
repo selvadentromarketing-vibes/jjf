@@ -1,5 +1,6 @@
 ---
-// El Plano (plan §S2): the project's drawing, inlined at build so DrawSVG can draw it. Validated by scripts/check-plans.mjs.
+// El Plano (plan §S2): the project's drawing, inlined at build so CSS can draw it — dash-dot strokes
+// and an unrolling mask, both in global.css. Validated by scripts/check-plans.mjs.
 import { readFile } from 'node:fs/promises';
 import path from 'node:path';
 interface Props { slug: string; plan?: { svg: string; source: 'architect' | 'ai-derived' | 'traced' } }

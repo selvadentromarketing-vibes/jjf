@@ -19,11 +19,6 @@ closingSentence:
 copyStatus: propuesta
 summary: "Aldea Zama is a master-planned community in Tulum that now works as a town in its own right: private residential quarters, commercial streets with life in them, and infrastructure drawn before the first building. It sits between Tulum town and the hotel zone, and it is where you can most clearly see what a masterplan can become."
 updated: 2026-09-14
-plan:
-  svg: aldea-zama.svg
-  source: traced
-  from: aldea-zama-lotes.webp
-  asOf: 2026-09-08
 ---
 ## The place
 

@@ -8,8 +8,7 @@
   "lede": "…sino en la calidad de vida que un espacio puede ofrecer.",
   "claro": [
     "Llevamos años construyendo en la península: comunidades planeadas, casas entre árboles, un campo de golf, una escuela. Lo que tienen en común no es el tamaño, sino la forma de mirar la tierra antes de tocarla: primero el cenote, la sombra y el agua bajo la piedra; después, la casa.",
-    "El lujo, para nosotros, no está en lo ostentoso. Está en la sombra a la hora correcta, en el cenote que se queda donde estaba, en una casa que casi no toca el suelo. Por eso nuestros proyectos mezclan lo estético con lo funcional, lo natural con lo bien hecho.",
-    "Más que construir propiedades, diseñamos refugios donde la vida se siente distinta."
+    "El lujo, para nosotros, no está en lo ostentoso. Está en la sombra a la hora correcta, en el cenote que se queda donde estaba, en una casa que casi no toca el suelo. Por eso nuestros proyectos mezclan lo estético con lo funcional, lo natural con lo bien hecho."
   ],
   "claroCaption": "Lo natural con lo bien hecho",
   "claroSketchCaption": "Primero, a lápiz",
@@ -20,7 +19,64 @@
   ],
   "aguaTitle": "Seis lugares sobre la misma piedra.",
   "invitation": "Cuando quieras, hablamos.",
-  "nowLine": "Residencias entre cenotes, en la selva de Tulum. Con plano y precio en tu idioma.",
+  "heroSelling": {
+    "headline": [
+      "Selvadentro.",
+      "Tierra",
+      "de cenotes."
+    ],
+    "lede": "Lotes residenciales en una comunidad privada de baja densidad: nueve cenotes dentro, 65% de selva preservada, desde USD 68,000.",
+    "primaryLabel": "Ver lotes disponibles",
+    "primaryUrl": "https://www.selvadentrotulum.com/"
+  },
+  "funnels": [
+    {
+      "key": "lotes",
+      "label": "Lotes",
+      "line": "La única comunidad privada de Tulum con nueve cenotes dentro. Lotes en privadas de baja densidad.",
+      "url": "https://www.selvadentrotulum.com/"
+    },
+    {
+      "key": "investor",
+      "label": "Inversión",
+      "line": "Selvadentro como inversión: financiamiento a 48 meses sin intereses y la plusvalía del corredor de selva.",
+      "url": "https://investor.selvadentrotulum.com/"
+    },
+    {
+      "key": "webinar",
+      "label": "Webinar de los jueves",
+      "line": "Una hora, cada jueves, sobre por qué se está comprando tierra de selva en la Riviera Maya.",
+      "url": "https://webinar.selvadentrotulum.com/"
+    },
+    {
+      "key": "guide",
+      "label": "Guía de inversión",
+      "line": "La guía para invertir en Tulum: datos, pasos legales y el corredor de selva tierra adentro.",
+      "url": "https://guide.selvadentrotulum.com/"
+    },
+    {
+      "key": "wellness",
+      "label": "Wellness",
+      "line": "Vivir al modo de las zonas azules: cenotes, senderos de selva, huertos y arquitectura que respira.",
+      "url": "https://wellness.selvadentrotulum.com/"
+    },
+    {
+      "key": "snowbirds",
+      "label": "Suspiro, para el invierno",
+      "line": "Una comunidad privada de bienestar en la selva de Tulum, para quien deja atrás los inviernos fríos.",
+      "url": "https://snowbirds.selvadentrotulum.com/"
+    }
+  ],
+  "programs": [
+    {
+      "label": "Brokers",
+      "url": "https://brokers.selvadentrotulum.com/"
+    },
+    {
+      "label": "Referidos",
+      "url": "https://referidos.selvadentrotulum.com/"
+    }
+  ],
   "email": "",
   "social": [],
   "vision": [

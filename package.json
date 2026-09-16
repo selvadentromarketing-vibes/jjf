@@ -15,7 +15,7 @@
     "test": "playwright test",
     "trace:mark": "node scripts/trace-mark.mjs",
     "check:plans": "node scripts/check-plans.mjs",
-    "trace:plans": "node scripts/trace-plans.mjs"
+    "trace:roads": "node scripts/trace-roads.mjs"
   },
   "dependencies": {
     "@astrojs/sitemap": "3.7.4",

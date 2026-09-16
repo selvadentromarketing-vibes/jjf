@@ -13,6 +13,7 @@ const starts = projects.map((p) => p.data.years?.verified ? p.data.years.start :
 const years = starts.length ? new Date().getFullYear() - Math.min(...starts) : undefined;
 const hectares = projects.reduce((n, p) => n + (p.data.hectares?.verified ? p.data.hectares.value : 0), 0);
 const homes = projects.reduce((n, p) => n + (p.data.homes?.verified ? p.data.homes.value : 0), 0);
+const cenotes = projects.reduce((n, p) => n + (p.data.cenotes?.verified ? p.data.cenotes.value : 0), 0);
 const fmt = (n: number) => new Intl.NumberFormat(lang === 'es' ? 'es-MX' : 'en-US').format(n);
 const rows: { value: string; label: string }[] = [];
 if (years && years >= 5) rows.push({ value: `${years}+`, label: t(lang, 'proof.years') });
@@ -20,6 +21,7 @@ rows.push({ value: String(projects.length), label: t(lang, 'proof.places') });
 rows.push({ value: String(regions), label: t(lang, 'proof.regions') });
 if (hectares > 0) rows.push({ value: fmt(hectares), label: t(lang, 'proof.hectares') });
 if (homes > 0) rows.push({ value: fmt(homes), label: t(lang, 'proof.homes') });
+if (cenotes > 0) rows.push({ value: fmt(cenotes), label: t(lang, 'proof.cenotes') });
 ---
 <dl class="proof" data-figures-ok data-reveal="fade" style="--i:1">
   {rows.map((r) => (

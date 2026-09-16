@@ -39,6 +39,14 @@ const year = new Date().getFullYear();
         <a href={href('contact', lang)}>{t(lang, 'nav.contact')}</a>
         <a href={href('privacy', lang)}>{t(lang, 'footer.privacy')}</a>
       </div>
+      {site.programs.length > 0 && (
+        <>
+          <p class="caption footer-programs-cap">{t(lang, 'footer.programs')}</p>
+          <div class="footer-links">
+            {site.programs.map((pr) => <a href={pr.url} target="_blank" rel="noopener" data-event="funnel_click" data-section="footer">{pr.label}</a>)}
+          </div>
+        </>
+      )}
     </nav>
   </div>
 </footer>

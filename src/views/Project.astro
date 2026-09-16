@@ -77,7 +77,7 @@ const jsonLd = [
 <Base lang={lang} title={`${p.name} — JJF Creando`} description={p.summary ?? `${p.place} · ${p.character}`} route="project" params={{ slug: p.key }} ground="linen" jsonLd={jsonLd} bodyClass="page-project" ogImage={ogImage} ogImageAlt={plate ? p.heroAlt : undefined}>
   <article class="project" data-project-page={p.key}>
     <div data-ground="linen">
-      <header class:list={['project-hero', { 'has-plano': !!p.plan, 'has-plate': !!plate }]} data-light={p.lightMode}>
+      <header class:list={['project-hero', { 'has-plano': !!p.plan, 'has-plate': !!plate }]} data-light={p.lightMode} data-plano-host>
         <div class="hero-sink">
           <Plano slug={p.key} plan={p.plan} />
           {plate && <Picture class="hero-plate" pictureAttributes={{ class: 'hero-media' }} src={plate} widths={[640, 1280, 1920]} sizes="100vw" formats={['avif', 'webp']} fallbackFormat="webp" alt={p.heroAlt} loading="eager" fetchpriority="high" decoding="async" />}
@@ -129,7 +129,7 @@ const jsonLd = [
           )}
           {i === 2 && p.masterplan && (
             <figure class="scene-figure masterplan">
-              <figcaption class="caption" data-reveal="fade">{t(lang, 'project.masterplan')}{p.sellsVerified && p.sells && ` · ${t(lang, `sells.${p.sells}` as any)}`}{p.availability && ` · ${p.availability}`}</figcaption>
+              <figcaption class="caption" data-reveal="fade" data-figures-ok={p.availability ? '' : undefined}>{t(lang, 'project.masterplan')}{p.sellsVerified && p.sells && ` · ${t(lang, `sells.${p.sells}` as any)}`}{p.availability && ` · ${p.availability}`}</figcaption>
               <a href={masterplanFull!.src} class="masterplan-open scene-img" target="_blank" rel="noopener" data-reveal="image">
                 <div class="img-wrap">
                   <Picture src={p.masterplan} widths={[640, 1280, 1920]} sizes="(min-width: 1024px) 84vw, 100vw" formats={['avif', 'webp']} fallbackFormat="webp" alt={t(lang, 'project.masterplanAlt', { name: p.name })} loading="lazy" />

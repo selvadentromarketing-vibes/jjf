@@ -18,8 +18,19 @@ closingSentence:
   - An invitation to reconnect with the essential.
 copyStatus: propuesta
 summary: "Selvadentro is a low-density residential community in the Tulum jungle, laid out around its cenotes and the vegetation that was already there. You live among trees, with the house as a refuge and the land as a garden shared with the forest."
-updated: 2026-09-14
+updated: 2026-09-16
 siteUrl: https://selvadentrotulum.com
+sells: lotes
+sellsVerified: true
+availability: "48-month 0% financing"
+cenotes: { value: 9, verified: true, source: "selvadentrotulum.com, portada", asOf: 2026-09-16 }
+priceFrom: { value: 68000, unit: USD, verified: true, source: "selvadentrotulum.com, portada", asOf: 2026-09-16 }
+preservedPct: { value: 65, unit: "%", verified: true, source: "selvadentrotulum.com, portada", asOf: 2026-09-16 }
+plan:
+  svg: selvadentro.svg
+  source: traced
+  from: ../masterplans/selvadentro.webp
+  asOf: 2026-09-16
 ---
 ## The place
 

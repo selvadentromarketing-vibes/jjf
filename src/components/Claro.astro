@@ -1,10 +1,12 @@
 ---
 // Claro: daylight on linen. The founder speaks verbatim — as scenes, not as an essay.
 //
-// One statement in display type, the proof strip, two short paragraphs in two columns, his two pencil sheets at
-// the size a drawing deserves, the building across the whole page arriving by camera, and one
-// closing line. Every word is the same as before; the difference is that each thing is said once,
-// at one size, in one place.
+// One statement in display type, the proof strip, two short paragraphs in two columns, his two
+// pencil sheets at the size a drawing deserves, the building across the whole page arriving by
+// camera, and one closing line. Every word is the same as before; the difference is that each
+// thing is said once, at one size, in one place. When a selling place has taken the hero, the
+// studio's own line — true luxury is not measured in square metres — opens this stratum instead,
+// in its three masked lines, and the closing line is the studio's other sentence.
 import { Picture } from 'astro:assets';
 import sketchA from '../assets/img/sketch-vision.webp';
 import sketchB from '../assets/img/sketch-philosophy.webp';
@@ -13,14 +15,18 @@ import Proof from './Proof.astro';
 import type { CollectionEntry } from 'astro:content';
 import { t } from '../i18n';
 import type { Lang } from '../routes';
-interface Props { lang: Lang; paragraphs: string[]; caption: string; sketchCaption: string; line: string; projects: CollectionEntry<'projects'>[] }
-const { lang, paragraphs, caption, sketchCaption, line, projects } = Astro.props;
-// The last paragraph is the one that reads as a closing line; the rest make the grid.
-const closing = paragraphs[paragraphs.length - 1];
-const body = paragraphs.slice(0, -1);
+interface Props { lang: Lang; statement?: string[]; paragraphs: string[]; caption: string; sketchCaption: string; line: string; projects: CollectionEntry<'projects'>[] }
+const { lang, statement, paragraphs, caption, sketchCaption, line, projects } = Astro.props;
+// With the brand line as the statement every paragraph makes the grid and the site's closing
+// sentence closes; without it the statement is that sentence and the last paragraph closes.
+const lines = statement ?? [line];
+const closing = statement ? line : paragraphs[paragraphs.length - 1];
+const body = statement ? paragraphs : paragraphs.slice(0, -1);
 ---
 <section class="claro stratum" data-stratum="claro" data-ground="linen" id="claro">
-  <p class="display claro-statement" data-reveal="lines"><span class="line"><span>{line}</span></span></p>
+  <h2 class="display claro-statement" data-reveal="lines">
+    {lines.map((l, i) => <span class="line" style={`--i:${i}`}><span set:html={l} /></span>)}
+  </h2>
   <Proof lang={lang} projects={projects} />
   <div class="claro-grid">
     {body.map((p, i) => <p data-reveal="rise" style={`--i:${Math.min(i, 3)}`} set:html={p} />)}

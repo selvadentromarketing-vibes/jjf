@@ -73,6 +73,7 @@ const projects = defineCollection({
       soldPct: figure.optional(),
       cenotes: figure.optional(),
       homes: figure.optional(),
+      preservedPct: figure.optional(),
     }),
 });
 
@@ -92,7 +93,12 @@ const site = defineCollection({
     aguaTitle: z.string(),
     invitation: z.string(),
     // The one place selling today, in one line under its name. Rendered only while a record says en-venta.
-    nowLine: z.string().default(''),
+    // The place selling today, as the home's hero: its own three lines, its lede (figures inside
+    // it come from the record and are marked as such), and the funnel that sells it.
+    heroSelling: z.object({ headline: z.array(z.string()).length(3), lede: z.string(), primaryLabel: z.string(), primaryUrl: z.string().url() }).optional(),
+    // The buyer funnels, one page each, in the order this language should read them.
+    funnels: z.array(z.object({ key: z.string(), label: z.string(), line: z.string(), url: z.string().url() })).default([]),
+    programs: z.array(z.object({ label: z.string(), url: z.string().url() })).default([]),
     email: z.string().default(''),
     social: z.array(z.object({ label: z.string(), url: z.string().url() })).default([]),
     vision: z.array(z.string()).min(1),

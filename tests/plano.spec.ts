@@ -1,12 +1,13 @@
 import { test, expect } from '@playwright/test';
 import { readdir, readFile } from 'node:fs/promises';
 
-// Six places; one of them has a real plan to draw. The other five were traced from aerial
-// photographs and read as scribbles at the size of a screen, so they were retired: a developer's
-// site cannot show a drawing that invents geometry. Those pages open on their photograph.
+// Six places; one of them has a plan worth drawing: Selvadentro's road network, traced from its
+// master plan as centrelines. Plans traced from aerial photographs read as scribbles at the size of
+// a screen and were retired: a developer's site cannot show a drawing that invents geometry. Those
+// pages open on their photograph.
 const SLUGS = ['selvadentro', 'aldea-zama', 'selvazama', 'yucatan-country-club', 'amelia-tulum', 'hacienda-sacala'];
-const DRAWN = 'aldea-zama';
-const UNDRAWN = 'selvadentro';
+const DRAWN = 'selvadentro';
+const UNDRAWN = 'aldea-zama';
 
 test.describe('el plano — the drawing becomes the place', () => {
   test('a place with a real plan opens on a drawing that draws, dissolves, and leaves the photograph', async ({ page }) => {
@@ -16,12 +17,17 @@ test.describe('el plano — the drawing becomes the place', () => {
     await expect(plano).toHaveCount(1);
     // the three layers of a plan, in the order they are drawn
     for (const id of ['#boundary', '#built', '#landscape']) await expect(plano.locator(id)).toHaveCount(1);
-    // it is not finished the instant the page loads: the strokes are drawn along their own length
-    const mid = await page.evaluate(() => {
-      const p = document.querySelector('.plano #built path') as SVGPathElement | null;
-      return p ? p.style.strokeDasharray : '';
+    // it is not finished the instant the page loads: it unrolls behind a travelling mask, and the
+    // strokes are dash-dot, the convention for a boundary on a plan
+    expect(await page.locator('.plano.is-done').count()).toBe(0);
+    const style = await plano.evaluate((el) => {
+      const cs = getComputedStyle(el);
+      const stroke = getComputedStyle(el.querySelector('#built path')!);
+      return { mask: cs.maskImage || (cs as any).webkitMaskImage, dash: stroke.strokeDasharray };
     });
-    expect(mid === '' || /px/.test(mid)).toBeTruthy();
+    expect(style.mask).toContain('linear-gradient');
+    expect(style.dash).not.toBe('none');
+    expect(style.dash.split(/[ ,]+/).length).toBeGreaterThanOrEqual(4);
     // ...and it ends with the photograph, not the drawing
     await expect(page.locator('.plano.is-done')).toHaveCount(1, { timeout: 12_000 });
     await expect(page.locator('.project-hero.is-dawn, .project-hero.is-rest')).toHaveCount(1);
@@ -71,6 +77,24 @@ test.describe('el plano — the drawing becomes the place', () => {
     await expect(page.locator('.plano.is-done')).toHaveCount(1, { timeout: 12_000 });
     await expect(page.locator('.plano.is-gone')).toHaveCount(0);
     expect(await page.locator('.plano').evaluate((el) => getComputedStyle(el).opacity)).toBe('1');
+  });
+
+  test('the home hero draws the selling place, and the film takes the drawing\'s place', async ({ page }) => {
+    test.skip(test.info().project.name !== 'desktop');
+    await page.goto('/es/');
+    const plano = page.locator(`.hero .plano[data-plano="${DRAWN}"]`);
+    await expect(plano).toHaveCount(1);
+    // it waits for the door, then unrolls; the film waits for it, then it lets go
+    await page.waitForFunction(() => document.documentElement.classList.contains('door-open'), null, { timeout: 8000 });
+    expect(await page.locator('.hero .plano.is-done').count()).toBe(0);
+    await expect(page.locator('.hero .plano.is-done')).toHaveCount(1, { timeout: 12_000 });
+    await expect(page.locator('.hero .hero-video.is-ready')).toHaveCount(1, { timeout: 12_000 });
+    await expect(page.locator('.hero .plano.is-gone')).toHaveCount(1, { timeout: 4000 });
+    // the plate was held down a step while the drawing was up, and is let back up after
+    await expect(page.locator('.hero.plano-drawing')).toHaveCount(0);
+    // the place's own page, in the same session, opens on its photograph at rest
+    await page.goto(`/es/proyectos/${DRAWN}/`);
+    await expect(page.locator('.project-hero.is-rest')).toHaveCount(1, { timeout: 2000 });
   });
 
   test('reduced motion: the photograph, no drawing', async ({ page }) => {

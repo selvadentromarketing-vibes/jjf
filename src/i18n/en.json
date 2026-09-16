@@ -90,7 +90,6 @@
   "hero.eyebrow": "JJF Creando · Boutique developer · Tulum, the Riviera Maya and Yucatán",
   "hero.see": "See the places",
   "hero.cue": "Scroll",
-  "now.eyebrow": "Now selling",
   "now.see": "See {name}",
   "status.en-venta": "Now selling",
   "status.en-desarrollo": "In development",
@@ -115,5 +114,14 @@
   "facts.cenotes": "Cenotes",
   "review.pending": "Text under review by JJF Creando.",
   "vision.draft": "A working translation of the original Spanish text, which follows below.",
-  "legal.pending": "This notice is pending legal review. The controller’s address and the email for exercising ARCO rights will be published once confirmed; in the meantime you can reach us through any of the contact routes on this site."
+  "legal.pending": "This notice is pending legal review. The controller’s address and the email for exercising ARCO rights will be published once confirmed; in the meantime you can reach us through any of the contact routes on this site.",
+  "hero.eyebrowSelling": "JJF Creando · Now selling · Tulum",
+  "hero.more": "The place, in depth",
+  "funnels.eyebrow": "Ways into Selvadentro",
+  "funnels.lede": "Each way is a page of its own. Enter by the one that is yours.",
+  "footer.programs": "Programs",
+  "facts.priceFrom": "From",
+  "facts.preserved": "Jungle preserved",
+  "proof.cenotes": "Cenotes",
+  "funnels.open": "Open"
 }

@@ -1,4 +1,4 @@
-// One GSAP setup for the whole site: DrawSVG draws the mark and the plans; CustomEase carries the signature curve.
+// One GSAP setup for the whole site: DrawSVG draws the mark; CustomEase carries the signature curve. (The plans draw in CSS: see plano.ts.)
 import { gsap } from 'gsap';
 import { DrawSVGPlugin } from 'gsap/DrawSVGPlugin';
 import { CustomEase } from 'gsap/CustomEase';

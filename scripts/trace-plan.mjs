@@ -19,7 +19,7 @@
 // the tracer picks the right reading automatically: a sheet that is mostly white is a drawing and
 // its own ink is followed; anything else is a photograph and is read as above.
 //
-// Usage: node scripts/trace-plan.mjs <slug> <image>    ·    npm run trace:plans for all six
+// Usage: node scripts/trace-plan.mjs <slug> <image>    ·    kept for reference; the shipped plan comes from trace-roads.mjs (npm run trace:roads)
 import sharp from 'sharp';
 import potrace from 'potrace';
 import { optimize } from 'svgo';

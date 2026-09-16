@@ -90,7 +90,6 @@
   "hero.eyebrow": "JJF Creando · Desarrolladora boutique · Tulum, Riviera Maya y Yucatán",
   "hero.see": "Ver los lugares",
   "hero.cue": "Desliza",
-  "now.eyebrow": "Ahora en venta",
   "now.see": "Ver {name}",
   "status.en-venta": "Ahora en venta",
   "status.en-desarrollo": "En desarrollo",
@@ -115,5 +114,14 @@
   "facts.cenotes": "Cenotes",
   "review.pending": "Texto en revisión por JJF Creando.",
   "vision.draft": "Traducción de trabajo del texto original en español, que aparece más abajo.",
-  "legal.pending": "Este aviso está pendiente de revisión legal. El domicilio del responsable y el correo para ejercer derechos ARCO se publicarán en cuanto estén confirmados; mientras tanto puedes escribirnos por cualquiera de los medios de contacto del sitio."
+  "legal.pending": "Este aviso está pendiente de revisión legal. El domicilio del responsable y el correo para ejercer derechos ARCO se publicarán en cuanto estén confirmados; mientras tanto puedes escribirnos por cualquiera de los medios de contacto del sitio.",
+  "hero.eyebrowSelling": "JJF Creando · Ahora en venta · Tulum",
+  "hero.more": "El lugar, a fondo",
+  "funnels.eyebrow": "Los caminos a Selvadentro",
+  "funnels.lede": "Cada camino es una página propia. Entra por el que te corresponda.",
+  "footer.programs": "Programas",
+  "facts.priceFrom": "Desde",
+  "facts.preserved": "Selva preservada",
+  "proof.cenotes": "Cenotes",
+  "funnels.open": "Abrir"
 }

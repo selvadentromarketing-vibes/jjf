@@ -8,8 +8,7 @@
   "lede": "…but in the quality of life a space can offer.",
   "claro": [
     "We have spent years building on the peninsula: planned communities, houses among trees, a golf course, a school. What they share is not their size but the way we look at the land before we touch it: first the cenote, the shade and the water under the stone; then the house.",
-    "Luxury, for us, is not in the ostentatious. It is shade at the right hour, a cenote left where it was, a house that barely touches the ground. That is why our projects mix the aesthetic with the functional, the natural with the well made.",
-    "More than building properties, we design refuges where life feels different."
+    "Luxury, for us, is not in the ostentatious. It is shade at the right hour, a cenote left where it was, a house that barely touches the ground. That is why our projects mix the aesthetic with the functional, the natural with the well made."
   ],
   "claroCaption": "The natural and the well made",
   "claroSketchCaption": "First, in pencil",
@@ -20,7 +19,64 @@
   ],
   "aguaTitle": "Six places on the same stone.",
   "invitation": "Whenever you like, we can talk.",
-  "nowLine": "Residences among cenotes in the Tulum jungle. With plan and price in your language.",
+  "heroSelling": {
+    "headline": [
+      "Selvadentro.",
+      "Land",
+      "of cenotes."
+    ],
+    "lede": "Residential lots in a private low-density community: nine cenotes within, 65% of the jungle preserved, from USD 68,000.",
+    "primaryLabel": "See available lots",
+    "primaryUrl": "https://lotes.selvadentrotulum.com/"
+  },
+  "funnels": [
+    {
+      "key": "lotes",
+      "label": "Lots",
+      "line": "Own a residential lot in a low-density jungle development with nine natural cenotes and most of the jungle preserved.",
+      "url": "https://lotes.selvadentrotulum.com/"
+    },
+    {
+      "key": "investor",
+      "label": "Investment",
+      "line": "Selvadentro as an investment: 48-month 0% financing and the appreciation of the inland jungle corridor.",
+      "url": "https://investor.selvadentrotulum.com/"
+    },
+    {
+      "key": "webinar",
+      "label": "Thursday webinar",
+      "line": "One hour, every Thursday, on why investors are buying jungle land in the Riviera Maya.",
+      "url": "https://webinar.selvadentrotulum.com/"
+    },
+    {
+      "key": "guide",
+      "label": "Investment guide",
+      "line": "The guide to investing in Tulum: real data, the legal steps, and the inland jungle corridor.",
+      "url": "https://guide.selvadentrotulum.com/"
+    },
+    {
+      "key": "wellness",
+      "label": "Wellness",
+      "line": "Blue Zone-inspired living: cenotes, jungle trails, organic gardens and architecture that breathes.",
+      "url": "https://wellness.selvadentrotulum.com/"
+    },
+    {
+      "key": "snowbirds",
+      "label": "Suspiro, for the winter",
+      "line": "A private wellness community in the Tulum jungle, for those leaving cold winters behind.",
+      "url": "https://snowbirds.selvadentrotulum.com/"
+    }
+  ],
+  "programs": [
+    {
+      "label": "Brokers",
+      "url": "https://brokers.selvadentrotulum.com/"
+    },
+    {
+      "label": "Referrals",
+      "url": "https://referidos.selvadentrotulum.com/"
+    }
+  ],
   "email": "",
   "social": [],
   "vision": [

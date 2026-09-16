@@ -1,5 +1,5 @@
 // La Marca (plan §S0). First visit: the mark is drawn, the hairline opens and the forest parts —
-// under three quarters of a second, and a click or a key ends it early. Every navigation after
+// in four fifths of a second, and a click or a key ends it early. Every navigation after
 // that is a 240 ms cross on the page itself: the mark used to come back on every click, which
 // cost each internal link half a second before the new page could start arriving.
 import { gsap, reduce } from './motion';
@@ -45,7 +45,9 @@ function overture(door: HTMLElement) {
     .to(e.hair, { opacity: 1, scaleX: 1, duration: 0.16 }, 0.42)
     .to(e.top, { clipPath: 'inset(0% 0% 100% 0%)', duration: 0.26 }, 0.46)
     .to(e.bottom, { clipPath: 'inset(100% 0% 0% 0%)', duration: 0.26 }, 0.46)
-    .to(e.hair, { opacity: 0, duration: 0.16 }, 0.56)
+    // The hairline stays while the panels part and lets go only once El Plano's own boundary
+    // line has had time to reach it: one line becomes the other (plan §S2, 16 September).
+    .to(e.hair, { opacity: 0, duration: 0.16 }, 0.64)
     // The curtains starting to part is the cue anything behind them waits for: El Plano
     // begins here so the visitor watches the drawing arrive, not a finished one (plan §S2).
     .add(open, 0.46);

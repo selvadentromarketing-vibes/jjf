@@ -1,0 +1,32 @@
+---
+// Los caminos: the selling place has a family of landing pages on its own domain, one per kind of
+// buyer — lots, investment, the Thursday webinar, the guide, wellness, the winter community. The
+// home used to link to none of them. This is the ledger of those doors, between the daylight and
+// the archive of six: a hairline row per funnel, the whole row a link that opens in a new tab,
+// the name in the house serif and one line of what waits behind it. It renders only for a place
+// whose record says en-venta, and only the funnels the site file lists for this language.
+import type { CollectionEntry } from 'astro:content';
+import { t } from '../i18n';
+import type { Lang } from '../routes';
+interface Props { lang: Lang; project: CollectionEntry<'projects'>; funnels: { key: string; label: string; line: string; url: string }[] }
+const { lang, project, funnels } = Astro.props;
+const p = project.data;
+---
+<section class="funnels stratum" data-stratum="caminos" data-ground="shade" id="caminos" data-figures-ok>
+  <div class="sec-head">
+    <p class="eyebrow" data-reveal="fade">{t(lang, 'funnels.eyebrow')}</p>
+    <h2 class="display" data-reveal="lines"><span class="line"><span>{p.name}</span></span></h2>
+    <p class="funnels-lede" data-reveal="rise" style="--i:1">{t(lang, 'funnels.lede')}</p>
+  </div>
+  <ol class="funnel-list" data-reveal="ledger">
+    {funnels.map((f, i) => (
+      <li class="funnel" style={`--i:${i}`}>
+        <a href={f.url} target="_blank" rel="noopener" data-event="funnel_click" data-section="caminos" data-project={p.key} data-funnel={f.key}>
+          <span class="funnel-name display">{f.label}</span>
+          <span class="funnel-line">{f.line}</span>
+          <span class="funnel-open"><span class="visually-hidden">{t(lang, 'funnels.open')}</span><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M5 12h13M12 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        </a>
+      </li>
+    ))}
+  </ol>
+</section>

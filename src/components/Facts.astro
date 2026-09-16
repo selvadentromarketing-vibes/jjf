@@ -18,10 +18,14 @@ const rows: { label: string; value: string; href?: string; figures?: boolean }[]
   { label: t(lang, 'facts.how'), value: t(lang, coast ? 'facts.howCoast' : 'facts.howInland'), href: howHref },
 ];
 if (p.statusVerified && p.status) rows.push({ label: t(lang, 'track.status'), value: t(lang, `status.${p.status}` as any) });
-if (p.sellsVerified && p.sells) rows.push({ label: t(lang, 'facts.sells'), value: t(lang, `sells.${p.sells}` as any) + (p.availability ? ` · ${p.availability}` : '') });
+// The availability line is free text from the record ('48-month 0% financing'); it is verified by
+// the same flag as what is sold, so a figure inside it is allowed where the record allows it.
+if (p.sellsVerified && p.sells) rows.push({ label: t(lang, 'facts.sells'), value: t(lang, `sells.${p.sells}` as any) + (p.availability ? ` · ${p.availability}` : ''), figures: !!p.availability });
 if (p.years?.verified) rows.push({ label: t(lang, 'track.years'), value: `${p.years.start}${p.years.end ? `–${p.years.end}` : ''}`, figures: true });
 if (p.hectares?.verified) rows.push({ label: t(lang, 'track.hectares'), value: `${p.hectares.value} ha`, figures: true });
 if (p.cenotes?.verified) rows.push({ label: t(lang, 'facts.cenotes'), value: String(p.cenotes.value), figures: true });
+if (p.preservedPct?.verified) rows.push({ label: t(lang, 'facts.preserved'), value: `${p.preservedPct.value}${p.preservedPct.unit ?? '%'}`, figures: true });
+if (p.priceFrom?.verified) rows.push({ label: t(lang, 'facts.priceFrom'), value: `${p.priceFrom.unit ?? 'USD'} ${new Intl.NumberFormat(lang === 'es' ? 'es-MX' : 'en-US').format(p.priceFrom.value)}`, figures: true });
 if (p.siteUrl) rows.push({ label: t(lang, 'facts.site'), value: new URL(p.siteUrl).hostname.replace(/^www\./, ''), href: p.siteUrl });
 if (p.updated) rows.push({ label: t(lang, 'project.updated'), value: p.updated, figures: true });
 ---
