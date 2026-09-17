@@ -25,7 +25,11 @@ if (p.years?.verified) rows.push({ label: t(lang, 'track.years'), value: `${p.ye
 if (p.hectares?.verified) rows.push({ label: t(lang, 'track.hectares'), value: `${p.hectares.value} ha`, figures: true });
 if (p.cenotes?.verified) rows.push({ label: t(lang, 'facts.cenotes'), value: String(p.cenotes.value), figures: true });
 if (p.preservedPct?.verified) rows.push({ label: t(lang, 'facts.preserved'), value: `${p.preservedPct.value}${p.preservedPct.unit ?? '%'}`, figures: true });
-if (p.priceFrom?.verified) rows.push({ label: t(lang, 'facts.priceFrom'), value: `${p.priceFrom.unit ?? 'USD'} ${new Intl.NumberFormat(lang === 'es' ? 'es-MX' : 'en-US').format(p.priceFrom.value)}`, figures: true });
+const nf = new Intl.NumberFormat(lang === 'es' ? 'es-MX' : 'en-US');
+// MXN figures are the USD figure at the reference rate the project's own site publishes (20 MXN/USD).
+const FX_MXN = 20;
+if (p.priceFrom?.verified) rows.push({ label: t(lang, 'facts.priceFrom'), value: `${p.priceFrom.unit ?? 'USD'} ${nf.format(p.priceFrom.value)} · MXN ${nf.format(p.priceFrom.value * FX_MXN)}`, figures: true });
+if (p.pricePerM2?.verified) rows.push({ label: t(lang, 'facts.perM2'), value: `${p.pricePerM2.unit ?? 'USD'} ${nf.format(p.pricePerM2.value)} · MXN ${nf.format(p.pricePerM2.value * FX_MXN)}`, figures: true });
 if (p.siteUrl) rows.push({ label: t(lang, 'facts.site'), value: new URL(p.siteUrl).hostname.replace(/^www\./, ''), href: p.siteUrl });
 if (p.updated) rows.push({ label: t(lang, 'project.updated'), value: p.updated, figures: true });
 ---

@@ -25,6 +25,7 @@ sellsVerified: true
 availability: "48-month 0% financing"
 cenotes: { value: 9, verified: true, source: "selvadentrotulum.com, portada", asOf: 2026-09-16 }
 priceFrom: { value: 68000, unit: USD, verified: true, source: "selvadentrotulum.com, portada", asOf: 2026-09-16 }
+pricePerM2: { value: 170, unit: USD, verified: true, source: "selvadentrotulum.com, portada", asOf: 2026-09-16 }
 preservedPct: { value: 65, unit: "%", verified: true, source: "selvadentrotulum.com, portada", asOf: 2026-09-16 }
 plan:
   svg: selvadentro.svg

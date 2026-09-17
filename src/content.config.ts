@@ -70,6 +70,7 @@ const projects = defineCollection({
       hectares: figure.optional(),
       valuationUSD: figure.optional(),
       priceFrom: figure.optional(),
+      pricePerM2: figure.optional(),
       soldPct: figure.optional(),
       cenotes: figure.optional(),
       homes: figure.optional(),
