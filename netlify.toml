@@ -2,7 +2,9 @@
   publish = "."
 
 # Sitio estático: no requiere build. Netlify sirve index.html directamente.
+# Assets: caché de 1 día + revalidación en segundo plano, para que una imagen reemplazada
+# con el mismo nombre llegue a los visitantes (styles.css además lleva ?v= en index.html).
 [[headers]]
   for = "/assets/*"
   [headers.values]
-    Cache-Control = "public, max-age=31536000, immutable"
+    Cache-Control = "public, max-age=86400, stale-while-revalidate=604800"

@@ -1,228 +1,8 @@
 (() => {
 "use strict";
 
-// ================== i18n dictionary ==================
-const I18N = {
-  es: {
-    "meta.description": "JJF Creando es una desarrolladora inmobiliaria boutique que crea desarrollos innovadores, sostenibles y de lujo en Tulum y la Riviera Maya.",
-    "skip": "Saltar al contenido",
-    "nav.label": "Navegación principal",
-    "nav.home": "Inicio",
-    "nav.about": "Nosotros",
-    "nav.projects": "Proyectos",
-    "nav.contact": "Contacto",
-    "menu.open": "Abrir menú",
-    "menu.close": "Cerrar menú",
-    "cta.schedule": "Agenda una llamada",
-    "cta.dream": "Comienza a Construir tu Sueño",
-    "cta.dreamTitle": "Comienza a Construir <em>tu Sueño</em>",
-    "hero.eyebrow": "Desarrollo inmobiliario boutique · Tulum y Riviera Maya",
-    "hero.title": "Creando <em>Experiencias</em><br />a Través del Real Estate",
-    "hero.body": "JJF Creando es una desarrolladora inmobiliaria boutique con una misión única: crear espacios que inspiren conexión, tranquilidad y una profunda apreciación por el mundo natural. Con más de 25 años de experiencia en la industria, JJF Creando se ha consolidado como líder en el desarrollo de proyectos innovadores, sostenibles y llenos de lujo que elevan el estándar de vida mientras preservan la belleza del entorno.",
-    "hero.cta": "Contáctanos",
-    "hero.explore": "Ver proyectos",
-    "hero.scroll": "Desliza",
-    "stats.years": "Años de experiencia",
-    "stats.projects": "Desarrollos emblemáticos",
-    "stats.area": "Hectáreas · Yucatán Country Club",
-    "stats.sold": "Vendido en Aldea Zama",
-    "eyebrow.philosophy": "Tres pilares",
-    "philosophy.title": "Nuestra <em>Filosofía</em>",
-    "philosophy.intro": "En JJF Creando creemos que los bienes raíces son mucho más que edificios: se trata de crear entornos que transforman vidas y fomentan conexiones significativas. Nuestra filosofía se sustenta en tres pilares fundamentales:",
-    "philosophy.pillar1.title": "Diseño Minimalista",
-    "philosophy.pillar1.body": "Diseñamos espacios elegantes y funcionales que se integran de forma natural con su entorno, incorporando arquitectura de vanguardia.",
-    "philosophy.pillar2.title": "Atención al Detalle",
-    "philosophy.pillar2.body": "Cada proyecto refleja una planificación y ejecución meticulosas, garantizando un equilibrio armonioso entre estética, funcionalidad y sostenibilidad.",
-    "philosophy.pillar3.title": "Conexión con la Naturaleza",
-    "philosophy.pillar3.body": "Priorizamos la preservación del entorno natural, integrando prácticas ecológicas en cada etapa del desarrollo para crear espacios que coexisten con la naturaleza.",
-    "eyebrow.projects": "Portafolio",
-    "projects.title": "Nuestros <em>Proyectos</em>",
-    "eyebrow.vision": "Legado",
-    "vision.title": "Nuestra Visión <em>para el Futuro</em>",
-    "vision.p1": "En JJF Creando imaginamos un futuro donde el lujo y la sostenibilidad no son excluyentes, sino que están profundamente entrelazados. Nuestro objetivo es redefinir el desarrollo inmobiliario creando espacios que inspiran, nutren y contribuyen al bienestar de sus residentes y de la comunidad que los rodea.",
-    "vision.p2": "A través de la innovación, la integridad y la pasión por la excelencia, buscamos seguir creando desarrollos icónicos que dejen un legado duradero.",
-    "eyebrow.faq": "FAQ",
-    "faq.title": "Preguntas <em>Frecuentes</em>",
-    "contact.download": "Descarga Nuestro CV",
-    "modal.title": "¡Transforma tu Espacio con la Excelencia de JJF Creando!",
-    "modal.body": "Convierte tu visión en realidad con los servicios expertos de construcción y diseño a medida de JJF Creando. ¡Comienza a construir tu futuro hoy!",
-    "modal.close": "Cerrar",
-    "readMore": "Saber más",
-    "sketch.alt": "Boceto arquitectónico",
-    "footer.explore": "Explora",
-    "footer.language": "Idioma",
-    "footer.rights": "Todos los derechos reservados.",
-    "footer.top": "Volver arriba",
-  },
-  en: {
-    "meta.description": "JJF Creando is a boutique real estate development company crafting innovative, sustainable, and luxurious developments in Tulum and the Riviera Maya.",
-    "skip": "Skip to content",
-    "nav.label": "Main navigation",
-    "nav.home": "Home",
-    "nav.about": "About Us",
-    "nav.projects": "Projects",
-    "nav.contact": "Contact Us",
-    "menu.open": "Open menu",
-    "menu.close": "Close menu",
-    "cta.schedule": "Schedule A Call",
-    "cta.dream": "Start Building Your Dream",
-    "cta.dreamTitle": "Start Building <em>Your Dream</em>",
-    "hero.eyebrow": "Boutique real estate · Tulum &amp; Riviera Maya",
-    "hero.title": "Crafting <em>Experiences</em><br />Through Real Estate",
-    "hero.body": "JJF Creando is a boutique real estate development company with a singular mission: to create spaces that inspire connection, tranquility, and a deep appreciation for the natural world. With over 25 years of experience in the industry, JJF Creando has established itself as a leader in crafting innovative, sustainable, and luxurious developments that elevate the standard of living while preserving the beauty of the environment.",
-    "hero.cta": "Contact Us",
-    "hero.explore": "Explore projects",
-    "hero.scroll": "Scroll",
-    "stats.years": "Years of experience",
-    "stats.projects": "Signature developments",
-    "stats.area": "Hectares · Yucatán Country Club",
-    "stats.sold": "Sold at Aldea Zama",
-    "eyebrow.philosophy": "Three pillars",
-    "philosophy.title": "Our <em>Philosophy</em>",
-    "philosophy.intro": "At JJF Creando, we believe real estate is more than just buildings—it's about creating environments that shape lives and foster meaningful connections. Our philosophy is rooted in three core pillars:",
-    "philosophy.pillar1.title": "Minimalist Design",
-    "philosophy.pillar1.body": "We design spaces that are elegant yet functional, blending seamlessly into their surroundings while incorporating cutting-edge architecture.",
-    "philosophy.pillar2.title": "Attention to Detail",
-    "philosophy.pillar2.body": "Every project reflects meticulous planning and execution, ensuring a harmonious balance between aesthetics, functionality, and sustainability.",
-    "philosophy.pillar3.title": "Connection with Nature",
-    "philosophy.pillar3.body": "We prioritize preserving the natural environment, integrating eco-conscious practices into every stage of development to create spaces that coexist with nature.",
-    "eyebrow.projects": "Portfolio",
-    "projects.title": "Our <em>Projects</em>",
-    "eyebrow.vision": "Legacy",
-    "vision.title": "Our Vision <em>for the Future</em>",
-    "vision.p1": "At JJF Creando, we envision a future where luxury and sustainability are not mutually exclusive but deeply intertwined. Our goal is to redefine real estate development by creating spaces that inspire, nurture, and contribute to the wellbeing of their residents and the surrounding community.",
-    "vision.p2": "Through innovation, integrity, and a passion for excellence, we aim to continue shaping iconic developments that leave a lasting legacy.",
-    "eyebrow.faq": "FAQ",
-    "faq.title": "Frequently Asked <em>Questions</em>",
-    "contact.download": "Download Our CV",
-    "modal.title": "Transform Your Space with JJF Creando Excellence!",
-    "modal.body": "Transform your vision into reality with JJF Creando's expert construction and bespoke design services. Start building your future today!",
-    "modal.close": "Close",
-    "readMore": "Learn More",
-    "sketch.alt": "Architectural sketch",
-    "footer.explore": "Explore",
-    "footer.language": "Language",
-    "footer.rights": "All rights reserved.",
-    "footer.top": "Back to top",
-  },
-};
-
-// ================== Projects (bilingual) ==================
-// `facts` only restate figures already present in each description.
-const projects = [
-  {
-    img: "assets/selvadentro.webp", w: 1400, h: 699,
-    name: { es: "Selvadentro", en: "Selvadentro" },
-    text: {
-      es: "Selvadentro es un desarrollo de lujo inmerso en la naturaleza, en el corazón de la selva de Tulum, donde la arquitectura refinada se funde con la selva que lo rodea. Concebido en torno a la privacidad, el bienestar y un profundo respeto por la tierra, ofrece residencias exclusivas entrelazadas entre la vegetación nativa, cenotes y el dosel abierto: una invitación a vivir en armonía con la naturaleza sin renunciar al confort ni a la sofisticación.",
-      en: "Selvadentro is a luxury, nature-immersed development in the heart of the Tulum jungle, where refined architecture dissolves into the surrounding selva. Conceived around privacy, wellness, and a deep respect for the land, it offers exclusive residences woven between native vegetation, cenotes, and open canopy—an invitation to live in quiet harmony with nature without giving up modern comfort or sophistication.",
-    },
-    facts: [
-      { label: { es: "Ubicación", en: "Location" }, value: { es: "Tulum", en: "Tulum" } },
-      { label: { es: "Entorno", en: "Setting" }, value: { es: "Selva y cenotes", en: "Jungle & cenotes" } },
-      { label: { es: "Tipo", en: "Type" }, value: { es: "Residencias de lujo", en: "Luxury residences" } },
-    ],
-    href: "#contact",
-  },
-  {
-    img: "assets/aldea-zama.webp", w: 1024, h: 768,
-    name: { es: "Aldea Zama", en: "Aldea Zama" },
-    text: {
-      es: "Aldea Zama es una comunidad planificada de 100 hectáreas que combina a la perfección el misticismo de la herencia maya de Tulum con la vida internacional moderna. Con 4,000 hogares, 1,000 habitaciones de hotel y 400 espacios comerciales, este desarrollo de uso mixto ofrece zonas residenciales privadas, vibrantes áreas comerciales e infraestructura excepcional. Reconocida como la inversión más segura y codiciada de Tulum, con el 100% de sus espacios vendidos y una valuación de 200 millones de USD, Aldea Zama es celebrada como el mejor desarrollo de Tulum y un referente en la Riviera Maya.",
-      en: "Aldea Zama is a 100-hectare master-planned community that seamlessly blends the mysticism of Tulum's Mayan heritage with modern international living. Featuring 4,000 homes, 1,000 hotel rooms, and 400 commercial spaces, this mixed-use development offers private residential zones, vibrant commercial areas, and exceptional infrastructure. Recognized as the most secure and sought-after investment in Tulum, with 100% of its spaces sold and a valuation of $200 million USD, Aldea Zama is celebrated as the best development in Tulum and a standout in the Riviera Maya.",
-    },
-    facts: [
-      { label: { es: "Ubicación", en: "Location" }, value: { es: "Tulum", en: "Tulum" } },
-      { label: { es: "Superficie", en: "Area" }, value: { es: "100 ha", en: "100 ha" } },
-      { label: { es: "Estatus", en: "Status" }, value: { es: "100% vendido", en: "100% sold" } },
-    ],
-    href: "#contact",
-  },
-  {
-    img: "assets/selvazama.webp", w: 765, h: 564,
-    name: { es: "Selvazama", en: "Selvazama" },
-    text: {
-      es: "Selvazama es un desarrollo de lujo de 165 hectáreas en la zona hotelera de Tulum que redefine la vida sostenible. Combinando espacios residenciales, comerciales, hoteleros, culturales y recreativos, ofrece amenidades modernas en medio de la belleza natural. Valuado en más de 1,000 millones de USD, incluye proyectos terminados como Aldea Premium I-IV, Ahimsa, Mondo y Dharma, junto con atractivos como Azulik, un centro comercial y una escuela Montessori. Con la Fase 1 completada y la Fase 2 en marcha, Selvazama está dando forma al futuro eco-lujo de Tulum.",
-      en: "Selvazama is a 165-hectare luxury development in Tulum's hotel zone, redefining sustainable living. Combining residential, commercial, hotel, cultural, and recreational spaces, it offers modern amenities amidst natural beauty. Valued at over $1 billion USD, it includes completed projects like Aldea Premium I-IV, Ahimsa, Mondo, and Dharma, alongside highlights such as Azulik, a shopping mall, and a Montessori school. With Phase 1 completed and Phase 2 underway, Selvazama is shaping Tulum's eco-luxury future.",
-    },
-    facts: [
-      { label: { es: "Ubicación", en: "Location" }, value: { es: "Zona hotelera, Tulum", en: "Hotel zone, Tulum" } },
-      { label: { es: "Superficie", en: "Area" }, value: { es: "165 ha", en: "165 ha" } },
-      { label: { es: "Valuación", en: "Valuation" }, value: { es: "+1,000 MDD", en: "US$1B+" } },
-    ],
-    href: "#contact",
-  },
-  {
-    img: "assets/yucatan.webp", w: 1280, h: 800,
-    name: { es: "Yucatán Country Club", en: "Yucatán Country Club" },
-    text: {
-      es: "Un prestigioso desarrollo privado de 330 hectáreas, reconocido como uno de los proyectos inmobiliarios más importantes de América Latina. En torno a un campo de golf de clase mundial diseñado por Jack Nicklaus, esta comunidad exclusiva ofrece una variedad de opciones residenciales de lujo, incluidas Harmonia Villas & Apartments, Serena Casa, Kanha Grand Lago y Anthea Apartments. Su casa club de vanguardia cuenta con amenidades incomparables que redefinen la vida de lujo. Valuado en 600 millones de USD, el Yucatán Country Club es un testimonio de innovación, elegancia y sofisticación.",
-      en: "A prestigious 330-hectare gated development, renowned as one of the most significant real estate projects in Latin America. Centered around a world-class golf course designed by Jack Nicklaus, this exclusive community offers a variety of luxurious residential options, including Harmonia Villas & Apartments, Serena Casa, Kanha Grand Lago, and Anthea Apartments. Its state-of-the-art clubhouse features unparalleled amenities that redefine luxury living. Valued at $600 million USD, the Yucatán Country Club is a testament to innovation, elegance, and sophistication.",
-    },
-    facts: [
-      { label: { es: "Ubicación", en: "Location" }, value: { es: "Yucatán", en: "Yucatán" } },
-      { label: { es: "Superficie", en: "Area" }, value: { es: "330 ha", en: "330 ha" } },
-      { label: { es: "Golf", en: "Golf" }, value: { es: "Diseño Jack Nicklaus", en: "Jack Nicklaus design" } },
-    ],
-    href: "#contact",
-  },
-  {
-    img: "assets/amelia.webp", w: 1400, h: 923,
-    name: { es: "Amelia Tulum", en: "Amelia Tulum" },
-    text: {
-      es: "El concepto de Amelia Tulum nace del respeto por las condiciones naturales del clima, la topografía y la vegetación nativa. La construcción propuesta tiene el menor impacto posible sobre el terreno, utilizando la mínima huella al elevar la estructura sobre el suelo, tal como una casa de palafitos coexiste con su entorno natural. Esta decisión dio origen a todas las características estéticas del complejo.",
-      en: "Amelia Tulum's concept is born of respect for the natural conditions of the climate, topography and native vegetation. The proposed construction has the least impact on the terrain, using the minimum footprint when raising the structure above the ground – the way a stilt house coexists with its natural environment. This decision gave rise to all the aesthetic characteristics of the complex.",
-    },
-    facts: [
-      { label: { es: "Ubicación", en: "Location" }, value: { es: "Tulum", en: "Tulum" } },
-      { label: { es: "Concepto", en: "Concept" }, value: { es: "Estructura elevada", en: "Raised structure" } },
-      { label: { es: "Huella", en: "Footprint" }, value: { es: "Mínima", en: "Minimal" } },
-    ],
-    href: "#contact",
-  },
-  {
-    img: "assets/mazza.webp", w: 1024, h: 576,
-    name: { es: "Hacienda Sacalá", en: "Hacienda Sacalá" },
-    text: {
-      es: "Hacienda Sacalá es un desarrollo residencial exclusivo ubicado en el Pueblo Mágico de Izamal, Yucatán, que combina lujo, cultura y naturaleza en un entorno único. Este proyecto cuenta con un campo de golf de primer nivel, un hotel boutique que ofrece una experiencia de hospitalidad excepcional y un vibrante vecindario con experiencias culinarias, culturales y artísticas que reflejan la riqueza de la región. Diseñado por Muñoz Arquitectos y AS Arquitectura, Hacienda Sacalá redefine el concepto de vivir y relajarse en un lugar mágico lleno de historia y encanto.",
-      en: "Hacienda Sacalá is an exclusive residential development located in the Magical Town of Izamal, Yucatán, blending luxury, culture, and nature in a unique setting. This project features a top-tier golf course, a boutique hotel offering an exceptional hospitality experience, and a vibrant neighborhood with culinary, cultural, and artistic experiences that showcase the richness of the region. Designed by Muñoz Arquitectos and AS Arquitectura, Hacienda Sacalá redefines the concept of living and relaxation in a magical place filled with history and charm.",
-    },
-    facts: [
-      { label: { es: "Ubicación", en: "Location" }, value: { es: "Izamal, Yucatán", en: "Izamal, Yucatán" } },
-      { label: { es: "Amenidades", en: "Amenities" }, value: { es: "Golf y hotel boutique", en: "Golf & boutique hotel" } },
-      { label: { es: "Arquitectos", en: "Architects" }, value: { es: "Muñoz · AS Arquitectura", en: "Muñoz · AS Arquitectura" } },
-    ],
-    href: "#contact",
-  },
-];
-
-// ================== FAQ (bilingual) ==================
-const faqs = [
-  {
-    q: { es: "¿Ofrecen servicios de construcción tanto comercial como residencial?", en: "Do you offer both commercial and residential construction services?" },
-    a: { es: "Sí, JJF Creando se especializa en proyectos de construcción comercial y residencial, adaptados a las necesidades de cada cliente.", en: "Yes, JJF Creando specializes in both commercial and residential construction projects, tailored to client needs." },
-  },
-  {
-    q: { es: "¿JJF Creando puede ayudar a obtener permisos de construcción y otros requisitos legales?", en: "Can JJF Creando assist with obtaining building permits and other legal requirements?" },
-    a: { es: "Sí, brindamos apoyo integral en la gestión de todos los aspectos regulatorios y de cumplimiento de la construcción, incluida la obtención de los permisos necesarios, para garantizar un proceso sin complicaciones para nuestros clientes.", en: "Yes, we provide comprehensive support in managing all regulatory and compliance aspects of construction, including obtaining necessary building permits, to ensure a hassle-free process for our clients." },
-  },
-  {
-    q: { es: "¿Qué prácticas de sostenibilidad incorpora JJF Creando en sus proyectos?", en: "What sustainability practices does JJF Creando incorporate into its projects?" },
-    a: { es: "Utilizamos prácticas de construcción sostenible, materiales de eficiencia energética y estrategias innovadoras para la reducción de residuos.", en: "We utilize green building practices, energy-efficient materials, and innovative waste reduction strategies." },
-  },
-  {
-    q: { es: "¿Cómo garantiza JJF Creando la calidad de su construcción?", en: "How does JJF Creando ensure the quality of its construction?" },
-    a: { es: "Utilizamos materiales de alta calidad, cumplimos con estándares estrictos y realizamos múltiples inspecciones a lo largo de todo el proceso de construcción.", en: "We use high-quality materials, adhere to strict standards, and conduct multiple inspections throughout the construction process." },
-  },
-  {
-    q: { es: "¿JJF Creando ofrece soluciones de construcción personalizadas?", en: "Does JJF Creando offer customized building solutions?" },
-    a: { es: "Sí, creamos soluciones a la medida para nuestros clientes, asegurando que el producto final cumpla con sus necesidades específicas.", en: "Yes, we create tailor-made solutions for our clients, ensuring the final product meets your specific needs." },
-  },
-  {
-    q: { es: "¿Qué tipo de soporte puedo esperar después de finalizar un proyecto?", en: "What kind of follow-up support can I expect after the completion of a project?" },
-    a: { es: "JJF Creando ofrece un soporte postconstrucción integral que incluye asesoría de mantenimiento, cumplimiento de garantías y atención al cliente.", en: "JJF Creando offers comprehensive post-construction support including maintenance advice, warranty fulfillment, and customer services." },
-  },
-];
+// Copy, project data and list markup live in content.js (loaded first).
+const { I18N, projects, projectsMarkup, faqsMarkup } = window.JJF_CONTENT;
 
 // ================== Helpers ==================
 const SUPPORTED = ["es", "en"];
@@ -234,8 +14,6 @@ const $ = (sel, ctx = document) => ctx.querySelector(sel);
 const $$ = (sel, ctx = document) => Array.from(ctx.querySelectorAll(sel));
 const pad = (n) => String(n).padStart(2, "0");
 const clamp = (v, min, max) => Math.min(max, Math.max(min, v));
-const easeOutExpo = (t) => (t >= 1 ? 1 : 1 - Math.pow(2, -10 * t));
-const ARROW = '<svg viewBox="0 0 24 24"><path d="M4 12h15M13 6l6 6-6 6"/></svg>';
 
 const header = $("#site-header");
 const hero = $("#hero");
@@ -245,63 +23,25 @@ const progressBar = $(".scroll-progress span");
 const projectList = $("#project-list");
 const stage = $("#project-stage");
 const faqList = $("#faq-list");
+const marquee = $(".marquee");
+const marqueeTrack = $(".marquee-track");
 const menu = $("#mobile-menu");
 const menuToggle = $("#menu-toggle");
 const modal = $("#modal");
 const bookingFrame = $("#booking-frame");
+const langHint = $(".lang-hint");
 const darkSections = [hero, $("#projects"), $("#contact"), $("footer")];
 
 let currentLang = "es";
 let menuOpen = false;
 
-// ================== Render (once; text is filled in by applyLang) ==================
-// Dynamic strings join the dictionaries so one pass of applyLang updates everything
-// in place — the DOM (and its reveal state) survives a language switch.
-function registerStrings() {
-  for (const lang of SUPPORTED) {
-    const dict = I18N[lang];
-    projects.forEach((p, i) => {
-      dict[`project.${i}.name`] = p.name[lang];
-      dict[`project.${i}.text`] = p.text[lang];
-      p.facts.forEach((f, j) => {
-        dict[`project.${i}.fact.${j}.label`] = f.label[lang];
-        dict[`project.${i}.fact.${j}.value`] = f.value[lang];
-      });
-    });
-    faqs.forEach((f, i) => {
-      dict[`faq.${i}.q`] = f.q[lang];
-      dict[`faq.${i}.a`] = f.a[lang];
-    });
-  }
-}
+// ================== Render ==================
+// The projects + FAQ lists ship prerendered in index.html (scripts/prerender.mjs);
+// only render them here if that markup is missing. The stage and marquee are decoration.
+function renderDynamic() {
+  if (!projectList.children.length) projectList.innerHTML = projectsMarkup(() => "");
+  if (!faqList.children.length) faqList.innerHTML = faqsMarkup(() => "");
 
-function renderProjects() {
-  const total = pad(projects.length);
-  projectList.innerHTML = projects
-    .map(
-      (p, i) => `
-      <article class="project" data-project="${i}" aria-labelledby="project-${i}-title">
-        <figure class="project-media lg:hidden" data-reveal="clip">
-          <img src="${p.img}" alt="${p.name.en}" width="${p.w}" height="${p.h}" loading="lazy" decoding="async" />
-        </figure>
-        <p class="project-num" data-reveal="fade"><span>${pad(i + 1)}</span><span class="project-num-total">/ ${total}</span></p>
-        <h3 id="project-${i}-title" class="project-title" data-split data-i18n="project.${i}.name"></h3>
-        <dl class="project-facts" data-reveal="up">
-          ${p.facts.map((_, j) => `<div><dt data-i18n="project.${i}.fact.${j}.label"></dt><dd data-i18n="project.${i}.fact.${j}.value"></dd></div>`).join("")}
-        </dl>
-        <p class="project-text" data-reveal="up" data-i18n="project.${i}.text"></p>
-        <div class="mt-9" data-reveal="up">
-          <a href="${p.href}" data-cta class="btn btn-light" data-magnetic>
-            <span data-i18n="readMore"></span>
-            <span class="btn-icon" aria-hidden="true">${ARROW}${ARROW}</span>
-          </a>
-        </div>
-      </article>`
-    )
-    .join("");
-}
-
-function renderStage() {
   stage.innerHTML = `
     <div class="stage-slides">
       ${projects
@@ -317,34 +57,15 @@ function renderStage() {
       <p class="stage-count"><span class="stage-count-current"><span>01</span></span><span class="stage-count-total">/ ${pad(projects.length)}</span></p>
       <div class="stage-bars">${projects.map((_, i) => `<span${i === 0 ? ' class="is-active"' : ""}></span>`).join("")}</div>
     </div>`;
-}
 
-function renderMarquee() {
   const group = projects.map((p) => `<span class="marquee-item">${p.name.en}</span><span class="marquee-sep"></span>`).join("");
-  $(".marquee-track").innerHTML = `<div class="marquee-group">${group}</div><div class="marquee-group">${group}</div>`;
-}
-
-function renderFaqs() {
-  faqList.innerHTML = faqs
-    .map(
-      (_, i) => `
-      <details class="faq" data-reveal="up">
-        <summary>
-          <div class="faq-row">
-            <span class="faq-num">${pad(i + 1)}</span>
-            <span class="faq-q" data-i18n="faq.${i}.q"></span>
-            <span class="faq-icon" aria-hidden="true"></span>
-          </div>
-        </summary>
-        <div class="faq-a"><div><p data-i18n="faq.${i}.a"></p></div></div>
-      </details>`
-    )
-    .join("");
+  marqueeTrack.innerHTML = `<div class="marquee-group">${group}</div><div class="marquee-group">${group}</div>`;
 }
 
 // ================== Split text ==================
 // "mask": every word becomes .w > .w-i so it can rise out of its own mask.
 // "scrub": plain .sw spans whose opacity is driven by scroll position.
+// A no-break space (&nbsp;) keeps two words in one span, so they never wrap apart.
 function splitText(el, mode) {
   const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT);
   const nodes = [];
@@ -352,9 +73,9 @@ function splitText(el, mode) {
   const words = [];
   for (const node of nodes) {
     const frag = document.createDocumentFragment();
-    for (const part of node.nodeValue.split(/(\s+)/)) {
+    for (const part of node.nodeValue.split(/([^\S ]+)/)) {
       if (!part) continue;
-      if (/^\s+$/.test(part)) {
+      if (/^[^\S ]+$/.test(part)) {
         frag.append(" ");
         continue;
       }
@@ -378,7 +99,7 @@ function splitText(el, mode) {
   return words;
 }
 
-// ================== Apply language ==================
+// ================== Language ==================
 let scrubEl = null;
 let scrubWords = [];
 let litCount = 0;
@@ -398,8 +119,11 @@ function applyLang(lang) {
     el.innerHTML = val;
     if (el.hasAttribute("data-split")) splitText(el, "mask");
     else if (el.hasAttribute("data-scrub")) {
+      // Keep the lit share across a language switch: new spans are born lit, so nothing re-fades
+      const ratio = scrubWords.length ? litCount / scrubWords.length : 0;
       scrubWords = splitText(el, "scrub");
-      litCount = 0;
+      litCount = Math.round(ratio * scrubWords.length);
+      scrubWords.forEach((w, i) => i < litCount && w.classList.add("is-lit"));
     }
   });
   $$("[data-i18n-aria]").forEach((el) => {
@@ -411,59 +135,112 @@ function applyLang(lang) {
     if (val) el.alt = val;
   });
 
+  if (dict["meta.title"]) document.title = dict["meta.title"];
   if (bookingFrame) bookingFrame.setAttribute("title", dict["cta.schedule"]);
   menuToggle.setAttribute("aria-label", dict[menuOpen ? "menu.close" : "menu.open"]);
 
   root.lang = lang;
   $$(".lang-toggle").forEach((t) => (t.dataset.active = lang));
   $$(".lang-btn").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.lang === lang)));
-
-  try { localStorage.setItem("jjf-lang", lang); } catch (e) {}
   requestFrame();
 }
 
+const saveLang = (lang) => {
+  try { localStorage.setItem("jjf-lang", lang); } catch (e) {}
+};
+
 function switchLang(lang) {
+  hideLangHint();
   if (lang === currentLang) return;
+  saveLang(lang);
+  // Shareable URL per language: "/" is Spanish, "?lang=en" is English
+  const url = new URL(location.href);
+  if (lang === "es") url.searchParams.delete("lang");
+  else url.searchParams.set("lang", lang);
+  history.replaceState(history.state, "", url);
   // Cross-fade the text swap where View Transitions are supported
   if (document.startViewTransition && !reduceMotion.matches) document.startViewTransition(() => applyLang(lang));
   else applyLang(lang);
 }
 
+// "/" always renders Spanish (what crawlers index); English comes from ?lang=en or a saved choice.
+function initialLang() {
+  const param = new URLSearchParams(location.search).get("lang");
+  if (SUPPORTED.includes(param)) {
+    saveLang(param);
+    return { lang: param, explicit: true };
+  }
+  try {
+    const saved = localStorage.getItem("jjf-lang");
+    if (SUPPORTED.includes(saved)) return { lang: saved, explicit: true };
+  } catch (e) {}
+  return { lang: "es", explicit: false };
+}
+
+// First-time visitors whose browser prefers English get a one-tap hint instead of an auto-switch.
+let hintTimer = 0;
+function showLangHint() {
+  if (!langHint) return;
+  langHint.hidden = false;
+  requestAnimationFrame(() => langHint.classList.add("is-visible"));
+  hintTimer = setTimeout(hideLangHint, 9000);
+}
+function hideLangHint() {
+  if (!langHint || langHint.hidden) return;
+  clearTimeout(hintTimer);
+  langHint.classList.remove("is-visible");
+  setTimeout(() => (langHint.hidden = true), 400);
+}
+
 // ================== Scroll reveals ==================
+const PENDING = "[data-reveal]:not(.is-in), [data-split]:not(.is-in)";
+
 function initReveals() {
   const targets = $$("[data-reveal], [data-split]").filter((el) => !hero.contains(el));
   if (reduceMotion.matches || !("IntersectionObserver" in window)) {
     targets.forEach((el) => el.classList.add("is-in"));
     return;
   }
-  $$("[data-count]").forEach((el) => (el.textContent = "0"));
+
+  const reveal = (el, delay) => {
+    el.style.setProperty("--d", `${delay}ms`);
+    el.classList.add("is-in");
+    // Counters start once their own staggered reveal begins (they read the final value until then)
+    el.querySelectorAll("[data-count]").forEach((c) => {
+      c.textContent = "0";
+      setTimeout(() => countUp(c), delay + 120);
+    });
+    io.unobserve(el);
+  };
 
   // Elements entering together cascade in DOM order; a lone element reveals at once.
   const io = new IntersectionObserver(
     (entries) => {
-      const batch = entries
+      entries
         .filter((e) => e.isIntersecting)
         .map((e) => e.target)
-        .sort((a, b) => (a.compareDocumentPosition(b) & Node.DOCUMENT_POSITION_FOLLOWING ? -1 : 1));
-      batch.forEach((el, i) => {
-        el.style.setProperty("--d", `${Math.min(i, 6) * 90}ms`);
-        el.classList.add("is-in");
-        el.querySelectorAll("[data-count]").forEach(countUp);
-        io.unobserve(el);
-      });
+        .sort((a, b) => (a.compareDocumentPosition(b) & Node.DOCUMENT_POSITION_FOLLOWING ? -1 : 1))
+        .forEach((el, i) => reveal(el, Math.min(i, 6) * 90));
     },
     { rootMargin: "0px 0px -8% 0px" }
   );
   targets.forEach((el) => io.observe(el));
+
+  // Keyboard focus reveals its (still hidden) container immediately
+  document.addEventListener("focusin", (e) => {
+    for (let el = e.target.closest(PENDING); el; el = el.parentElement && el.parentElement.closest(PENDING)) {
+      reveal(el, 0);
+    }
+  });
 }
 
 function countUp(el) {
   const target = parseInt(el.dataset.count, 10);
   const start = performance.now();
-  const duration = 1800;
+  const duration = 1600;
   const tick = (now) => {
-    const t = Math.min(1, (now - start) / duration);
-    el.textContent = String(Math.round(target * easeOutExpo(t)));
+    const t = clamp((now - start) / duration, 0, 1);
+    el.textContent = String(Math.round(target * (1 - Math.pow(1 - t, 3))));
     if (t < 1) requestAnimationFrame(tick);
   };
   requestAnimationFrame(tick);
@@ -482,10 +259,19 @@ const viewIO = new IntersectionObserver(
 let parallaxEls = [];
 let vh = window.innerHeight;
 let heroH = hero.offsetHeight;
+let marqueeW = 0;
 let lastY = window.scrollY;
 let anchorY = lastY;
 let lastDir = 0;
 let ticking = false;
+let headerPinned = false;
+let pinTimer = 0;
+
+const measure = () => {
+  vh = window.innerHeight;
+  heroH = hero.offsetHeight;
+  marqueeW = marqueeTrack.firstElementChild ? marqueeTrack.firstElementChild.offsetWidth : 0;
+};
 
 function requestFrame() {
   if (ticking) return;
@@ -510,10 +296,10 @@ function frame() {
     : [];
   let scrub = null;
   if (scrubEl && inView.has(scrubEl)) {
+    // Fully lit by the time the whole paragraph is on screen
     const r = scrubEl.getBoundingClientRect();
     const start = vh * 0.9;
-    const end = vh * 0.55;
-    scrub = clamp((start - r.top) / (start - end + r.height), 0, 1);
+    scrub = clamp((start - r.top) / Math.max(1, start - vh + r.height), 0, 1);
   }
   let stageShift = null;
   if (motion && activeProject >= 0 && inView.has(stage)) {
@@ -547,8 +333,22 @@ function frame() {
   if (stageShift !== null) {
     slides[activeProject].img.style.transform = `translate3d(0, ${stageShift.toFixed(2)}%, 0)`;
   }
+  // The marquee moves with the scroll (never on its own), so it stops whenever the reader does
+  if (motion && marqueeW && inView.has(marquee)) {
+    marqueeTrack.style.transform = `translate3d(${(-((y * 0.35) % marqueeW)).toFixed(1)}px, 0, 0)`;
+  }
+  if (y > heroH * 0.5) hideLangHint();
   lastY = y;
 }
+
+const headerHasFocus = () => {
+  const el = document.activeElement;
+  try {
+    return !!el && header.contains(el) && el.matches(":focus-visible");
+  } catch (e) {
+    return false;
+  }
+};
 
 // Solid once scrolled; hides while scrolling down, returns on the way up.
 function updateHeader(y) {
@@ -558,9 +358,57 @@ function updateHeader(y) {
     anchorY = lastY;
     lastDir = dir;
   }
-  if (menuOpen || y < heroH * 0.6) header.classList.remove("is-hidden");
-  else if (dir > 0 && y - anchorY > 80) header.classList.add("is-hidden");
+  // A jump (scroll restoration, find-in-page, scrollbar drag) is not "scrolling down"
+  if (Math.abs(y - lastY) > vh) anchorY = y;
+  if (menuOpen || headerPinned || y < heroH * 0.6 || headerHasFocus()) {
+    header.classList.remove("is-hidden");
+    anchorY = y;
+  } else if (dir > 0 && y - anchorY > 80) header.classList.add("is-hidden");
   else if (dir < 0 && anchorY - y > 40) header.classList.remove("is-hidden");
+}
+
+// Keep the header in place while we scroll the page for the visitor (anchor links, arrival)
+function pinHeader(ms) {
+  headerPinned = true;
+  header.classList.remove("is-hidden");
+  clearTimeout(pinTimer);
+  pinTimer = setTimeout(() => (headerPinned = false), ms);
+}
+
+// ================== In-page links ==================
+// Smooth-scroll to #sections, move focus there (keyboard/screen readers), keep the URL in sync.
+function initAnchors() {
+  document.addEventListener("click", (e) => {
+    if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+    const link = e.target.closest('a[href^="#"]');
+    if (!link || link.hasAttribute("data-cta")) return;
+    const id = decodeURIComponent(link.getAttribute("href").slice(1));
+    const target = id && document.getElementById(id);
+    if (!target) return;
+    e.preventDefault();
+    if (menuOpen) setMenu(false);
+    if (location.hash !== `#${id}`) history.pushState(null, "", `#${id}`);
+    pinHeader(1600);
+    target.scrollIntoView({ behavior: reduceMotion.matches ? "auto" : "smooth", block: "start" });
+    if (!target.hasAttribute("tabindex")) target.setAttribute("tabindex", "-1");
+    target.focus({ preventScroll: true });
+  });
+}
+
+// Web fonts land after the browser has already jumped to a #section (or restored the scroll
+// position), shifting the target. Re-align once, unless the visitor has started scrolling.
+let userScrolled = false;
+["wheel", "touchstart", "keydown", "pointerdown"].forEach((type) =>
+  window.addEventListener(type, () => (userScrolled = true), { once: true, passive: true })
+);
+function settleArrival() {
+  if (userScrolled) return;
+  const id = decodeURIComponent(location.hash.slice(1));
+  const target = id && document.getElementById(id);
+  if (target) target.scrollIntoView({ behavior: "instant", block: "start" });
+  lastY = anchorY = window.scrollY;
+  lastDir = 0;
+  header.classList.remove("is-hidden");
 }
 
 // ================== Projects: sticky stage follows the active row ==================
@@ -568,6 +416,15 @@ let articles = [];
 let slides = [];
 let activeProject = -1;
 let zTop = 1;
+
+// Index of the element crossing the reading line (45.5% down the viewport), from live geometry
+const bandIndex = (els) => {
+  const mid = window.innerHeight * 0.455;
+  return els.findIndex((el) => {
+    const r = el.getBoundingClientRect();
+    return r.height > 0 && r.top <= mid && r.bottom > mid;
+  });
+};
 
 function initProjects() {
   articles = $$(".project", projectList);
@@ -601,8 +458,13 @@ function initProjects() {
     requestFrame();
   };
 
+  // Enter/leave events are only a trigger; the active row is re-resolved from geometry each time,
+  // so a jump that lands between two rows can't leave a stale selection behind.
   const io = new IntersectionObserver(
-    (entries) => entries.forEach((e) => e.isIntersecting && setActive(Number(e.target.dataset.project))),
+    () => {
+      const i = bandIndex(articles);
+      if (i >= 0) setActive(i);
+    },
     { rootMargin: "-45% 0px -54% 0px" }
   );
   articles.forEach((a) => io.observe(a));
@@ -611,59 +473,58 @@ function initProjects() {
 // ================== Header nav: highlight the section in view ==================
 function initScrollSpy() {
   const links = $$("[data-nav-link]");
+  const sections = $$("[data-nav]");
   const io = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((e) => {
-        if (!e.isIntersecting) return;
-        const key = e.target.dataset.nav;
-        links.forEach((a) => {
-          const current = a.dataset.navLink === key;
-          a.classList.toggle("is-current", current);
-          if (current) a.setAttribute("aria-current", "true");
-          else a.removeAttribute("aria-current");
-        });
+    () => {
+      const section = sections[bandIndex(sections)];
+      if (!section) return;
+      links.forEach((a) => {
+        const current = a.dataset.navLink === section.dataset.nav;
+        a.classList.toggle("is-current", current);
+        if (current) a.setAttribute("aria-current", "true");
+        else a.removeAttribute("aria-current");
       });
     },
     { rootMargin: "-45% 0px -54% 0px" }
   );
-  $$("[data-nav]").forEach((s) => io.observe(s));
+  sections.forEach((s) => io.observe(s));
 }
 
 // ================== Scroll lock (menu + modal) ==================
 const lockScroll = (lock) => root.classList.toggle("is-locked", lock);
 
 // ================== Mobile menu ==================
+let menuCloseTimer = 0;
+
 function setMenu(open) {
   if (open === menuOpen) return;
   menuOpen = open;
+  clearTimeout(menuCloseTimer);
   root.classList.toggle("menu-open", open);
+  // Hold the header's menu styling until the panel has wiped off the header strip
+  if (!open && !reduceMotion.matches) {
+    root.classList.add("menu-closing");
+    menuCloseTimer = setTimeout(() => root.classList.remove("menu-closing"), 600);
+  } else {
+    root.classList.remove("menu-closing");
+  }
   menuToggle.setAttribute("aria-expanded", String(open));
   menuToggle.setAttribute("aria-label", I18N[currentLang][open ? "menu.close" : "menu.open"]);
   menu.inert = !open;
   $("main").inert = open;
   $("footer").inert = open;
-  lockScroll(open);
+  lockScroll(open || modal.open);
   if (open) {
+    hideLangHint();
     header.classList.remove("is-hidden");
-    setTimeout(() => $("a", menu).focus({ preventScroll: true }), 400);
+    setTimeout(() => menuOpen && $("a", menu).focus({ preventScroll: true }), 400);
   }
 }
 
 function initMenu() {
   menuToggle.addEventListener("click", () => setMenu(!menuOpen));
-  menu.addEventListener("click", (e) => {
-    const link = e.target.closest("a");
-    if (!link) return;
-    if (link.hasAttribute("data-cta")) {
-      setMenu(false); // the modal opens via the global [data-cta] handler
-      return;
-    }
-    const target = document.querySelector(link.getAttribute("href"));
-    if (!target) return;
-    e.preventDefault();
-    setMenu(false);
-    target.scrollIntoView({ behavior: reduceMotion.matches ? "auto" : "smooth" });
-  });
+  // In-menu #links are handled by initAnchors (which closes the menu); CTAs open the modal,
+  // which closes the menu too.
   document.addEventListener("keydown", (e) => {
     if (e.key === "Escape" && menuOpen) {
       setMenu(false);
@@ -675,12 +536,20 @@ function initMenu() {
 
 // ================== Contact modal (GHL calendar in a native <dialog>) ==================
 let lastFocus = null;
+let closeCleanup = null;
 
 function openModal() {
-  if (modal.open) return;
+  if (menuOpen) setMenu(false);
+  if (modal.open) {
+    // Clicked again while it animates out: cancel the close and play the entrance again
+    if (modal.classList.contains("is-closing")) {
+      if (closeCleanup) closeCleanup();
+      modal.classList.remove("is-closing");
+    }
+    return;
+  }
   if (bookingFrame && !bookingFrame.src) bookingFrame.src = bookingFrame.dataset.src;
   lastFocus = document.activeElement;
-  modal.classList.remove("is-closing");
   modal.showModal();
   lockScroll(true);
 }
@@ -692,14 +561,21 @@ function closeModal() {
     return;
   }
   const panel = $(".modal-panel", modal);
-  const done = () => {
+  let timer = 0;
+  const onEnd = (e) => e.target === panel && done();
+  const cleanup = () => {
     clearTimeout(timer);
     panel.removeEventListener("animationend", onEnd);
-    modal.close();
+    closeCleanup = null;
   };
-  const onEnd = (e) => e.target === panel && done();
-  const timer = setTimeout(done, 500);
+  const done = () => {
+    const stillClosing = modal.classList.contains("is-closing");
+    cleanup();
+    if (modal.open && stillClosing) modal.close();
+  };
+  timer = setTimeout(done, 500);
   panel.addEventListener("animationend", onEnd);
+  closeCleanup = cleanup;
   modal.classList.add("is-closing");
 }
 
@@ -710,12 +586,19 @@ function initModal() {
     openModal();
   });
   $("#modal-close").addEventListener("click", closeModal);
-  modal.addEventListener("click", (e) => e.target === modal && closeModal());
+  // Close on a real backdrop click only (not a drag that started inside the panel)
+  let downOnBackdrop = false;
+  modal.addEventListener("pointerdown", (e) => (downOnBackdrop = e.target === modal));
+  modal.addEventListener("click", (e) => {
+    if (e.target === modal && downOnBackdrop) closeModal();
+    downOnBackdrop = false;
+  });
   modal.addEventListener("cancel", (e) => {
     e.preventDefault();
     closeModal();
   });
   modal.addEventListener("close", () => {
+    if (closeCleanup) closeCleanup();
     modal.classList.remove("is-closing");
     lockScroll(menuOpen);
     // Focus goes back to the trigger — or the menu button if the trigger now sits in an inert menu
@@ -779,44 +662,45 @@ function startIntro() {
   Promise.race([fontsReady, new Promise((r) => setTimeout(r, 1200))]).then(() =>
     requestAnimationFrame(() => root.classList.add("is-loaded"))
   );
+  fontsReady.then(() => {
+    measure();
+    requestAnimationFrame(settleArrival);
+  });
+  window.addEventListener("load", () => requestAnimationFrame(settleArrival), { once: true });
 }
 
 // ================== Init ==================
-registerStrings();
-renderProjects();
-renderStage();
-renderMarquee();
-renderFaqs();
+renderDynamic();
 scrubEl = $("[data-scrub]");
 
-let initial = "es";
-try {
-  const saved = localStorage.getItem("jjf-lang");
-  if (saved && SUPPORTED.includes(saved)) initial = saved;
-  else if (navigator.language && navigator.language.toLowerCase().startsWith("en")) initial = "en";
-} catch (e) {}
-applyLang(initial);
+const start = initialLang();
+applyLang(start.lang);
 
 initReveals();
 parallaxEls = $$("[data-parallax]");
-[...parallaxEls, scrubEl, stage].forEach((el) => el && viewIO.observe(el));
+[...parallaxEls, scrubEl, stage, marquee].forEach((el) => el && viewIO.observe(el));
 initProjects();
 initScrollSpy();
+initAnchors();
 initMenu();
 initModal();
 initFaq();
 initMagnetic();
 
 $$(".lang-btn").forEach((btn) => btn.addEventListener("click", () => switchLang(btn.dataset.lang)));
+if (langHint) langHint.addEventListener("click", () => switchLang("en"));
+if (!start.explicit && start.lang === "es" && /^en\b/i.test(navigator.language || "")) {
+  setTimeout(() => window.scrollY < heroH * 0.5 && !menuOpen && showLangHint(), 1800);
+}
 $$("[data-year]").forEach((el) => (el.textContent = new Date().getFullYear()));
 
 window.addEventListener("scroll", requestFrame, { passive: true });
 window.addEventListener("resize", () => {
-  vh = window.innerHeight;
-  heroH = hero.offsetHeight;
+  measure();
   requestFrame();
 });
 
+measure();
 requestFrame();
 startIntro();
 window.__jjfReady = true;
