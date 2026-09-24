@@ -4,7 +4,9 @@
   "description": "",
   "main": "main.js",
   "scripts": {
-    "build": "tailwindcss -i src/input.css -o assets/styles.css --minify",
+    "build": "node scripts/prerender.mjs && tailwindcss -i src/input.css -o assets/styles.css --minify",
+    "build:css": "tailwindcss -i src/input.css -o assets/styles.css --minify",
+    "prerender": "node scripts/prerender.mjs",
     "dev": "tailwindcss -i src/input.css -o assets/styles.css --watch"
   },
   "keywords": [],
