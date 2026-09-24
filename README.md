@@ -34,7 +34,7 @@ npm run dev        # recompila solo el CSS al guardar (watch)
 ```
 
 > **Importante:** cada vez que cambie el CSS, sube la versión en `index.html`
-> (`assets/styles.css?v=5` → `?v=6`) para que los visitantes reciban la nueva versión.
+> (`assets/styles.css?v=6` → `?v=7`) para que los visitantes reciban la nueva versión.
 
 ## Idiomas
 
