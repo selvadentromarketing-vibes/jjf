@@ -43,6 +43,7 @@ function renderDynamic() {
   if (!faqList.children.length) faqList.innerHTML = faqsMarkup(() => "");
 
   stage.innerHTML = `
+    <div class="stage-glow">${projects.map((p, i) => `<span${i === 0 ? ' class="is-on"' : ""} style="background-image: url(${p.glow || p.img})"></span>`).join("")}</div>
     <div class="stage-slides">
       ${projects
         .map(
@@ -475,6 +476,7 @@ function initProjects() {
   slides = $$(".stage-slide", stage).map((el) => ({ el, img: $("img", el) }));
   const counter = $(".stage-count-current", stage);
   const bars = $$(".stage-bars span", stage);
+  const glows = $$(".stage-glow span", stage);
 
   // Re-arm a slide at its closed state (no transition), stack it on top, then open it.
   const show = (slide, from, animate) => {
@@ -494,6 +496,7 @@ function initProjects() {
     activeProject = i;
     counter.innerHTML = `<span>${pad(i + 1)}</span>`;
     bars.forEach((b, j) => b.classList.toggle("is-active", j <= i));
+    glows.forEach((g, j) => g.classList.toggle("is-on", j === i));
     if (prev === -1) {
       if (i !== 0) show(slides[i].el, "bottom", false);
     } else {

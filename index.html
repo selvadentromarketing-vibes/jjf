@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>JJF Creando | Desarrolladora inmobiliaria boutique en Tulum</title>
   <meta name="description" data-i18n="meta.description" content="JJF Creando es una desarrolladora inmobiliaria boutique que crea desarrollos innovadores, sostenibles y de lujo en Tulum y la Riviera Maya." />
-  <meta name="theme-color" content="#142019" />
+  <meta name="theme-color" content="#0c1f19" />
 
   <!-- Sharing previews. Once the production domain is known, add og:url and
        og:image (https://DOMAIN/assets/og-image.jpg, 1200x630) — see README. -->
@@ -32,12 +32,12 @@
   <link rel="preload" as="image" href="assets/hero-bg.webp" media="not all and (max-aspect-ratio: 4/5)" fetchpriority="high" />
 
   <!-- Self-hosted fonts (latin subset, SIL OFL — see assets/fonts) -->
-  <link rel="preload" as="font" type="font/woff2" href="assets/fonts/playfair-display-latin.woff2" crossorigin />
-  <link rel="preload" as="font" type="font/woff2" href="assets/fonts/playfair-display-italic-latin.woff2" crossorigin />
+  <link rel="preload" as="font" type="font/woff2" href="assets/fonts/fraunces-latin.woff2" crossorigin />
+  <link rel="preload" as="font" type="font/woff2" href="assets/fonts/fraunces-italic-latin.woff2" crossorigin />
 
   <!-- Tailwind v4 (precompilado — rebuild with: npm run build).
        Sube ?v= cuando cambie el CSS: /assets/* se cachea 1 día y ?v= fuerza la versión nueva al instante. -->
-  <link rel="stylesheet" href="assets/styles.css?v=4" />
+  <link rel="stylesheet" href="assets/styles.css?v=5" />
 </head>
 <body>
   <a href="#top" class="skip-link" data-i18n="skip">Saltar al contenido</a>
@@ -129,7 +129,7 @@
     </section>
 
     <!-- ============ ABOUT / STATEMENT ============ -->
-    <section id="about" class="section-pad" data-nav="about">
+    <section id="about" class="section-pad sunlit" data-nav="about">
       <div class="wrap">
         <div class="grid gap-8 lg:grid-cols-12 lg:gap-16">
           <div class="lg:col-span-3">
@@ -224,9 +224,12 @@
         <div id="project-list" class="lg:col-span-5">
           <!-- prerender:projects -->
           <article class="project" data-project="0" aria-labelledby="project-0-title">
-            <figure class="project-media lg:hidden" data-reveal="clip">
-              <img src="assets/selvadentro.webp" alt="Selvadentro" width="1400" height="699" loading="lazy" decoding="async" />
-            </figure>
+            <div class="project-media-wrap lg:hidden">
+              <img class="project-glow" src="assets/glow/selvadentro.webp" alt="" width="64" height="48" loading="lazy" decoding="async" />
+              <figure class="project-media" data-reveal="clip">
+                <img src="assets/selvadentro.webp" alt="Selvadentro" width="1400" height="699" loading="lazy" decoding="async" />
+              </figure>
+            </div>
             <p class="project-num" data-reveal="fade"><span>01</span><span class="project-num-total">/ 06</span></p>
             <h3 id="project-0-title" class="project-title" data-split data-i18n="project.0.name">Selvadentro</h3>
             <dl class="project-facts" data-reveal="up">
@@ -243,9 +246,12 @@
             </div>
           </article>
           <article class="project" data-project="1" aria-labelledby="project-1-title">
-            <figure class="project-media lg:hidden" data-reveal="clip">
-              <img src="assets/aldea-zama.webp" alt="Aldea Zama" width="1024" height="768" loading="lazy" decoding="async" />
-            </figure>
+            <div class="project-media-wrap lg:hidden">
+              <img class="project-glow" src="assets/glow/aldea-zama.webp" alt="" width="64" height="48" loading="lazy" decoding="async" />
+              <figure class="project-media" data-reveal="clip">
+                <img src="assets/aldea-zama.webp" alt="Aldea Zama" width="1024" height="768" loading="lazy" decoding="async" />
+              </figure>
+            </div>
             <p class="project-num" data-reveal="fade"><span>02</span><span class="project-num-total">/ 06</span></p>
             <h3 id="project-1-title" class="project-title" data-split data-i18n="project.1.name">Aldea Zama</h3>
             <dl class="project-facts" data-reveal="up">
@@ -262,9 +268,12 @@
             </div>
           </article>
           <article class="project" data-project="2" aria-labelledby="project-2-title">
-            <figure class="project-media lg:hidden" data-reveal="clip">
-              <img src="assets/selvazama.webp" alt="Selvazama" width="765" height="564" loading="lazy" decoding="async" />
-            </figure>
+            <div class="project-media-wrap lg:hidden">
+              <img class="project-glow" src="assets/glow/selvazama.webp" alt="" width="64" height="48" loading="lazy" decoding="async" />
+              <figure class="project-media" data-reveal="clip">
+                <img src="assets/selvazama.webp" alt="Selvazama" width="1109" height="818" loading="lazy" decoding="async" />
+              </figure>
+            </div>
             <p class="project-num" data-reveal="fade"><span>03</span><span class="project-num-total">/ 06</span></p>
             <h3 id="project-2-title" class="project-title" data-split data-i18n="project.2.name">Selvazama</h3>
             <dl class="project-facts" data-reveal="up">
@@ -281,9 +290,12 @@
             </div>
           </article>
           <article class="project" data-project="3" aria-labelledby="project-3-title">
-            <figure class="project-media lg:hidden" data-reveal="clip">
-              <img src="assets/yucatan.webp" alt="Yucatán Country Club" width="1280" height="800" loading="lazy" decoding="async" />
-            </figure>
+            <div class="project-media-wrap lg:hidden">
+              <img class="project-glow" src="assets/glow/yucatan.webp" alt="" width="64" height="48" loading="lazy" decoding="async" />
+              <figure class="project-media" data-reveal="clip">
+                <img src="assets/yucatan.webp" alt="Yucatán Country Club" width="1280" height="800" loading="lazy" decoding="async" />
+              </figure>
+            </div>
             <p class="project-num" data-reveal="fade"><span>04</span><span class="project-num-total">/ 06</span></p>
             <h3 id="project-3-title" class="project-title" data-split data-i18n="project.3.name">Yucatán Country Club</h3>
             <dl class="project-facts" data-reveal="up">
@@ -300,9 +312,12 @@
             </div>
           </article>
           <article class="project" data-project="4" aria-labelledby="project-4-title">
-            <figure class="project-media lg:hidden" data-reveal="clip">
-              <img src="assets/amelia.webp" alt="Amelia Tulum" width="1400" height="923" loading="lazy" decoding="async" />
-            </figure>
+            <div class="project-media-wrap lg:hidden">
+              <img class="project-glow" src="assets/glow/amelia.webp" alt="" width="64" height="48" loading="lazy" decoding="async" />
+              <figure class="project-media" data-reveal="clip">
+                <img src="assets/amelia.webp" alt="Amelia Tulum" width="1400" height="923" loading="lazy" decoding="async" />
+              </figure>
+            </div>
             <p class="project-num" data-reveal="fade"><span>05</span><span class="project-num-total">/ 06</span></p>
             <h3 id="project-4-title" class="project-title" data-split data-i18n="project.4.name">Amelia Tulum</h3>
             <dl class="project-facts" data-reveal="up">
@@ -319,9 +334,12 @@
             </div>
           </article>
           <article class="project" data-project="5" aria-labelledby="project-5-title">
-            <figure class="project-media lg:hidden" data-reveal="clip">
-              <img src="assets/mazza.webp" alt="Hacienda Sacalá" width="1024" height="576" loading="lazy" decoding="async" />
-            </figure>
+            <div class="project-media-wrap lg:hidden">
+              <img class="project-glow" src="assets/glow/mazza.webp" alt="" width="64" height="48" loading="lazy" decoding="async" />
+              <figure class="project-media" data-reveal="clip">
+                <img src="assets/mazza.webp" alt="Hacienda Sacalá" width="1024" height="576" loading="lazy" decoding="async" />
+              </figure>
+            </div>
             <p class="project-num" data-reveal="fade"><span>06</span><span class="project-num-total">/ 06</span></p>
             <h3 id="project-5-title" class="project-title" data-split data-i18n="project.5.name">Hacienda Sacalá</h3>
             <dl class="project-facts" data-reveal="up">
@@ -346,7 +364,7 @@
     </section>
 
     <!-- ============ VISION ============ -->
-    <section id="vision" class="section-pad" data-nav="about">
+    <section id="vision" class="section-pad sunlit sunlit--left sunlit--soft" data-nav="about">
       <div class="wrap grid items-center gap-16 lg:grid-cols-12 lg:gap-20">
         <div class="lg:col-span-6">
           <p class="eyebrow" data-reveal="fade"><span class="eyebrow-num">04</span><span data-i18n="eyebrow.vision">Legado</span></p>
@@ -377,7 +395,7 @@
     </section>
 
     <!-- ============ FAQ ============ -->
-    <section id="faq" class="section-pad border-t border-ink/10" data-nav="contact">
+    <section id="faq" class="section-pad sunlit sunlit--soft border-t border-ink/10" data-nav="contact">
       <div class="wrap grid gap-12 lg:grid-cols-12 lg:gap-x-12 xl:gap-x-20">
         <div class="lg:col-span-4">
           <div class="lg:sticky lg:top-32">

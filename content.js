@@ -124,9 +124,10 @@ const I18N = {
 
 // ================== Projects (bilingual) ==================
 // `facts` only restate figures already present in each description.
+// `glow` is an optional tiny blurred thumbnail for the ambient light behind each photo (falls back to `img`).
 const projects = [
   {
-    img: "assets/selvadentro.webp", w: 1400, h: 699,
+    img: "assets/selvadentro.webp", glow: "assets/glow/selvadentro.webp", w: 1400, h: 699,
     name: { es: "Selvadentro", en: "Selvadentro" },
     text: {
       es: "Selvadentro es un desarrollo de lujo inmerso en la naturaleza, en el corazón de la selva de Tulum, donde la arquitectura refinada se funde con la selva que lo rodea. Concebido en torno a la privacidad, el bienestar y un profundo respeto por la tierra, ofrece residencias exclusivas entrelazadas entre la vegetación nativa, cenotes y el dosel abierto: una invitación a vivir en armonía con la naturaleza sin renunciar al confort ni a la sofisticación.",
@@ -140,7 +141,7 @@ const projects = [
     href: BOOKING_URL,
   },
   {
-    img: "assets/aldea-zama.webp", w: 1024, h: 768,
+    img: "assets/aldea-zama.webp", glow: "assets/glow/aldea-zama.webp", w: 1024, h: 768,
     name: { es: "Aldea Zama", en: "Aldea Zama" },
     text: {
       es: "Aldea Zama es una comunidad planificada de 100 hectáreas que combina a la perfección el misticismo de la herencia maya de Tulum con la vida internacional moderna. Con 4,000 hogares, 1,000 habitaciones de hotel y 400 espacios comerciales, este desarrollo de uso mixto ofrece zonas residenciales privadas, vibrantes áreas comerciales e infraestructura excepcional. Reconocida como la inversión más segura y codiciada de Tulum, con el 100% de sus espacios vendidos y una valuación de 200&nbsp;millones de USD, Aldea Zama es celebrada como el mejor desarrollo de Tulum y un referente en la Riviera Maya.",
@@ -154,7 +155,7 @@ const projects = [
     href: BOOKING_URL,
   },
   {
-    img: "assets/selvazama.webp", w: 765, h: 564,
+    img: "assets/selvazama.webp", glow: "assets/glow/selvazama.webp", w: 1109, h: 818,
     name: { es: "Selvazama", en: "Selvazama" },
     text: {
       es: "Selvazama es un desarrollo de lujo de 165 hectáreas en la zona hotelera de Tulum que redefine la vida sostenible. Combinando espacios residenciales, comerciales, hoteleros, culturales y recreativos, ofrece amenidades modernas en medio de la belleza natural. Valuado en más de 1,000&nbsp;millones de USD, incluye proyectos terminados como Aldea Premium I-&#8288;IV, Ahimsa, Mondo y Dharma, junto con atractivos como Azulik, un centro comercial y una escuela Montessori. Con la Fase 1 completada y la Fase 2 en marcha, Selvazama está dando forma al futuro eco-lujo de Tulum.",
@@ -168,7 +169,7 @@ const projects = [
     href: BOOKING_URL,
   },
   {
-    img: "assets/yucatan.webp", w: 1280, h: 800,
+    img: "assets/yucatan.webp", glow: "assets/glow/yucatan.webp", w: 1280, h: 800,
     name: { es: "Yucatán Country Club", en: "Yucatán Country Club" },
     text: {
       es: "Un prestigioso desarrollo privado de 330 hectáreas, reconocido como uno de los proyectos inmobiliarios más importantes de América Latina. En torno a un campo de golf de clase mundial diseñado por Jack Nicklaus, esta comunidad exclusiva ofrece una variedad de opciones residenciales de lujo, incluidas Harmonia Villas & Apartments, Serena Casa, Kanha Grand Lago y Anthea Apartments. Su casa club de vanguardia cuenta con amenidades incomparables que redefinen la vida de lujo. Valuado en 600&nbsp;millones de USD, el Yucatán Country Club es un testimonio de innovación, elegancia y sofisticación.",
@@ -182,7 +183,7 @@ const projects = [
     href: BOOKING_URL,
   },
   {
-    img: "assets/amelia.webp", w: 1400, h: 923,
+    img: "assets/amelia.webp", glow: "assets/glow/amelia.webp", w: 1400, h: 923,
     name: { es: "Amelia Tulum", en: "Amelia Tulum" },
     text: {
       es: "El concepto de Amelia Tulum nace del respeto por las condiciones naturales del clima, la topografía y la vegetación nativa. La construcción propuesta tiene el menor impacto posible sobre el terreno, utilizando la mínima huella al elevar la estructura sobre el suelo, tal como una casa de palafitos coexiste con su entorno natural. Esta decisión dio origen a todas las características estéticas del complejo.",
@@ -196,7 +197,7 @@ const projects = [
     href: BOOKING_URL,
   },
   {
-    img: "assets/mazza.webp", w: 1024, h: 576,
+    img: "assets/mazza.webp", glow: "assets/glow/mazza.webp", w: 1024, h: 576,
     name: { es: "Hacienda Sacalá", en: "Hacienda Sacalá" },
     text: {
       es: "Hacienda Sacalá es un desarrollo residencial exclusivo ubicado en el Pueblo Mágico de Izamal, Yucatán, que combina lujo, cultura y naturaleza en un entorno único. Este proyecto cuenta con un campo de golf de primer nivel, un hotel boutique que ofrece una experiencia de hospitalidad excepcional y un vibrante vecindario con experiencias culinarias, culturales y artísticas que reflejan la riqueza de la región. Diseñado por Muñoz Arquitectos y AS Arquitectura, Hacienda Sacalá redefine el concepto de vivir y relajarse en un lugar mágico lleno de historia y encanto.",
@@ -268,9 +269,12 @@ const projectsMarkup = (t) =>
     .map(
       (p, i) => `
           <article class="project" data-project="${i}" aria-labelledby="project-${i}-title">
-            <figure class="project-media lg:hidden" data-reveal="clip">
-              <img src="${p.img}" alt="${p.name.en}" width="${p.w}" height="${p.h}" loading="lazy" decoding="async" />
-            </figure>
+            <div class="project-media-wrap lg:hidden">
+              <img class="project-glow" src="${p.glow || p.img}" alt="" width="64" height="48" loading="lazy" decoding="async" />
+              <figure class="project-media" data-reveal="clip">
+                <img src="${p.img}" alt="${p.name.en}" width="${p.w}" height="${p.h}" loading="lazy" decoding="async" />
+              </figure>
+            </div>
             <p class="project-num" data-reveal="fade"><span>${pad(i + 1)}</span><span class="project-num-total">/ ${pad(projects.length)}</span></p>
             <h3 id="project-${i}-title" class="project-title" data-split data-i18n="project.${i}.name">${t(`project.${i}.name`)}</h3>
             <dl class="project-facts" data-reveal="up">

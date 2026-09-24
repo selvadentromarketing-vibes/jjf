@@ -10,9 +10,12 @@ content.js            → TODOS los textos (ES/EN), datos de proyectos y FAQ, y 
 main.js               → idioma, animaciones, menú, modal, FAQ (sin librerías)
 src/input.css         → fuente de estilos (Tailwind v4 + design system + animaciones)
 assets/styles.css     → CSS compilado (lo que carga el navegador)
-assets/fonts/         → Playfair Display + Poppins autoalojadas (subset latino, licencia SIL OFL)
+assets/fonts/         → Fraunces + Manrope autoalojadas (subset latino, licencia SIL OFL)
 assets/*.webp|jpg     → imágenes (og-image.jpg = imagen para compartir en redes)
+assets/glow/          → miniaturas difuminadas para la luz ambiental detrás de cada proyecto
+assets/canopy-shadow.webp → sombra de palmeras que cae sobre las secciones claras y los arcos
 scripts/prerender.mjs → escribe en index.html los proyectos y FAQ (ES) desde content.js
+scripts/images.py     → regenera los bocetos compuestos y las miniaturas de luz (Python + Pillow)
 favicon.ico, favicon-48.png, apple-touch-icon.png → iconos del sitio
 netlify.toml          → config de despliegue (sitio estático, sin build en Netlify)
 ```
@@ -31,7 +34,7 @@ npm run dev        # recompila solo el CSS al guardar (watch)
 ```
 
 > **Importante:** cada vez que cambie el CSS, sube la versión en `index.html`
-> (`assets/styles.css?v=4` → `?v=5`) para que los visitantes reciban la nueva versión.
+> (`assets/styles.css?v=5` → `?v=6`) para que los visitantes reciban la nueva versión.
 
 ## Idiomas
 
@@ -43,9 +46,14 @@ npm run dev        # recompila solo el CSS al guardar (watch)
 
 ## Diseño y animación
 
-- **Paleta** tomada de las propias imágenes: piedra caliza (`paper`), selva profunda (`jungle`)
-  y el verde salvia de los bocetos (`sage` / `moss`). Tokens en `@theme` dentro de `src/input.css`.
-- **Tipografía:** Playfair Display (titulares, con acentos en cursiva) + Poppins (texto).
+- **Paleta** tomada de la fotografía: yeso de chukum al sol (`paper`, `stone`), selva profunda
+  (`jungle`) y turquesa de cenote como acento (`cenote` sobre fondos oscuros, `cenote-deep` sobre
+  claros, con contraste AA). Tokens en `@theme` dentro de `src/input.css`.
+- **Tipografía:** Fraunces (titulares; serif suave con tamaño óptico, acentos en cursiva) + Manrope (texto).
+- **Fotos** con etalonaje propio (contraste, calidez, menos bruma). Si se agregan fotos nuevas conviene
+  darles un tratamiento parecido para que no se vean apagadas junto a las demás.
+- **Atmósfera:** luz dorada sobre el hero y el cierre, sombras de palmera que se mecen sobre las
+  secciones claras (`.sunlit`) y los arcos, y un brillo ambiental del color de cada foto de proyecto.
 - **Animaciones** (sin librerías, todo en `main.js` + CSS):
   - Intro del hero: la foto se asienta y el titular sube palabra por palabra.
   - Revelados al hacer scroll (`data-reveal="up|fade|clip|arch|stage"`, `data-split` para titulares).
@@ -58,7 +66,9 @@ npm run dev        # recompila solo el CSS al guardar (watch)
 - **Accesibilidad:** respeta `prefers-reduced-motion`, el contenido se muestra aunque falle el JS,
   foco gestionado en menú, modal y enlaces internos, contraste AA, skip link.
 - Los bocetos (`sketch-*-stone.webp`) están compuestos sobre el color `--color-stone` de los arcos;
-  si cambias ese color, vuelve a exportarlos.
+  si cambias ese color, regenéralos con `python3 scripts/images.py sketches "#nuevo-color"`.
+- Proyecto nuevo: `glow` en `content.js` es opcional (sin él se usa la propia foto); para crear la
+  miniatura: `python3 scripts/images.py glow assets/foto.webp`.
 
 ## Despliegue en Netlify
 
