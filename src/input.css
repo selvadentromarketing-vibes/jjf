@@ -16,7 +16,6 @@
   --color-jungle-soft: #15332a;
   --color-cenote: #45cdbb; /* accent on dark backgrounds */
   --color-cenote-deep: #0a625a; /* accent on light backgrounds (AA on paper, even under the palm shadows) */
-  --color-sun: #f3c27a; /* golden-hour light, decorative only */
 
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-in-out-quart: cubic-bezier(0.76, 0, 0.24, 1);
@@ -676,6 +675,14 @@
     aspect-ratio: 4 / 5;
     border-radius: 50% 50% 1.75rem 1.75rem / 40% 40% 1.75rem 1.75rem;
     background: var(--color-stone);
+  }
+  /* The arch's own box-shadow would be cut by its reveal clip-path, so the frame casts it */
+  .arch-frame::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: 50% 50% 1.75rem 1.75rem / 40% 40% 1.75rem 1.75rem;
     box-shadow: 0 50px 90px -50px rgb(96 60 24 / 0.45);
   }
   /* Light pooling at the top of the arch and a warm shade at its foot */
@@ -720,8 +727,13 @@
   /* ---- Sunlit sections: warm light pooling + slow-moving palm shadows (decorative, behind content) ---- */
   /* Opaque background: the multiply-blended shadows need something to darken inside the isolated section */
   .sunlit { position: relative; isolation: isolate; overflow: clip; background-color: var(--color-paper); }
-  /* Older Safari has no overflow: clip; hidden is equivalent here (nothing sticky inside) */
-  @supports not (overflow: clip) { .sunlit { overflow: hidden; } }
+  /* Older Safari has no overflow: clip. Hidden works for #about/#vision, but it would stop the FAQ's
+     sticky column from sticking, so there the shadow is dropped instead of clipped. */
+  @supports not (overflow: clip) {
+    .sunlit { overflow: hidden; }
+    #faq.sunlit { overflow: visible; }
+    #faq.sunlit::after { display: none; }
+  }
   .sunlit::before {
     content: "";
     position: absolute;
@@ -800,6 +812,7 @@
     top: 8%;
     z-index: -1;
     width: 106%;
+    max-width: none;
     height: 101%;
     border-radius: 2rem;
     object-fit: cover;
@@ -860,10 +873,17 @@
     overflow: hidden;
     border-radius: inherit;
     background: var(--color-jungle-soft);
+  }
+  .project-stage::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: inherit;
     box-shadow: 0 40px 100px -40px rgb(0 0 0 / 0.6);
   }
   /* Ambient light: a blurred thumbnail of the active photo glows around the frame */
-  .stage-glow { position: absolute; inset: -9% -7%; z-index: -1; pointer-events: none; }
+  .stage-glow { position: absolute; inset: -9% max(-7%, -2.25rem); z-index: -1; pointer-events: none; }
   .stage-glow span {
     position: absolute;
     inset: 0;
@@ -1214,9 +1234,11 @@
   .js [data-reveal="stage"] .stage-slides { clip-path: inset(0 round 1.5rem); transition: clip-path 1.4s var(--ease-in-out-quart); }
   .js [data-reveal="stage"]:not(.is-in) .stage-slides { clip-path: inset(100% 0 0 0 round 1.5rem); }
   .js [data-reveal="stage"] .stage-glow,
-  .js [data-reveal="stage"] .stage-ui { transition: opacity 1.2s ease 0.7s; }
+  .js [data-reveal="stage"] .stage-ui,
+  .js [data-reveal="stage"]::after { transition: opacity 1.2s ease 0.7s; }
   .js [data-reveal="stage"]:not(.is-in) .stage-glow,
-  .js [data-reveal="stage"]:not(.is-in) .stage-ui { opacity: 0; }
+  .js [data-reveal="stage"]:not(.is-in) .stage-ui,
+  .js [data-reveal="stage"]:not(.is-in)::after { opacity: 0; }
 
   /* Arch rises, then the sketch "draws" itself top-to-bottom */
   .js [data-reveal="arch"] { transition: clip-path 1.6s var(--ease-in-out-quart) var(--d, 0ms); }
@@ -1233,6 +1255,8 @@
   .js [data-reveal="arch"].is-in .sketch { mask-position: 0 0; }
   .js .arch-frame::before { transition: opacity 1.2s ease 0.9s, transform 1.6s var(--ease-out-expo) 0.9s; }
   .js .arch-frame:not(:has(.is-in))::before { opacity: 0; transform: translate3d(1rem, 1rem, 0); }
+  .js .arch-frame::after { transition: opacity 1.2s ease 0.9s; }
+  .js .arch-frame:not(:has(.is-in))::after { opacity: 0; }
   .js .arch-frame--alt:not(:has(.is-in))::before { transform: translate3d(-1rem, 1rem, 0); }
 
   /* Hero intro (triggered by .is-loaded on <html>) */
@@ -1333,7 +1357,8 @@ html:not(.js) .site-header { position: absolute; }
   .js [data-reveal],
   .js [data-reveal] .stage-slides { clip-path: none !important; }
   .js [data-reveal] .stage-glow,
-  .js [data-reveal] .stage-ui { opacity: 1 !important; }
+  .js [data-reveal] .stage-ui,
+  .js [data-reveal="stage"]::after { opacity: 1 !important; }
   .js .project-glow { opacity: 0.6 !important; }
   .js [data-reveal] img { transform: none !important; }
   .js [data-reveal] .sketch { mask-image: none !important; }
@@ -1342,7 +1367,8 @@ html:not(.js) .site-header { position: absolute; }
   .js .eyebrow::after,
   .js .stat::before,
   .js .pillar::before { transform: none !important; }
-  .js .arch-frame::before { opacity: 1 !important; transform: none !important; }
+  .js .arch-frame::before,
+  .js .arch-frame::after { opacity: 1 !important; transform: none !important; }
   .scroll-cue-line::after { animation: none !important; }
   .marquee-track { transform: none !important; }
   .lang-hint { transition: none; }
