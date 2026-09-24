@@ -36,8 +36,8 @@
   <link rel="preload" as="font" type="font/woff2" href="assets/fonts/playfair-display-italic-latin.woff2" crossorigin />
 
   <!-- Tailwind v4 (precompilado — rebuild with: npm run build).
-       Sube ?v= cuando cambie el CSS: Netlify cachea /assets/* como immutable. -->
-  <link rel="stylesheet" href="assets/styles.css?v=3" />
+       Sube ?v= cuando cambie el CSS: /assets/* se cachea 1 día y ?v= fuerza la versión nueva al instante. -->
+  <link rel="stylesheet" href="assets/styles.css?v=4" />
 </head>
 <body>
   <a href="#top" class="skip-link" data-i18n="skip">Saltar al contenido</a>
@@ -67,7 +67,7 @@
             </div>
             <button type="button" class="lang-hint" lang="en" hidden>View in English <span aria-hidden="true">→</span></button>
           </div>
-          <a href="#contact" data-cta class="btn btn-primary btn-sm hidden md:inline-flex"><span data-i18n="cta.schedule">Agenda una llamada</span></a>
+          <a href="https://api.leadconnectorhq.com/widget/booking/DD1xkh0ObvHQFhcyxgJR" target="_blank" rel="noopener" data-cta class="btn btn-primary btn-sm hidden md:inline-flex"><span data-i18n="cta.schedule">Agenda una llamada</span></a>
           <button type="button" id="menu-toggle" class="menu-toggle lg:hidden" aria-expanded="false" aria-controls="mobile-menu" aria-label="Abrir menú">
             <span></span><span></span>
           </button>
@@ -87,7 +87,7 @@
         <li><a href="#contact" style="--i:3"><span class="mm-num">04</span><span data-i18n="nav.contact">Contacto</span></a></li>
       </ol>
       <div class="mm-foot">
-        <a href="#contact" data-cta class="btn btn-light">
+        <a href="https://api.leadconnectorhq.com/widget/booking/DD1xkh0ObvHQFhcyxgJR" target="_blank" rel="noopener" data-cta class="btn btn-light">
           <span data-i18n="cta.schedule">Agenda una llamada</span>
           <span class="btn-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 12h15M13 6l6 6-6 6"/></svg><svg viewBox="0 0 24 24"><path d="M4 12h15M13 6l6 6-6 6"/></svg></span>
         </a>
@@ -112,7 +112,7 @@
         <p class="eyebrow eyebrow-light hero-fade" data-i18n="hero.eyebrow">Desarrollo inmobiliario boutique · Tulum y Riviera Maya</p>
         <h1 class="display mt-6 md:mt-8" data-split data-i18n="hero.title">Creando <em>Experiencias</em><br />a Través del Real&nbsp;Estate</h1>
         <div class="hero-fade mt-10 flex flex-wrap items-center gap-x-9 gap-y-6 md:mt-12" style="--d:1000ms">
-          <a href="#contact" data-cta class="btn btn-light" data-magnetic>
+          <a href="https://api.leadconnectorhq.com/widget/booking/DD1xkh0ObvHQFhcyxgJR" target="_blank" rel="noopener" data-cta class="btn btn-light" data-magnetic>
             <span data-i18n="hero.cta">Contáctanos</span>
             <span class="btn-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 12h15M13 6l6 6-6 6"/></svg><svg viewBox="0 0 24 24"><path d="M4 12h15M13 6l6 6-6 6"/></svg></span>
           </a>
@@ -142,19 +142,19 @@
 
         <div class="stats">
           <div class="stat" data-reveal="up">
-            <p class="stat-num"><span data-count="25">25</span><span class="stat-unit">+</span></p>
+            <p class="stat-num"><span data-count="25" aria-hidden="true">25</span><span class="stat-unit" aria-hidden="true">+</span><span class="sr-only">25+</span></p>
             <p class="stat-label" data-i18n="stats.years">Años de experiencia</p>
           </div>
           <div class="stat" data-reveal="up">
-            <p class="stat-num"><span data-count="6">6</span></p>
+            <p class="stat-num"><span data-count="6" aria-hidden="true">6</span><span class="sr-only">6</span></p>
             <p class="stat-label" data-i18n="stats.projects">Desarrollos emblemáticos</p>
           </div>
           <div class="stat" data-reveal="up">
-            <p class="stat-num"><span data-count="330">330</span></p>
+            <p class="stat-num"><span data-count="330" aria-hidden="true">330</span><span class="sr-only">330</span></p>
             <p class="stat-label" data-i18n="stats.area">Hectáreas · Yucatán Country Club</p>
           </div>
           <div class="stat" data-reveal="up">
-            <p class="stat-num"><span data-count="100">100</span><span class="stat-unit">%</span></p>
+            <p class="stat-num"><span data-count="100" aria-hidden="true">100</span><span class="stat-unit" aria-hidden="true">%</span><span class="sr-only">100%</span></p>
             <p class="stat-label" data-i18n="stats.sold">Vendido en Aldea Zama</p>
           </div>
         </div>
@@ -203,7 +203,7 @@
             </li>
           </ol>
           <div class="mt-12" data-reveal="up">
-            <a href="#contact" data-cta class="btn btn-primary" data-magnetic>
+            <a href="https://api.leadconnectorhq.com/widget/booking/DD1xkh0ObvHQFhcyxgJR" target="_blank" rel="noopener" data-cta class="btn btn-primary" data-magnetic>
               <span data-i18n="cta.dream">Comienza a Construir tu Sueño</span>
               <span class="btn-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 12h15M13 6l6 6-6 6"/></svg><svg viewBox="0 0 24 24"><path d="M4 12h15M13 6l6 6-6 6"/></svg></span>
             </a>
@@ -236,7 +236,7 @@
             </dl>
             <p class="project-text" data-reveal="up" data-i18n="project.0.text">Selvadentro es un desarrollo de lujo inmerso en la naturaleza, en el corazón de la selva de Tulum, donde la arquitectura refinada se funde con la selva que lo rodea. Concebido en torno a la privacidad, el bienestar y un profundo respeto por la tierra, ofrece residencias exclusivas entrelazadas entre la vegetación nativa, cenotes y el dosel abierto: una invitación a vivir en armonía con la naturaleza sin renunciar al confort ni a la sofisticación.</p>
             <div class="mt-9" data-reveal="up">
-              <a href="#contact" data-cta class="btn btn-light" data-magnetic>
+              <a href="https://api.leadconnectorhq.com/widget/booking/DD1xkh0ObvHQFhcyxgJR" target="_blank" rel="noopener" data-cta class="btn btn-light" data-magnetic>
                 <span data-i18n="readMore">Saber más</span>
                 <span class="btn-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 12h15M13 6l6 6-6 6"/></svg><svg viewBox="0 0 24 24"><path d="M4 12h15M13 6l6 6-6 6"/></svg></span>
               </a>
@@ -255,7 +255,7 @@
             </dl>
             <p class="project-text" data-reveal="up" data-i18n="project.1.text">Aldea Zama es una comunidad planificada de 100 hectáreas que combina a la perfección el misticismo de la herencia maya de Tulum con la vida internacional moderna. Con 4,000 hogares, 1,000 habitaciones de hotel y 400 espacios comerciales, este desarrollo de uso mixto ofrece zonas residenciales privadas, vibrantes áreas comerciales e infraestructura excepcional. Reconocida como la inversión más segura y codiciada de Tulum, con el 100% de sus espacios vendidos y una valuación de 200&nbsp;millones de USD, Aldea Zama es celebrada como el mejor desarrollo de Tulum y un referente en la Riviera Maya.</p>
             <div class="mt-9" data-reveal="up">
-              <a href="#contact" data-cta class="btn btn-light" data-magnetic>
+              <a href="https://api.leadconnectorhq.com/widget/booking/DD1xkh0ObvHQFhcyxgJR" target="_blank" rel="noopener" data-cta class="btn btn-light" data-magnetic>
                 <span data-i18n="readMore">Saber más</span>
                 <span class="btn-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 12h15M13 6l6 6-6 6"/></svg><svg viewBox="0 0 24 24"><path d="M4 12h15M13 6l6 6-6 6"/></svg></span>
               </a>
@@ -274,7 +274,7 @@
             </dl>
             <p class="project-text" data-reveal="up" data-i18n="project.2.text">Selvazama es un desarrollo de lujo de 165 hectáreas en la zona hotelera de Tulum que redefine la vida sostenible. Combinando espacios residenciales, comerciales, hoteleros, culturales y recreativos, ofrece amenidades modernas en medio de la belleza natural. Valuado en más de 1,000&nbsp;millones de USD, incluye proyectos terminados como Aldea Premium I-&#8288;IV, Ahimsa, Mondo y Dharma, junto con atractivos como Azulik, un centro comercial y una escuela Montessori. Con la Fase 1 completada y la Fase 2 en marcha, Selvazama está dando forma al futuro eco-lujo de Tulum.</p>
             <div class="mt-9" data-reveal="up">
-              <a href="#contact" data-cta class="btn btn-light" data-magnetic>
+              <a href="https://api.leadconnectorhq.com/widget/booking/DD1xkh0ObvHQFhcyxgJR" target="_blank" rel="noopener" data-cta class="btn btn-light" data-magnetic>
                 <span data-i18n="readMore">Saber más</span>
                 <span class="btn-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 12h15M13 6l6 6-6 6"/></svg><svg viewBox="0 0 24 24"><path d="M4 12h15M13 6l6 6-6 6"/></svg></span>
               </a>
@@ -293,7 +293,7 @@
             </dl>
             <p class="project-text" data-reveal="up" data-i18n="project.3.text">Un prestigioso desarrollo privado de 330 hectáreas, reconocido como uno de los proyectos inmobiliarios más importantes de América Latina. En torno a un campo de golf de clase mundial diseñado por Jack Nicklaus, esta comunidad exclusiva ofrece una variedad de opciones residenciales de lujo, incluidas Harmonia Villas & Apartments, Serena Casa, Kanha Grand Lago y Anthea Apartments. Su casa club de vanguardia cuenta con amenidades incomparables que redefinen la vida de lujo. Valuado en 600&nbsp;millones de USD, el Yucatán Country Club es un testimonio de innovación, elegancia y sofisticación.</p>
             <div class="mt-9" data-reveal="up">
-              <a href="#contact" data-cta class="btn btn-light" data-magnetic>
+              <a href="https://api.leadconnectorhq.com/widget/booking/DD1xkh0ObvHQFhcyxgJR" target="_blank" rel="noopener" data-cta class="btn btn-light" data-magnetic>
                 <span data-i18n="readMore">Saber más</span>
                 <span class="btn-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 12h15M13 6l6 6-6 6"/></svg><svg viewBox="0 0 24 24"><path d="M4 12h15M13 6l6 6-6 6"/></svg></span>
               </a>
@@ -312,7 +312,7 @@
             </dl>
             <p class="project-text" data-reveal="up" data-i18n="project.4.text">El concepto de Amelia Tulum nace del respeto por las condiciones naturales del clima, la topografía y la vegetación nativa. La construcción propuesta tiene el menor impacto posible sobre el terreno, utilizando la mínima huella al elevar la estructura sobre el suelo, tal como una casa de palafitos coexiste con su entorno natural. Esta decisión dio origen a todas las características estéticas del complejo.</p>
             <div class="mt-9" data-reveal="up">
-              <a href="#contact" data-cta class="btn btn-light" data-magnetic>
+              <a href="https://api.leadconnectorhq.com/widget/booking/DD1xkh0ObvHQFhcyxgJR" target="_blank" rel="noopener" data-cta class="btn btn-light" data-magnetic>
                 <span data-i18n="readMore">Saber más</span>
                 <span class="btn-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 12h15M13 6l6 6-6 6"/></svg><svg viewBox="0 0 24 24"><path d="M4 12h15M13 6l6 6-6 6"/></svg></span>
               </a>
@@ -331,7 +331,7 @@
             </dl>
             <p class="project-text" data-reveal="up" data-i18n="project.5.text">Hacienda Sacalá es un desarrollo residencial exclusivo ubicado en el Pueblo Mágico de Izamal, Yucatán, que combina lujo, cultura y naturaleza en un entorno único. Este proyecto cuenta con un campo de golf de primer nivel, un hotel boutique que ofrece una experiencia de hospitalidad excepcional y un vibrante vecindario con experiencias culinarias, culturales y artísticas que reflejan la riqueza de la región. Diseñado por Muñoz Arquitectos y AS Arquitectura, Hacienda Sacalá redefine el concepto de vivir y relajarse en un lugar mágico lleno de historia y encanto.</p>
             <div class="mt-9" data-reveal="up">
-              <a href="#contact" data-cta class="btn btn-light" data-magnetic>
+              <a href="https://api.leadconnectorhq.com/widget/booking/DD1xkh0ObvHQFhcyxgJR" target="_blank" rel="noopener" data-cta class="btn btn-light" data-magnetic>
                 <span data-i18n="readMore">Saber más</span>
                 <span class="btn-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 12h15M13 6l6 6-6 6"/></svg><svg viewBox="0 0 24 24"><path d="M4 12h15M13 6l6 6-6 6"/></svg></span>
               </a>
@@ -358,7 +358,7 @@
             A través de la innovación, la integridad y la pasión por la excelencia, buscamos seguir creando desarrollos icónicos que dejen un legado duradero.
           </p>
           <div class="mt-12" data-reveal="up">
-            <a href="#contact" data-cta class="btn btn-primary" data-magnetic>
+            <a href="https://api.leadconnectorhq.com/widget/booking/DD1xkh0ObvHQFhcyxgJR" target="_blank" rel="noopener" data-cta class="btn btn-primary" data-magnetic>
               <span data-i18n="cta.dream">Comienza a Construir tu Sueño</span>
               <span class="btn-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 12h15M13 6l6 6-6 6"/></svg><svg viewBox="0 0 24 24"><path d="M4 12h15M13 6l6 6-6 6"/></svg></span>
             </a>
@@ -384,7 +384,7 @@
             <p class="eyebrow" data-reveal="fade"><span class="eyebrow-num">05</span><span data-i18n="eyebrow.faq">FAQ</span></p>
             <h2 class="h2 mt-6" data-split data-i18n="faq.title">Preguntas <em>Frecuentes</em></h2>
             <div class="mt-10" data-reveal="up">
-              <a href="#contact" data-cta class="btn btn-primary" data-magnetic>
+              <a href="https://api.leadconnectorhq.com/widget/booking/DD1xkh0ObvHQFhcyxgJR" target="_blank" rel="noopener" data-cta class="btn btn-primary" data-magnetic>
                 <span data-i18n="cta.schedule">Agenda una llamada</span>
                 <span class="btn-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 12h15M13 6l6 6-6 6"/></svg><svg viewBox="0 0 24 24"><path d="M4 12h15M13 6l6 6-6 6"/></svg></span>
               </a>
@@ -396,61 +396,61 @@
           <!-- prerender:faqs -->
           <details class="faq" data-reveal="up">
             <summary>
-              <div class="faq-row">
+              <span class="faq-row">
                 <span class="faq-num">01</span>
                 <span class="faq-q" data-i18n="faq.0.q">¿Ofrecen servicios de construcción tanto comercial como residencial?</span>
                 <span class="faq-icon" aria-hidden="true"></span>
-              </div>
+              </span>
             </summary>
             <div class="faq-a"><div><p data-i18n="faq.0.a">Sí, JJF Creando se especializa en proyectos de construcción comercial y residencial, adaptados a las necesidades de cada cliente.</p></div></div>
           </details>
           <details class="faq" data-reveal="up">
             <summary>
-              <div class="faq-row">
+              <span class="faq-row">
                 <span class="faq-num">02</span>
                 <span class="faq-q" data-i18n="faq.1.q">¿JJF Creando puede ayudar a obtener permisos de construcción y otros requisitos legales?</span>
                 <span class="faq-icon" aria-hidden="true"></span>
-              </div>
+              </span>
             </summary>
             <div class="faq-a"><div><p data-i18n="faq.1.a">Sí, brindamos apoyo integral en la gestión de todos los aspectos regulatorios y de cumplimiento de la construcción, incluida la obtención de los permisos necesarios, para garantizar un proceso sin complicaciones para nuestros clientes.</p></div></div>
           </details>
           <details class="faq" data-reveal="up">
             <summary>
-              <div class="faq-row">
+              <span class="faq-row">
                 <span class="faq-num">03</span>
                 <span class="faq-q" data-i18n="faq.2.q">¿Qué prácticas de sostenibilidad incorpora JJF Creando en sus proyectos?</span>
                 <span class="faq-icon" aria-hidden="true"></span>
-              </div>
+              </span>
             </summary>
             <div class="faq-a"><div><p data-i18n="faq.2.a">Utilizamos prácticas de construcción sostenible, materiales de eficiencia energética y estrategias innovadoras para la reducción de residuos.</p></div></div>
           </details>
           <details class="faq" data-reveal="up">
             <summary>
-              <div class="faq-row">
+              <span class="faq-row">
                 <span class="faq-num">04</span>
                 <span class="faq-q" data-i18n="faq.3.q">¿Cómo garantiza JJF Creando la calidad de su construcción?</span>
                 <span class="faq-icon" aria-hidden="true"></span>
-              </div>
+              </span>
             </summary>
             <div class="faq-a"><div><p data-i18n="faq.3.a">Utilizamos materiales de alta calidad, cumplimos con estándares estrictos y realizamos múltiples inspecciones a lo largo de todo el proceso de construcción.</p></div></div>
           </details>
           <details class="faq" data-reveal="up">
             <summary>
-              <div class="faq-row">
+              <span class="faq-row">
                 <span class="faq-num">05</span>
                 <span class="faq-q" data-i18n="faq.4.q">¿JJF Creando ofrece soluciones de construcción personalizadas?</span>
                 <span class="faq-icon" aria-hidden="true"></span>
-              </div>
+              </span>
             </summary>
             <div class="faq-a"><div><p data-i18n="faq.4.a">Sí, creamos soluciones a la medida para nuestros clientes, asegurando que el producto final cumpla con sus necesidades específicas.</p></div></div>
           </details>
           <details class="faq" data-reveal="up">
             <summary>
-              <div class="faq-row">
+              <span class="faq-row">
                 <span class="faq-num">06</span>
                 <span class="faq-q" data-i18n="faq.5.q">¿Qué tipo de soporte puedo esperar después de finalizar un proyecto?</span>
                 <span class="faq-icon" aria-hidden="true"></span>
-              </div>
+              </span>
             </summary>
             <div class="faq-a"><div><p data-i18n="faq.5.a">JJF Creando ofrece un soporte postconstrucción integral que incluye asesoría de mantenimiento, cumplimiento de garantías y atención al cliente.</p></div></div>
           </details>
@@ -472,11 +472,11 @@
           Convierte tu visión en realidad con los servicios expertos de construcción y diseño a medida de JJF Creando.
         </p>
         <div class="mt-12 flex flex-wrap justify-center gap-4" data-reveal="up">
-          <a href="#contact" data-cta class="btn btn-light" data-magnetic>
+          <a href="https://api.leadconnectorhq.com/widget/booking/DD1xkh0ObvHQFhcyxgJR" target="_blank" rel="noopener" data-cta class="btn btn-light" data-magnetic>
             <span data-i18n="cta.schedule">Agenda una llamada</span>
             <span class="btn-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 12h15M13 6l6 6-6 6"/></svg><svg viewBox="0 0 24 24"><path d="M4 12h15M13 6l6 6-6 6"/></svg></span>
           </a>
-          <a href="#contact" data-cta class="btn btn-outline-light" data-magnetic>
+          <a href="https://api.leadconnectorhq.com/widget/booking/DD1xkh0ObvHQFhcyxgJR" target="_blank" rel="noopener" data-cta class="btn btn-outline-light" data-magnetic>
             <span data-i18n="contact.download">Descarga Nuestro CV</span>
             <span class="btn-icon btn-icon--down" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 4v15M6 13l6 6 6-6"/></svg><svg viewBox="0 0 24 24"><path d="M12 4v15M6 13l6 6 6-6"/></svg></span>
           </a>
@@ -509,7 +509,7 @@
             <button type="button" class="lang-btn" data-lang="en" aria-pressed="false">EN</button>
           </div>
           <div class="mt-8">
-            <a href="#contact" data-cta class="btn btn-light btn-sm"><span data-i18n="cta.schedule">Agenda una llamada</span></a>
+            <a href="https://api.leadconnectorhq.com/widget/booking/DD1xkh0ObvHQFhcyxgJR" target="_blank" rel="noopener" data-cta class="btn btn-light btn-sm"><span data-i18n="cta.schedule">Agenda una llamada</span></a>
           </div>
         </div>
       </div>

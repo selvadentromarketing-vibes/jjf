@@ -5,6 +5,10 @@
 "use strict";
 
 // ================== i18n dictionary ==================
+// Booking calendar (GoHighLevel). CTA links point here so they still work without JS;
+// with JS they open it inside the modal instead. Also used by the iframe in index.html.
+const BOOKING_URL = "https://api.leadconnectorhq.com/widget/booking/DD1xkh0ObvHQFhcyxgJR";
+
 const I18N = {
   es: {
     "meta.title": "JJF Creando | Desarrolladora inmobiliaria boutique en Tulum",
@@ -133,7 +137,7 @@ const projects = [
       { label: { es: "Entorno", en: "Setting" }, value: { es: "Selva y cenotes", en: "Jungle & cenotes" } },
       { label: { es: "Tipo", en: "Type" }, value: { es: "Residencias de lujo", en: "Luxury residences" } },
     ],
-    href: "#contact",
+    href: BOOKING_URL,
   },
   {
     img: "assets/aldea-zama.webp", w: 1024, h: 768,
@@ -147,7 +151,7 @@ const projects = [
       { label: { es: "Superficie", en: "Area" }, value: { es: "100 ha", en: "100 ha" } },
       { label: { es: "Estatus", en: "Status" }, value: { es: "100% vendido", en: "100% sold" } },
     ],
-    href: "#contact",
+    href: BOOKING_URL,
   },
   {
     img: "assets/selvazama.webp", w: 765, h: 564,
@@ -161,7 +165,7 @@ const projects = [
       { label: { es: "Superficie", en: "Area" }, value: { es: "165 ha", en: "165 ha" } },
       { label: { es: "Valuación", en: "Valuation" }, value: { es: "+1,000 MDD", en: "US$1B+" } },
     ],
-    href: "#contact",
+    href: BOOKING_URL,
   },
   {
     img: "assets/yucatan.webp", w: 1280, h: 800,
@@ -175,7 +179,7 @@ const projects = [
       { label: { es: "Superficie", en: "Area" }, value: { es: "330 ha", en: "330 ha" } },
       { label: { es: "Golf", en: "Golf" }, value: { es: "Diseño Jack Nicklaus", en: "Jack Nicklaus design" } },
     ],
-    href: "#contact",
+    href: BOOKING_URL,
   },
   {
     img: "assets/amelia.webp", w: 1400, h: 923,
@@ -189,7 +193,7 @@ const projects = [
       { label: { es: "Concepto", en: "Concept" }, value: { es: "Estructura elevada", en: "Raised structure" } },
       { label: { es: "Huella", en: "Footprint" }, value: { es: "Mínima", en: "Minimal" } },
     ],
-    href: "#contact",
+    href: BOOKING_URL,
   },
   {
     img: "assets/mazza.webp", w: 1024, h: 576,
@@ -203,7 +207,7 @@ const projects = [
       { label: { es: "Amenidades", en: "Amenities" }, value: { es: "Golf y hotel boutique", en: "Golf & boutique hotel" } },
       { label: { es: "Arquitectos", en: "Architects" }, value: { es: "Muñoz Arquitectos<br />AS Arquitectura", en: "Muñoz Arquitectos<br />AS Arquitectura" } },
     ],
-    href: "#contact",
+    href: BOOKING_URL,
   },
 ];
 
@@ -276,7 +280,7 @@ const projectsMarkup = (t) =>
             </dl>
             <p class="project-text" data-reveal="up" data-i18n="project.${i}.text">${t(`project.${i}.text`)}</p>
             <div class="mt-9" data-reveal="up">
-              <a href="${p.href}" data-cta class="btn btn-light" data-magnetic>
+              <a href="${p.href}" target="_blank" rel="noopener" data-cta class="btn btn-light" data-magnetic>
                 <span data-i18n="readMore">${t("readMore")}</span>
                 <span class="btn-icon" aria-hidden="true">${ARROW}${ARROW}</span>
               </a>
@@ -291,11 +295,11 @@ const faqsMarkup = (t) =>
       (_, i) => `
           <details class="faq" data-reveal="up">
             <summary>
-              <div class="faq-row">
+              <span class="faq-row">
                 <span class="faq-num">${pad(i + 1)}</span>
                 <span class="faq-q" data-i18n="faq.${i}.q">${t(`faq.${i}.q`)}</span>
                 <span class="faq-icon" aria-hidden="true"></span>
-              </div>
+              </span>
             </summary>
             <div class="faq-a"><div><p data-i18n="faq.${i}.a">${t(`faq.${i}.a`)}</p></div></div>
           </details>`

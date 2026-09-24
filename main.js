@@ -150,9 +150,10 @@ const saveLang = (lang) => {
 };
 
 function switchLang(lang) {
+  clearTimeout(hintShowTimer);
+  saveLang(lang);
   hideLangHint();
   if (lang === currentLang) return;
-  saveLang(lang);
   // Shareable URL per language: "/" is Spanish, "?lang=en" is English
   const url = new URL(location.href);
   if (lang === "es") url.searchParams.delete("lang");
@@ -177,20 +178,32 @@ function initialLang() {
   return { lang: "es", explicit: false };
 }
 
-// First-time visitors whose browser prefers English get a one-tap hint instead of an auto-switch.
+// First-time visitors whose browser prefers English get a one-tap hint (once per browser)
+// instead of an auto-switch.
 let hintTimer = 0;
+let hintShowTimer = 0;
 function showLangHint() {
   if (!langHint) return;
+  try { localStorage.setItem("jjf-hint", "1"); } catch (e) {}
   langHint.hidden = false;
-  requestAnimationFrame(() => langHint.classList.add("is-visible"));
+  void langHint.offsetWidth; // commit the hidden state so the entrance transition runs
+  langHint.classList.add("is-visible");
   hintTimer = setTimeout(hideLangHint, 9000);
 }
 function hideLangHint() {
   if (!langHint || langHint.hidden) return;
   clearTimeout(hintTimer);
+  // Don't strand keyboard focus on a control that is about to disappear
+  if (langHint.contains(document.activeElement)) {
+    const btn = $(`.site-header .lang-btn[data-lang="${currentLang}"]`);
+    if (btn) btn.focus({ preventScroll: true });
+  }
   langHint.classList.remove("is-visible");
   setTimeout(() => (langHint.hidden = true), 400);
 }
+const hintSeen = () => {
+  try { return localStorage.getItem("jjf-hint") === "1"; } catch (e) { return true; }
+};
 
 // ================== Scroll reveals ==================
 const PENDING = "[data-reveal]:not(.is-in), [data-split]:not(.is-in)";
@@ -202,6 +215,18 @@ function initReveals() {
     return;
   }
 
+  // An element hidden by clip-path: inset(100% …) has no visible area to intersect, so it would
+  // only reveal once its bottom edge scrolled in. Observe its (unclipped) parent instead.
+  const CLIPPED = ["arch", "clip", "stage"];
+  const proxyOf = new Map(); // element -> observed parent
+  const targetOf = new Map(); // observed parent -> element
+  targets.forEach((el) => {
+    if (CLIPPED.includes(el.dataset.reveal) && el.parentElement) {
+      proxyOf.set(el, el.parentElement);
+      targetOf.set(el.parentElement, el);
+    }
+  });
+
   const reveal = (el, delay) => {
     el.style.setProperty("--d", `${delay}ms`);
     el.classList.add("is-in");
@@ -210,7 +235,7 @@ function initReveals() {
       c.textContent = "0";
       setTimeout(() => countUp(c), delay + 120);
     });
-    io.unobserve(el);
+    io.unobserve(proxyOf.get(el) || el);
   };
 
   // Elements entering together cascade in DOM order; a lone element reveals at once.
@@ -218,13 +243,14 @@ function initReveals() {
     (entries) => {
       entries
         .filter((e) => e.isIntersecting)
-        .map((e) => e.target)
+        .map((e) => targetOf.get(e.target) || e.target)
+        .filter((el) => !el.classList.contains("is-in"))
         .sort((a, b) => (a.compareDocumentPosition(b) & Node.DOCUMENT_POSITION_FOLLOWING ? -1 : 1))
         .forEach((el, i) => reveal(el, Math.min(i, 6) * 90));
     },
     { rootMargin: "0px 0px -8% 0px" }
   );
-  targets.forEach((el) => io.observe(el));
+  targets.forEach((el) => io.observe(proxyOf.get(el) || el));
 
   // Keyboard focus reveals its (still hidden) container immediately
   document.addEventListener("focusin", (e) => {
@@ -250,7 +276,11 @@ function countUp(el) {
 const inView = new Set();
 const viewIO = new IntersectionObserver(
   (entries) => {
-    entries.forEach((e) => (e.isIntersecting ? inView.add(e.target) : inView.delete(e.target)));
+    entries.forEach((e) => {
+      if (e.isIntersecting) inView.add(e.target);
+      else inView.delete(e.target);
+      if (e.target === scrubEl) scrubEl.classList.toggle("is-scrubbing", e.isIntersecting);
+    });
     requestFrame();
   },
   { rootMargin: "20% 0px" }
@@ -262,6 +292,11 @@ let heroH = hero.offsetHeight;
 let marqueeW = 0;
 let lastY = window.scrollY;
 let anchorY = lastY;
+// Scroll moves before the visitor interacts (font swap, scroll anchoring, restoration) never hide the header
+let userScrolled = false;
+["wheel", "touchstart", "keydown", "pointerdown"].forEach((type) =>
+  window.addEventListener(type, () => (userScrolled = true), { once: true, passive: true })
+);
 let lastDir = 0;
 let ticking = false;
 let headerPinned = false;
@@ -318,7 +353,9 @@ function frame() {
   if (motion && y <= heroH) {
     heroMedia.style.transform = `translate3d(0, ${(y * 0.35).toFixed(1)}px, 0)`;
     heroContent.style.transform = `translate3d(0, ${(y * 0.18).toFixed(1)}px, 0)`;
-    heroContent.style.opacity = clamp(1 - y / (heroH * 0.7), 0, 1).toFixed(3);
+    heroContent.style.opacity = heroContent.contains(document.activeElement)
+      ? "1"
+      : clamp(1 - y / (heroH * 0.7), 0, 1).toFixed(3);
   }
   parallax.forEach(([child, offset]) => {
     child.style.transform = `translate3d(0, ${offset.toFixed(1)}px, 0)`;
@@ -358,9 +395,9 @@ function updateHeader(y) {
     anchorY = lastY;
     lastDir = dir;
   }
-  // A jump (scroll restoration, find-in-page, scrollbar drag) is not "scrolling down"
-  if (Math.abs(y - lastY) > vh) anchorY = y;
-  if (menuOpen || headerPinned || y < heroH * 0.6 || headerHasFocus()) {
+  // A jump down (scroll restoration, find-in-page, scrollbar drag) is not "scrolling down"
+  if (y - lastY > vh) anchorY = y;
+  if (!userScrolled || menuOpen || headerPinned || y < heroH * 0.6 || headerHasFocus()) {
     header.classList.remove("is-hidden");
     anchorY = y;
   } else if (dir > 0 && y - anchorY > 80) header.classList.add("is-hidden");
@@ -382,7 +419,7 @@ function initAnchors() {
     if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
     const link = e.target.closest('a[href^="#"]');
     if (!link || link.hasAttribute("data-cta")) return;
-    const id = decodeURIComponent(link.getAttribute("href").slice(1));
+    const id = hashId(link.getAttribute("href"));
     const target = id && document.getElementById(id);
     if (!target) return;
     e.preventDefault();
@@ -395,17 +432,24 @@ function initAnchors() {
   });
 }
 
-// Web fonts land after the browser has already jumped to a #section (or restored the scroll
-// position), shifting the target. Re-align once, unless the visitor has started scrolling.
-let userScrolled = false;
-["wheel", "touchstart", "keydown", "pointerdown"].forEach((type) =>
-  window.addEventListener(type, () => (userScrolled = true), { once: true, passive: true })
-);
+const hashId = (hash) => {
+  try {
+    return decodeURIComponent(hash.slice(1));
+  } catch (e) {
+    return "";
+  }
+};
+
+// Web fonts land after the browser has already jumped to a #section, shifting the target.
+// Re-align once on a fresh arrival — never on reload/back-forward (the browser restores the
+// reader's own position there) and never once the visitor has started scrolling.
 function settleArrival() {
   if (userScrolled) return;
-  const id = decodeURIComponent(location.hash.slice(1));
+  const nav = performance.getEntriesByType && performance.getEntriesByType("navigation")[0];
+  const restored = nav && (nav.type === "reload" || nav.type === "back_forward");
+  const id = hashId(location.hash);
   const target = id && document.getElementById(id);
-  if (target) target.scrollIntoView({ behavior: "instant", block: "start" });
+  if (target && !restored) target.scrollIntoView({ behavior: "instant", block: "start" });
   lastY = anchorY = window.scrollY;
   lastDir = 0;
   header.classList.remove("is-hidden");
@@ -460,14 +504,17 @@ function initProjects() {
 
   // Enter/leave events are only a trigger; the active row is re-resolved from geometry each time,
   // so a jump that lands between two rows can't leave a stale selection behind.
-  const io = new IntersectionObserver(
-    () => {
-      const i = bandIndex(articles);
-      if (i >= 0) setActive(i);
-    },
-    { rootMargin: "-45% 0px -54% 0px" }
-  );
-  articles.forEach((a) => io.observe(a));
+  const resolve = () => {
+    let i = bandIndex(articles);
+    if (i < 0) i = window.innerHeight * 0.455 < articles[0].getBoundingClientRect().top ? 0 : articles.length - 1;
+    setActive(i);
+  };
+  const band = new IntersectionObserver(resolve, { rootMargin: "-45% 0px -54% 0px" });
+  const visible = new IntersectionObserver(resolve); // also catches jumps that skip the band entirely
+  articles.forEach((a) => {
+    band.observe(a);
+    visible.observe(a);
+  });
 }
 
 // ================== Header nav: highlight the section in view ==================
@@ -515,6 +562,7 @@ function setMenu(open) {
   $("footer").inert = open;
   lockScroll(open || modal.open);
   if (open) {
+    clearTimeout(hintShowTimer);
     hideLangHint();
     header.classList.remove("is-hidden");
     setTimeout(() => menuOpen && $("a", menu).focus({ preventScroll: true }), 400);
@@ -582,6 +630,7 @@ function closeModal() {
 function initModal() {
   document.addEventListener("click", (e) => {
     if (!e.target.closest("[data-cta]")) return;
+    if (e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
     e.preventDefault();
     openModal();
   });
@@ -688,9 +737,21 @@ initFaq();
 initMagnetic();
 
 $$(".lang-btn").forEach((btn) => btn.addEventListener("click", () => switchLang(btn.dataset.lang)));
-if (langHint) langHint.addEventListener("click", () => switchLang("en"));
-if (!start.explicit && start.lang === "es" && /^en\b/i.test(navigator.language || "")) {
-  setTimeout(() => window.scrollY < heroH * 0.5 && !menuOpen && showLangHint(), 1800);
+if (langHint) {
+  langHint.addEventListener("click", () => switchLang("en"));
+  // Pause the auto-hide while the visitor is on the hint
+  const pause = () => clearTimeout(hintTimer);
+  const resume = () => {
+    clearTimeout(hintTimer);
+    hintTimer = setTimeout(hideLangHint, 4000);
+  };
+  ["focusin", "pointerenter"].forEach((t) => langHint.addEventListener(t, pause));
+  ["focusout", "pointerleave"].forEach((t) => langHint.addEventListener(t, resume));
+}
+if (!start.explicit && start.lang === "es" && !hintSeen() && /^en\b/i.test(navigator.language || "")) {
+  hintShowTimer = setTimeout(() => {
+    if (window.scrollY < heroH * 0.5 && !menuOpen && currentLang === "es") showLangHint();
+  }, 1800);
 }
 $$("[data-year]").forEach((el) => (el.textContent = new Date().getFullYear()));
 

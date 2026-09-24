@@ -31,7 +31,7 @@ npm run dev        # recompila solo el CSS al guardar (watch)
 ```
 
 > **Importante:** cada vez que cambie el CSS, sube la versión en `index.html`
-> (`assets/styles.css?v=3` → `?v=4`) para que los visitantes reciban la nueva versión.
+> (`assets/styles.css?v=4` → `?v=5`) para que los visitantes reciban la nueva versión.
 
 ## Idiomas
 
@@ -90,6 +90,8 @@ Además: `robots.txt` y `sitemap.xml` en la raíz, y marcar el dominio como prin
 
 - Todos los botones con `data-cta` (Agenda una llamada, Contáctanos, Saber más, Comienza a
   Construir tu Sueño, Descarga Nuestro CV) abren el modal con el calendario de GoHighLevel
-  (`widget/booking/DD1xkh0ObvHQFhcyxgJR`). Cámbialo en `index.html` si usas otro.
+  (`widget/booking/DD1xkh0ObvHQFhcyxgJR`). Sin JS (o con Ctrl/Cmd+clic) abren esa misma página
+  en otra pestaña. Si cambias de calendario, reemplaza la URL en `index.html` (búscala) y en
+  `BOOKING_URL` de `content.js`, y ejecuta `npm run build`.
 - Las fichas de cada proyecto (`facts` en `content.js`) solo repiten datos que ya aparecen en su
   descripción.

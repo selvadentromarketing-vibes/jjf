@@ -526,8 +526,8 @@
     background: linear-gradient(
       180deg,
       rgb(10 14 11 / 0.55) 0%,
-      rgb(10 14 11 / 0.1) 30%,
-      rgb(10 14 11 / 0.22) 55%,
+      rgb(10 14 11 / 0.12) 30%,
+      rgb(10 14 11 / 0.42) 55%,
       rgb(10 14 11 / 0.86) 100%
     );
   }
@@ -542,12 +542,12 @@
   }
   @media (min-width: 768px) { .hero-content { padding-bottom: 5.5rem; } }
   .hero .display { --d: 300ms; }
+  .hero .eyebrow-light { text-shadow: 0 0 14px rgb(10 14 11 / 0.75), 0 1px 3px rgb(10 14 11 / 0.6); }
   /* Landscape phones: fit the headline and CTAs above the fold */
   @media (max-height: 520px) and (orientation: landscape) {
     .hero { min-height: 0; }
     .hero .display { font-size: clamp(2.25rem, 11svh, 3.25rem); }
     .hero-content { padding-bottom: 1.75rem; }
-    .hero-content > .mt-10 { margin-top: 1.25rem; }
   }
 
   .scroll-cue {
@@ -804,7 +804,7 @@
     font-size: 3.25rem;
     line-height: 1;
   }
-  .stage-count-current > span { display: inline-block; animation: roll-in 0.9s var(--ease-out-expo) both; }
+  .stage-count-current > span { display: inline-block; animation: roll-in 0.9s var(--ease-out-expo) 0.35s both; }
   .stage-count-total { font-size: 0.75rem; letter-spacing: 0.2em; color: rgb(255 255 255 / 0.8); }
   .stage-bars { display: flex; gap: 0.4rem; padding-bottom: 0.6rem; }
   .stage-bars span { position: relative; overflow: hidden; width: 1.75rem; height: 2px; background: rgb(255 255 255 / 0.25); }
@@ -861,25 +861,27 @@
   }
   .faq-icon::after { transform: rotate(90deg); }
 
-  .faq.is-open .faq-icon { background: var(--color-ink); color: var(--color-paper); box-shadow: none; }
-  .faq.is-open .faq-icon::after { transform: none; }
+  .faq.is-open .faq-icon,
+  html:not(.js) .faq[open] .faq-icon { background: var(--color-ink); color: var(--color-paper); box-shadow: none; }
+  .faq.is-open .faq-icon::after,
+  html:not(.js) .faq[open] .faq-icon::after { transform: none; }
   .faq-a {
     display: grid;
-    grid-template-rows: 0fr;
+    grid-template-rows: 1fr;
     transition: grid-template-rows 0.6s var(--ease-out-expo);
   }
-  .faq.is-open .faq-a { grid-template-rows: 1fr; }
+  .js .faq-a { grid-template-rows: 0fr; }
+  .js .faq.is-open .faq-a { grid-template-rows: 1fr; }
   .faq-a > div { overflow: hidden; }
   .faq-a p {
     max-width: 44rem;
     padding: 0 3.25rem 2rem 3.5rem;
     line-height: 1.8;
     color: rgb(14 17 13 / 0.7);
-    opacity: 0;
-    transform: translate3d(0, -0.5rem, 0);
     transition: opacity 0.4s ease, transform 0.6s var(--ease-out-expo);
   }
-  .faq.is-open .faq-a p { opacity: 1; transform: none; transition-delay: 0.12s; }
+  .js .faq-a p { opacity: 0; transform: translate3d(0, -0.5rem, 0); }
+  .js .faq.is-open .faq-a p { opacity: 1; transform: none; transition-delay: 0.12s; }
 
   /* ---- Closing CTA ---- */
   .cta-section {
@@ -981,7 +983,7 @@
   }
   .modal-frame-wrap.is-ready::before { display: none; }
   .modal-frame { position: absolute; inset: 0; display: block; width: 100%; height: 100%; border: 0; }
-  @media (max-height: 500px) {
+  @media (max-height: 700px) {
     .modal-head { padding-block: 1.25rem 1rem; }
     .modal-text { display: none; }
   }
@@ -1017,6 +1019,7 @@
     transition: transform 0.3s ease;
   }
   .skip-link:focus { transform: none; }
+  .skip-link:focus-visible { outline-color: var(--color-sage); outline-offset: 0; }
   .scroll-progress { position: fixed; inset: 0 0 auto; z-index: 60; height: 2px; pointer-events: none; }
   .scroll-progress span {
     display: block;
@@ -1063,6 +1066,7 @@
 
   /* Statement: words light up as it scrolls through the viewport */
   .js [data-scrub] .sw { opacity: 0.25; transition: opacity 0.4s linear; }
+  .js [data-scrub].is-scrubbing .sw { will-change: opacity; }
   .js [data-scrub] .sw.is-lit { opacity: 1; }
 
   /* Generic reveals */
@@ -1154,10 +1158,22 @@
   }
 }
 
-/* Without JS: no sticky stage, so show each project's own photo and let the list use the width */
-html:not(.js) .project-stage { display: none; }
-html:not(.js) .project-media { display: block; }
+@media (max-height: 520px) and (orientation: landscape) {
+  .hero-content > .mt-10 { margin-top: 1.25rem; }
+}
+
+/* Keyboard focus inside the hero cancels its scroll fade-out */
+.hero-content:focus-within { opacity: 1 !important; }
+
+/* Without JS: no sticky stage, so show each project's own photo and let the list use the width;
+   drop controls that need JS, and let the (transparent) header scroll away with the hero */
+html:not(.js) .project-stage,
+html:not(.js) .marquee,
+html:not(.js) .menu-toggle,
+html:not(.js) .lang-toggle { display: none; }
+html:not(.js) .project-media { display: block; max-width: 48rem; }
 html:not(.js) .projects-grid { display: block; }
+html:not(.js) .site-header { position: absolute; }
 
 ::view-transition-old(root),
 ::view-transition-new(root) { animation-duration: 0.45s; }
