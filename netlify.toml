@@ -1,7 +1,15 @@
 [build]
   publish = "."
 
-# Sitio estático: no requiere build. Netlify sirve index.html directamente.
+# Sitio estático: no requiere build. Netlify sirve index.html directamente
+# (y partner-projects.html en /partner-projects.html).
+
+# Alias en español para la página de proyectos aliados
+[[redirects]]
+  from = "/proyectos-aliados"
+  to = "/partner-projects.html"
+  status = 301
+
 [[headers]]
   for = "/assets/*"
   [headers.values]
