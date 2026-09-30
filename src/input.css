@@ -208,9 +208,17 @@
 .site-header .nav-link[aria-current="page"]::after { transform: scaleX(1); transform-origin: left; }
 .site-header .btn-ghost:hover > span { color: var(--color-ink); }
 .site-header.is-solid .btn-ghost:hover > span { color: var(--color-bone); }
-.logo-mark { display: block; height: 2.9rem; width: auto; }
-@media (min-width: 768px) { .logo-mark { height: 3.4rem; } }
-.logo-mark svg { height: 100%; width: auto; display: block; }
+/* The original JJF Creando mark, used as a mask so it takes the header's colour */
+.logo-mark { display: block; height: 3.1rem; }
+@media (min-width: 768px) { .logo-mark { height: 3.6rem; } }
+.logo-img {
+  display: block;
+  height: 100%;
+  aspect-ratio: 480 / 285;
+  background-color: currentColor;
+  -webkit-mask: url("logo-mark.png") center / contain no-repeat;
+  mask: url("logo-mark.png") center / contain no-repeat;
+}
 
 /* Language toggle */
 .lang-toggle { display: inline-flex; align-items: center; gap: 0.1rem; font-size: 0.72rem; font-weight: 500; letter-spacing: 0.18em; }
