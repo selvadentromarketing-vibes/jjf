@@ -16,6 +16,9 @@ assets/styles.css       → CSS compilado (lo que carga el navegador)
 assets/hero/            → película del hero (mp4 H.264 + webm VP9, escritorio y teléfono) y pósters
 assets/img/             → fotografías en WebP, en varios anchos (nombre-ANCHO.webp)
 assets/fonts/           → Cormorant Garamond y Jost, auto-alojadas (licencia OFL)
+assets/og/              → tarjetas para compartir (1200×630) de portada y proyectos aliados
+assets/logo-mark.png    → logo original recortado; se usa como máscara CSS (toma el color del texto)
+robots.txt, sitemap.xml, llms.txt → buscadores y asistentes (dominio jjfcreando.com)
 netlify.toml            → config de despliegue (sitio estático, sin build)
 ```
 
@@ -54,6 +57,10 @@ Si cambias `assets/styles.css` o `main.js`, sube el número `?v=` en las etiquet
   scrubbing sea fluido; si reemplazas la película, conserva `-g 6 -bf 0` y corta antes de
   cualquier disolvencia. Con "reducir movimiento", ahorro de datos o pantallas de menos de
   520 px de alto, el hero es una sola pantalla con el póster y no descarga la película.
+
+- **Idioma por URL:** `?lang=en` o `?lang=es` fija el idioma (útil para anuncios en inglés).
+- **WhatsApp:** número del equipo en la constante `WHATSAPP` de `main.js`; los enlaces con
+  `data-wa` abren el chat con un mensaje listo en el idioma de la página (`wa.text`).
 
 ## Notas
 
