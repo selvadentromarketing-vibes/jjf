@@ -136,6 +136,8 @@ const I18N = {
     "pp.stat2": "Estados",
     "pp.stat3": "Años",
     "pp.index": "Índice",
+    "pp.index.title": "Ocho lugares, <em>una trayectoria</em>",
+    "pp.index.hint": "Pasa el cursor para ver cada proyecto",
     "pp.alt.wide": "Hacienda Sacalá en Izamal, Yucatán",
     "pp.wide.caption": "Hacienda Sacalá — Izamal, Yucatán · Mazza Capital",
     "pp.g1.eyebrow": "Tulum · Mérida",
@@ -287,6 +289,8 @@ const I18N = {
     "pp.stat2": "States",
     "pp.stat3": "Years",
     "pp.index": "Index",
+    "pp.index.title": "Eight places, <em>one track record</em>",
+    "pp.index.hint": "Hover to preview each project",
     "pp.alt.wide": "Hacienda Sacalá in Izamal, Yucatán",
     "pp.wide.caption": "Hacienda Sacalá — Izamal, Yucatán · Mazza Capital",
     "pp.g1.eyebrow": "Tulum · Mérida",
@@ -489,6 +493,23 @@ function srcset(p) {
 function largest(p) {
   return `assets/img/${p.img}-${p.widths[p.widths.length - 1]}.webp`;
 }
+// Project photograph: turquoise wash on hover; when the project has a website the photo links to it
+function projectFrame(p, lang, cls, sizes) {
+  const img = `<img src="${largest(p)}" srcset="${srcset(p)}" sizes="${sizes}" alt="${p.name} — ${pick(p.place, lang)}" loading="lazy" decoding="async" />
+          <span class="card-wash" aria-hidden="true"></span>`;
+  if (!p.url) return `<div class="frame reveal-img ${cls}">${img}</div>`;
+  return `<a href="${p.url}" target="_blank" rel="noopener" class="frame reveal-img block ${cls}" aria-label="${p.name} — ${I18N[lang]["pp.visit"]}">${img}
+          <span class="card-cta" aria-hidden="true">${I18N[lang]["pp.visit"]}<span class="arrow-ne">↗</span></span></a>`;
+}
+// "330 ha" → counts 0→330 keeping its prefix/suffix; small numbers and words stay as they are
+function countAttrs(v) {
+  const m = /^(\D*?)(\d[\d,]*)(\D*)$/.exec(v);
+  if (!m) return "";
+  const n = Number(m[2].replace(/,/g, ""));
+  if (n < 10) return "";
+  return ` data-count="${n}" data-prefix="${m[1]}" data-suffix="${m[3]}"${m[2].includes(",") ? " data-sep" : ""}`;
+}
+
 function visitLink(p, lang) {
   if (!p.url) return "";
   return `<a href="${p.url}" target="_blank" rel="noopener" class="link-line mt-8">${I18N[lang]["pp.visit"]}<span class="arrow-ne" aria-hidden="true">↗</span></a>`;
@@ -542,9 +563,7 @@ function renderLandmark(lang) {
     return `
       <article id="${p.id}" class="grid lg:grid-cols-12 gap-x-12 gap-y-10 py-14 md:py-20 border-t hairline scroll-mt-28 zoom">
         <div class="lg:col-span-7 lg:row-start-1 ${rev ? "lg:col-start-6" : ""}">
-          <div class="frame reveal-img aspect-[4/3]">
-            <img src="${largest(p)}" srcset="${srcset(p)}" sizes="(min-width: 1024px) 55vw, 100vw" alt="${p.name} — ${pick(p.place, lang)}" loading="lazy" decoding="async" />
-          </div>
+          ${projectFrame(p, lang, "aspect-[4/3]", "(min-width: 1024px) 55vw, 100vw")}
         </div>
         <div class="lg:col-span-5 lg:row-start-1 ${rev ? "lg:col-start-1" : ""} flex flex-col justify-center">
           <p class="big-num reveal" aria-hidden="true">${pad(n)}</p>
@@ -556,7 +575,7 @@ function renderLandmark(lang) {
             ${p.stats.map((s, j) => `
               <div class="pt-5 min-w-0 flex flex-col-reverse justify-end ${j > 0 ? "pl-3 sm:pl-4 border-l hairline" : "pr-3 sm:pr-4"}">
                 <dt class="caption mt-2">${pick(s.l, lang)}</dt>
-                <dd class="stat-num text-[1.5rem] sm:text-[1.9rem] md:text-[2.3rem]">${pick(s.v, lang)}</dd>
+                <dd class="stat-num text-[1.5rem] sm:text-[1.9rem] md:text-[2.3rem]"${countAttrs(pick(s.v, lang))}>${pick(s.v, lang)}</dd>
               </div>`).join("")}
           </dl>
           ${p.url ? `<div class="reveal" style="--d:4">${visitLink(p, lang)}</div>` : ""}
@@ -572,14 +591,15 @@ function renderMazza(lang, group, targetId, aspect, sizes) {
     const n = PARTNERS.indexOf(p) + 1;
     return `
       <article id="${p.id}" class="scroll-mt-28 zoom flex flex-col">
-        <div class="frame reveal-img ${aspect}">
-          <img src="${largest(p)}" srcset="${srcset(p)}" sizes="${sizes}" alt="${p.name} — ${pick(p.place, lang)}" loading="lazy" decoding="async" />
+        ${projectFrame(p, lang, aspect, sizes)}
+        <div class="mt-7 flex items-end gap-4 reveal">
+          <span class="big-num big-num-sm" aria-hidden="true">${pad(n)}</span>
+          <span class="caption pb-1">${pick(p.place, lang)}</span>
         </div>
-        <p class="caption mt-7 reveal">${pad(n)} — ${pick(p.place, lang)}</p>
-        <h4 class="display mt-4 text-[2.3rem] md:text-[2.7rem] reveal" style="--d:1">${p.name}</h4>
+        <h4 class="display mt-4 text-[2.3rem] md:text-[2.8rem] reveal" style="--d:1">${p.name}</h4>
         <div class="mt-4 reveal" style="--d:1"><span class="chip">${pick(p.type, lang)}</span></div>
         <p class="prose-body mt-6 reveal" style="--d:2">${p.text[lang]}</p>
-        ${p.architects ? `<p class="mt-6 text-[0.85rem] leading-relaxed text-stone reveal" style="--d:3"><span class="eyebrow !text-[0.64rem] text-ink/70">${I18N[lang]["pp.architecture"]}</span><br />${p.architects}</p>` : ""}
+        ${p.architects ? `<p class="credit mt-6 reveal" style="--d:3"><span class="eyebrow !text-[0.64rem] text-accent">${I18N[lang]["pp.architecture"]}</span><br />${p.architects}</p>` : ""}
         ${p.url ? `<div class="mt-auto reveal" style="--d:3">${visitLink(p, lang)}</div>` : ""}
       </article>`;
   }).join("");
@@ -898,7 +918,8 @@ function initParallax() {
 function initCounters() {
   const els = $$("[data-count]");
   if (!els.length) return;
-  const finish = (el) => { el.textContent = `${el.dataset.prefix || ""}${el.dataset.count}${el.dataset.suffix || ""}`; };
+  const fmt = (el, v) => `${el.dataset.prefix || ""}${"sep" in el.dataset ? v.toLocaleString("en-US") : v}${el.dataset.suffix || ""}`;
+  const finish = (el) => { el.textContent = fmt(el, Number(el.dataset.count)); };
   if (reducedMotion || !("IntersectionObserver" in window)) { els.forEach(finish); return; }
   const run = (el) => {
     const to = parseFloat(el.dataset.count);
@@ -907,7 +928,7 @@ function initCounters() {
     const step = (now) => {
       const k = Math.min(1, (now - t0) / dur);
       const v = Math.round(to * (1 - Math.pow(1 - k, 4)));
-      el.textContent = `${el.dataset.prefix || ""}${v}${el.dataset.suffix || ""}`;
+      el.textContent = fmt(el, v);
       if (k < 1) requestAnimationFrame(step);
     };
     requestAnimationFrame(step);
@@ -915,7 +936,7 @@ function initCounters() {
   const io = new IntersectionObserver((entries) => {
     entries.forEach((e) => { if (e.isIntersecting) { run(e.target); io.unobserve(e.target); } });
   }, { threshold: 0.6 });
-  els.forEach((el) => { el.textContent = `${el.dataset.prefix || ""}0${el.dataset.suffix || ""}`; io.observe(el); });
+  els.forEach((el) => { el.textContent = fmt(el, 0); io.observe(el); });
 }
 
 // ================== Marquee ==================

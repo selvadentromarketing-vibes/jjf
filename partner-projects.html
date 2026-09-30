@@ -12,7 +12,7 @@
   <meta property="og:url" content="https://jjfcreando.com/partner-projects.html" />
   <meta property="og:title" content="Proyectos aliados — JJF Creando" />
   <meta property="og:description" content="Aldea Zamá, Selvazama, Yucatán Country Club y el portafolio de Mazza Capital: la trayectoria detrás de Selvadentro." />
-  <meta property="og:image" content="https://jjfcreando.com/assets/og/partners.jpg" />
+  <meta property="og:image" content="https://jjfcreando.com/assets/og/partners-v2.jpg" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
   <meta property="og:locale" content="es_MX" />
@@ -26,7 +26,7 @@
   <link rel="preload" as="font" type="font/woff2" href="assets/fonts/jost-latin.woff2" crossorigin />
 
   <!-- Tailwind v4 (precompilado — rebuild with: npm run build) -->
-  <link rel="stylesheet" href="assets/styles.css?v=20260930f" />
+  <link rel="stylesheet" href="assets/styles.css?v=20260930h" />
   <script>(function(d){d.classList.add('js');try{if(matchMedia('(min-height: 520px)').matches&&!matchMedia('(prefers-reduced-motion: reduce)').matches&&!(navigator.connection&&navigator.connection.saveData))d.classList.add('film-scrub')}catch(e){}})(document.documentElement);</script>
 </head>
 <body data-page="partners">
@@ -68,8 +68,9 @@
 
   <main>
 
+    <div class="sunlit">
     <!-- ============ PAGE HERO ============ -->
-    <section class="page-hero sunlit pb-16 md:pb-24">
+    <section class="page-hero pb-16 md:pb-24">
       <div class="wrap">
         <nav class="caption flex items-center gap-3 reveal" aria-label="Breadcrumb">
           <a href="index.html" class="hover:text-ink transition" data-i18n="nav.home">Inicio</a>
@@ -100,10 +101,17 @@
     <!-- ============ INDEX ============ -->
     <section aria-labelledby="index-title" class="pb-24 md:pb-32">
       <div class="wrap">
-        <h2 id="index-title" class="eyebrow eyebrow-rule text-accent reveal" data-i18n="pp.index">Índice</h2>
-        <ol id="project-index" class="mt-8 grid md:grid-cols-2 gap-x-12 border-t hairline"></ol>
+        <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6">
+          <div>
+            <h2 id="index-title" class="eyebrow eyebrow-rule text-accent reveal"><span class="eyebrow-num">01</span><span data-i18n="pp.index">Índice</span></h2>
+            <p class="display mt-8 text-[2.4rem] sm:text-[3.2rem] lg:text-[3.8rem] reveal u-brush" style="--d:1" data-i18n="pp.index.title">Ocho lugares, <em>una trayectoria</em></p>
+          </div>
+          <p class="caption hover-only lg:pb-3 reveal" style="--d:2" data-i18n="pp.index.hint">Pasa el cursor para ver cada proyecto</p>
+        </div>
+        <ol id="project-index" class="mt-12 grid md:grid-cols-2 gap-x-12 border-t hairline"></ol>
       </div>
     </section>
+    </div>
 
     <!-- ============ WIDE IMAGE ============ -->
     <div class="md:px-10 lg:px-16">
@@ -116,11 +124,11 @@
     </div>
 
     <!-- ============ LANDMARK COMMUNITIES ============ -->
-    <section id="comunidades" class="pt-28 md:pt-40 pb-12 md:pb-20" aria-labelledby="landmark-title">
+    <section id="comunidades" class="sunlit sunlit-left pt-28 md:pt-40 pb-12 md:pb-20" aria-labelledby="landmark-title">
       <div class="wrap">
         <div class="grid lg:grid-cols-12 gap-x-12 gap-y-8 pb-16 md:pb-20">
           <div class="lg:col-span-6">
-            <p class="eyebrow eyebrow-rule text-accent reveal"><span class="eyebrow-num">01</span><span data-i18n="pp.g1.eyebrow">Tulum · Mérida</span></p>
+            <p class="eyebrow eyebrow-rule text-accent reveal"><span class="eyebrow-num">02</span><span data-i18n="pp.g1.eyebrow">Tulum · Mérida</span></p>
             <h2 id="landmark-title" class="display mt-8 text-[2.5rem] sm:text-[3.4rem] lg:text-[4.2rem] reveal u-brush" style="--d:1" data-i18n="pp.g1.title">Comunidades <em>de referencia</em></h2>
           </div>
           <p class="prose-body lg:col-span-4 lg:col-start-9 lg:self-end reveal" style="--d:2" data-i18n="pp.g1.body">Décadas de experiencia en algunas de las comunidades planeadas más reconocidas de la región, de la selva de Tulum al norte de Mérida.</p>
@@ -129,13 +137,21 @@
       </div>
     </section>
 
+    <!-- ============ MARQUEE: the places ============ -->
+    <section class="marquee" aria-hidden="true">
+      <div class="marquee-track" data-marquee>
+        <div class="marquee-group"><span class="mq-word ">Tulum</span><span class="mq-star">✦</span><span class="mq-word is-italic">Mérida</span><span class="mq-star">✦</span><span class="mq-word is-outline">Izamal</span><span class="mq-star">✦</span><span class="mq-word ">Progreso</span><span class="mq-star">✦</span><span class="mq-word is-italic">Sierra Papacal</span><span class="mq-star">✦</span><span class="mq-word is-outline">San Bruno</span><span class="mq-star">✦</span><span class="mq-word ">Quintana Roo</span><span class="mq-star">✦</span><span class="mq-word is-italic">Yucatán</span><span class="mq-star">✦</span></div>
+        <div class="marquee-group"><span class="mq-word ">Tulum</span><span class="mq-star">✦</span><span class="mq-word is-italic">Mérida</span><span class="mq-star">✦</span><span class="mq-word is-outline">Izamal</span><span class="mq-star">✦</span><span class="mq-word ">Progreso</span><span class="mq-star">✦</span><span class="mq-word is-italic">Sierra Papacal</span><span class="mq-star">✦</span><span class="mq-word is-outline">San Bruno</span><span class="mq-star">✦</span><span class="mq-word ">Quintana Roo</span><span class="mq-star">✦</span><span class="mq-word is-italic">Yucatán</span><span class="mq-star">✦</span></div>
+      </div>
+    </section>
+
     <!-- ============ MAZZA CAPITAL ============ -->
-    <section id="mazza-capital" class="bg-sand py-28 md:py-40" aria-labelledby="mazza-title">
+    <section id="mazza-capital" class="on-dark bg-cacao text-bone py-28 md:py-40" aria-labelledby="mazza-title">
       <div class="wrap">
         <div class="grid lg:grid-cols-12 gap-x-12 gap-y-10">
           <div class="lg:col-span-6">
-            <p class="eyebrow eyebrow-rule text-accent reveal"><span class="eyebrow-num">02</span><span data-i18n="pp.g2.eyebrow">Socio · Mérida, Yucatán</span></p>
-            <h2 id="mazza-title" class="display mt-8 text-[3rem] sm:text-[4.4rem] lg:text-[5.6rem] reveal" style="--d:1">Mazza <em>Capital</em></h2>
+            <p class="eyebrow eyebrow-rule text-accent reveal"><span class="eyebrow-num">03</span><span data-i18n="pp.g2.eyebrow">Socio · Mérida, Yucatán</span></p>
+            <h2 id="mazza-title" class="display mt-8 text-[3rem] sm:text-[4.4rem] lg:text-[5.6rem] reveal u-brush" style="--d:1">Mazza <em>Capital</em></h2>
           </div>
           <div class="lg:col-span-5 lg:col-start-8 lg:self-end">
             <p class="prose-body reveal" style="--d:2" data-i18n="pp.g2.body">Desarrolladora inmobiliaria boutique con sede en Mérida, enfocada en identificar y estructurar oportunidades de inversión únicas. Conceptualiza, diseña, gestiona y dirige proyectos que buscan un impacto positivo en su entorno, y forma parte de la alianza detrás de JJF Creando y Selvadentro.</p>
@@ -144,17 +160,17 @@
         </div>
 
         <div class="mt-20 md:mt-28">
-          <div class="flex items-baseline justify-between gap-6 border-b hairline pb-5 reveal">
-            <h3 class="eyebrow" data-i18n="pp.g2.communities">Comunidades</h3>
-            <span class="caption">03</span>
+          <div class="group-head border-b hairline pb-5 reveal">
+            <h3 class="font-serif italic serif-em text-[2.2rem] md:text-[2.8rem] leading-none" data-i18n="pp.g2.communities">Comunidades</h3>
+            <span class="group-count">03</span>
           </div>
           <div id="group-mazza-communities" class="mt-10 md:mt-14 grid md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-16"></div>
         </div>
 
         <div class="mt-24 md:mt-32">
-          <div class="flex items-baseline justify-between gap-6 border-b hairline pb-5 reveal">
-            <h3 class="eyebrow" data-i18n="pp.g2.hotels">Hoteles</h3>
-            <span class="caption">02</span>
+          <div class="group-head border-b hairline pb-5 reveal">
+            <h3 class="font-serif italic serif-em text-[2.2rem] md:text-[2.8rem] leading-none" data-i18n="pp.g2.hotels">Hoteles</h3>
+            <span class="group-count">02</span>
           </div>
           <div id="group-mazza-hotels" class="mt-10 md:mt-14 grid md:grid-cols-2 gap-x-8 gap-y-16"></div>
         </div>
@@ -168,8 +184,9 @@
       </div>
       <div class="absolute inset-0 bg-gradient-to-r from-ink/80 via-ink/55 to-ink/20" aria-hidden="true"></div>
       <div class="relative wrap min-h-[75vh] flex flex-col justify-center py-28">
-        <p class="eyebrow eyebrow-rule text-bone/80 reveal" data-i18n="pp.bridge.eyebrow">El primer proyecto de JJF Creando</p>
+        <p class="eyebrow eyebrow-rule text-accent reveal"><span class="eyebrow-num">04</span><span data-i18n="pp.bridge.eyebrow">El primer proyecto de JJF Creando</span></p>
         <h2 class="display mt-8 text-[3.4rem] sm:text-[5rem] lg:text-[7rem] reveal" style="--d:1">Selvadentro</h2>
+        <p class="font-serif italic serif-em text-[1.9rem] md:text-[2.6rem] mt-3 reveal" style="--d:1" data-i18n="sd.tagline">Tierra de cenotes</p>
         <p class="prose-body mt-6 max-w-lg reveal" style="--d:2" data-i18n="pp.bridge.body">Toda esa experiencia, llevada a su expresión más ambiciosa: una comunidad privada de baja densidad con nueve cenotes, en el corazón de la selva de Tulum.</p>
         <div class="mt-10 flex flex-wrap items-center gap-x-7 gap-y-5 reveal" style="--d:3">
           <a href="index.html#selvadentro" class="btn btn-light"><span data-i18n="pp.bridge.cta">Descubre Selvadentro</span><span class="arrow" aria-hidden="true">→</span></a>
@@ -182,8 +199,8 @@
     <section id="contacto" class="on-dark bg-ink text-bone">
       <div class="wrap py-28 md:py-40 grid lg:grid-cols-12 gap-x-12 gap-y-12 lg:items-end">
         <div class="lg:col-span-7">
-          <p class="eyebrow eyebrow-rule text-accent reveal" data-i18n="contact.eyebrow">Contacto</p>
-          <h2 class="display mt-8 text-[3rem] sm:text-[4.4rem] lg:text-[5.6rem] reveal" style="--d:1" data-i18n="contact.title">Comienza a construir <em>tu sueño</em></h2>
+          <p class="eyebrow eyebrow-rule text-accent reveal"><span class="eyebrow-num">05</span><span data-i18n="contact.eyebrow">Contacto</span></p>
+          <h2 class="display mt-8 text-[3rem] sm:text-[4.4rem] lg:text-[5.6rem] reveal u-brush" style="--d:1" data-i18n="contact.title">Comienza a construir <em>tu sueño</em></h2>
         </div>
         <div class="lg:col-span-4 lg:col-start-9">
           <p class="prose-body reveal" style="--d:2" data-i18n="contact.body">Agenda una llamada con nuestro equipo. Te contamos todo sobre Selvadentro y organizamos tu visita privada a la selva de Tulum.</p>
@@ -256,6 +273,6 @@
     </div>
   </div>
 
-  <script src="main.js?v=20260930f"></script>
+  <script src="main.js?v=20260930h"></script>
 </body>
 </html>
