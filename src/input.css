@@ -381,6 +381,30 @@ html:not(.film-scrub) .hero .hero-chapters { display: none; }
   color: var(--color-stone);
 }
 
+/* Master plan: pans sideways on phones, legend dots match the plan's markers */
+.mp-scroll { overflow-x: auto; overscroll-behavior-x: contain; scrollbar-width: thin; scrollbar-color: rgb(244 240 232 / 0.3) transparent; }
+.mp-scroll:focus-visible { outline: 1px solid var(--color-bone); outline-offset: 4px; }
+.mp-frame { aspect-ratio: 3818 / 1528; min-width: 56rem; background: #3b4630; }
+@media (min-width: 768px) { .mp-frame { min-width: 0; } }
+.mp-legend { display: grid; gap: 0.8rem 2rem; font-size: 0.95rem; color: rgb(244 240 232 / 0.8); }
+@media (min-width: 640px) { .mp-legend { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.mp-legend li { display: flex; align-items: center; gap: 0.85rem; }
+.mp-dot {
+  display: inline-grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 1.55rem;
+  height: 1.55rem;
+  border-radius: 9999px;
+  background: #34403a;
+  border: 1px solid rgb(244 240 232 / 0.3);
+  color: var(--color-bone);
+  font-size: 0.68rem;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+}
+.mp-dot-cenote { background: #62bcc6; border-color: transparent; color: #0d1c1e; }
+
 /* Arched photograph with an offset hairline echo */
 .arch-figure { position: relative; }
 .arch { border-radius: 999px 999px 0 0; }

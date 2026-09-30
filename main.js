@@ -30,8 +30,8 @@ const I18N = {
     "hero.c.cta": "Conoce el proyecto",
 
     "about.eyebrow": "Nosotros",
-    "about.title": "Los bienes raíces son mucho más que edificios. <em>Son lugares que transforman vidas.</em>",
-    "about.p1": "JJF Creando es una desarrolladora inmobiliaria boutique con una misión única: crear espacios que inspiren conexión, tranquilidad y una profunda apreciación por el mundo natural. Desarrollamos proyectos innovadores, sostenibles y de lujo que elevan el estándar de vida mientras preservan la belleza del entorno.",
+    "about.title": "No vendemos propiedades. <em>Diseñamos refugios.</em>",
+    "about.p1": "La idea con JJF Creando es ir más allá de solo crear desarrollos o construir. Lo que buscamos es crear espacios que realmente hagan sentir algo: lugares que te inviten a vivir con calma, rodeado de naturaleza, pero sin renunciar al diseño y al detalle.",
     "about.p2": "Nacimos de la alianza entre dos familias con trayectoria comprobada en el desarrollo inmobiliario premium del sureste mexicano. Selvadentro es nuestro primer proyecto.",
     "about.link": "Nuestra filosofía",
     "about.stat1.label": "Años de experiencia en la industria",
@@ -67,7 +67,7 @@ const I18N = {
 
     "philosophy.eyebrow": "Nuestra filosofía",
     "philosophy.title": "Tres pilares que guían <em>cada proyecto</em>",
-    "philosophy.intro": "Creemos que los bienes raíces son mucho más que edificios: se trata de crear entornos que transforman vidas y fomentan conexiones significativas.",
+    "philosophy.intro": "Para nosotros el lujo no está en lo ostentoso; está en algo más sutil, con mejor gusto, más conectado con el entorno y con la forma en la que uno quiere vivir. Por eso nuestros proyectos mezclan lo estético con lo funcional, lo natural con lo bien hecho.",
     "philosophy.p1.title": "Diseño minimalista",
     "philosophy.p1.body": "Espacios elegantes y funcionales que se integran de forma natural con su entorno, con arquitectura de vanguardia.",
     "philosophy.p2.title": "Atención al detalle",
@@ -83,8 +83,8 @@ const I18N = {
     "partners.link": "Ver todos los proyectos",
 
     "vision.eyebrow": "Nuestra visión para el futuro",
-    "vision.quote": "“Un futuro donde el lujo y la sostenibilidad no se excluyen: <em>se entrelazan.</em>”",
-    "vision.body": "Buscamos redefinir el desarrollo inmobiliario con espacios que inspiran, nutren y contribuyen al bienestar de sus residentes y de la comunidad que los rodea. A través de la innovación, la integridad y la pasión por la excelencia, seguimos creando desarrollos icónicos que dejen un legado duradero.",
+    "vision.quote": "“El verdadero lujo no se mide en metros cuadrados, sino <em>en la calidad de vida que un espacio puede ofrecer.</em>”",
+    "vision.body": "Nuestra visión es crear lugares que eleven la experiencia humana, combinando arquitectura minimalista, naturaleza viva y un profundo respeto por el entorno. Cada detalle está pensado para generar bienestar, belleza atemporal y una sensación de pertenencia difícil de explicar, pero imposible de ignorar.",
 
     "faq.eyebrow": "Preguntas frecuentes",
     "faq.title": "Lo que necesitas <em>saber</em>",
@@ -97,7 +97,29 @@ const I18N = {
 
     "footer.tagline": "Desarrolladora inmobiliaria boutique en Tulum y la Riviera Maya.",
     "footer.explore": "Explorar",
-    "footer.sites": "Sitios",
+    "footer.sites": "Selvadentro",
+    "cta.whatsapp": "Escribir por WhatsApp",
+    "wa.text": "Hola, vi el sitio de JJF Creando y me gustaría saber más sobre Selvadentro.",
+    "footer.contact": "Contacto",
+    "footer.call": "Llamar",
+    "footer.investor": "Inversión",
+    "footer.webinar": "Webinar de los jueves",
+    "footer.guide": "Guía de inversión",
+    "footer.brokers": "Programa de brokers",
+    "footer.referrals": "Referidos",
+    "mp.eyebrow": "Plan maestro",
+    "mp.meta": "9 cenotes · 12 experiencias · 4 sectores",
+    "mp.title": "El plano de la película, <em>en detalle.</em>",
+    "mp.alt": "Plan maestro de Selvadentro con los sectores Cenote, Mono, Toh y Jaguar, sus cenotes y amenidades numerados",
+    "mp.scroll": "Plan maestro de Selvadentro",
+    "mp.hint": "Desliza para recorrer el plano",
+    "mp.cenotes": "Cenotes",
+    "mp.experiences": "Experiencias",
+    "mp.c1": "Cenote Mirador", "mp.c2": "Cenote Playa", "mp.c3": "Cenote Piedra", "mp.c4": "Cenote Luz", "mp.c5": "Cenote Azul",
+    "mp.c6": "Cenote Selva", "mp.c7": "Cenote Madera", "mp.c8": "Cenote Vida", "mp.c9": "Cenote Caverna",
+    "mp.x1": "Acceso", "mp.x2": "Mirador", "mp.x3": "Kids Jungle", "mp.x4": "Pets Jungle", "mp.x5": "Jungle Gym",
+    "mp.x6": "Cancha de pádel y pickleball", "mp.x7": "Pabellón holístico", "mp.x8": "Village comercial",
+    "mp.x9": "Casa del Árbol", "mp.x10": "Jungle Bar", "mp.x11": "Casa de los Cenotes", "mp.x12": "Wellness center",
     "footer.rights": "Todos los derechos reservados",
 
     "modal.eyebrow": "JJF Creando",
@@ -158,8 +180,8 @@ const I18N = {
     "hero.c.cta": "Explore the project",
 
     "about.eyebrow": "About us",
-    "about.title": "Real estate is more than buildings. <em>It is places that change lives.</em>",
-    "about.p1": "JJF Creando is a boutique real estate developer with a singular mission: to create spaces that inspire connection, tranquility and a deep appreciation for the natural world. We craft innovative, sustainable and luxurious developments that elevate the standard of living while preserving the beauty of their surroundings.",
+    "about.title": "We do not sell properties. <em>We design refuges.</em>",
+    "about.p1": "The idea behind JJF Creando is to go beyond simply creating developments or building. What we are after are spaces that truly make you feel something: places that invite you to live calmly, surrounded by nature, without giving up design or detail.",
     "about.p2": "We were born from an alliance between two families with a proven track record in premium real estate across southeastern Mexico. Selvadentro is our first project.",
     "about.link": "Our philosophy",
     "about.stat1.label": "Years of industry experience",
@@ -195,7 +217,7 @@ const I18N = {
 
     "philosophy.eyebrow": "Our philosophy",
     "philosophy.title": "Three pillars behind <em>every project</em>",
-    "philosophy.intro": "We believe real estate is more than buildings — it is about creating environments that shape lives and foster meaningful connections.",
+    "philosophy.intro": "For us, luxury is not ostentatious. It lies in something subtler, with better taste, more connected to the surroundings and to the way one wants to live. That is why our projects mix the aesthetic with the functional, the natural with the well made.",
     "philosophy.p1.title": "Minimalist design",
     "philosophy.p1.body": "Elegant, functional spaces that blend naturally into their surroundings, shaped by cutting-edge architecture.",
     "philosophy.p2.title": "Attention to detail",
@@ -211,8 +233,8 @@ const I18N = {
     "partners.link": "View all projects",
 
     "vision.eyebrow": "Our vision for the future",
-    "vision.quote": "“A future where luxury and sustainability are not opposites — <em>they are intertwined.</em>”",
-    "vision.body": "We aim to redefine real estate development with spaces that inspire, nurture and contribute to the wellbeing of their residents and the surrounding community. Through innovation, integrity and a passion for excellence, we continue shaping iconic developments that leave a lasting legacy.",
+    "vision.quote": "“True luxury is not measured in square meters, but <em>in the quality of life a space can offer.</em>”",
+    "vision.body": "Our vision is to create places that elevate the human experience, combining minimalist architecture, living nature and a deep respect for the surroundings. Every detail is considered to bring wellbeing, timeless beauty and a sense of belonging that is hard to explain but impossible to ignore.",
 
     "faq.eyebrow": "FAQ",
     "faq.title": "What you need <em>to know</em>",
@@ -225,7 +247,29 @@ const I18N = {
 
     "footer.tagline": "Boutique real estate developer in Tulum and the Riviera Maya.",
     "footer.explore": "Explore",
-    "footer.sites": "Sites",
+    "footer.sites": "Selvadentro",
+    "cta.whatsapp": "Write on WhatsApp",
+    "wa.text": "Hi, I saw the JJF Creando website and would like to know more about Selvadentro.",
+    "footer.contact": "Contact",
+    "footer.call": "Call",
+    "footer.investor": "Investment",
+    "footer.webinar": "Thursday webinar",
+    "footer.guide": "Investment guide",
+    "footer.brokers": "Broker program",
+    "footer.referrals": "Referrals",
+    "mp.eyebrow": "Master plan",
+    "mp.meta": "9 cenotes · 12 experiences · 4 sectors",
+    "mp.title": "The plan from the film, <em>in detail.</em>",
+    "mp.alt": "Selvadentro master plan with the Cenote, Mono, Toh and Jaguar sectors and its numbered cenotes and amenities",
+    "mp.scroll": "Selvadentro master plan",
+    "mp.hint": "Swipe to explore the plan",
+    "mp.cenotes": "Cenotes",
+    "mp.experiences": "Experiences",
+    "mp.c1": "Cenote Mirador", "mp.c2": "Cenote Playa", "mp.c3": "Cenote Piedra", "mp.c4": "Cenote Luz", "mp.c5": "Cenote Azul",
+    "mp.c6": "Cenote Selva", "mp.c7": "Cenote Madera", "mp.c8": "Cenote Vida", "mp.c9": "Cenote Caverna",
+    "mp.x1": "Entrance", "mp.x2": "Lookout", "mp.x3": "Kids Jungle", "mp.x4": "Pets Jungle", "mp.x5": "Jungle Gym",
+    "mp.x6": "Padel and pickleball court", "mp.x7": "Holistic pavilion", "mp.x8": "Commercial village",
+    "mp.x9": "Tree House", "mp.x10": "Jungle Bar", "mp.x11": "Cenote House", "mp.x12": "Wellness center",
     "footer.rights": "All rights reserved",
 
     "modal.eyebrow": "JJF Creando",
@@ -391,6 +435,9 @@ const PARTNERS = [
     url: "https://www.casakuhotel.com",
   },
 ];
+
+// Team WhatsApp (the same line selvadentrotulum.com uses)
+const WHATSAPP = "529994890828";
 
 // Four partner projects previewed on the home page
 const TEASER = ["aldea-zama", "yucatan-country-club", "hacienda-sacala", "casa-ku"];
@@ -580,6 +627,14 @@ function applyLang(lang, { instant = false } = {}) {
   $$("[data-i18n-alt]").forEach((el) => {
     const val = dict[el.getAttribute("data-i18n-alt")];
     if (val !== undefined) el.setAttribute("alt", val);
+  });
+  $$("[data-i18n-aria]").forEach((el) => {
+    const val = dict[el.getAttribute("data-i18n-aria")];
+    if (val !== undefined) el.setAttribute("aria-label", val);
+  });
+  // WhatsApp opens with a message ready, in the visitor's language
+  $$("[data-wa]").forEach((el) => {
+    el.setAttribute("href", `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(dict["wa.text"])}`);
   });
 
   document.title = dict[page === "partners" ? "title.partners" : "title.home"];
@@ -875,9 +930,11 @@ $$("#lang-toggle .lang-btn").forEach((btn) => {
 });
 
 let initial = "es";
+const urlLang = new URLSearchParams(location.search).get("lang");
 try {
   const saved = localStorage.getItem("jjf-lang");
-  if (saved && SUPPORTED.includes(saved)) initial = saved;
+  if (urlLang && SUPPORTED.includes(urlLang)) initial = urlLang;
+  else if (saved && SUPPORTED.includes(saved)) initial = saved;
   else if (navigator.language && navigator.language.toLowerCase().startsWith("en")) initial = "en";
 } catch (e) {}
 
