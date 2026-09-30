@@ -34,7 +34,7 @@ npm run dev        # recompila al guardar (watch)
 ```
 
 Si cambias `assets/styles.css` o `main.js`, sube el número `?v=` en las etiquetas
-`<link>`/`<script>` de ambos HTML: `/assets/*` se sirve con caché inmutable.
+`<link>`/`<script>` de ambos HTML (`/assets/*` se cachea un día con revalidación).
 
 ## Contenido
 
