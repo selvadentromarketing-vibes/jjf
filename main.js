@@ -16,13 +16,16 @@ const I18N = {
     "cta.dream": "Comienza a construir tu sueño",
 
     "hero.eyebrow": "JJF Creando · Tulum, Riviera Maya",
-    "hero.title": "Creando experiencias<br /><em>a través del real estate</em>",
+    "hero.title": '<span class="line"><span style="--k:0">Creando experiencias</span></span><span class="line"><span style="--k:1"><em>a través del real estate</em></span></span>',
     "hero.lede": "Desarrolladora inmobiliaria boutique. Más de 25 años creando lugares que inspiran conexión, calma y un profundo respeto por la naturaleza.",
     "hero.cta": "Descubre Selvadentro",
-    "hero.caption": "En pantalla — Selvadentro, Tulum",
+    "hero.caption": '<span class="hidden sm:inline">En pantalla — </span>Selvadentro, Tulum',
     "hero.cue": "Desliza para descubrir",
     "hero.b.eyebrow": "Del plano a la selva",
-    "hero.b.title": "Cada camino, trazado <em>alrededor de la selva.</em>",
+    "hero.b.title": '<span class="line"><span class="st st-rise" style="--k:1">Cada camino, trazado</span></span><span class="line"><span class="st st-rise" style="--k:2"><em>alrededor de la selva.</em></span></span>',
+    "hero.ch1": "El plano",
+    "hero.ch2": "La selva",
+    "hero.ch3": "El horizonte",
     "hero.b.body": "Baja densidad, nueve cenotes y el 65% de la selva conservada intacta.",
     "hero.c.cta": "Conoce el proyecto",
 
@@ -71,7 +74,8 @@ const I18N = {
     "philosophy.p2.body": "Cada proyecto refleja una planificación y ejecución meticulosas: un equilibrio armonioso entre estética, funcionalidad y sostenibilidad.",
     "philosophy.p3.title": "Conexión con la naturaleza",
     "philosophy.p3.body": "Preservamos el entorno natural e integramos prácticas ecológicas en cada etapa del desarrollo, para crear espacios que coexisten con la naturaleza.",
-    "philosophy.alt": "Boceto arquitectónico de una torre de madera entre la selva",
+    "philosophy.alt": "Una persona nada en un cenote bajo estalactitas, en Selvadentro",
+    "philosophy.caption": "Cenote en Selvadentro, Tulum",
 
     "partners.eyebrow": "Proyectos aliados",
     "partners.title": "Una trayectoria <em>compartida</em>",
@@ -140,13 +144,16 @@ const I18N = {
     "cta.dream": "Start building your dream",
 
     "hero.eyebrow": "JJF Creando · Tulum, Riviera Maya",
-    "hero.title": "Crafting experiences<br /><em>through real estate</em>",
+    "hero.title": '<span class="line"><span style="--k:0">Crafting experiences</span></span><span class="line"><span style="--k:1"><em>through real estate</em></span></span>',
     "hero.lede": "A boutique real estate developer. More than 25 years creating places that inspire connection, calm and a deep respect for nature.",
     "hero.cta": "Discover Selvadentro",
-    "hero.caption": "On screen — Selvadentro, Tulum",
+    "hero.caption": '<span class="hidden sm:inline">On screen — </span>Selvadentro, Tulum',
     "hero.cue": "Scroll to discover",
     "hero.b.eyebrow": "From plan to jungle",
-    "hero.b.title": "Every road, drawn <em>around the jungle.</em>",
+    "hero.b.title": '<span class="line"><span class="st st-rise" style="--k:1">Every road, drawn</span></span><span class="line"><span class="st st-rise" style="--k:2"><em>around the jungle.</em></span></span>',
+    "hero.ch1": "The plan",
+    "hero.ch2": "The jungle",
+    "hero.ch3": "The horizon",
     "hero.b.body": "Low density, nine cenotes and 65% of the jungle preserved intact.",
     "hero.c.cta": "Explore the project",
 
@@ -195,7 +202,8 @@ const I18N = {
     "philosophy.p2.body": "Every project reflects meticulous planning and execution: a harmonious balance between aesthetics, functionality and sustainability.",
     "philosophy.p3.title": "Connection with nature",
     "philosophy.p3.body": "We preserve the natural environment and integrate eco-conscious practices into every stage of development, creating spaces that coexist with nature.",
-    "philosophy.alt": "Architectural sketch of a timber tower in the jungle",
+    "philosophy.alt": "A swimmer in a cenote beneath stalactites at Selvadentro",
+    "philosophy.caption": "A cenote at Selvadentro, Tulum",
 
     "partners.eyebrow": "Partner Projects",
     "partners.title": "A shared <em>track record</em>",
@@ -589,6 +597,8 @@ function applyLang(lang, { instant = false } = {}) {
     if (root) observeReveals(root, instant);
   });
 
+  refreshHeroChapter();
+
   // a11y labels
   const closeBtn = $("#modal-close");
   if (closeBtn) closeBtn.setAttribute("aria-label", dict["modal.close"]);
@@ -609,13 +619,25 @@ function applyLang(lang, { instant = false } = {}) {
 // ================== Header ==================
 const header = $("#site-header");
 const keepSolid = header && header.classList.contains("is-solid");
+let lastScrollY = window.scrollY;
 function onScrollHeader() {
-  if (!header || keepSolid) return;
-  const hero = $("[data-hero]");
-  const threshold = hero ? hero.offsetHeight - header.offsetHeight : 40;
-  header.classList.toggle("is-solid", window.scrollY > threshold);
+  if (!header) return;
+  const y = window.scrollY;
+  if (!keepSolid) {
+    // Solid once the cream page reaches the header (after the hero's curtain, if any)
+    const hero = $("[data-hero]");
+    const next = hero && hero.nextElementSibling;
+    const threshold = next ? next.offsetTop - header.offsetHeight : 40;
+    header.classList.toggle("is-solid", y > threshold);
+  }
+  // Step aside while scrolling down, come back on the way up
+  if (!document.body.classList.contains("menu-open") && Math.abs(y - lastScrollY) > 6) {
+    header.classList.toggle("is-away", y > lastScrollY && y > 160);
+    lastScrollY = y;
+  }
 }
 window.addEventListener("scroll", onScrollHeader, { passive: true });
+window.addEventListener("resize", onScrollHeader);
 onScrollHeader();
 
 // Mobile menu
@@ -631,115 +653,161 @@ if (menuBtn) menuBtn.addEventListener("click", () => setMenu(!document.body.clas
 if (mobileMenu) mobileMenu.addEventListener("click", (e) => { if (e.target.closest("a")) setMenu(false); });
 
 // ================== Hero film (scroll-driven) ==================
-// The <html> gets .film-scrub from the inline script in <head> (so the tall hero never shifts
-// the layout). While the hero's sticky frame is on screen, scroll position drives the film's
-// currentTime and fades between the three text stages.
+// <html> gets .film-scrub from the inline script in <head>, so the tall hero never shifts the
+// layout. The hero is 4 viewports tall: the first ~2 scroll the film through its three chapters,
+// the last one is the curtain, where the next section rises over the held final frame.
+// Everything reads one eased progress value, so film, text and chrome move as one.
 const heroEl = $("[data-hero]");
 const video = $("#hero-video");
 const filmScrub = document.documentElement.classList.contains("film-scrub");
 
 const clamp01 = (v) => Math.min(1, Math.max(0, v));
-const ease = (t) => t * t * (3 - 2 * t); // smoothstep
-const rampUp = (p, a, b) => ease(clamp01((p - a) / (b - a)));
-const band = (p, a, b, c, d) => (p < c ? rampUp(p, a, b) : 1 - rampUp(p, c, d));
+const smooth = (t) => t * t * (3 - 2 * t);
+const rampUp = (p, a, b) => smooth(clamp01((p - a) / (b - a)));
+
+// Where each chapter of the film begins, as a fraction of its scroll range:
+// the plan being uncovered, the road through the canopy, the rise to the horizon.
+const CHAPTERS = [0, 0.41, 0.66];
+let refreshHeroChapter = () => {};
 
 function initHeroFilm() {
   if (!heroEl || !video || !filmScrub) return;
-  const stages = { a: $('[data-stage="a"]', heroEl), b: $('[data-stage="b"]', heroEl), c: $('[data-stage="c"]', heroEl) };
+  const sticky = $(".hero-sticky", heroEl);
+  const frame = $("[data-frame]", heroEl);
+  const shade = $("[data-shade]", heroEl);
+  const stageA = $('[data-stage="a"]', heroEl);
+  const stageB = $('[data-stage="b"]', heroEl);
+  const stageC = $('[data-stage="c"]', heroEl);
   const bar = $("[data-progress]", heroEl);
   const cue = $("[data-cue]", heroEl);
+  const caption = $("[data-caption]", heroEl);
+  const chNum = $("[data-ch-num]", heroEl);
+  const chLabel = $("[data-ch-label]", heroEl);
 
-  let progress = 0;
-  let lastPainted = -1;
-  let current = 0;
+  let raw = 0;      // scroll position through the film, 0…1
+  let eased = 0;    // the same, eased (what everything renders from)
+  let curtain = 0;  // how far the next section has risen over the frame, 0…1
+  let painted = "";
+  let chapter = -1;
   let duration = 0;
   let ready = false;
   let running = false;
-
-  const setStage = (el, o, y) => {
-    if (!el) return;
-    el.style.opacity = o.toFixed(3);
-    el.style.transform = `translate3d(0, ${y.toFixed(1)}px, 0)`;
-    el.style.visibility = o < 0.01 ? "hidden" : "visible";
-    el.style.pointerEvents = o < 0.6 ? "none" : "";
-  };
+  let lastT = 0;
 
   const measure = () => {
-    const total = heroEl.offsetHeight - window.innerHeight;
-    progress = total > 0 ? clamp01(-heroEl.getBoundingClientRect().top / total) : 0;
+    const fh = sticky.offsetHeight;
+    const y = -heroEl.getBoundingClientRect().top;
+    const range = heroEl.offsetHeight - 2 * fh;
+    raw = range > 0 ? clamp01(y / range) : 0;
+    curtain = clamp01((y - Math.max(range, 0)) / fh);
+  };
+
+  const setStage = (el, enter, leave, lift) => {
+    const o = 1 - leave;
+    el.style.setProperty("--in", enter.toFixed(4));
+    el.style.opacity = o.toFixed(3);
+    el.style.transform = `translate3d(0, ${lift.toFixed(1)}px, 0)`;
+    el.style.visibility = o > 0.005 && enter > 0.005 ? "visible" : "hidden";
+    el.style.pointerEvents = o > 0.6 && enter > 0.6 ? "" : "none";
   };
 
   const paint = () => {
-    if (Math.abs(progress - lastPainted) < 0.0005) return;
-    lastPainted = progress;
-    const a = 1 - rampUp(progress, 0.08, 0.24);   // the plan being uncovered
-    const b = band(progress, 0.36, 0.44, 0.58, 0.66); // down into the jungle
-    const c = rampUp(progress, 0.74, 0.86);       // up to the horizon
-    setStage(stages.a, a, -48 * (1 - a));
-    setStage(stages.b, b, progress < 0.51 ? 36 * (1 - b) : -36 * (1 - b));
-    setStage(stages.c, c, 36 * (1 - c));
-    if (bar) bar.style.transform = `scaleX(${progress.toFixed(4)})`;
-    if (cue) cue.style.opacity = (1 - rampUp(progress, 0.01, 0.06)).toFixed(3);
-  };
+    const key = `${eased.toFixed(4)}|${curtain.toFixed(4)}`;
+    if (key === painted) return;
+    painted = key;
+    const vh = sticky.offsetHeight;
+    const p = eased;
 
-  const tick = () => {
+    // 1 · the plan: the opening lines leave as the paper comes off
+    const aOut = rampUp(p, 0.07, 0.22);
+    setStage(stageA, 1, aOut, -vh * 0.07 * aOut);
+    // 2 · the jungle: lines rise over the road through the canopy, leave before the aerial
+    const bOut = rampUp(p, 0.58, 0.67);
+    setStage(stageB, rampUp(p, 0.36, 0.52), bOut, -vh * 0.07 * bOut);
+    // 3 · the horizon: the name arrives and stays, drifting up as the page covers it
+    setStage(stageC, rampUp(p, 0.69, 0.86), 0, -vh * 0.14 * curtain);
+
+    // The frame pushes in slowly; under the curtain it lifts and falls into shadow
+    frame.style.transform = `translate3d(0, ${(-vh * 0.1 * curtain).toFixed(1)}px, 0) scale(${(1 + 0.07 * p).toFixed(4)})`;
+    shade.style.opacity = (0.7 * curtain).toFixed(3);
+
+    bar.style.transform = `scaleX(${p.toFixed(4)})`;
+    const cueO = 1 - rampUp(p, 0.004, 0.035);
+    cue.style.opacity = cueO.toFixed(3);
+    caption.style.opacity = (1 - cueO).toFixed(3);
+
+    const ch = p >= CHAPTERS[2] ? 2 : p >= CHAPTERS[1] ? 1 : 0;
+    if (ch !== chapter) {
+      chapter = ch;
+      chNum.textContent = pad(ch + 1);
+      chLabel.textContent = I18N[currentLang][`hero.ch${ch + 1}`];
+      chLabel.classList.remove("ch-swap");
+      void chLabel.offsetWidth; // restart the swap animation
+      chLabel.classList.add("ch-swap");
+    }
+  };
+  refreshHeroChapter = () => { chapter = -1; painted = ""; };
+
+  const tick = (now) => {
+    const dt = lastT ? Math.min(0.1, (now - lastT) / 1000) : 0;
+    lastT = now;
     measure();
+    // Frame-rate independent easing toward the scroll position (~90 ms time constant)
+    eased = dt ? eased + (raw - eased) * (1 - Math.exp(-dt / 0.09)) : raw;
+    if (Math.abs(raw - eased) < 0.0003) eased = raw;
     paint();
     if (ready) {
-      const target = progress * duration;
-      current += (target - current) * 0.16; // ease the playhead toward the scroll position
-      if (Math.abs(target - current) < 0.004) current = target;
-      if (!video.seeking && Math.abs(video.currentTime - current) > 1 / 60) video.currentTime = current;
+      const t = eased * duration;
+      if (!video.seeking && Math.abs(video.currentTime - t) > 1 / 60) video.currentTime = t;
     }
     if (running) requestAnimationFrame(tick);
+    else lastT = 0;
   };
-
   const start = () => { if (!running) { running = true; requestAnimationFrame(tick); } };
   const stop = () => { running = false; };
 
-  // Only animate while the hero is on screen
+  // Animate only while the hero is on screen
   if ("IntersectionObserver" in window) {
     new IntersectionObserver(([entry]) => (entry.isIntersecting ? start() : stop())).observe(heroEl);
   } else {
     start();
   }
-  window.addEventListener("resize", () => { lastPainted = -1; });
+  window.addEventListener("resize", () => { painted = ""; });
   measure();
+  eased = raw;
   paint();
 
   // Load the whole film up front (as a blob) so every seek is instant and local.
   // H.264 first (Safari, Chrome), VP9 WebM for browsers built without H.264.
-  const load = () => {
-    const kind = window.matchMedia("(orientation: portrait)").matches ? "phone" : "desk";
-    const sources = [];
-    if (video.canPlayType('video/mp4; codecs="avc1.64001f"')) sources.push(video.dataset[`${kind}Mp4`]);
-    if (video.canPlayType('video/webm; codecs="vp9"')) sources.push(video.dataset[`${kind}Webm`]);
-    if (!sources.length) return; // the poster stays; the text stages still follow the scroll
+  const kind = window.matchMedia("(orientation: portrait)").matches ? "phone" : "desk";
+  const sources = [];
+  if (video.canPlayType('video/mp4; codecs="avc1.64001f"')) sources.push(video.dataset[`${kind}Mp4`]);
+  if (video.canPlayType('video/webm; codecs="vp9"')) sources.push(video.dataset[`${kind}Webm`]);
+  if (!sources.length) return; // the poster stays; text and chapters still follow the scroll
 
-    let attempt = 0;
-    const tryNext = () => {
-      const src = sources[attempt];
-      fetch(src)
-        .then((r) => (r.ok ? r.blob() : Promise.reject(r.status)))
-        .then((blob) => { video.src = URL.createObjectURL(blob); })
-        .catch(() => { video.preload = "auto"; video.src = src; });
-    };
-    video.addEventListener("error", () => { if (!ready && ++attempt < sources.length) tryNext(); });
-    video.addEventListener("loadeddata", () => {
-      duration = Math.max(0, video.duration - 0.05);
-      current = progress * duration;
-      video.currentTime = current;
-      // iOS only paints seeks once the element has played; a muted play/pause unlocks it
-      const p = video.play();
-      if (p && p.then) p.then(() => video.pause()).catch(() => {});
-      else video.pause();
-      ready = true;
-      video.classList.add("is-ready");
-    }, { once: true });
-    tryNext();
+  let attempt = 0;
+  const fetchFilm = () => {
+    const src = sources[attempt];
+    fetch(src, { priority: "low" })
+      .then((r) => (r.ok ? r.blob() : Promise.reject(r.status)))
+      .then((blob) => { video.src = URL.createObjectURL(blob); })
+      .catch(() => { video.preload = "auto"; video.src = src; });
   };
-  if (document.readyState === "complete") load();
-  else window.addEventListener("load", load, { once: true });
+  video.addEventListener("error", () => { if (!ready && ++attempt < sources.length) fetchFilm(); });
+  video.addEventListener("loadeddata", () => {
+    duration = Math.max(0, video.duration - 0.05);
+    // iOS only paints seeks once the element has played; a muted play/pause unlocks it
+    const p = video.play();
+    if (p && p.then) p.then(() => video.pause()).catch(() => {});
+    else video.pause();
+    const reveal = () => { ready = true; video.classList.add("is-ready"); };
+    const t = eased * duration;
+    if (t < 0.02) { video.currentTime = 0; reveal(); return; }
+    // Fade the film in only once it shows the frame the scroll is on (no flash of frame 0)
+    video.addEventListener("seeked", reveal, { once: true });
+    video.currentTime = t;
+  }, { once: true });
+  fetchFilm();
 }
 
 // ================== Parallax bands ==================

@@ -45,12 +45,15 @@ Si cambias `assets/styles.css` o `main.js`, sube el número `?v=` en las etiquet
   `TEASER` define los cuatro que aparecen en la portada.
 - **Imágenes:** para una foto nueva, expórtala a `assets/img/<nombre>-<ancho>.webp`
   y lista los anchos en `widths`.
-- **Película del hero (controlada por el scroll):** el hero es alto y su marco queda fijo
-  mientras el scroll avanza la película (el plano se descubre → la selva → el horizonte) y
-  cambia entre tres textos. Los archivos llevan un keyframe cada 6 cuadros para que el
-  scrubbing sea fluido; si recortas o reemplazas la película, conserva `-g 6 -bf 0`.
-  Los puntos de cada texto están en `initHeroFilm()` de `main.js`. Con "reducir movimiento"
-  o ahorro de datos el hero es una sola pantalla con el póster y no descarga la película.
+- **Película del hero (controlada por el scroll):** el hero mide 4 pantallas. En las dos
+  primeras el scroll recorre la película en tres capítulos (El plano → La selva → El
+  horizonte), con textos que suben línea por línea y un indicador 01–03; en la última, la
+  sección siguiente sube como un telón sobre el cuadro final. Todo se lee de un único progreso
+  suavizado. Los tiempos de cada texto y los inicios de capítulo (`CHAPTERS`) están en
+  `initHeroFilm()` de `main.js`. Los archivos llevan un keyframe cada 6 cuadros para que el
+  scrubbing sea fluido; si reemplazas la película, conserva `-g 6 -bf 0` y corta antes de
+  cualquier disolvencia. Con "reducir movimiento", ahorro de datos o pantallas de menos de
+  520 px de alto, el hero es una sola pantalla con el póster y no descarga la película.
 
 ## Notas
 
