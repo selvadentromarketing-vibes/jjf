@@ -81,6 +81,8 @@ const I18N = {
     "partners.title": "Una trayectoria <em>compartida</em>",
     "partners.body": "Selvadentro se apoya en décadas de experiencia. Conoce las comunidades y hoteles que nuestros socios han desarrollado en Tulum, Mérida y Yucatán.",
     "partners.link": "Ver todos los proyectos",
+    "partners.view": "Ver proyecto",
+    "mq.w1": "Tierra de cenotes", "mq.w2": "Selvadentro", "mq.w3": "Tulum", "mq.w4": "Riviera Maya", "mq.w5": "Selva viva", "mq.w6": "JJF Creando",
 
     "vision.eyebrow": "Nuestra visión para el futuro",
     "vision.quote": "“El verdadero lujo no se mide en metros cuadrados, sino <em>en la calidad de vida que un espacio puede ofrecer.</em>”",
@@ -231,6 +233,8 @@ const I18N = {
     "partners.title": "A shared <em>track record</em>",
     "partners.body": "Selvadentro rests on decades of experience. Explore the communities and hotels our partners have developed across Tulum, Mérida and Yucatán.",
     "partners.link": "View all projects",
+    "partners.view": "View project",
+    "mq.w1": "Land of cenotes", "mq.w2": "Selvadentro", "mq.w3": "Tulum", "mq.w4": "Riviera Maya", "mq.w5": "Living jungle", "mq.w6": "JJF Creando",
 
     "vision.eyebrow": "Our vision for the future",
     "vision.quote": "“True luxury is not measured in square meters, but <em>in the quality of life a space can offer.</em>”",
@@ -500,6 +504,8 @@ function renderTeaser(lang) {
       <a href="partner-projects.html#${p.id}" class="group block zoom reveal" style="--d:${i}">
         <div class="frame aspect-[4/5]">
           <img src="${largest(p)}" srcset="${srcset(p)}" sizes="(min-width: 1024px) 25vw, (min-width: 640px) 46vw, 78vw" alt="${p.name}" loading="lazy" decoding="async" />
+          <span class="card-wash" aria-hidden="true"></span>
+          <span class="card-cta" aria-hidden="true">${I18N[lang]["partners.view"]}<span class="arrow">→</span></span>
         </div>
         <div class="mt-5 flex items-baseline justify-between gap-4">
           <h3 class="font-serif font-light text-[1.7rem] md:text-[1.9rem] leading-tight">${p.name}</h3>
@@ -515,10 +521,10 @@ function renderIndex(lang) {
   if (!el) return;
   el.innerHTML = PARTNERS.map((p, i) => `
     <li class="border-b hairline">
-      <a href="#${p.id}" class="group grid grid-cols-[2.5rem_1fr_auto] items-baseline gap-4 py-5">
-        <span class="font-serif italic text-brass text-lg">${pad(i + 1)}</span>
+      <a href="#${p.id}" class="index-row group grid grid-cols-[2.5rem_1fr_auto] items-baseline gap-4 py-5" data-preview="${largest(p)}">
+        <span class="font-serif italic text-accent text-xl">${pad(i + 1)}</span>
         <span>
-          <span class="font-serif text-[1.55rem] md:text-[1.75rem] font-light leading-tight group-hover:text-brass transition">${p.name}</span>
+          <span class="ix-name font-serif text-[1.7rem] md:text-[2rem] leading-tight">${p.name}</span>
           <span class="caption block mt-1">${pick(p.place, lang)}</span>
         </span>
         <span class="arrow text-stone group-hover:translate-x-1" aria-hidden="true">→</span>
@@ -541,8 +547,9 @@ function renderLandmark(lang) {
           </div>
         </div>
         <div class="lg:col-span-5 lg:row-start-1 ${rev ? "lg:col-start-1" : ""} flex flex-col justify-center">
-          <p class="caption reveal">${pad(n)} — ${pick(p.place, lang)}</p>
-          <h3 class="display mt-5 text-[2.8rem] md:text-[3.6rem] reveal" style="--d:1">${p.name}</h3>
+          <p class="big-num reveal" aria-hidden="true">${pad(n)}</p>
+          <p class="caption mt-4 reveal">${pick(p.place, lang)}</p>
+          <h3 class="display mt-3 text-[2.8rem] md:text-[3.8rem] reveal" style="--d:1">${p.name}</h3>
           <div class="mt-5 reveal" style="--d:1"><span class="chip">${pick(p.type, lang)}</span></div>
           <p class="prose-body mt-7 reveal" style="--d:2">${p.text[lang]}</p>
           <dl class="mt-10 grid grid-cols-3 border-t hairline reveal" style="--d:3">
@@ -887,6 +894,87 @@ function initParallax() {
   update();
 }
 
+// ================== Count-up numbers ==================
+function initCounters() {
+  const els = $$("[data-count]");
+  if (!els.length) return;
+  const finish = (el) => { el.textContent = `${el.dataset.prefix || ""}${el.dataset.count}${el.dataset.suffix || ""}`; };
+  if (reducedMotion || !("IntersectionObserver" in window)) { els.forEach(finish); return; }
+  const run = (el) => {
+    const to = parseFloat(el.dataset.count);
+    const t0 = performance.now();
+    const dur = 1600 + Math.min(900, to * 2);
+    const step = (now) => {
+      const k = Math.min(1, (now - t0) / dur);
+      const v = Math.round(to * (1 - Math.pow(1 - k, 4)));
+      el.textContent = `${el.dataset.prefix || ""}${v}${el.dataset.suffix || ""}`;
+      if (k < 1) requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
+  };
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((e) => { if (e.isIntersecting) { run(e.target); io.unobserve(e.target); } });
+  }, { threshold: 0.6 });
+  els.forEach((el) => { el.textContent = `${el.dataset.prefix || ""}0${el.dataset.suffix || ""}`; io.observe(el); });
+}
+
+// ================== Marquee ==================
+// Drifts left at a calm pace; scrolling pushes it along (and backwards when scrolling up).
+function initMarquee() {
+  const track = $("[data-marquee]");
+  if (!track || reducedMotion) return;
+  let x = 0, boost = 0, lastY = window.scrollY, running = false, lastT = 0;
+  const tick = (now) => {
+    const dt = lastT ? Math.min(0.05, (now - lastT) / 1000) : 0;
+    lastT = now;
+    const half = track.scrollWidth / 2;
+    boost *= Math.exp(-dt / 0.35);
+    x -= (40 + boost) * dt;
+    if (x <= -half) x += half;
+    if (x > 0) x -= half;
+    track.style.transform = `translate3d(${x.toFixed(2)}px, 0, 0)`;
+    if (running) requestAnimationFrame(tick); else lastT = 0;
+  };
+  window.addEventListener("scroll", () => {
+    const y = window.scrollY;
+    boost = Math.max(-900, Math.min(900, boost + (y - lastY) * 6));
+    lastY = y;
+  }, { passive: true });
+  new IntersectionObserver(([e]) => {
+    running = e.isIntersecting;
+    if (running) requestAnimationFrame(tick);
+  }).observe(track);
+}
+
+// ================== Partner index: photo follows the cursor ==================
+function initCursorPreview() {
+  const box = $(".cursor-preview");
+  const list = $("#project-index");
+  if (!box || !list || !window.matchMedia("(hover: hover) and (pointer: fine)").matches) return;
+  const img = $("img", box);
+  let tx = 0, ty = 0, x = 0, y = 0, on = false, raf = 0;
+  const loop = () => {
+    x += (tx - x) * 0.16;
+    y += (ty - y) * 0.16;
+    const tilt = Math.max(-6, Math.min(6, (tx - x) * 0.05));
+    box.style.transform = `translate3d(${x.toFixed(1)}px, ${y.toFixed(1)}px, 0) translate(-50%, -60%) rotate(${tilt.toFixed(2)}deg) scale(${on ? 1 : 0.85})`;
+    raf = on || Math.abs(tx - x) > 0.5 ? requestAnimationFrame(loop) : 0;
+  };
+  list.addEventListener("pointermove", (e) => {
+    tx = e.clientX; ty = e.clientY;
+    if (!raf) raf = requestAnimationFrame(loop);
+  });
+  list.addEventListener("pointerover", (e) => {
+    const row = e.target.closest("[data-preview]");
+    if (!row) return;
+    if (img.getAttribute("src") !== row.dataset.preview) img.src = row.dataset.preview;
+    if (!on) { x = tx = e.clientX; y = ty = e.clientY; }
+    on = true; box.classList.add("is-on");
+    if (!raf) raf = requestAnimationFrame(loop);
+  });
+  list.addEventListener("pointerleave", () => { on = false; box.classList.remove("is-on"); });
+}
+
 // ================== Contact modal ==================
 const modal = $("#modal");
 const bookingFrame = $("#booking-frame");
@@ -942,6 +1030,9 @@ applyLang(initial);
 observeReveals(document);
 initHeroFilm();
 initParallax();
+initCounters();
+initMarquee();
+initCursorPreview();
 $$("[data-year]").forEach((el) => { el.textContent = new Date().getFullYear(); });
 
 // Content on the partner page is rendered by JS, so honour a #project hash after render

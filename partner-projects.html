@@ -22,11 +22,11 @@
   <link rel="icon" type="image/png" sizes="48x48" href="favicon-48.png" />
   <link rel="apple-touch-icon" href="apple-touch-icon.png" />
 
-  <link rel="preload" as="font" type="font/woff2" href="assets/fonts/cormorant-garamond-latin.woff2" crossorigin />
+  <link rel="preload" as="font" type="font/woff2" href="assets/fonts/instrument-serif-latin.woff2" crossorigin />
   <link rel="preload" as="font" type="font/woff2" href="assets/fonts/jost-latin.woff2" crossorigin />
 
   <!-- Tailwind v4 (precompilado — rebuild with: npm run build) -->
-  <link rel="stylesheet" href="assets/styles.css?v=20260930e" />
+  <link rel="stylesheet" href="assets/styles.css?v=20260930f" />
   <script>(function(d){d.classList.add('js');try{if(matchMedia('(min-height: 520px)').matches&&!matchMedia('(prefers-reduced-motion: reduce)').matches&&!(navigator.connection&&navigator.connection.saveData))d.classList.add('film-scrub')}catch(e){}})(document.documentElement);</script>
 </head>
 <body data-page="partners">
@@ -61,7 +61,7 @@
       <a class="m-link" href="#contacto" data-i18n="nav.contact">Contacto</a>
     </nav>
     <div class="mt-12 flex flex-col items-start gap-6">
-      <a href="#contacto" data-cta class="btn btn-solid"><span data-i18n="cta.schedule">Agenda una llamada</span></a>
+      <a href="#contacto" data-cta class="btn btn-accent"><span data-i18n="cta.schedule">Agenda una llamada</span></a>
       <a href="https://wa.me/529994890828" data-wa target="_blank" rel="noopener" class="link-line"><span data-i18n="cta.whatsapp">Escribir por WhatsApp</span><span class="arrow-ne" aria-hidden="true">↗</span></a>
     </div>
   </div>
@@ -69,28 +69,28 @@
   <main>
 
     <!-- ============ PAGE HERO ============ -->
-    <section class="page-hero pb-16 md:pb-24">
+    <section class="page-hero sunlit pb-16 md:pb-24">
       <div class="wrap">
         <nav class="caption flex items-center gap-3 reveal" aria-label="Breadcrumb">
           <a href="index.html" class="hover:text-ink transition" data-i18n="nav.home">Inicio</a>
           <span aria-hidden="true">/</span>
           <span class="text-ink" aria-current="page" data-i18n="nav.partners">Proyectos aliados</span>
         </nav>
-        <h1 class="display mt-10 text-[3rem] sm:text-[4.6rem] lg:text-[6.2rem] max-w-6xl reveal" style="--d:1" data-i18n="pp.title">Una trayectoria construida en el <em>sureste de México</em></h1>
+        <h1 class="display mt-10 text-[3rem] sm:text-[4.6rem] lg:text-[6.2rem] max-w-6xl reveal u-brush" style="--d:1" data-i18n="pp.title">Una trayectoria construida en el <em>sureste de México</em></h1>
         <div class="mt-12 md:mt-16 grid md:grid-cols-12 gap-x-12 gap-y-10">
           <p class="lede text-[#4a4740] md:col-span-6 reveal" style="--d:2" data-i18n="pp.lede">Selvadentro es el primer proyecto de JJF Creando: una alianza entre dos familias con historia comprobada en el desarrollo inmobiliario premium. Estos son los proyectos de nuestros socios en Tulum, Mérida y Yucatán.</p>
           <dl class="md:col-span-5 md:col-start-8 grid grid-cols-3 border-t hairline reveal" style="--d:3">
             <div class="pt-6 pr-4 flex flex-col-reverse justify-end">
               <dt class="caption mt-2" data-i18n="pp.stat1">Proyectos</dt>
-              <dd class="stat-num text-[2.8rem] md:text-[3.4rem]">8</dd>
+              <dd class="stat-num text-[2.8rem] md:text-[3.4rem]" data-count="8">8</dd>
             </div>
             <div class="pt-6 px-4 border-l hairline flex flex-col-reverse justify-end">
               <dt class="caption mt-2" data-i18n="pp.stat2">Estados</dt>
-              <dd class="stat-num text-[2.8rem] md:text-[3.4rem]">2</dd>
+              <dd class="stat-num text-[2.8rem] md:text-[3.4rem]" data-count="2">2</dd>
             </div>
             <div class="pt-6 pl-4 border-l hairline flex flex-col-reverse justify-end">
               <dt class="caption mt-2" data-i18n="pp.stat3">Años</dt>
-              <dd class="stat-num text-[2.8rem] md:text-[3.4rem]">25+</dd>
+              <dd class="stat-num text-[2.8rem] md:text-[3.4rem]" data-count="25" data-suffix="+">25+</dd>
             </div>
           </dl>
         </div>
@@ -100,7 +100,7 @@
     <!-- ============ INDEX ============ -->
     <section aria-labelledby="index-title" class="pb-24 md:pb-32">
       <div class="wrap">
-        <h2 id="index-title" class="eyebrow eyebrow-rule text-brass reveal" data-i18n="pp.index">Índice</h2>
+        <h2 id="index-title" class="eyebrow eyebrow-rule text-accent reveal" data-i18n="pp.index">Índice</h2>
         <ol id="project-index" class="mt-8 grid md:grid-cols-2 gap-x-12 border-t hairline"></ol>
       </div>
     </section>
@@ -120,8 +120,8 @@
       <div class="wrap">
         <div class="grid lg:grid-cols-12 gap-x-12 gap-y-8 pb-16 md:pb-20">
           <div class="lg:col-span-6">
-            <p class="eyebrow eyebrow-rule text-brass reveal" data-i18n="pp.g1.eyebrow">Tulum · Mérida</p>
-            <h2 id="landmark-title" class="display mt-8 text-[2.5rem] sm:text-[3.4rem] lg:text-[4.2rem] reveal" style="--d:1" data-i18n="pp.g1.title">Comunidades <em>de referencia</em></h2>
+            <p class="eyebrow eyebrow-rule text-accent reveal"><span class="eyebrow-num">01</span><span data-i18n="pp.g1.eyebrow">Tulum · Mérida</span></p>
+            <h2 id="landmark-title" class="display mt-8 text-[2.5rem] sm:text-[3.4rem] lg:text-[4.2rem] reveal u-brush" style="--d:1" data-i18n="pp.g1.title">Comunidades <em>de referencia</em></h2>
           </div>
           <p class="prose-body lg:col-span-4 lg:col-start-9 lg:self-end reveal" style="--d:2" data-i18n="pp.g1.body">Décadas de experiencia en algunas de las comunidades planeadas más reconocidas de la región, de la selva de Tulum al norte de Mérida.</p>
         </div>
@@ -134,7 +134,7 @@
       <div class="wrap">
         <div class="grid lg:grid-cols-12 gap-x-12 gap-y-10">
           <div class="lg:col-span-6">
-            <p class="eyebrow eyebrow-rule text-brass reveal" data-i18n="pp.g2.eyebrow">Socio · Mérida, Yucatán</p>
+            <p class="eyebrow eyebrow-rule text-accent reveal"><span class="eyebrow-num">02</span><span data-i18n="pp.g2.eyebrow">Socio · Mérida, Yucatán</span></p>
             <h2 id="mazza-title" class="display mt-8 text-[3rem] sm:text-[4.4rem] lg:text-[5.6rem] reveal" style="--d:1">Mazza <em>Capital</em></h2>
           </div>
           <div class="lg:col-span-5 lg:col-start-8 lg:self-end">
@@ -182,13 +182,13 @@
     <section id="contacto" class="on-dark bg-ink text-bone">
       <div class="wrap py-28 md:py-40 grid lg:grid-cols-12 gap-x-12 gap-y-12 lg:items-end">
         <div class="lg:col-span-7">
-          <p class="eyebrow eyebrow-rule text-brass reveal" data-i18n="contact.eyebrow">Contacto</p>
+          <p class="eyebrow eyebrow-rule text-accent reveal" data-i18n="contact.eyebrow">Contacto</p>
           <h2 class="display mt-8 text-[3rem] sm:text-[4.4rem] lg:text-[5.6rem] reveal" style="--d:1" data-i18n="contact.title">Comienza a construir <em>tu sueño</em></h2>
         </div>
         <div class="lg:col-span-4 lg:col-start-9">
           <p class="prose-body reveal" style="--d:2" data-i18n="contact.body">Agenda una llamada con nuestro equipo. Te contamos todo sobre Selvadentro y organizamos tu visita privada a la selva de Tulum.</p>
           <div class="mt-10 flex flex-wrap items-center gap-x-7 gap-y-5 reveal" style="--d:3">
-            <a href="#contacto" data-cta class="btn btn-light"><span data-i18n="cta.schedule">Agenda una llamada</span><span class="arrow" aria-hidden="true">→</span></a>
+            <a href="#contacto" data-cta class="btn btn-accent"><span data-i18n="cta.schedule">Agenda una llamada</span><span class="arrow" aria-hidden="true">→</span></a>
             <a href="https://wa.me/529994890828" data-wa target="_blank" rel="noopener" class="btn btn-ghost"><span data-i18n="cta.whatsapp">Escribir por WhatsApp</span><span class="arrow-ne" aria-hidden="true">↗</span></a>
           </div>
           <div class="mt-8 reveal" style="--d:4">
@@ -197,6 +197,7 @@
         </div>
       </div>
     </section>
+    <div class="cursor-preview" aria-hidden="true"><img alt="" /></div>
   </main>
 
   <!-- ============ FOOTER ============ -->
@@ -247,7 +248,7 @@
         <svg width="12" height="12" viewBox="0 0 12 12" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><path d="M1 1l10 10M11 1L1 11" /></svg>
       </button>
       <div class="px-8 md:px-12 pt-12 pb-6 text-center">
-        <p class="eyebrow text-brass" data-i18n="modal.eyebrow">JJF Creando</p>
+        <p class="eyebrow text-accent" data-i18n="modal.eyebrow">JJF Creando</p>
         <h3 id="modal-title" class="display mt-4 text-[2rem] md:text-[2.4rem]" data-i18n="modal.title">Agenda una <em>llamada</em></h3>
         <p class="mt-4 text-stone text-[0.95rem] leading-relaxed max-w-md mx-auto" data-i18n="modal.body">Elige el día y la hora que prefieras. Nuestro equipo te contactará para conocer tu proyecto.</p>
       </div>
@@ -255,6 +256,6 @@
     </div>
   </div>
 
-  <script src="main.js?v=20260930e"></script>
+  <script src="main.js?v=20260930f"></script>
 </body>
 </html>

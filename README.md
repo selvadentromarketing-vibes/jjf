@@ -15,7 +15,8 @@ src/input.css           → fuente de estilos (Tailwind v4 + componentes)
 assets/styles.css       → CSS compilado (lo que carga el navegador)
 assets/hero/            → película del hero (mp4 H.264 + webm VP9, escritorio y teléfono) y pósters
 assets/img/             → fotografías en WebP, en varios anchos (nombre-ANCHO.webp)
-assets/fonts/           → Cormorant Garamond y Jost, auto-alojadas (licencia OFL)
+assets/fonts/           → Instrument Serif y Jost, auto-alojadas (licencia OFL)
+assets/canopy-shadow.webp → sombra de palmera que se mece sobre las secciones claras (.sunlit)
 assets/og/              → tarjetas para compartir (1200×630) de portada y proyectos aliados
 assets/logo-mark.png    → logo original recortado; se usa como máscara CSS (toma el color del texto)
 robots.txt, sitemap.xml, llms.txt → buscadores y asistentes (dominio jjfcreando.com)
@@ -60,6 +61,11 @@ Si cambias `assets/styles.css` o `main.js`, sube el número `?v=` en las etiquet
   conserva `-g 12 -bf 0`. Con "reducir movimiento", ahorro de datos o pantallas de menos de
   520 px de alto, el hero es una sola pantalla con el póster y no descarga la película.
 
+- **Estilo:** paleta hueso/selva con dos acentos, turquesa de cenote (`--color-cenote`) en las
+  cursivas y cifras, y terracota de chukum (`--color-clay`) en etiquetas, subrayados y botones
+  principales (`.btn-accent`). `.u-brush` dibuja un subrayado a mano bajo las cursivas de un
+  título; `.sunlit` añade luz cálida y sombra de palmera; `data-count` anima una cifra al
+  aparecer; la banda `data-marquee` se desliza y acelera con el scroll.
 - **Idioma por URL:** `?lang=en` o `?lang=es` fija el idioma (útil para anuncios en inglés).
 - **WhatsApp:** número del equipo en la constante `WHATSAPP` de `main.js`; los enlaces con
   `data-wa` abren el chat con un mensaje listo en el idioma de la página (`wa.text`).
