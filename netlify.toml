@@ -1,9 +1,18 @@
 [build]
   publish = "."
 
-# Sitio estático: no requiere build. Netlify sirve index.html directamente.
-# Assets: caché de 1 día + revalidación en segundo plano, para que una imagen reemplazada
-# con el mismo nombre llegue a los visitantes (styles.css además lleva ?v= en index.html).
+# Sitio estático: no requiere build. Netlify sirve index.html directamente
+# (y partner-projects.html en /partner-projects.html).
+
+# Alias en español para la página de proyectos aliados
+[[redirects]]
+  from = "/proyectos-aliados"
+  to = "/partner-projects.html"
+  status = 301
+
+# Assets: caché de 1 día + revalidación en segundo plano, para que una imagen o película
+# reemplazada con el mismo nombre llegue a los visitantes (styles.css y main.js además
+# llevan ?v= en los HTML).
 [[headers]]
   for = "/assets/*"
   [headers.values]

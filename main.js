@@ -1,771 +1,894 @@
-(() => {
-"use strict";
+// ================== i18n dictionary ==================
+const I18N = {
+  es: {
+    "title.home": "JJF Creando — Desarrolladora inmobiliaria boutique en Tulum",
+    "title.partners": "Proyectos aliados — JJF Creando",
+    "meta.description": "JJF Creando es una desarrolladora inmobiliaria boutique en Tulum y la Riviera Maya. Creadores de Selvadentro, la comunidad privada con nueve cenotes en la selva de Tulum.",
+    "meta.partners": "Los proyectos de los socios de JJF Creando en Tulum, Mérida y Yucatán: Aldea Zamá, Selvazama, Yucatán Country Club y el portafolio de Mazza Capital.",
 
-// Copy, project data and list markup live in content.js (loaded first).
-const { I18N, projects, projectsMarkup, faqsMarkup } = window.JJF_CONTENT;
+    "nav.home": "Inicio",
+    "nav.selvadentro": "Selvadentro",
+    "nav.about": "Nosotros",
+    "nav.partners": "Proyectos aliados",
+    "nav.contact": "Contacto",
+    "nav.menu": "Menú",
+    "cta.schedule": "Agenda una llamada",
+    "cta.dream": "Comienza a construir tu sueño",
+
+    "hero.eyebrow": "JJF Creando · Tulum, Riviera Maya",
+    "hero.title": '<span class="line"><span style="--k:0">Creando experiencias</span></span><span class="line"><span style="--k:1"><em>a través del real estate</em></span></span>',
+    "hero.lede": "Desarrolladora inmobiliaria boutique. Más de 25 años creando lugares que inspiran conexión, calma y un profundo respeto por la naturaleza.",
+    "hero.cta": "Descubre Selvadentro",
+    "hero.caption": '<span class="hidden sm:inline">En pantalla — </span>Selvadentro, Tulum',
+    "hero.cue": "Desliza para descubrir",
+    "hero.b.eyebrow": "Del plano a la selva",
+    "hero.b.title": '<span class="line"><span class="st st-rise" style="--k:1">Cada camino, trazado</span></span><span class="line"><span class="st st-rise" style="--k:2"><em>alrededor de la selva.</em></span></span>',
+    "hero.ch1": "El plano",
+    "hero.ch2": "La selva",
+    "hero.ch3": "El horizonte",
+    "hero.b.body": "Baja densidad, nueve cenotes y el 65% de la selva conservada intacta.",
+    "hero.c.cta": "Conoce el proyecto",
+
+    "about.eyebrow": "Nosotros",
+    "about.title": "Los bienes raíces son mucho más que edificios. <em>Son lugares que transforman vidas.</em>",
+    "about.p1": "JJF Creando es una desarrolladora inmobiliaria boutique con una misión única: crear espacios que inspiren conexión, tranquilidad y una profunda apreciación por el mundo natural. Desarrollamos proyectos innovadores, sostenibles y de lujo que elevan el estándar de vida mientras preservan la belleza del entorno.",
+    "about.p2": "Nacimos de la alianza entre dos familias con trayectoria comprobada en el desarrollo inmobiliario premium del sureste mexicano. Selvadentro es nuestro primer proyecto.",
+    "about.link": "Nuestra filosofía",
+    "about.stat1.label": "Años de experiencia en la industria",
+    "about.stat2.label": "Hectáreas en comunidades de nuestros socios",
+    "about.stat3.label": "En valor de proyectos aliados",
+    "about.stat3.value": "US$1,800 M+",
+
+    "sd.eyebrow": "Proyecto insignia · Tulum",
+    "sd.tagline": "Tierra de cenotes",
+    "sd.statement": "La única comunidad privada en Tulum con <em>nueve cenotes</em> dentro.",
+    "sd.body": "Un desarrollo de lujo inmerso en la naturaleza, en el corazón de la selva de Tulum, donde la arquitectura refinada se funde con la selva que lo rodea. Concebido en torno a la privacidad, el bienestar y un profundo respeto por la tierra, ofrece privadas de baja densidad entrelazadas entre la vegetación nativa, los cenotes y el dosel abierto.",
+    "sd.fact1": "Cenotes naturales dentro del proyecto",
+    "sd.fact2": "De la selva conservada intacta",
+    "sd.fact3": "Experiencias y amenidades en la selva",
+    "sd.fact4": "Del Tren Maya",
+    "sd.cta": "Visitar Selvadentro",
+    "sd.cta2": "Agenda una visita privada",
+    "sd.architects": "Diseño y arquitectura — Maat Handasa · AMA Estudio",
+    "sd.cap.cenote": "Cenotes naturales dentro de la comunidad",
+    "sd.cap.aframe": "Amenidades entre la selva",
+    "sd.cap.spa": "Bienestar",
+    "sd.cap.villa": "Arquitectura que se integra a la selva",
+    "sd.cap.night": "Vida en comunidad",
+    "sd.cap.bath": "Interiores de luz filtrada",
+    "sd.disclaimer": "Algunas imágenes son representaciones artísticas con fines ilustrativos.",
+    "sd.alt.aerial": "Vista aérea de Selvadentro: residencias entre la selva de Tulum y un cenote",
+    "sd.alt.cenote": "Cenote natural dentro de Selvadentro",
+    "sd.alt.aframe": "Pabellón de madera y alberca entre la selva",
+    "sd.alt.spa": "Spa bajo la roca junto a un cenote",
+    "sd.alt.villa": "Residencia de Selvadentro integrada a la selva",
+    "sd.alt.night": "Pabellones iluminados junto a un cenote al anochecer",
+    "sd.alt.bath": "Interior de una residencia con vista a la selva",
+
+    "philosophy.eyebrow": "Nuestra filosofía",
+    "philosophy.title": "Tres pilares que guían <em>cada proyecto</em>",
+    "philosophy.intro": "Creemos que los bienes raíces son mucho más que edificios: se trata de crear entornos que transforman vidas y fomentan conexiones significativas.",
+    "philosophy.p1.title": "Diseño minimalista",
+    "philosophy.p1.body": "Espacios elegantes y funcionales que se integran de forma natural con su entorno, con arquitectura de vanguardia.",
+    "philosophy.p2.title": "Atención al detalle",
+    "philosophy.p2.body": "Cada proyecto refleja una planificación y ejecución meticulosas: un equilibrio armonioso entre estética, funcionalidad y sostenibilidad.",
+    "philosophy.p3.title": "Conexión con la naturaleza",
+    "philosophy.p3.body": "Preservamos el entorno natural e integramos prácticas ecológicas en cada etapa del desarrollo, para crear espacios que coexisten con la naturaleza.",
+    "philosophy.alt": "Una persona nada en un cenote bajo estalactitas, en Selvadentro",
+    "philosophy.caption": "Cenote en Selvadentro, Tulum",
+
+    "partners.eyebrow": "Proyectos aliados",
+    "partners.title": "Una trayectoria <em>compartida</em>",
+    "partners.body": "Selvadentro se apoya en décadas de experiencia. Conoce las comunidades y hoteles que nuestros socios han desarrollado en Tulum, Mérida y Yucatán.",
+    "partners.link": "Ver todos los proyectos",
+
+    "vision.eyebrow": "Nuestra visión para el futuro",
+    "vision.quote": "“Un futuro donde el lujo y la sostenibilidad no se excluyen: <em>se entrelazan.</em>”",
+    "vision.body": "Buscamos redefinir el desarrollo inmobiliario con espacios que inspiran, nutren y contribuyen al bienestar de sus residentes y de la comunidad que los rodea. A través de la innovación, la integridad y la pasión por la excelencia, seguimos creando desarrollos icónicos que dejen un legado duradero.",
+
+    "faq.eyebrow": "Preguntas frecuentes",
+    "faq.title": "Lo que necesitas <em>saber</em>",
+    "faq.body": "¿Tienes otra pregunta? Nuestro equipo te responde personalmente.",
+
+    "contact.eyebrow": "Contacto",
+    "contact.title": "Comienza a construir <em>tu sueño</em>",
+    "contact.body": "Agenda una llamada con nuestro equipo. Te contamos todo sobre Selvadentro y organizamos tu visita privada a la selva de Tulum.",
+    "contact.download": "Descarga nuestro CV",
+
+    "footer.tagline": "Desarrolladora inmobiliaria boutique en Tulum y la Riviera Maya.",
+    "footer.explore": "Explorar",
+    "footer.sites": "Sitios",
+    "footer.rights": "Todos los derechos reservados",
+
+    "modal.eyebrow": "JJF Creando",
+    "modal.title": "Agenda una <em>llamada</em>",
+    "modal.body": "Elige el día y la hora que prefieras. Nuestro equipo te contactará para conocer tu proyecto.",
+    "modal.close": "Cerrar",
+
+    // Partner projects page
+    "pp.title": "Una trayectoria construida en el <em>sureste de México</em>",
+    "pp.lede": "Selvadentro es el primer proyecto de JJF Creando: una alianza entre dos familias con historia comprobada en el desarrollo inmobiliario premium. Estos son los proyectos de nuestros socios en Tulum, Mérida y Yucatán.",
+    "pp.stat1": "Proyectos",
+    "pp.stat2": "Estados",
+    "pp.stat3": "Años",
+    "pp.index": "Índice",
+    "pp.alt.wide": "Hacienda Sacalá en Izamal, Yucatán",
+    "pp.wide.caption": "Hacienda Sacalá — Izamal, Yucatán · Mazza Capital",
+    "pp.g1.eyebrow": "Tulum · Mérida",
+    "pp.g1.title": "Comunidades <em>de referencia</em>",
+    "pp.g1.body": "Décadas de experiencia en algunas de las comunidades planeadas más reconocidas de la región, de la selva de Tulum al norte de Mérida.",
+    "pp.g2.eyebrow": "Socio · Mérida, Yucatán",
+    "pp.g2.body": "Desarrolladora inmobiliaria boutique con sede en Mérida, enfocada en identificar y estructurar oportunidades de inversión únicas. Conceptualiza, diseña, gestiona y dirige proyectos que buscan un impacto positivo en su entorno, y forma parte de la alianza detrás de JJF Creando y Selvadentro.",
+    "pp.g2.communities": "Comunidades",
+    "pp.g2.hotels": "Hoteles",
+    "pp.bridge.eyebrow": "El primer proyecto de JJF Creando",
+    "pp.bridge.body": "Toda esa experiencia, llevada a su expresión más ambiciosa: una comunidad privada de baja densidad con nueve cenotes, en el corazón de la selva de Tulum.",
+    "pp.bridge.cta": "Descubre Selvadentro",
+    "pp.visit": "Visitar sitio",
+    "pp.architecture": "Arquitectura",
+    "pp.developer": "Desarrollo",
+  },
+  en: {
+    "title.home": "JJF Creando — Boutique real estate developer in Tulum",
+    "title.partners": "Partner Projects — JJF Creando",
+    "meta.description": "JJF Creando is a boutique real estate developer in Tulum and the Riviera Maya. The creators of Selvadentro, the private community with nine cenotes in the Tulum jungle.",
+    "meta.partners": "Projects by JJF Creando's partners in Tulum, Mérida and Yucatán: Aldea Zamá, Selvazama, Yucatán Country Club and the Mazza Capital portfolio.",
+
+    "nav.home": "Home",
+    "nav.selvadentro": "Selvadentro",
+    "nav.about": "About",
+    "nav.partners": "Partner Projects",
+    "nav.contact": "Contact",
+    "nav.menu": "Menu",
+    "cta.schedule": "Schedule a call",
+    "cta.dream": "Start building your dream",
+
+    "hero.eyebrow": "JJF Creando · Tulum, Riviera Maya",
+    "hero.title": '<span class="line"><span style="--k:0">Crafting experiences</span></span><span class="line"><span style="--k:1"><em>through real estate</em></span></span>',
+    "hero.lede": "A boutique real estate developer. More than 25 years creating places that inspire connection, calm and a deep respect for nature.",
+    "hero.cta": "Discover Selvadentro",
+    "hero.caption": '<span class="hidden sm:inline">On screen — </span>Selvadentro, Tulum',
+    "hero.cue": "Scroll to discover",
+    "hero.b.eyebrow": "From plan to jungle",
+    "hero.b.title": '<span class="line"><span class="st st-rise" style="--k:1">Every road, drawn</span></span><span class="line"><span class="st st-rise" style="--k:2"><em>around the jungle.</em></span></span>',
+    "hero.ch1": "The plan",
+    "hero.ch2": "The jungle",
+    "hero.ch3": "The horizon",
+    "hero.b.body": "Low density, nine cenotes and 65% of the jungle preserved intact.",
+    "hero.c.cta": "Explore the project",
+
+    "about.eyebrow": "About us",
+    "about.title": "Real estate is more than buildings. <em>It is places that change lives.</em>",
+    "about.p1": "JJF Creando is a boutique real estate developer with a singular mission: to create spaces that inspire connection, tranquility and a deep appreciation for the natural world. We craft innovative, sustainable and luxurious developments that elevate the standard of living while preserving the beauty of their surroundings.",
+    "about.p2": "We were born from an alliance between two families with a proven track record in premium real estate across southeastern Mexico. Selvadentro is our first project.",
+    "about.link": "Our philosophy",
+    "about.stat1.label": "Years of industry experience",
+    "about.stat2.label": "Hectares across our partners' communities",
+    "about.stat3.label": "In partner project value",
+    "about.stat3.value": "US$1.8B+",
+
+    "sd.eyebrow": "Flagship project · Tulum",
+    "sd.tagline": "Land of cenotes",
+    "sd.statement": "The only private community in Tulum with <em>nine cenotes</em> within.",
+    "sd.body": "A luxury, nature-immersed development in the heart of the Tulum jungle, where refined architecture dissolves into the surrounding selva. Conceived around privacy, wellness and a deep respect for the land, it offers low-density private enclaves woven between native vegetation, cenotes and open canopy.",
+    "sd.fact1": "Natural cenotes within the project",
+    "sd.fact2": "Of the jungle preserved intact",
+    "sd.fact3": "Experiences and amenities in the jungle",
+    "sd.fact4": "From the Maya Train",
+    "sd.cta": "Visit Selvadentro",
+    "sd.cta2": "Book a private visit",
+    "sd.architects": "Design and architecture — Maat Handasa · AMA Estudio",
+    "sd.cap.cenote": "Natural cenotes within the community",
+    "sd.cap.aframe": "Amenities within the jungle",
+    "sd.cap.spa": "Wellness",
+    "sd.cap.villa": "Architecture woven into the jungle",
+    "sd.cap.night": "Community life",
+    "sd.cap.bath": "Interiors of filtered light",
+    "sd.disclaimer": "Some images are artistic renderings for illustrative purposes.",
+    "sd.alt.aerial": "Aerial view of Selvadentro: residences in the Tulum jungle beside a cenote",
+    "sd.alt.cenote": "Natural cenote inside Selvadentro",
+    "sd.alt.aframe": "Timber pavilion and pool in the jungle",
+    "sd.alt.spa": "Spa beneath the rock beside a cenote",
+    "sd.alt.villa": "A Selvadentro residence set into the jungle",
+    "sd.alt.night": "Lit pavilions beside a cenote at dusk",
+    "sd.alt.bath": "Residence interior opening onto the jungle",
+
+    "philosophy.eyebrow": "Our philosophy",
+    "philosophy.title": "Three pillars behind <em>every project</em>",
+    "philosophy.intro": "We believe real estate is more than buildings — it is about creating environments that shape lives and foster meaningful connections.",
+    "philosophy.p1.title": "Minimalist design",
+    "philosophy.p1.body": "Elegant, functional spaces that blend naturally into their surroundings, shaped by cutting-edge architecture.",
+    "philosophy.p2.title": "Attention to detail",
+    "philosophy.p2.body": "Every project reflects meticulous planning and execution: a harmonious balance between aesthetics, functionality and sustainability.",
+    "philosophy.p3.title": "Connection with nature",
+    "philosophy.p3.body": "We preserve the natural environment and integrate eco-conscious practices into every stage of development, creating spaces that coexist with nature.",
+    "philosophy.alt": "A swimmer in a cenote beneath stalactites at Selvadentro",
+    "philosophy.caption": "A cenote at Selvadentro, Tulum",
+
+    "partners.eyebrow": "Partner Projects",
+    "partners.title": "A shared <em>track record</em>",
+    "partners.body": "Selvadentro rests on decades of experience. Explore the communities and hotels our partners have developed across Tulum, Mérida and Yucatán.",
+    "partners.link": "View all projects",
+
+    "vision.eyebrow": "Our vision for the future",
+    "vision.quote": "“A future where luxury and sustainability are not opposites — <em>they are intertwined.</em>”",
+    "vision.body": "We aim to redefine real estate development with spaces that inspire, nurture and contribute to the wellbeing of their residents and the surrounding community. Through innovation, integrity and a passion for excellence, we continue shaping iconic developments that leave a lasting legacy.",
+
+    "faq.eyebrow": "FAQ",
+    "faq.title": "What you need <em>to know</em>",
+    "faq.body": "Have another question? Our team will answer you personally.",
+
+    "contact.eyebrow": "Contact",
+    "contact.title": "Start building <em>your dream</em>",
+    "contact.body": "Schedule a call with our team. We will tell you everything about Selvadentro and arrange your private visit to the Tulum jungle.",
+    "contact.download": "Download our CV",
+
+    "footer.tagline": "Boutique real estate developer in Tulum and the Riviera Maya.",
+    "footer.explore": "Explore",
+    "footer.sites": "Sites",
+    "footer.rights": "All rights reserved",
+
+    "modal.eyebrow": "JJF Creando",
+    "modal.title": "Schedule a <em>call</em>",
+    "modal.body": "Choose the day and time that suit you. Our team will reach out to learn about your project.",
+    "modal.close": "Close",
+
+    "pp.title": "A track record built across <em>southeastern Mexico</em>",
+    "pp.lede": "Selvadentro is JJF Creando's first project: an alliance between two families with a proven history in premium real estate development. These are our partners' projects across Tulum, Mérida and Yucatán.",
+    "pp.stat1": "Projects",
+    "pp.stat2": "States",
+    "pp.stat3": "Years",
+    "pp.index": "Index",
+    "pp.alt.wide": "Hacienda Sacalá in Izamal, Yucatán",
+    "pp.wide.caption": "Hacienda Sacalá — Izamal, Yucatán · Mazza Capital",
+    "pp.g1.eyebrow": "Tulum · Mérida",
+    "pp.g1.title": "Landmark <em>communities</em>",
+    "pp.g1.body": "Decades of experience across some of the region's most recognized master-planned communities, from the Tulum jungle to northern Mérida.",
+    "pp.g2.eyebrow": "Partner · Mérida, Yucatán",
+    "pp.g2.body": "A boutique real estate developer based in Mérida, focused on identifying and structuring unique investment opportunities. It conceptualizes, designs, manages and directs projects that seek a positive impact on their surroundings — and is part of the alliance behind JJF Creando and Selvadentro.",
+    "pp.g2.communities": "Communities",
+    "pp.g2.hotels": "Hotels",
+    "pp.bridge.eyebrow": "JJF Creando's first project",
+    "pp.bridge.body": "All of that experience, brought to its most ambitious expression: a low-density private community with nine cenotes in the heart of the Tulum jungle.",
+    "pp.bridge.cta": "Discover Selvadentro",
+    "pp.visit": "Visit website",
+    "pp.architecture": "Architecture",
+    "pp.developer": "Development",
+  },
+};
+
+// ================== Partner projects (bilingual) ==================
+// Everything except Selvadentro, which is JJF Creando's own flagship on the home page.
+// group: "landmark" (Tulum · Mérida communities) | "mazza-communities" | "mazza-hotels"
+const PARTNERS = [
+  {
+    id: "aldea-zama",
+    group: "landmark",
+    img: "aldea-zama",
+    widths: [908],
+    name: "Aldea Zamá",
+    place: { es: "Tulum, Quintana Roo", en: "Tulum, Quintana Roo" },
+    type: { es: "Comunidad planeada", en: "Master-planned community" },
+    text: {
+      es: "Una comunidad planeada de 100 hectáreas que combina el misticismo de la herencia maya de Tulum con la vida internacional moderna. Zonas residenciales privadas, áreas comerciales vibrantes e infraestructura excepcional la convirtieron en la inversión más segura y codiciada de Tulum: un referente de la Riviera Maya, con el 100% de sus espacios vendidos.",
+      en: "A 100-hectare master-planned community that blends the mysticism of Tulum's Mayan heritage with modern international living. Private residential zones, vibrant commercial areas and exceptional infrastructure made it Tulum's most secure and sought-after investment — a benchmark for the Riviera Maya, with 100% of its spaces sold.",
+    },
+    stats: [
+      { v: "100 ha", l: { es: "Superficie", en: "Land area" } },
+      { v: "4,000", l: { es: "Hogares", en: "Homes" } },
+      { v: "100%", l: { es: "Vendido", en: "Sold" } },
+    ],
+  },
+  {
+    id: "selvazama",
+    group: "landmark",
+    img: "selvazama",
+    widths: [752],
+    name: "Selvazama",
+    place: { es: "Tulum, Quintana Roo", en: "Tulum, Quintana Roo" },
+    type: { es: "Desarrollo de usos mixtos", en: "Mixed-use development" },
+    text: {
+      es: "165 hectáreas en la zona hotelera de Tulum que redefinen la vida sostenible. Reúne espacios residenciales, comerciales, hoteleros, culturales y recreativos, con proyectos terminados como Aldea Premium I–IV, Ahimsa, Mondo y Dharma, y referentes como Azulik y una escuela Montessori. Con la Fase 1 completada y la Fase 2 en marcha, da forma al futuro eco-lujo de Tulum.",
+      en: "165 hectares in Tulum's hotel zone, redefining sustainable living. It brings together residential, commercial, hotel, cultural and recreational spaces, with completed projects such as Aldea Premium I–IV, Ahimsa, Mondo and Dharma, and landmarks like Azulik and a Montessori school. With Phase 1 complete and Phase 2 underway, it is shaping Tulum's eco-luxury future.",
+    },
+    stats: [
+      { v: "165 ha", l: { es: "Superficie", en: "Land area" } },
+      { v: "US$1B+", l: { es: "Valuación", en: "Valuation" } },
+      { v: { es: "Fase 2", en: "Phase 2" }, l: { es: "En marcha", en: "Underway" } },
+    ],
+  },
+  {
+    id: "yucatan-country-club",
+    group: "landmark",
+    img: "yucatan-country-club",
+    widths: [800, 1066],
+    name: "Yucatán Country Club",
+    place: { es: "Mérida, Yucatán", en: "Mérida, Yucatán" },
+    type: { es: "Comunidad privada con golf", en: "Private golf community" },
+    text: {
+      es: "Un desarrollo privado de 330 hectáreas, reconocido como uno de los proyectos inmobiliarios más importantes de América Latina. En torno a un campo de golf de clase mundial diseñado por Jack Nicklaus, reúne residencias de lujo —Harmonia Villas & Apartments, Serena Casa, Kanha Grand Lago y Anthea Apartments— y una casa club de vanguardia con amenidades incomparables.",
+      en: "A 330-hectare gated development recognized as one of Latin America's most significant real estate projects. Centered on a world-class golf course designed by Jack Nicklaus, it brings together luxury residences — Harmonia Villas & Apartments, Serena Casa, Kanha Grand Lago and Anthea Apartments — and a state-of-the-art clubhouse with unparalleled amenities.",
+    },
+    stats: [
+      { v: "330 ha", l: { es: "Superficie", en: "Land area" } },
+      { v: "US$600M", l: { es: "Valuación", en: "Valuation" } },
+      { v: "Nicklaus", l: { es: "Campo de golf", en: "Golf course" } },
+    ],
+    url: "https://yucatancountryclub.com",
+  },
+  {
+    id: "hacienda-sacala",
+    group: "mazza-communities",
+    img: "hacienda-sacala",
+    widths: [900, 1384],
+    name: "Hacienda Sacalá",
+    place: { es: "Izamal, Yucatán", en: "Izamal, Yucatán" },
+    type: { es: "Residencial · Golf · Hotel boutique", en: "Residential · Golf · Boutique hotel" },
+    text: {
+      es: "En el Pueblo Mágico de Izamal, un desarrollo residencial con campo de golf, hotel boutique y un barrio con experiencias gastronómicas, culturales y artísticas que reflejan la riqueza de la región. Una forma de vivir y descansar en un lugar lleno de historia.",
+      en: "In the Magical Town of Izamal, a residential development with a golf course, a boutique hotel and a neighborhood of culinary, cultural and artistic experiences that reflect the richness of the region. A way to live and unwind in a place steeped in history.",
+    },
+    architects: "Muñoz Arquitectos · AS Arquitectura",
+    url: "https://sacala.mx",
+  },
+  {
+    id: "yucatan-marina-club",
+    group: "mazza-communities",
+    img: "yucatan-marina-club",
+    widths: [800],
+    name: "Yucatán Marina Club",
+    place: { es: "Yucalpetén, Progreso", en: "Yucalpetén, Progreso" },
+    type: { es: "Comunidad náutica de usos mixtos", en: "Mixed-use marina community" },
+    text: {
+      es: "Un complejo de 55 hectáreas que integra marina, vivienda, comercio y espacio público: 209 terrenos residenciales con acceso náutico, un marina village con hotel y torres de departamentos con vista a la marina. Desarrollado por Grupo R4 junto con Mazza Capital.",
+      en: "A 55-hectare complex that brings together marina, residential, commercial and public space: 209 residential lots with nautical access, a marina village with a hotel, and apartment towers overlooking the marina. Developed by Grupo R4 together with Mazza Capital.",
+    },
+    architects: "Maat Handasa · Muñoz Arquitectos · Augusto Quijano · Mauricio Gallegos · Lavalle Peniche",
+    url: "https://www.yucatanmarinaclub.com",
+  },
+  {
+    id: "cuatro-lagos",
+    group: "mazza-communities",
+    img: "cuatro-lagos",
+    widths: [936],
+    name: "Cuatro Lagos",
+    place: { es: "Sierra Papacal, Yucatán", en: "Sierra Papacal, Yucatán" },
+    type: { es: "Comunidad residencial", en: "Residential community" },
+    text: {
+      es: "Un complejo residencial con 10 privadas, 4 lagos, 4 casas club, ciclovía y áreas comerciales, a 20 minutos de Mérida y a 10 de Progreso. Pensado para familias que buscan vivir rodeadas de naturaleza, cerca de la ciudad.",
+      en: "A residential complex with 10 gated neighborhoods, 4 lakes, 4 clubhouses, a bike path and commercial areas, 20 minutes from Mérida and 10 from Progreso. Designed for families who want to live surrounded by nature, close to the city.",
+    },
+    architects: "ZZ Studio · Pineda Saadi Arquitectos",
+    url: "https://cuatrolagos.com",
+  },
+  {
+    id: "punta-columpios",
+    group: "mazza-hotels",
+    img: "punta-columpios",
+    widths: [930],
+    name: "Punta Columpios",
+    place: { es: "Yucatán, México", en: "Yucatán, Mexico" },
+    type: { es: "Hotel · 22 habitaciones", en: "Hotel · 22 rooms" },
+    text: {
+      es: "Un hotel de 22 habitaciones en Yucatán, concebido para ofrecer a cada huésped una experiencia de soft adventure única.",
+      en: "A 22-room hotel in Yucatán, conceived to offer every guest a unique soft-adventure experience.",
+    },
+    architects: "ZZ Studio",
+  },
+  {
+    id: "casa-ku",
+    group: "mazza-hotels",
+    img: "casa-ku",
+    widths: [800, 1024, 1600],
+    name: "Casa K'u",
+    place: { es: "San Bruno, Yucatán", en: "San Bruno, Yucatán" },
+    type: { es: "Hotel frente al mar · 10 habitaciones", en: "Beachfront hotel · 10 rooms" },
+    text: {
+      es: "Un hotel de 10 habitaciones frente al mar, solo para adultos: una experiencia de descanso en la naturaleza, pensada para desconectar y reencontrarse.",
+      en: "A 10-room, adults-only beachfront hotel: a restful experience in nature, designed to disconnect and reconnect.",
+    },
+    architects: "ZZ Design",
+    url: "https://www.casakuhotel.com",
+  },
+];
+
+// Four partner projects previewed on the home page
+const TEASER = ["aldea-zama", "yucatan-country-club", "hacienda-sacala", "casa-ku"];
+
+// ================== FAQ (bilingual) ==================
+const FAQS = [
+  {
+    q: { es: "¿Ofrecen servicios de construcción tanto comercial como residencial?", en: "Do you offer both commercial and residential construction services?" },
+    a: { es: "Sí. JJF Creando se especializa en proyectos de construcción comercial y residencial, adaptados a las necesidades de cada cliente.", en: "Yes. JJF Creando specializes in both commercial and residential construction projects, tailored to each client's needs." },
+  },
+  {
+    q: { es: "¿Pueden ayudarme a obtener permisos de construcción y otros requisitos legales?", en: "Can you help me obtain building permits and other legal requirements?" },
+    a: { es: "Sí. Brindamos apoyo integral en todos los aspectos regulatorios y de cumplimiento, incluida la obtención de los permisos necesarios, para garantizar un proceso sin complicaciones.", en: "Yes. We provide comprehensive support across every regulatory and compliance aspect, including obtaining the necessary building permits, to ensure a hassle-free process." },
+  },
+  {
+    q: { es: "¿Qué prácticas de sostenibilidad incorporan en sus proyectos?", en: "What sustainability practices do you incorporate into your projects?" },
+    a: { es: "Utilizamos prácticas de construcción sostenible, materiales de eficiencia energética y estrategias innovadoras de reducción de residuos. En Selvadentro, además, el 65% de la selva se conserva intacta.", en: "We use green building practices, energy-efficient materials and innovative waste-reduction strategies. At Selvadentro, 65% of the jungle is also preserved intact." },
+  },
+  {
+    q: { es: "¿Cómo garantizan la calidad de la construcción?", en: "How do you ensure the quality of construction?" },
+    a: { es: "Utilizamos materiales de alta calidad, cumplimos estándares estrictos y realizamos múltiples inspecciones a lo largo de todo el proceso de construcción.", en: "We use high-quality materials, adhere to strict standards and conduct multiple inspections throughout the construction process." },
+  },
+  {
+    q: { es: "¿Ofrecen soluciones de construcción personalizadas?", en: "Do you offer customized building solutions?" },
+    a: { es: "Sí. Creamos soluciones a la medida para que el resultado final responda exactamente a tus necesidades.", en: "Yes. We create tailor-made solutions so the final result meets your specific needs." },
+  },
+  {
+    q: { es: "¿Qué soporte puedo esperar después de terminar un proyecto?", en: "What follow-up support can I expect after a project is completed?" },
+    a: { es: "Ofrecemos soporte postconstrucción integral: asesoría de mantenimiento, cumplimiento de garantías y atención al cliente.", en: "We offer comprehensive post-construction support, including maintenance advice, warranty fulfillment and customer service." },
+  },
+];
 
 // ================== Helpers ==================
-const SUPPORTED = ["es", "en"];
-const root = document.documentElement;
-const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
-const finePointer = window.matchMedia("(hover: hover) and (pointer: fine)");
-const isDesktop = window.matchMedia("(min-width: 1024px)");
-const $ = (sel, ctx = document) => ctx.querySelector(sel);
-const $$ = (sel, ctx = document) => Array.from(ctx.querySelectorAll(sel));
+const $ = (sel, root = document) => root.querySelector(sel);
+const $$ = (sel, root = document) => Array.from(root.querySelectorAll(sel));
+const pick = (v, lang) => (v && typeof v === "object" ? v[lang] : v);
 const pad = (n) => String(n).padStart(2, "0");
-const clamp = (v, min, max) => Math.min(max, Math.max(min, v));
-
-const header = $("#site-header");
-const hero = $("#hero");
-const heroMedia = $(".hero-media");
-const heroContent = $(".hero-content");
-const progressBar = $(".scroll-progress span");
-const projectList = $("#project-list");
-const stage = $("#project-stage");
-const faqList = $("#faq-list");
-const marquee = $(".marquee");
-const marqueeTrack = $(".marquee-track");
-const menu = $("#mobile-menu");
-const menuToggle = $("#menu-toggle");
-const modal = $("#modal");
-const bookingFrame = $("#booking-frame");
-const langHint = $(".lang-hint");
-const darkSections = [hero, $("#projects"), $("#contact"), $("footer")];
-
+const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const page = document.body.dataset.page;
 let currentLang = "es";
-let menuOpen = false;
 
-// ================== Render ==================
-// The projects + FAQ lists ship prerendered in index.html (scripts/prerender.mjs);
-// only render them here if that markup is missing. The stage and marquee are decoration.
-function renderDynamic() {
-  if (!projectList.children.length) projectList.innerHTML = projectsMarkup(() => "");
-  if (!faqList.children.length) faqList.innerHTML = faqsMarkup(() => "");
-
-  stage.innerHTML = `
-    <div class="stage-glow">${projects.map((p, i) => `<span${i === 0 ? ' class="is-on"' : ""} style="background-image: url(${p.glow || p.img})"></span>`).join("")}</div>
-    <div class="stage-slides">
-      ${projects
-        .map(
-          (p, i) => `
-        <figure class="stage-slide${i === 0 ? " is-open" : ""}">
-          <div class="stage-zoom"><img src="${p.img}" alt="" width="${p.w}" height="${p.h}" loading="lazy" decoding="async" /></div>
-        </figure>`
-        )
-        .join("")}
-    </div>
-    <div class="stage-ui">
-      <p class="stage-count"><span class="stage-count-current"><span>01</span></span><span class="stage-count-total">/ ${pad(projects.length)}</span></p>
-      <div class="stage-bars">${projects.map((_, i) => `<span${i === 0 ? ' class="is-active"' : ""}></span>`).join("")}</div>
-    </div>`;
-
-  const group = projects.map((p) => `<span class="marquee-item">${p.name.en}</span><span class="marquee-sep"></span>`).join("");
-  marqueeTrack.innerHTML = `<div class="marquee-group">${group}</div><div class="marquee-group">${group}</div>`;
+function srcset(p) {
+  return p.widths.map((w) => `assets/img/${p.img}-${w}.webp ${w}w`).join(", ");
+}
+function largest(p) {
+  return `assets/img/${p.img}-${p.widths[p.widths.length - 1]}.webp`;
+}
+function visitLink(p, lang) {
+  if (!p.url) return "";
+  return `<a href="${p.url}" target="_blank" rel="noopener" class="link-line mt-8">${I18N[lang]["pp.visit"]}<span class="arrow-ne" aria-hidden="true">↗</span></a>`;
 }
 
-// ================== Split text ==================
-// "mask": every word becomes .w > .w-i so it can rise out of its own mask.
-// "scrub": plain .sw spans whose opacity is driven by scroll position.
-// A no-break space (&nbsp;) keeps two words in one span, so they never wrap apart.
-function splitText(el, mode) {
-  const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT);
-  const nodes = [];
-  while (walker.nextNode()) nodes.push(walker.currentNode);
-  const words = [];
-  for (const node of nodes) {
-    const frag = document.createDocumentFragment();
-    for (const part of node.nodeValue.split(/([^\S ]+)/)) {
-      if (!part) continue;
-      if (/^[^\S ]+$/.test(part)) {
-        frag.append(" ");
-        continue;
-      }
-      const word = document.createElement("span");
-      if (mode === "scrub") {
-        word.className = "sw";
-        word.textContent = part;
-      } else {
-        word.className = "w";
-        const inner = document.createElement("span");
-        inner.className = "w-i";
-        inner.style.setProperty("--i", words.length);
-        inner.textContent = part;
-        word.append(inner);
-      }
-      words.push(word);
-      frag.append(word);
-    }
-    node.replaceWith(frag);
-  }
-  return words;
+// ================== Renderers ==================
+function renderTeaser(lang) {
+  const el = $("#partner-teaser");
+  if (!el) return;
+  el.innerHTML = TEASER.map((id, i) => {
+    const p = PARTNERS.find((x) => x.id === id);
+    return `
+      <a href="partner-projects.html#${p.id}" class="group block zoom reveal" style="--d:${i}">
+        <div class="frame aspect-[4/5]">
+          <img src="${largest(p)}" srcset="${srcset(p)}" sizes="(min-width: 1024px) 25vw, (min-width: 640px) 46vw, 78vw" alt="${p.name}" loading="lazy" decoding="async" />
+        </div>
+        <div class="mt-5 flex items-baseline justify-between gap-4">
+          <h3 class="font-serif font-light text-[1.7rem] md:text-[1.9rem] leading-tight">${p.name}</h3>
+          <span class="arrow text-lg" aria-hidden="true">→</span>
+        </div>
+        <p class="caption mt-2">${pick(p.place, lang)}</p>
+      </a>`;
+  }).join("");
 }
 
-// ================== Language ==================
-let scrubEl = null;
-let scrubWords = [];
-let litCount = 0;
+function renderIndex(lang) {
+  const el = $("#project-index");
+  if (!el) return;
+  el.innerHTML = PARTNERS.map((p, i) => `
+    <li class="border-b hairline">
+      <a href="#${p.id}" class="group grid grid-cols-[2.5rem_1fr_auto] items-baseline gap-4 py-5">
+        <span class="font-serif italic text-brass text-lg">${pad(i + 1)}</span>
+        <span>
+          <span class="font-serif text-[1.55rem] md:text-[1.75rem] font-light leading-tight group-hover:text-brass transition">${p.name}</span>
+          <span class="caption block mt-1">${pick(p.place, lang)}</span>
+        </span>
+        <span class="arrow text-stone group-hover:translate-x-1" aria-hidden="true">→</span>
+      </a>
+    </li>`).join("");
+}
 
-function applyLang(lang) {
+function renderLandmark(lang) {
+  const el = $("#group-landmark");
+  if (!el) return;
+  const list = PARTNERS.filter((p) => p.group === "landmark");
+  el.innerHTML = list.map((p, i) => {
+    const n = PARTNERS.indexOf(p) + 1;
+    const rev = i % 2 === 1;
+    return `
+      <article id="${p.id}" class="grid lg:grid-cols-12 gap-x-12 gap-y-10 py-14 md:py-20 border-t hairline scroll-mt-28 zoom">
+        <div class="lg:col-span-7 lg:row-start-1 ${rev ? "lg:col-start-6" : ""}">
+          <div class="frame reveal-img aspect-[4/3]">
+            <img src="${largest(p)}" srcset="${srcset(p)}" sizes="(min-width: 1024px) 55vw, 100vw" alt="${p.name} — ${pick(p.place, lang)}" loading="lazy" decoding="async" />
+          </div>
+        </div>
+        <div class="lg:col-span-5 lg:row-start-1 ${rev ? "lg:col-start-1" : ""} flex flex-col justify-center">
+          <p class="caption reveal">${pad(n)} — ${pick(p.place, lang)}</p>
+          <h3 class="display mt-5 text-[2.8rem] md:text-[3.6rem] reveal" style="--d:1">${p.name}</h3>
+          <div class="mt-5 reveal" style="--d:1"><span class="chip">${pick(p.type, lang)}</span></div>
+          <p class="prose-body mt-7 reveal" style="--d:2">${p.text[lang]}</p>
+          <dl class="mt-10 grid grid-cols-3 border-t hairline reveal" style="--d:3">
+            ${p.stats.map((s, j) => `
+              <div class="pt-5 min-w-0 flex flex-col-reverse justify-end ${j > 0 ? "pl-3 sm:pl-4 border-l hairline" : "pr-3 sm:pr-4"}">
+                <dt class="caption mt-2">${pick(s.l, lang)}</dt>
+                <dd class="stat-num text-[1.5rem] sm:text-[1.9rem] md:text-[2.3rem]">${pick(s.v, lang)}</dd>
+              </div>`).join("")}
+          </dl>
+          ${p.url ? `<div class="reveal" style="--d:4">${visitLink(p, lang)}</div>` : ""}
+        </div>
+      </article>`;
+  }).join("");
+}
+
+function renderMazza(lang, group, targetId, aspect, sizes) {
+  const el = document.getElementById(targetId);
+  if (!el) return;
+  el.innerHTML = PARTNERS.filter((p) => p.group === group).map((p, i) => {
+    const n = PARTNERS.indexOf(p) + 1;
+    return `
+      <article id="${p.id}" class="scroll-mt-28 zoom flex flex-col">
+        <div class="frame reveal-img ${aspect}">
+          <img src="${largest(p)}" srcset="${srcset(p)}" sizes="${sizes}" alt="${p.name} — ${pick(p.place, lang)}" loading="lazy" decoding="async" />
+        </div>
+        <p class="caption mt-7 reveal">${pad(n)} — ${pick(p.place, lang)}</p>
+        <h4 class="display mt-4 text-[2.3rem] md:text-[2.7rem] reveal" style="--d:1">${p.name}</h4>
+        <div class="mt-4 reveal" style="--d:1"><span class="chip">${pick(p.type, lang)}</span></div>
+        <p class="prose-body mt-6 reveal" style="--d:2">${p.text[lang]}</p>
+        ${p.architects ? `<p class="mt-6 text-[0.85rem] leading-relaxed text-stone reveal" style="--d:3"><span class="eyebrow !text-[0.64rem] text-ink/70">${I18N[lang]["pp.architecture"]}</span><br />${p.architects}</p>` : ""}
+        ${p.url ? `<div class="mt-auto reveal" style="--d:3">${visitLink(p, lang)}</div>` : ""}
+      </article>`;
+  }).join("");
+}
+
+function renderFaqs(lang) {
+  const el = $("#faq-list");
+  if (!el) return;
+  el.innerHTML = FAQS.map((f) => `
+    <details class="faq border-b hairline py-7">
+      <summary class="flex items-start justify-between gap-8">
+        <span class="font-serif text-[1.45rem] md:text-[1.65rem] font-light leading-snug">${f.q[lang]}</span>
+        <span class="pm" aria-hidden="true"></span>
+      </summary>
+      <div class="answer"><div><p class="prose-body pt-4 pr-10">${f.a[lang]}</p></div></div>
+    </details>`).join("");
+}
+
+// ================== Reveal on scroll ==================
+const revealObserver = "IntersectionObserver" in window && !reducedMotion
+  ? new IntersectionObserver((entries) => {
+      entries.forEach((e) => {
+        if (e.isIntersecting) {
+          e.target.classList.add("is-in");
+          revealObserver.unobserve(e.target);
+        }
+      });
+    }, { rootMargin: "0px 0px -8% 0px", threshold: 0.08 })
+  : null;
+
+function observeReveals(root = document, instant = false) {
+  $$(".reveal, .reveal-img", root).forEach((el) => {
+    if (instant || !revealObserver) el.classList.add("is-in");
+    else revealObserver.observe(el);
+  });
+}
+
+// ================== Apply language ==================
+const SUPPORTED = ["es", "en"];
+
+function applyLang(lang, { instant = false } = {}) {
   if (!SUPPORTED.includes(lang)) lang = "es";
   currentLang = lang;
   const dict = I18N[lang];
 
   $$("[data-i18n]").forEach((el) => {
-    const val = dict[el.dataset.i18n];
+    const val = dict[el.getAttribute("data-i18n")];
     if (val === undefined) return;
-    if (el.tagName === "META") {
-      el.setAttribute("content", val);
-      return;
-    }
-    el.innerHTML = val;
-    if (el.hasAttribute("data-split")) splitText(el, "mask");
-    else if (el.hasAttribute("data-scrub")) {
-      // Keep the lit share across a language switch: new spans are born lit, so nothing re-fades
-      const ratio = scrubWords.length ? litCount / scrubWords.length : 0;
-      scrubWords = splitText(el, "scrub");
-      litCount = Math.round(ratio * scrubWords.length);
-      scrubWords.forEach((w, i) => i < litCount && w.classList.add("is-lit"));
-    }
-  });
-  $$("[data-i18n-aria]").forEach((el) => {
-    const val = dict[el.dataset.i18nAria];
-    if (val) el.setAttribute("aria-label", val);
+    if (el.tagName === "META") el.setAttribute("content", val);
+    else el.innerHTML = val;
   });
   $$("[data-i18n-alt]").forEach((el) => {
-    const val = dict[el.dataset.i18nAlt];
-    if (val) el.alt = val;
+    const val = dict[el.getAttribute("data-i18n-alt")];
+    if (val !== undefined) el.setAttribute("alt", val);
   });
 
-  if (dict["meta.title"]) document.title = dict["meta.title"];
-  if (bookingFrame) bookingFrame.setAttribute("title", dict["cta.schedule"]);
-  menuToggle.setAttribute("aria-label", dict[menuOpen ? "menu.close" : "menu.open"]);
+  document.title = dict[page === "partners" ? "title.partners" : "title.home"];
+  document.documentElement.lang = lang;
 
-  root.lang = lang;
-  $$(".lang-toggle").forEach((t) => (t.dataset.active = lang));
-  $$(".lang-btn").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.lang === lang)));
-  requestFrame();
-}
+  // Dynamic sections
+  renderTeaser(lang);
+  renderIndex(lang);
+  renderLandmark(lang);
+  renderMazza(lang, "mazza-communities", "group-mazza-communities", "aspect-[4/3]", "(min-width: 1024px) 30vw, (min-width: 768px) 46vw, 100vw");
+  renderMazza(lang, "mazza-hotels", "group-mazza-hotels", "aspect-[3/2]", "(min-width: 768px) 46vw, 100vw");
+  renderFaqs(lang);
+  ["#partner-teaser", "#group-landmark", "#group-mazza-communities", "#group-mazza-hotels"].forEach((sel) => {
+    const root = $(sel);
+    if (root) observeReveals(root, instant);
+  });
 
-const saveLang = (lang) => {
+  refreshHeroChapter();
+
+  // a11y labels
+  const closeBtn = $("#modal-close");
+  if (closeBtn) closeBtn.setAttribute("aria-label", dict["modal.close"]);
+  const frame = $("#booking-frame");
+  if (frame) frame.setAttribute("title", dict["cta.schedule"]);
+  const menuBtn = $("#menu-btn");
+  if (menuBtn) menuBtn.setAttribute("aria-label", dict["nav.menu"]);
+
+  $$("#lang-toggle .lang-btn").forEach((b) => {
+    const on = b.dataset.lang === lang;
+    b.classList.toggle("active", on);
+    b.setAttribute("aria-pressed", on ? "true" : "false");
+  });
+
   try { localStorage.setItem("jjf-lang", lang); } catch (e) {}
-};
-
-function switchLang(lang) {
-  clearTimeout(hintShowTimer);
-  saveLang(lang);
-  hideLangHint();
-  if (lang === currentLang) return;
-  // Shareable URL per language: "/" is Spanish, "?lang=en" is English
-  const url = new URL(location.href);
-  if (lang === "es") url.searchParams.delete("lang");
-  else url.searchParams.set("lang", lang);
-  history.replaceState(history.state, "", url);
-  // Cross-fade the text swap where View Transitions are supported
-  if (document.startViewTransition && !reduceMotion.matches) document.startViewTransition(() => applyLang(lang));
-  else applyLang(lang);
 }
 
-// "/" always renders Spanish (what crawlers index); English comes from ?lang=en or a saved choice.
-function initialLang() {
-  const param = new URLSearchParams(location.search).get("lang");
-  if (SUPPORTED.includes(param)) {
-    saveLang(param);
-    return { lang: param, explicit: true };
-  }
-  try {
-    const saved = localStorage.getItem("jjf-lang");
-    if (SUPPORTED.includes(saved)) return { lang: saved, explicit: true };
-  } catch (e) {}
-  return { lang: "es", explicit: false };
-}
-
-// First-time visitors whose browser prefers English get a one-tap hint (once per browser)
-// instead of an auto-switch.
-let hintTimer = 0;
-let hintShowTimer = 0;
-function showLangHint() {
-  if (!langHint) return;
-  try { localStorage.setItem("jjf-hint", "1"); } catch (e) {}
-  langHint.hidden = false;
-  void langHint.offsetWidth; // commit the hidden state so the entrance transition runs
-  langHint.classList.add("is-visible");
-  hintTimer = setTimeout(hideLangHint, 9000);
-}
-function hideLangHint() {
-  if (!langHint || langHint.hidden) return;
-  clearTimeout(hintTimer);
-  // Don't strand keyboard focus on a control that is about to disappear
-  if (langHint.contains(document.activeElement)) {
-    const btn = $(`.site-header .lang-btn[data-lang="${currentLang}"]`);
-    if (btn) btn.focus({ preventScroll: true });
-  }
-  langHint.classList.remove("is-visible");
-  setTimeout(() => (langHint.hidden = true), 400);
-}
-const hintSeen = () => {
-  try { return localStorage.getItem("jjf-hint") === "1"; } catch (e) { return true; }
-};
-
-// ================== Scroll reveals ==================
-const PENDING = "[data-reveal]:not(.is-in), [data-split]:not(.is-in)";
-
-function initReveals() {
-  const targets = $$("[data-reveal], [data-split]").filter((el) => !hero.contains(el));
-  if (reduceMotion.matches || !("IntersectionObserver" in window)) {
-    targets.forEach((el) => el.classList.add("is-in"));
-    return;
-  }
-
-  // An element hidden by clip-path: inset(100% …) has no visible area to intersect, so it would
-  // only reveal once its bottom edge scrolled in. Observe its (unclipped) parent instead.
-  const CLIPPED = ["arch", "clip", "stage"];
-  const proxyOf = new Map(); // element -> observed parent
-  const targetOf = new Map(); // observed parent -> element
-  targets.forEach((el) => {
-    if (CLIPPED.includes(el.dataset.reveal) && el.parentElement) {
-      proxyOf.set(el, el.parentElement);
-      targetOf.set(el.parentElement, el);
-    }
-  });
-
-  const reveal = (el, delay) => {
-    el.style.setProperty("--d", `${delay}ms`);
-    el.classList.add("is-in");
-    // Counters start once their own staggered reveal begins (they read the final value until then)
-    el.querySelectorAll("[data-count]").forEach((c) => {
-      c.textContent = "0";
-      setTimeout(() => countUp(c), delay + 120);
-    });
-    io.unobserve(proxyOf.get(el) || el);
-  };
-
-  // Elements entering together cascade in DOM order; a lone element reveals at once.
-  const io = new IntersectionObserver(
-    (entries) => {
-      entries
-        .filter((e) => e.isIntersecting)
-        .map((e) => targetOf.get(e.target) || e.target)
-        .filter((el) => !el.classList.contains("is-in"))
-        .sort((a, b) => (a.compareDocumentPosition(b) & Node.DOCUMENT_POSITION_FOLLOWING ? -1 : 1))
-        .forEach((el, i) => reveal(el, Math.min(i, 6) * 90));
-    },
-    { rootMargin: "0px 0px -8% 0px" }
-  );
-  targets.forEach((el) => io.observe(proxyOf.get(el) || el));
-
-  // Keyboard focus reveals its (still hidden) container immediately
-  document.addEventListener("focusin", (e) => {
-    for (let el = e.target.closest(PENDING); el; el = el.parentElement && el.parentElement.closest(PENDING)) {
-      reveal(el, 0);
-    }
-  });
-}
-
-function countUp(el) {
-  const target = parseInt(el.dataset.count, 10);
-  const start = performance.now();
-  const duration = 1600;
-  const tick = (now) => {
-    const t = clamp((now - start) / duration, 0, 1);
-    el.textContent = String(Math.round(target * (1 - Math.pow(1 - t, 3))));
-    if (t < 1) requestAnimationFrame(tick);
-  };
-  requestAnimationFrame(tick);
-}
-
-// ================== Scroll-linked effects (one rAF loop) ==================
-const inView = new Set();
-const viewIO = new IntersectionObserver(
-  (entries) => {
-    entries.forEach((e) => {
-      if (e.isIntersecting) inView.add(e.target);
-      else inView.delete(e.target);
-      if (e.target === scrubEl) scrubEl.classList.toggle("is-scrubbing", e.isIntersecting);
-    });
-    requestFrame();
-  },
-  { rootMargin: "20% 0px" }
-);
-
-let parallaxEls = [];
-let vh = window.innerHeight;
-let heroH = hero.offsetHeight;
-let marqueeW = 0;
-let lastY = window.scrollY;
-let anchorY = lastY;
-// Scroll moves before the visitor interacts (font swap, scroll anchoring, restoration) never hide the header
-let userScrolled = false;
-["wheel", "touchstart", "keydown", "pointerdown"].forEach((type) =>
-  window.addEventListener(type, () => (userScrolled = true), { once: true, passive: true })
-);
-let lastDir = 0;
-let ticking = false;
-let headerPinned = false;
-let pinTimer = 0;
-
-const measure = () => {
-  vh = window.innerHeight;
-  heroH = hero.offsetHeight;
-  marqueeW = marqueeTrack.firstElementChild ? marqueeTrack.firstElementChild.offsetWidth : 0;
-};
-
-function requestFrame() {
-  if (ticking) return;
-  ticking = true;
-  requestAnimationFrame(frame);
-}
-
-function frame() {
-  ticking = false;
+// ================== Header ==================
+const header = $("#site-header");
+const keepSolid = header && header.classList.contains("is-solid");
+let lastScrollY = window.scrollY;
+function onScrollHeader() {
+  if (!header) return;
   const y = window.scrollY;
-  const motion = !reduceMotion.matches;
-
-  // Reads first…
-  const maxScroll = Math.max(1, root.scrollHeight - vh);
-  const parallax = motion
-    ? parallaxEls
-        .filter((el) => inView.has(el))
-        .map((el) => {
-          const r = el.getBoundingClientRect();
-          return [el.firstElementChild, (r.top + r.height / 2 - vh / 2) * -parseFloat(el.dataset.parallax)];
-        })
-    : [];
-  let scrub = null;
-  if (scrubEl && inView.has(scrubEl)) {
-    // Fully lit by the time the whole paragraph is on screen
-    const r = scrubEl.getBoundingClientRect();
-    const start = vh * 0.9;
-    scrub = clamp((start - r.top) / Math.max(1, start - vh + r.height), 0, 1);
+  if (!keepSolid) {
+    // Solid once the cream page reaches the header (after the hero's curtain, if any)
+    const hero = $("[data-hero]");
+    const next = hero && hero.nextElementSibling;
+    const threshold = next ? next.offsetTop - header.offsetHeight : 40;
+    header.classList.toggle("is-solid", y > threshold);
   }
-  let stageShift = null;
-  if (motion && activeProject >= 0 && inView.has(stage)) {
-    const r = articles[activeProject].getBoundingClientRect();
-    stageShift = (0.5 - clamp((vh / 2 - r.top) / r.height, 0, 1)) * 7;
+  // Step aside while scrolling down, come back on the way up
+  if (!document.body.classList.contains("menu-open") && Math.abs(y - lastScrollY) > 6) {
+    header.classList.toggle("is-away", y > lastScrollY && y > 160);
+    lastScrollY = y;
   }
-  const onDark = darkSections.some((s) => {
-    const r = s.getBoundingClientRect();
-    return r.top <= 40 && r.bottom > 40;
-  });
-
-  // …then writes
-  header.classList.toggle("on-dark", onDark);
-  updateHeader(y);
-  progressBar.style.transform = `scaleX(${(y / maxScroll).toFixed(4)})`;
-  if (motion && y <= heroH) {
-    heroMedia.style.transform = `translate3d(0, ${(y * 0.35).toFixed(1)}px, 0)`;
-    heroContent.style.transform = `translate3d(0, ${(y * 0.18).toFixed(1)}px, 0)`;
-    heroContent.style.opacity = heroContent.contains(document.activeElement)
-      ? "1"
-      : clamp(1 - y / (heroH * 0.7), 0, 1).toFixed(3);
-  }
-  parallax.forEach(([child, offset]) => {
-    child.style.transform = `translate3d(0, ${offset.toFixed(1)}px, 0)`;
-  });
-  if (scrub !== null) {
-    const lit = Math.round(scrub * scrubWords.length);
-    if (lit !== litCount) {
-      scrubWords.forEach((w, i) => w.classList.toggle("is-lit", i < lit));
-      litCount = lit;
-    }
-  }
-  if (stageShift !== null) {
-    slides[activeProject].img.style.transform = `translate3d(0, ${stageShift.toFixed(2)}%, 0)`;
-  }
-  // The marquee moves with the scroll (never on its own), so it stops whenever the reader does
-  if (motion && marqueeW && inView.has(marquee)) {
-    marqueeTrack.style.transform = `translate3d(${(-((y * 0.35) % marqueeW)).toFixed(1)}px, 0, 0)`;
-  }
-  if (y > heroH * 0.5) hideLangHint();
-  lastY = y;
 }
+window.addEventListener("scroll", onScrollHeader, { passive: true });
+window.addEventListener("resize", onScrollHeader);
+onScrollHeader();
 
-const headerHasFocus = () => {
-  const el = document.activeElement;
-  try {
-    return !!el && header.contains(el) && el.matches(":focus-visible");
-  } catch (e) {
-    return false;
-  }
-};
-
-// Solid once scrolled; hides while scrolling down, returns on the way up.
-function updateHeader(y) {
-  header.classList.toggle("is-top", y < 40);
-  const dir = y > lastY ? 1 : y < lastY ? -1 : lastDir;
-  if (dir !== lastDir) {
-    anchorY = lastY;
-    lastDir = dir;
-  }
-  // A jump down (scroll restoration, find-in-page, scrollbar drag) is not "scrolling down"
-  if (y - lastY > vh) anchorY = y;
-  if (!userScrolled || menuOpen || headerPinned || y < heroH * 0.6 || headerHasFocus()) {
-    header.classList.remove("is-hidden");
-    anchorY = y;
-  } else if (dir > 0 && y - anchorY > 80) header.classList.add("is-hidden");
-  else if (dir < 0 && anchorY - y > 40) header.classList.remove("is-hidden");
-}
-
-// Keep the header in place while we scroll the page for the visitor (anchor links, arrival)
-function pinHeader(ms) {
-  headerPinned = true;
-  header.classList.remove("is-hidden");
-  clearTimeout(pinTimer);
-  pinTimer = setTimeout(() => (headerPinned = false), ms);
-}
-
-// ================== In-page links ==================
-// Smooth-scroll to #sections, move focus there (keyboard/screen readers), keep the URL in sync.
-function initAnchors() {
-  document.addEventListener("click", (e) => {
-    if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
-    const link = e.target.closest('a[href^="#"]');
-    if (!link || link.hasAttribute("data-cta")) return;
-    const id = hashId(link.getAttribute("href"));
-    const target = id && document.getElementById(id);
-    if (!target) return;
-    e.preventDefault();
-    if (menuOpen) setMenu(false);
-    if (location.hash !== `#${id}`) history.pushState(null, "", `#${id}`);
-    pinHeader(1600);
-    target.scrollIntoView({ behavior: reduceMotion.matches ? "auto" : "smooth", block: "start" });
-    if (!target.hasAttribute("tabindex")) target.setAttribute("tabindex", "-1");
-    target.focus({ preventScroll: true });
-  });
-}
-
-const hashId = (hash) => {
-  try {
-    return decodeURIComponent(hash.slice(1));
-  } catch (e) {
-    return "";
-  }
-};
-
-// Web fonts land after the browser has already jumped to a #section, shifting the target.
-// Re-align once on a fresh arrival — never on reload/back-forward (the browser restores the
-// reader's own position there) and never once the visitor has started scrolling.
-function settleArrival() {
-  if (userScrolled) return;
-  const nav = performance.getEntriesByType && performance.getEntriesByType("navigation")[0];
-  const restored = nav && (nav.type === "reload" || nav.type === "back_forward");
-  const id = hashId(location.hash);
-  const target = id && document.getElementById(id);
-  if (target && !restored) target.scrollIntoView({ behavior: "instant", block: "start" });
-  lastY = anchorY = window.scrollY;
-  lastDir = 0;
-  header.classList.remove("is-hidden");
-}
-
-// ================== Projects: sticky stage follows the active row ==================
-let articles = [];
-let slides = [];
-let activeProject = -1;
-let zTop = 1;
-
-// Index of the element crossing the reading line (45.5% down the viewport), from live geometry
-const bandIndex = (els) => {
-  const mid = window.innerHeight * 0.455;
-  return els.findIndex((el) => {
-    const r = el.getBoundingClientRect();
-    return r.height > 0 && r.top <= mid && r.bottom > mid;
-  });
-};
-
-function initProjects() {
-  articles = $$(".project", projectList);
-  slides = $$(".stage-slide", stage).map((el) => ({ el, img: $("img", el) }));
-  const counter = $(".stage-count-current", stage);
-  const bars = $$(".stage-bars span", stage);
-  const glows = $$(".stage-glow span", stage);
-
-  // Re-arm a slide at its closed state (no transition), stack it on top, then open it.
-  const show = (slide, from, animate) => {
-    slide.classList.add("is-resetting");
-    slide.classList.remove("is-open");
-    slide.dataset.from = from;
-    slide.style.zIndex = ++zTop;
-    void slide.offsetWidth;
-    if (animate) slide.classList.remove("is-resetting");
-    slide.classList.add("is-open");
-    if (!animate) requestAnimationFrame(() => slide.classList.remove("is-resetting"));
-  };
-
-  const setActive = (i) => {
-    if (i === activeProject) return;
-    const prev = activeProject;
-    activeProject = i;
-    counter.innerHTML = `<span>${pad(i + 1)}</span>`;
-    bars.forEach((b, j) => b.classList.toggle("is-active", j <= i));
-    glows.forEach((g, j) => g.classList.toggle("is-on", j === i));
-    if (prev === -1) {
-      if (i !== 0) show(slides[i].el, "bottom", false);
-    } else {
-      show(slides[i].el, i > prev ? "bottom" : "top", !reduceMotion.matches);
-    }
-    requestFrame();
-  };
-
-  // Enter/leave events are only a trigger; the active row is re-resolved from geometry each time,
-  // so a jump that lands between two rows can't leave a stale selection behind.
-  const resolve = () => {
-    let i = bandIndex(articles);
-    if (i < 0) i = window.innerHeight * 0.455 < articles[0].getBoundingClientRect().top ? 0 : articles.length - 1;
-    setActive(i);
-  };
-  const band = new IntersectionObserver(resolve, { rootMargin: "-45% 0px -54% 0px" });
-  const visible = new IntersectionObserver(resolve); // also catches jumps that skip the band entirely
-  articles.forEach((a) => {
-    band.observe(a);
-    visible.observe(a);
-  });
-}
-
-// ================== Header nav: highlight the section in view ==================
-function initScrollSpy() {
-  const links = $$("[data-nav-link]");
-  const sections = $$("[data-nav]");
-  const io = new IntersectionObserver(
-    () => {
-      const section = sections[bandIndex(sections)];
-      if (!section) return;
-      links.forEach((a) => {
-        const current = a.dataset.navLink === section.dataset.nav;
-        a.classList.toggle("is-current", current);
-        if (current) a.setAttribute("aria-current", "true");
-        else a.removeAttribute("aria-current");
-      });
-    },
-    { rootMargin: "-45% 0px -54% 0px" }
-  );
-  sections.forEach((s) => io.observe(s));
-}
-
-// ================== Scroll lock (menu + modal) ==================
-const lockScroll = (lock) => root.classList.toggle("is-locked", lock);
-
-// ================== Mobile menu ==================
-let menuCloseTimer = 0;
-
+// Mobile menu
+const menuBtn = $("#menu-btn");
+const mobileMenu = $("#mobile-menu");
 function setMenu(open) {
-  if (open === menuOpen) return;
-  menuOpen = open;
-  clearTimeout(menuCloseTimer);
-  root.classList.toggle("menu-open", open);
-  // Hold the header's menu styling until the panel has wiped off the header strip
-  if (!open && !reduceMotion.matches) {
-    root.classList.add("menu-closing");
-    menuCloseTimer = setTimeout(() => root.classList.remove("menu-closing"), 600);
+  document.body.classList.toggle("menu-open", open);
+  if (menuBtn) menuBtn.setAttribute("aria-expanded", open ? "true" : "false");
+  if (mobileMenu) mobileMenu.setAttribute("aria-hidden", open ? "false" : "true");
+  document.body.style.overflow = open ? "hidden" : "";
+}
+if (menuBtn) menuBtn.addEventListener("click", () => setMenu(!document.body.classList.contains("menu-open")));
+if (mobileMenu) mobileMenu.addEventListener("click", (e) => { if (e.target.closest("a")) setMenu(false); });
+
+// ================== Hero film (scroll-driven) ==================
+// <html> gets .film-scrub from the inline script in <head>, so the tall hero never shifts the
+// layout. The hero is 4 viewports tall: the first ~2 scroll the film through its three chapters,
+// the last one is the curtain, where the next section rises over the held final frame.
+// Everything reads one eased progress value, so film, text and chrome move as one.
+const heroEl = $("[data-hero]");
+const video = $("#hero-video");
+const filmScrub = document.documentElement.classList.contains("film-scrub");
+
+const clamp01 = (v) => Math.min(1, Math.max(0, v));
+const smooth = (t) => t * t * (3 - 2 * t);
+const rampUp = (p, a, b) => smooth(clamp01((p - a) / (b - a)));
+
+// Where each chapter of the film begins, as a fraction of its scroll range:
+// the plan being uncovered, the road through the canopy, the rise to the horizon.
+const CHAPTERS = [0, 0.41, 0.66];
+let refreshHeroChapter = () => {};
+
+function initHeroFilm() {
+  if (!heroEl || !video || !filmScrub) return;
+  const sticky = $(".hero-sticky", heroEl);
+  const frame = $("[data-frame]", heroEl);
+  const shade = $("[data-shade]", heroEl);
+  const stageA = $('[data-stage="a"]', heroEl);
+  const stageB = $('[data-stage="b"]', heroEl);
+  const stageC = $('[data-stage="c"]', heroEl);
+  const bar = $("[data-progress]", heroEl);
+  const cue = $("[data-cue]", heroEl);
+  const caption = $("[data-caption]", heroEl);
+  const chNum = $("[data-ch-num]", heroEl);
+  const chLabel = $("[data-ch-label]", heroEl);
+
+  let raw = 0;      // scroll position through the film, 0…1
+  let eased = 0;    // the same, eased (what everything renders from)
+  let curtain = 0;  // how far the next section has risen over the frame, 0…1
+  let painted = "";
+  let chapter = -1;
+  let duration = 0;
+  let ready = false;
+  let running = false;
+  let lastT = 0;
+
+  const measure = () => {
+    const fh = sticky.offsetHeight;
+    const y = -heroEl.getBoundingClientRect().top;
+    const range = heroEl.offsetHeight - 2 * fh;
+    raw = range > 0 ? clamp01(y / range) : 0;
+    curtain = clamp01((y - Math.max(range, 0)) / fh);
+  };
+
+  const setStage = (el, enter, leave, lift) => {
+    const o = 1 - leave;
+    el.style.setProperty("--in", enter.toFixed(4));
+    el.style.opacity = o.toFixed(3);
+    el.style.transform = `translate3d(0, ${lift.toFixed(1)}px, 0)`;
+    el.style.visibility = o > 0.005 && enter > 0.005 ? "visible" : "hidden";
+    el.style.pointerEvents = o > 0.6 && enter > 0.6 ? "" : "none";
+  };
+
+  const paint = () => {
+    const key = `${eased.toFixed(4)}|${curtain.toFixed(4)}`;
+    if (key === painted) return;
+    painted = key;
+    const vh = sticky.offsetHeight;
+    const p = eased;
+
+    // 1 · the plan: the opening lines leave as the paper comes off
+    const aOut = rampUp(p, 0.07, 0.22);
+    setStage(stageA, 1, aOut, -vh * 0.07 * aOut);
+    // 2 · the jungle: lines rise over the road through the canopy, leave before the aerial
+    const bOut = rampUp(p, 0.58, 0.67);
+    setStage(stageB, rampUp(p, 0.36, 0.52), bOut, -vh * 0.07 * bOut);
+    // 3 · the horizon: the name arrives and stays, drifting up as the page covers it
+    setStage(stageC, rampUp(p, 0.69, 0.86), 0, -vh * 0.14 * curtain);
+
+    // The frame pushes in slowly; under the curtain it lifts and falls into shadow
+    frame.style.transform = `translate3d(0, ${(-vh * 0.1 * curtain).toFixed(1)}px, 0) scale(${(1 + 0.07 * p).toFixed(4)})`;
+    shade.style.opacity = (0.7 * curtain).toFixed(3);
+
+    bar.style.transform = `scaleX(${p.toFixed(4)})`;
+    const cueO = 1 - rampUp(p, 0.004, 0.035);
+    cue.style.opacity = cueO.toFixed(3);
+    caption.style.opacity = (1 - cueO).toFixed(3);
+
+    const ch = p >= CHAPTERS[2] ? 2 : p >= CHAPTERS[1] ? 1 : 0;
+    if (ch !== chapter) {
+      chapter = ch;
+      chNum.textContent = pad(ch + 1);
+      chLabel.textContent = I18N[currentLang][`hero.ch${ch + 1}`];
+      chLabel.classList.remove("ch-swap");
+      void chLabel.offsetWidth; // restart the swap animation
+      chLabel.classList.add("ch-swap");
+    }
+  };
+  refreshHeroChapter = () => { chapter = -1; painted = ""; };
+
+  const tick = (now) => {
+    const dt = lastT ? Math.min(0.1, (now - lastT) / 1000) : 0;
+    lastT = now;
+    measure();
+    // Frame-rate independent easing toward the scroll position (~90 ms time constant)
+    eased = dt ? eased + (raw - eased) * (1 - Math.exp(-dt / 0.09)) : raw;
+    if (Math.abs(raw - eased) < 0.0003) eased = raw;
+    paint();
+    if (ready) {
+      const t = eased * duration;
+      if (!video.seeking && Math.abs(video.currentTime - t) > 1 / 60) video.currentTime = t;
+    }
+    if (running) requestAnimationFrame(tick);
+    else lastT = 0;
+  };
+  const start = () => { if (!running) { running = true; requestAnimationFrame(tick); } };
+  const stop = () => { running = false; };
+
+  // Animate only while the hero is on screen
+  if ("IntersectionObserver" in window) {
+    new IntersectionObserver(([entry]) => (entry.isIntersecting ? start() : stop())).observe(heroEl);
   } else {
-    root.classList.remove("menu-closing");
+    start();
   }
-  menuToggle.setAttribute("aria-expanded", String(open));
-  menuToggle.setAttribute("aria-label", I18N[currentLang][open ? "menu.close" : "menu.open"]);
-  menu.inert = !open;
-  $("main").inert = open;
-  $("footer").inert = open;
-  lockScroll(open || modal.open);
-  if (open) {
-    clearTimeout(hintShowTimer);
-    hideLangHint();
-    header.classList.remove("is-hidden");
-    setTimeout(() => menuOpen && $("a", menu).focus({ preventScroll: true }), 400);
-  }
+  window.addEventListener("resize", () => { painted = ""; });
+  measure();
+  eased = raw;
+  paint();
+
+  // Load the whole film up front (as a blob) so every seek is instant and local.
+  // H.264 first (Safari, Chrome), VP9 WebM for browsers built without H.264.
+  const kind = window.matchMedia("(orientation: portrait)").matches ? "phone" : "desk";
+  const sources = [];
+  if (video.canPlayType('video/mp4; codecs="avc1.64001f"')) sources.push(video.dataset[`${kind}Mp4`]);
+  if (video.canPlayType('video/webm; codecs="vp9"')) sources.push(video.dataset[`${kind}Webm`]);
+  if (!sources.length) return; // the poster stays; text and chapters still follow the scroll
+
+  let attempt = 0;
+  const fetchFilm = () => {
+    const src = sources[attempt];
+    fetch(src, { priority: "low" })
+      .then((r) => (r.ok ? r.blob() : Promise.reject(r.status)))
+      .then((blob) => { video.src = URL.createObjectURL(blob); })
+      .catch(() => { video.preload = "auto"; video.src = src; });
+  };
+  video.addEventListener("error", () => { if (!ready && ++attempt < sources.length) fetchFilm(); });
+  video.addEventListener("loadeddata", () => {
+    duration = Math.max(0, video.duration - 0.05);
+    // iOS only paints seeks once the element has played; a muted play/pause unlocks it
+    const p = video.play();
+    if (p && p.then) p.then(() => video.pause()).catch(() => {});
+    else video.pause();
+    const reveal = () => { ready = true; video.classList.add("is-ready"); };
+    const t = eased * duration;
+    if (t < 0.02) { video.currentTime = 0; reveal(); return; }
+    // Fade the film in only once it shows the frame the scroll is on (no flash of frame 0)
+    video.addEventListener("seeked", reveal, { once: true });
+    video.currentTime = t;
+  }, { once: true });
+  fetchFilm();
 }
 
-function initMenu() {
-  menuToggle.addEventListener("click", () => setMenu(!menuOpen));
-  // In-menu #links are handled by initAnchors (which closes the menu); CTAs open the modal,
-  // which closes the menu too.
-  document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape" && menuOpen) {
-      setMenu(false);
-      menuToggle.focus();
-    }
-  });
-  isDesktop.addEventListener("change", (e) => e.matches && setMenu(false));
+// ================== Parallax bands ==================
+function initParallax() {
+  const layers = $$("[data-parallax]");
+  if (!layers.length || reducedMotion) return;
+  let ticking = false;
+  const update = () => {
+    const vh = window.innerHeight;
+    layers.forEach((el) => {
+      const r = el.parentElement.getBoundingClientRect();
+      if (r.bottom < 0 || r.top > vh) return;
+      const progress = (r.top + r.height / 2 - vh / 2) / (vh + r.height); // -0.5 … 0.5
+      el.style.transform = `translate3d(0, ${(-progress * 16).toFixed(2)}%, 0)`;
+    });
+    ticking = false;
+  };
+  window.addEventListener("scroll", () => {
+    if (!ticking) { ticking = true; requestAnimationFrame(update); }
+  }, { passive: true });
+  window.addEventListener("resize", update);
+  update();
 }
 
-// ================== Contact modal (GHL calendar in a native <dialog>) ==================
+// ================== Contact modal ==================
+const modal = $("#modal");
+const bookingFrame = $("#booking-frame");
 let lastFocus = null;
-let closeCleanup = null;
 
-function openModal() {
-  if (menuOpen) setMenu(false);
-  if (modal.open) {
-    // Clicked again while it animates out: cancel the close and play the entrance again
-    if (modal.classList.contains("is-closing")) {
-      if (closeCleanup) closeCleanup();
-      modal.classList.remove("is-closing");
-    }
-    return;
-  }
+function openModal(e) {
+  if (e) e.preventDefault();
+  if (!modal) return;
   if (bookingFrame && !bookingFrame.src) bookingFrame.src = bookingFrame.dataset.src;
   lastFocus = document.activeElement;
-  modal.showModal();
-  lockScroll(true);
+  setMenu(false);
+  modal.classList.add("is-open");
+  document.body.style.overflow = "hidden";
+  const closeBtn = $("#modal-close");
+  if (closeBtn) setTimeout(() => closeBtn.focus(), 50);
 }
-
 function closeModal() {
-  if (!modal.open || modal.classList.contains("is-closing")) return;
-  if (reduceMotion.matches) {
-    modal.close();
-    return;
-  }
-  const panel = $(".modal-panel", modal);
-  let timer = 0;
-  const onEnd = (e) => e.target === panel && done();
-  const cleanup = () => {
-    clearTimeout(timer);
-    panel.removeEventListener("animationend", onEnd);
-    closeCleanup = null;
-  };
-  const done = () => {
-    const stillClosing = modal.classList.contains("is-closing");
-    cleanup();
-    if (modal.open && stillClosing) modal.close();
-  };
-  timer = setTimeout(done, 500);
-  panel.addEventListener("animationend", onEnd);
-  closeCleanup = cleanup;
-  modal.classList.add("is-closing");
+  if (!modal || !modal.classList.contains("is-open")) return;
+  modal.classList.remove("is-open");
+  document.body.style.overflow = "";
+  if (lastFocus && lastFocus.focus) lastFocus.focus();
 }
 
-function initModal() {
-  document.addEventListener("click", (e) => {
-    if (!e.target.closest("[data-cta]")) return;
-    if (e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
-    e.preventDefault();
-    openModal();
-  });
+document.addEventListener("click", (e) => {
+  const cta = e.target.closest("[data-cta]");
+  if (cta) openModal(e);
+});
+if (modal) {
   $("#modal-close").addEventListener("click", closeModal);
-  // Close on a real backdrop click only (not a drag that started inside the panel)
-  let downOnBackdrop = false;
-  modal.addEventListener("pointerdown", (e) => (downOnBackdrop = e.target === modal));
-  modal.addEventListener("click", (e) => {
-    if (e.target === modal && downOnBackdrop) closeModal();
-    downOnBackdrop = false;
-  });
-  modal.addEventListener("cancel", (e) => {
-    e.preventDefault();
-    closeModal();
-  });
-  modal.addEventListener("close", () => {
-    if (closeCleanup) closeCleanup();
-    modal.classList.remove("is-closing");
-    lockScroll(menuOpen);
-    // Focus goes back to the trigger — or the menu button if the trigger now sits in an inert menu
-    const target = lastFocus && !lastFocus.closest("[inert]") ? lastFocus : menuToggle;
-    target.focus({ preventScroll: true });
-  });
-  bookingFrame?.addEventListener("load", () => {
-    if (bookingFrame.src) bookingFrame.parentElement.classList.add("is-ready");
-  });
+  modal.addEventListener("click", (e) => { if (e.target === modal) closeModal(); });
 }
-
-// ================== FAQ accordion (animates both open and close) ==================
-function initFaq() {
-  faqList.addEventListener("click", (e) => {
-    const summary = e.target.closest("summary");
-    if (!summary) return;
-    e.preventDefault();
-    const item = summary.parentElement;
-    const answer = $(".faq-a", item);
-    if (item.classList.contains("is-open")) {
-      item.classList.remove("is-open");
-      const done = () => {
-        clearTimeout(timer);
-        answer.removeEventListener("transitionend", onEnd);
-        if (!item.classList.contains("is-open")) item.open = false;
-      };
-      const onEnd = (ev) => ev.target === answer && ev.propertyName === "grid-template-rows" && done();
-      const timer = setTimeout(done, 700);
-      answer.addEventListener("transitionend", onEnd);
-    } else {
-      item.open = true;
-      void answer.offsetHeight; // commit the collapsed state so the height transition runs
-      item.classList.add("is-open");
-    }
-  });
-  // Keep the class in sync when the browser opens an item itself (e.g. find-in-page)
-  faqList.addEventListener(
-    "toggle",
-    (e) => e.target.open && e.target.classList.add("is-open"),
-    true
-  );
-}
-
-// ================== Magnetic buttons (fine pointers only) ==================
-function initMagnetic() {
-  if (!finePointer.matches || reduceMotion.matches) return;
-  $$("[data-magnetic]").forEach((el) => {
-    el.addEventListener("pointermove", (e) => {
-      const r = el.getBoundingClientRect();
-      const x = (e.clientX - r.left - r.width / 2) * 0.15;
-      const y = (e.clientY - r.top - r.height / 2) * 0.3;
-      el.style.transform = `translate3d(${x.toFixed(1)}px, ${y.toFixed(1)}px, 0)`;
-    });
-    el.addEventListener("pointerleave", () => (el.style.transform = ""));
-  });
-}
-
-// ================== Hero intro ==================
-function startIntro() {
-  const fontsReady = document.fonts ? document.fonts.ready : Promise.resolve();
-  Promise.race([fontsReady, new Promise((r) => setTimeout(r, 1200))]).then(() =>
-    requestAnimationFrame(() => root.classList.add("is-loaded"))
-  );
-  fontsReady.then(() => {
-    measure();
-    requestAnimationFrame(settleArrival);
-  });
-  window.addEventListener("load", () => requestAnimationFrame(settleArrival), { once: true });
-}
-
-// ================== Init ==================
-renderDynamic();
-scrubEl = $("[data-scrub]");
-
-const start = initialLang();
-applyLang(start.lang);
-
-initReveals();
-parallaxEls = $$("[data-parallax]");
-[...parallaxEls, scrubEl, stage, marquee].forEach((el) => el && viewIO.observe(el));
-initProjects();
-initScrollSpy();
-initAnchors();
-initMenu();
-initModal();
-initFaq();
-initMagnetic();
-
-$$(".lang-btn").forEach((btn) => btn.addEventListener("click", () => switchLang(btn.dataset.lang)));
-if (langHint) {
-  langHint.addEventListener("click", () => switchLang("en"));
-  // Pause the auto-hide while the visitor is on the hint
-  const pause = () => clearTimeout(hintTimer);
-  const resume = () => {
-    clearTimeout(hintTimer);
-    hintTimer = setTimeout(hideLangHint, 4000);
-  };
-  ["focusin", "pointerenter"].forEach((t) => langHint.addEventListener(t, pause));
-  ["focusout", "pointerleave"].forEach((t) => langHint.addEventListener(t, resume));
-}
-if (!start.explicit && start.lang === "es" && !hintSeen() && /^en\b/i.test(navigator.language || "")) {
-  hintShowTimer = setTimeout(() => {
-    if (window.scrollY < heroH * 0.5 && !menuOpen && currentLang === "es") showLangHint();
-  }, 1800);
-}
-$$("[data-year]").forEach((el) => (el.textContent = new Date().getFullYear()));
-
-window.addEventListener("scroll", requestFrame, { passive: true });
-window.addEventListener("resize", () => {
-  measure();
-  requestFrame();
+document.addEventListener("keydown", (e) => {
+  if (e.key !== "Escape") return;
+  closeModal();
+  setMenu(false);
 });
 
-measure();
-requestFrame();
-startIntro();
-window.__jjfReady = true;
-})();
+// ================== Init ==================
+$$("#lang-toggle .lang-btn").forEach((btn) => {
+  btn.addEventListener("click", () => applyLang(btn.dataset.lang, { instant: true }));
+});
+
+let initial = "es";
+try {
+  const saved = localStorage.getItem("jjf-lang");
+  if (saved && SUPPORTED.includes(saved)) initial = saved;
+  else if (navigator.language && navigator.language.toLowerCase().startsWith("en")) initial = "en";
+} catch (e) {}
+
+applyLang(initial);
+observeReveals(document);
+initHeroFilm();
+initParallax();
+$$("[data-year]").forEach((el) => { el.textContent = new Date().getFullYear(); });
+
+// Content on the partner page is rendered by JS, so honour a #project hash after render
+if (location.hash && location.hash.length > 1) {
+  const target = document.getElementById(decodeURIComponent(location.hash.slice(1)));
+  if (target) requestAnimationFrame(() => target.scrollIntoView({ behavior: "auto", block: "start" }));
+}

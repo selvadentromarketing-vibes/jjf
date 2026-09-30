@@ -1,107 +1,65 @@
-# JJF Creando — Landing
+# JJF Creando — Sitio
 
-Landing bilingüe (ES/EN) de JJF Creando en HTML + Tailwind v4 + JavaScript vanilla, lista para Netlify.
+Sitio bilingüe (ES/EN) de JJF Creando en HTML + Tailwind v4, listo para Netlify.
 
 ## Estructura
 
 ```
-index.html            → marcado de la página (incluye proyectos y FAQ pre-renderizados en español)
-content.js            → TODOS los textos (ES/EN), datos de proyectos y FAQ, y su marcado
-main.js               → idioma, animaciones, menú, modal, FAQ (sin librerías)
-src/input.css         → fuente de estilos (Tailwind v4 + design system + animaciones)
-assets/styles.css     → CSS compilado (lo que carga el navegador)
-assets/fonts/         → Fraunces + Manrope autoalojadas (subset latino, licencia SIL OFL)
-assets/*.webp|jpg     → imágenes (og-image.jpg = imagen para compartir en redes)
-assets/glow/          → miniaturas difuminadas para la luz ambiental detrás de cada proyecto
-assets/canopy-shadow.webp → sombra de palmeras que cae sobre las secciones claras y los arcos
-scripts/prerender.mjs → escribe en index.html los proyectos y FAQ (ES) desde content.js
-scripts/images.py     → regenera los bocetos compuestos y las miniaturas de luz (Python + Pillow)
-favicon.ico, favicon-48.png, apple-touch-icon.png → iconos del sitio
-netlify.toml          → config de despliegue (sitio estático, sin build en Netlify)
+index.html              → portada: película de Selvadentro, nosotros, Selvadentro,
+                          filosofía, adelanto de proyectos aliados, visión, FAQ, contacto
+partner-projects.html   → página de proyectos aliados (todo excepto Selvadentro,
+                          incluido el portafolio completo de Mazza Capital)
+main.js                 → textos ES/EN, datos de proyectos aliados, FAQ, película del hero,
+                          menú móvil, animaciones y modal de contacto
+src/input.css           → fuente de estilos (Tailwind v4 + componentes)
+assets/styles.css       → CSS compilado (lo que carga el navegador)
+assets/hero/            → película del hero (mp4 H.264 + webm VP9, escritorio y teléfono) y pósters
+assets/img/             → fotografías en WebP, en varios anchos (nombre-ANCHO.webp)
+assets/fonts/           → Cormorant Garamond y Jost, auto-alojadas (licencia OFL)
+netlify.toml            → config de despliegue (sitio estático, sin build)
 ```
 
 ## Desarrollo
 
-Todo está **precompilado y commiteado**, así que para ver la página basta abrir `index.html`
-con cualquier servidor estático (`npx serve .`).
+El CSS está **precompilado** en `assets/styles.css`, así que para ver el sitio
+basta servir la carpeta con cualquier servidor estático (p. ej. `npx serve .`).
 
-Después de editar textos (`content.js`) o clases de Tailwind, regenera:
+Si editas clases de Tailwind en los `.html` o en `main.js`, recompila el CSS:
 
 ```bash
 npm install        # solo la primera vez
-npm run build      # pre-renderiza proyectos/FAQ en index.html + compila assets/styles.css
-npm run dev        # recompila solo el CSS al guardar (watch)
+npm run build      # genera assets/styles.css
+# o, mientras editas:
+npm run dev        # recompila al guardar (watch)
 ```
 
-> **Importante:** cada vez que cambie el CSS, sube la versión en `index.html`
-> (`assets/styles.css?v=6` → `?v=7`) para que los visitantes reciban la nueva versión.
+Si cambias `assets/styles.css` o `main.js`, sube el número `?v=` en las etiquetas
+`<link>`/`<script>` de ambos HTML (`/assets/*` se cachea un día con revalidación).
 
-## Idiomas
+## Contenido
 
-- `/` siempre muestra **español** (es lo que indexa Google). La versión en inglés vive en
-  **`/?lang=en`**, así que puedes usar esa URL en anuncios o enlaces para público angloparlante.
-- La elección del visitante (botones ES/EN) se recuerda en su navegador.
-- A quien tiene el navegador en inglés y llega por primera vez se le muestra un aviso
-  discreto "View in English" junto al selector, en vez de cambiar el idioma solo.
-
-## Diseño y animación
-
-- **Paleta** tomada de la fotografía: yeso de chukum al sol (`paper`, `stone`), selva profunda
-  (`jungle`) y turquesa de cenote como acento (`cenote` sobre fondos oscuros, `cenote-deep` sobre
-  claros, con contraste AA). Tokens en `@theme` dentro de `src/input.css`.
-- **Tipografía:** Fraunces (titulares; serif suave con tamaño óptico, acentos en cursiva) + Manrope (texto).
-- **Fotos** con etalonaje propio (contraste, calidez, menos bruma). Si se agregan fotos nuevas conviene
-  darles un tratamiento parecido para que no se vean apagadas junto a las demás.
-- **Atmósfera:** luz dorada sobre el hero y el cierre, sombras de palmera que se mecen sobre las
-  secciones claras (`.sunlit`) y los arcos, y un brillo ambiental del color de cada foto de proyecto.
-- **Animaciones** (sin librerías, todo en `main.js` + CSS):
-  - Intro del hero: la foto se asienta y el titular sube palabra por palabra.
-  - Revelados al hacer scroll (`data-reveal="up|fade|clip|arch|stage"`, `data-split` para titulares).
-  - Declaración "Nosotros" que se ilumina palabra a palabra con el scroll (`data-scrub`).
-  - Parallax por `transform` (`data-parallax="0.16"`), contadores animados (`data-count`),
-    marquee de proyectos que avanza con el scroll.
-  - Proyectos: en escritorio, galería fija (sticky) con transición tipo cortina entre imágenes.
-  - Header que se oculta al bajar, reaparece al subir y se adapta a secciones oscuras.
-  - Menú móvil a pantalla completa, FAQ que anima al abrir y cerrar, modal nativo (`<dialog>`).
-- **Accesibilidad:** respeta `prefers-reduced-motion`, el contenido se muestra aunque falle el JS,
-  foco gestionado en menú, modal y enlaces internos, contraste AA, skip link.
-- Los bocetos (`sketch-*-stone.webp`) están compuestos sobre el color `--color-stone` de los arcos;
-  si cambias ese color, regenéralos con `python3 scripts/images.py sketches "#nuevo-color"`.
-- Proyecto nuevo: `glow` en `content.js` es opcional (sin él se usa la propia foto); para crear la
-  miniatura: `python3 scripts/images.py glow assets/foto.webp`.
-
-## Despliegue en Netlify
-
-Sitio estático, **no requiere build** en Netlify (todo está compilado y commiteado):
-
-- **Opción A (drag & drop):** arrastra la carpeta del proyecto a Netlify.
-- **Opción B (Git):** conecta el repo. `netlify.toml` publica la raíz (`publish = "."`).
-  `node_modules/` está en `.gitignore` y no se sube.
-
-## Pendiente cuando haya dominio definitivo
-
-Estas etiquetas necesitan URLs absolutas (sustituye `DOMINIO`):
-
-```html
-<link rel="canonical" href="https://DOMINIO/" />
-<link rel="alternate" hreflang="es" href="https://DOMINIO/" />
-<link rel="alternate" hreflang="en" href="https://DOMINIO/?lang=en" />
-<link rel="alternate" hreflang="x-default" href="https://DOMINIO/" />
-<meta property="og:url" content="https://DOMINIO/" />
-<meta property="og:image" content="https://DOMINIO/assets/og-image.jpg" />
-<meta property="og:image:width" content="1200" />
-<meta property="og:image:height" content="630" />
-<meta name="twitter:card" content="summary_large_image" />  <!-- reemplaza el "summary" actual -->
-```
-
-Además: `robots.txt` y `sitemap.xml` en la raíz, y marcar el dominio como principal en Netlify.
+- **Textos:** todos los textos visibles viven en el diccionario `I18N` de `main.js`
+  (una clave por texto, en `es` y `en`). El HTML trae el texto en español como respaldo.
+- **Proyectos aliados:** arreglo `PARTNERS` en `main.js`. Cada proyecto tiene `group`
+  (`landmark`, `mazza-communities` o `mazza-hotels`), imagen, textos, datos y sitio web.
+  `TEASER` define los cuatro que aparecen en la portada.
+- **Imágenes:** para una foto nueva, expórtala a `assets/img/<nombre>-<ancho>.webp`
+  y lista los anchos en `widths`.
+- **Película del hero (controlada por el scroll):** el hero mide 4 pantallas. En las dos
+  primeras el scroll recorre la película en tres capítulos (El plano → La selva → El
+  horizonte), con textos que suben línea por línea y un indicador 01–03; en la última, la
+  sección siguiente sube como un telón sobre el cuadro final. Todo se lee de un único progreso
+  suavizado. Los tiempos de cada texto y los inicios de capítulo (`CHAPTERS`) están en
+  `initHeroFilm()` de `main.js`. Los archivos llevan un keyframe cada 6 cuadros para que el
+  scrubbing sea fluido; si reemplazas la película, conserva `-g 6 -bf 0` y corta antes de
+  cualquier disolvencia. Con "reducir movimiento", ahorro de datos o pantallas de menos de
+  520 px de alto, el hero es una sola pantalla con el póster y no descarga la película.
 
 ## Notas
 
-- Todos los botones con `data-cta` (Agenda una llamada, Contáctanos, Saber más, Comienza a
-  Construir tu Sueño, Descarga Nuestro CV) abren el modal con el calendario de GoHighLevel
-  (`widget/booking/DD1xkh0ObvHQFhcyxgJR`). Sin JS (o con Ctrl/Cmd+clic) abren esa misma página
-  en otra pestaña. Si cambias de calendario, reemplaza la URL en `index.html` (búscala) y en
-  `BOOKING_URL` de `content.js`, y ejecuta `npm run build`.
-- Las fichas de cada proyecto (`facts` en `content.js`) solo repiten datos que ya aparecen en su
-  descripción.
+- Los botones con `data-cta` (Agenda una llamada, Descarga nuestro CV…) abren un modal con
+  el calendario de GoHighLevel (`widget/booking/DD1xkh0ObvHQFhcyxgJR`). Cámbialo en el
+  `<iframe id="booking-frame">` de ambos HTML si usas otro.
+- Las cifras de Selvadentro (9 cenotes, 65% de selva conservada, 12+ amenidades, 8 min del
+  Tren Maya) vienen de selvadentrotulum.com; las de los proyectos aliados, de sus fichas
+  originales y de mazzacapital.com.
