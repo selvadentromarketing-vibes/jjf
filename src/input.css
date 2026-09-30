@@ -291,6 +291,9 @@
 .hero-shade { position: absolute; inset: 0; background: #0c0e0a; opacity: 0; pointer-events: none; }
 .hero-safe { position: absolute; inset: 0; z-index: 10; }
 .hero-stage { position: absolute; inset: 0; will-change: opacity, transform; }
+/* Keep small type legible over bright frames (the aerial, the cenote) */
+.hero-stage .display { text-shadow: 0 2px 40px rgb(12 14 10 / 0.3); }
+.hero-stage .lede, .hero-stage .eyebrow, .hero-stage .link-line { text-shadow: 0 1px 14px rgb(12 14 10 / 0.6); }
 
 /* Scroll-driven mode (set in <head>): tall section, full-bleed frame, curtain handoff.
    The frame uses vh (the large viewport on phones) so it always covers; the text sits in

@@ -50,12 +50,14 @@ Si cambias `assets/styles.css` o `main.js`, sube el número `?v=` en las etiquet
   y lista los anchos en `widths`.
 - **Película del hero (controlada por el scroll):** el hero mide 4 pantallas. En las dos
   primeras el scroll recorre la película en tres capítulos (El plano → La selva → El
-  horizonte), con textos que suben línea por línea y un indicador 01–03; en la última, la
+  cenote), con textos que suben línea por línea y un indicador 01–03; en la última, la
   sección siguiente sube como un telón sobre el cuadro final. Todo se lee de un único progreso
   suavizado. Los tiempos de cada texto y los inicios de capítulo (`CHAPTERS`) están en
-  `initHeroFilm()` de `main.js`. Los archivos llevan un keyframe cada 6 cuadros para que el
-  scrubbing sea fluido; si reemplazas la película, conserva `-g 6 -bf 0` y corta antes de
-  cualquier disolvencia. Con "reducir movimiento", ahorro de datos o pantallas de menos de
+  `initHeroFilm()` de `main.js`. La película combina la toma original del plano (primeros
+  82 cuadros) con el render aéreo de Selvadentro y la foto del cenote animados con movimiento
+  de cámara (recortes subpíxel con Python/Pillow, codificado con ffmpeg). Los archivos llevan un
+  keyframe cada 12 cuadros para que el scrubbing sea fluido; si reemplazas la película,
+  conserva `-g 12 -bf 0`. Con "reducir movimiento", ahorro de datos o pantallas de menos de
   520 px de alto, el hero es una sola pantalla con el póster y no descarga la película.
 
 - **Idioma por URL:** `?lang=en` o `?lang=es` fija el idioma (útil para anuncios en inglés).

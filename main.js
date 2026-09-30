@@ -25,7 +25,7 @@ const I18N = {
     "hero.b.title": '<span class="line"><span class="st st-rise" style="--k:1">Cada camino, trazado</span></span><span class="line"><span class="st st-rise" style="--k:2"><em>alrededor de la selva.</em></span></span>',
     "hero.ch1": "El plano",
     "hero.ch2": "La selva",
-    "hero.ch3": "El horizonte",
+    "hero.ch3": "El cenote",
     "hero.b.body": "Baja densidad, nueve cenotes y el 65% de la selva conservada intacta.",
     "hero.c.cta": "Conoce el proyecto",
 
@@ -175,7 +175,7 @@ const I18N = {
     "hero.b.title": '<span class="line"><span class="st st-rise" style="--k:1">Every road, drawn</span></span><span class="line"><span class="st st-rise" style="--k:2"><em>around the jungle.</em></span></span>',
     "hero.ch1": "The plan",
     "hero.ch2": "The jungle",
-    "hero.ch3": "The horizon",
+    "hero.ch3": "The cenote",
     "hero.b.body": "Low density, nine cenotes and 65% of the jungle preserved intact.",
     "hero.c.cta": "Explore the project",
 
@@ -721,8 +721,8 @@ const smooth = (t) => t * t * (3 - 2 * t);
 const rampUp = (p, a, b) => smooth(clamp01((p - a) / (b - a)));
 
 // Where each chapter of the film begins, as a fraction of its scroll range:
-// the plan being uncovered, the road through the canopy, the rise to the horizon.
-const CHAPTERS = [0, 0.41, 0.66];
+// the plan being uncovered, Selvadentro from above, the cenote.
+const CHAPTERS = [0, 0.376, 0.673];
 let refreshHeroChapter = () => {};
 
 function initHeroFilm() {
@@ -776,11 +776,11 @@ function initHeroFilm() {
     // 1 · the plan: the opening lines leave as the paper comes off
     const aOut = rampUp(p, 0.07, 0.22);
     setStage(stageA, 1, aOut, -vh * 0.07 * aOut);
-    // 2 · the jungle: lines rise over the road through the canopy, leave before the aerial
-    const bOut = rampUp(p, 0.58, 0.67);
-    setStage(stageB, rampUp(p, 0.36, 0.52), bOut, -vh * 0.07 * bOut);
-    // 3 · the horizon: the name arrives and stays, drifting up as the page covers it
-    setStage(stageC, rampUp(p, 0.69, 0.86), 0, -vh * 0.14 * curtain);
+    // 2 · the jungle: lines rise over Selvadentro seen from above, leave before the cenote
+    const bOut = rampUp(p, 0.59, 0.645);
+    setStage(stageB, rampUp(p, 0.41, 0.53), bOut, -vh * 0.07 * bOut);
+    // 3 · the cenote: the name arrives and stays, drifting up as the page covers it
+    setStage(stageC, rampUp(p, 0.7, 0.86), 0, -vh * 0.14 * curtain);
 
     // The frame pushes in slowly; under the curtain it lifts and falls into shadow
     frame.style.transform = `translate3d(0, ${(-vh * 0.1 * curtain).toFixed(1)}px, 0) scale(${(1 + 0.07 * p).toFixed(4)})`;
