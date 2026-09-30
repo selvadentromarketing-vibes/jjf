@@ -240,25 +240,35 @@
 .menu-open .site-header { color: var(--color-ink); background: transparent; box-shadow: none; backdrop-filter: none; -webkit-backdrop-filter: none; }
 .mobile-menu a.m-link { font-family: var(--font-serif); font-weight: 300; font-size: 2.6rem; line-height: 1.25; }
 
-/* =============== Hero =============== */
+/* =============== Hero (scroll-driven film) =============== */
 .hero {
   position: relative;
   height: 100vh;
   height: 100svh;
   min-height: 620px;
-  overflow: hidden;
   background: #1a1f18;
   color: var(--color-bone);
 }
-.hero-media, .hero-media > video, .hero-media > img {
+/* With the film scrubbing, the section is tall and its frame stays pinned */
+.film-scrub .hero { height: 340vh; height: 340svh; }
+@media (max-width: 767px) { .film-scrub .hero { height: 280vh; height: 280svh; } }
+.hero-sticky {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  height: 100svh;
+  min-height: 620px;
+  overflow: hidden;
+}
+.hero-media, .hero-media > picture, .hero-media > video, .hero-media img {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
-.hero-media > video { opacity: 0; transition: opacity 1.4s var(--ease-out-soft); }
-.hero-media > video.is-playing { opacity: 1; }
+.hero-media > video { opacity: 0; transition: opacity 0.6s var(--ease-out-soft); }
+.hero-media > video.is-ready { opacity: 1; }
 .hero-media { transform: scale(1.04); animation: hero-settle 2.8s var(--ease-out-soft) forwards; }
 @keyframes hero-settle { to { transform: scale(1); } }
 .hero-scrim {
@@ -267,30 +277,22 @@
   background:
     linear-gradient(180deg, rgb(12 14 10 / 0.55) 0%, rgb(12 14 10 / 0) 22%),
     linear-gradient(0deg, rgb(12 14 10 / 0.78) 0%, rgb(12 14 10 / 0.35) 38%, rgb(12 14 10 / 0.08) 70%),
-    linear-gradient(90deg, rgb(12 14 10 / 0.35) 0%, rgb(12 14 10 / 0) 60%);
+    linear-gradient(90deg, rgb(12 14 10 / 0.4) 0%, rgb(12 14 10 / 0) 62%);
 }
+.hero-stage { position: absolute; inset: 0; z-index: 10; will-change: opacity, transform; }
+/* Without scrubbing (reduced motion, data saver, no JS) only the first stage exists */
+html:not(.film-scrub) .hero [data-stage="b"],
+html:not(.film-scrub) .hero [data-stage="c"],
+html:not(.film-scrub) .hero .hero-progress { display: none; }
+.film-scrub .hero [data-stage="b"], .film-scrub .hero [data-stage="c"] { opacity: 0; visibility: hidden; }
+
 .hero-in { opacity: 0; transform: translateY(18px); animation: rise 1.3s var(--ease-out-soft) forwards; animation-delay: calc(0.35s + var(--i, 0) * 0.14s); }
 @keyframes rise { to { opacity: 1; transform: none; } }
 
-.video-toggle {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 2.5rem;
-  height: 2.5rem;
-  border-radius: 9999px;
-  border: 1px solid rgb(244 240 232 / 0.45);
-  transition: background-color 0.3s ease, border-color 0.3s ease;
-}
-.video-toggle:hover { background: rgb(244 240 232 / 0.12); border-color: rgb(244 240 232 / 0.8); }
-.video-toggle .i-play { display: none; }
-.video-toggle.is-paused .i-play { display: block; }
-.video-toggle.is-paused .i-pause { display: none; }
-
-.scroll-cue { display: inline-flex; flex-direction: column; align-items: center; gap: 0.9rem; }
-.scroll-cue .line { position: relative; width: 1px; height: 3.5rem; background: rgb(244 240 232 / 0.25); overflow: hidden; }
-.scroll-cue .line::after { content: ""; position: absolute; left: 0; top: -40%; width: 1px; height: 40%; background: var(--color-bone); animation: cue 2.4s var(--ease-out-soft) infinite; }
-@keyframes cue { to { top: 100%; } }
+.hero-progress { display: inline-flex; align-items: center; gap: 1rem; }
+.hero-track { position: relative; display: block; width: 7rem; height: 1px; background: rgb(244 240 232 / 0.25); overflow: hidden; }
+.hero-track > span { position: absolute; inset: 0; background: var(--color-bone); transform: scaleX(0); transform-origin: left; }
+@media (max-width: 639px) { .hero-track { width: 3.5rem; } .hero-progress [data-cue] { display: none; } }
 
 /* =============== Page hero (inner pages) =============== */
 .page-hero { padding-top: 11rem; }

@@ -20,8 +20,11 @@ const I18N = {
     "hero.lede": "Desarrolladora inmobiliaria boutique. Más de 25 años creando lugares que inspiran conexión, calma y un profundo respeto por la naturaleza.",
     "hero.cta": "Descubre Selvadentro",
     "hero.caption": "En pantalla — Selvadentro, Tulum",
-    "hero.pause": "Pausar video",
-    "hero.play": "Reproducir video",
+    "hero.cue": "Desliza para descubrir",
+    "hero.b.eyebrow": "Del plano a la selva",
+    "hero.b.title": "Cada camino, trazado <em>alrededor de la selva.</em>",
+    "hero.b.body": "Baja densidad, nueve cenotes y el 65% de la selva conservada intacta.",
+    "hero.c.cta": "Conoce el proyecto",
 
     "about.eyebrow": "Nosotros",
     "about.title": "Los bienes raíces son mucho más que edificios. <em>Son lugares que transforman vidas.</em>",
@@ -141,8 +144,11 @@ const I18N = {
     "hero.lede": "A boutique real estate developer. More than 25 years creating places that inspire connection, calm and a deep respect for nature.",
     "hero.cta": "Discover Selvadentro",
     "hero.caption": "On screen — Selvadentro, Tulum",
-    "hero.pause": "Pause video",
-    "hero.play": "Play video",
+    "hero.cue": "Scroll to discover",
+    "hero.b.eyebrow": "From plan to jungle",
+    "hero.b.title": "Every road, drawn <em>around the jungle.</em>",
+    "hero.b.body": "Low density, nine cenotes and 65% of the jungle preserved intact.",
+    "hero.c.cta": "Explore the project",
 
     "about.eyebrow": "About us",
     "about.title": "Real estate is more than buildings. <em>It is places that change lives.</em>",
@@ -590,7 +596,6 @@ function applyLang(lang, { instant = false } = {}) {
   if (frame) frame.setAttribute("title", dict["cta.schedule"]);
   const menuBtn = $("#menu-btn");
   if (menuBtn) menuBtn.setAttribute("aria-label", dict["nav.menu"]);
-  updateVideoToggleLabel();
 
   $$("#lang-toggle .lang-btn").forEach((b) => {
     const on = b.dataset.lang === lang;
@@ -606,7 +611,9 @@ const header = $("#site-header");
 const keepSolid = header && header.classList.contains("is-solid");
 function onScrollHeader() {
   if (!header || keepSolid) return;
-  header.classList.toggle("is-solid", window.scrollY > 40);
+  const hero = $("[data-hero]");
+  const threshold = hero ? hero.offsetHeight - header.offsetHeight : 40;
+  header.classList.toggle("is-solid", window.scrollY > threshold);
 }
 window.addEventListener("scroll", onScrollHeader, { passive: true });
 onScrollHeader();
@@ -623,54 +630,116 @@ function setMenu(open) {
 if (menuBtn) menuBtn.addEventListener("click", () => setMenu(!document.body.classList.contains("menu-open")));
 if (mobileMenu) mobileMenu.addEventListener("click", (e) => { if (e.target.closest("a")) setMenu(false); });
 
-// ================== Hero film ==================
+// ================== Hero film (scroll-driven) ==================
+// The <html> gets .film-scrub from the inline script in <head> (so the tall hero never shifts
+// the layout). While the hero's sticky frame is on screen, scroll position drives the film's
+// currentTime and fades between the three text stages.
+const heroEl = $("[data-hero]");
 const video = $("#hero-video");
-const videoToggle = $("#video-toggle");
+const filmScrub = document.documentElement.classList.contains("film-scrub");
 
-function updateVideoToggleLabel() {
-  if (!videoToggle || !video) return;
-  const paused = videoToggle.classList.contains("is-paused");
-  videoToggle.setAttribute("aria-label", I18N[currentLang][paused ? "hero.play" : "hero.pause"]);
-}
+const clamp01 = (v) => Math.min(1, Math.max(0, v));
+const ease = (t) => t * t * (3 - 2 * t); // smoothstep
+const rampUp = (p, a, b) => ease(clamp01((p - a) / (b - a)));
+const band = (p, a, b, c, d) => (p < c ? rampUp(p, a, b) : 1 - rampUp(p, c, d));
 
-function initHeroVideo() {
-  if (!video) return;
-  const saveData = navigator.connection && navigator.connection.saveData;
-  if (reducedMotion || saveData) return; // the poster frame stays
+function initHeroFilm() {
+  if (!heroEl || !video || !filmScrub) return;
+  const stages = { a: $('[data-stage="a"]', heroEl), b: $('[data-stage="b"]', heroEl), c: $('[data-stage="c"]', heroEl) };
+  const bar = $("[data-progress]", heroEl);
+  const cue = $("[data-cue]", heroEl);
 
-  const portrait = window.matchMedia("(orientation: portrait)").matches;
-  const kind = portrait ? "phone" : "desk";
-  const av1 = video.canPlayType('video/webm; codecs="av01.0.08M.08"');
-  const sources = [video.dataset[`${kind}Mp4`]];
-  if (av1) sources.unshift(video.dataset[`${kind}Webm`]);
+  let progress = 0;
+  let lastPainted = -1;
+  let current = 0;
+  let duration = 0;
+  let ready = false;
+  let running = false;
 
-  let attempt = 0;
-  const load = () => { video.src = sources[attempt]; video.load(); };
-  video.addEventListener("error", () => { if (++attempt < sources.length) load(); });
-  video.addEventListener("playing", () => {
-    video.classList.add("is-playing");
-    if (videoToggle) videoToggle.hidden = false;
-  });
-  load();
-  const tryPlay = () => { const p = video.play(); if (p && p.catch) p.catch(() => {}); };
-  video.addEventListener("canplay", tryPlay, { once: true });
+  const setStage = (el, o, y) => {
+    if (!el) return;
+    el.style.opacity = o.toFixed(3);
+    el.style.transform = `translate3d(0, ${y.toFixed(1)}px, 0)`;
+    el.style.visibility = o < 0.01 ? "hidden" : "visible";
+    el.style.pointerEvents = o < 0.6 ? "none" : "";
+  };
 
-  let userPaused = false;
-  if (videoToggle) {
-    videoToggle.addEventListener("click", () => {
-      userPaused = !video.paused;
-      if (video.paused) tryPlay(); else video.pause();
-      videoToggle.classList.toggle("is-paused", userPaused);
-      updateVideoToggleLabel();
-    });
-  }
-  // Pause off-screen to save battery
+  const measure = () => {
+    const total = heroEl.offsetHeight - window.innerHeight;
+    progress = total > 0 ? clamp01(-heroEl.getBoundingClientRect().top / total) : 0;
+  };
+
+  const paint = () => {
+    if (Math.abs(progress - lastPainted) < 0.0005) return;
+    lastPainted = progress;
+    const a = 1 - rampUp(progress, 0.08, 0.24);   // the plan being uncovered
+    const b = band(progress, 0.36, 0.44, 0.58, 0.66); // down into the jungle
+    const c = rampUp(progress, 0.74, 0.86);       // up to the horizon
+    setStage(stages.a, a, -48 * (1 - a));
+    setStage(stages.b, b, progress < 0.51 ? 36 * (1 - b) : -36 * (1 - b));
+    setStage(stages.c, c, 36 * (1 - c));
+    if (bar) bar.style.transform = `scaleX(${progress.toFixed(4)})`;
+    if (cue) cue.style.opacity = (1 - rampUp(progress, 0.01, 0.06)).toFixed(3);
+  };
+
+  const tick = () => {
+    measure();
+    paint();
+    if (ready) {
+      const target = progress * duration;
+      current += (target - current) * 0.16; // ease the playhead toward the scroll position
+      if (Math.abs(target - current) < 0.004) current = target;
+      if (!video.seeking && Math.abs(video.currentTime - current) > 1 / 60) video.currentTime = current;
+    }
+    if (running) requestAnimationFrame(tick);
+  };
+
+  const start = () => { if (!running) { running = true; requestAnimationFrame(tick); } };
+  const stop = () => { running = false; };
+
+  // Only animate while the hero is on screen
   if ("IntersectionObserver" in window) {
-    new IntersectionObserver(([entry]) => {
-      if (userPaused) return;
-      if (entry.isIntersecting) tryPlay(); else video.pause();
-    }, { threshold: 0.05 }).observe(video);
+    new IntersectionObserver(([entry]) => (entry.isIntersecting ? start() : stop())).observe(heroEl);
+  } else {
+    start();
   }
+  window.addEventListener("resize", () => { lastPainted = -1; });
+  measure();
+  paint();
+
+  // Load the whole film up front (as a blob) so every seek is instant and local.
+  // H.264 first (Safari, Chrome), VP9 WebM for browsers built without H.264.
+  const load = () => {
+    const kind = window.matchMedia("(orientation: portrait)").matches ? "phone" : "desk";
+    const sources = [];
+    if (video.canPlayType('video/mp4; codecs="avc1.64001f"')) sources.push(video.dataset[`${kind}Mp4`]);
+    if (video.canPlayType('video/webm; codecs="vp9"')) sources.push(video.dataset[`${kind}Webm`]);
+    if (!sources.length) return; // the poster stays; the text stages still follow the scroll
+
+    let attempt = 0;
+    const tryNext = () => {
+      const src = sources[attempt];
+      fetch(src)
+        .then((r) => (r.ok ? r.blob() : Promise.reject(r.status)))
+        .then((blob) => { video.src = URL.createObjectURL(blob); })
+        .catch(() => { video.preload = "auto"; video.src = src; });
+    };
+    video.addEventListener("error", () => { if (!ready && ++attempt < sources.length) tryNext(); });
+    video.addEventListener("loadeddata", () => {
+      duration = Math.max(0, video.duration - 0.05);
+      current = progress * duration;
+      video.currentTime = current;
+      // iOS only paints seeks once the element has played; a muted play/pause unlocks it
+      const p = video.play();
+      if (p && p.then) p.then(() => video.pause()).catch(() => {});
+      else video.pause();
+      ready = true;
+      video.classList.add("is-ready");
+    }, { once: true });
+    tryNext();
+  };
+  if (document.readyState === "complete") load();
+  else window.addEventListener("load", load, { once: true });
 }
 
 // ================== Parallax bands ==================
@@ -746,8 +815,7 @@ try {
 
 applyLang(initial);
 observeReveals(document);
-if (document.readyState === "complete") initHeroVideo();
-else window.addEventListener("load", initHeroVideo, { once: true });
+initHeroFilm();
 initParallax();
 $$("[data-year]").forEach((el) => { el.textContent = new Date().getFullYear(); });
 

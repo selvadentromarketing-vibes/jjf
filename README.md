@@ -13,7 +13,7 @@ main.js                 → textos ES/EN, datos de proyectos aliados, FAQ, pelí
                           menú móvil, animaciones y modal de contacto
 src/input.css           → fuente de estilos (Tailwind v4 + componentes)
 assets/styles.css       → CSS compilado (lo que carga el navegador)
-assets/hero/            → película del hero (webm AV1 + mp4 H.264, escritorio y teléfono) y pósters
+assets/hero/            → película del hero (mp4 H.264 + webm VP9, escritorio y teléfono) y pósters
 assets/img/             → fotografías en WebP, en varios anchos (nombre-ANCHO.webp)
 assets/fonts/           → Cormorant Garamond y Jost, auto-alojadas (licencia OFL)
 netlify.toml            → config de despliegue (sitio estático, sin build)
@@ -45,8 +45,12 @@ Si cambias `assets/styles.css` o `main.js`, sube el número `?v=` en las etiquet
   `TEASER` define los cuatro que aparecen en la portada.
 - **Imágenes:** para una foto nueva, expórtala a `assets/img/<nombre>-<ancho>.webp`
   y lista los anchos en `widths`.
-- **Película del hero:** se carga después de la página, se pausa fuera de pantalla y no se
-  reproduce con "reducir movimiento" ni con ahorro de datos (queda el póster).
+- **Película del hero (controlada por el scroll):** el hero es alto y su marco queda fijo
+  mientras el scroll avanza la película (el plano se descubre → la selva → el horizonte) y
+  cambia entre tres textos. Los archivos llevan un keyframe cada 6 cuadros para que el
+  scrubbing sea fluido; si recortas o reemplazas la película, conserva `-g 6 -bf 0`.
+  Los puntos de cada texto están en `initHeroFilm()` de `main.js`. Con "reducir movimiento"
+  o ahorro de datos el hero es una sola pantalla con el póster y no descarga la película.
 
 ## Notas
 
