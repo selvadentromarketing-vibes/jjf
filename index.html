@@ -2,173 +2,501 @@
 <html lang="es">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>JJF Creando</title>
-  <meta name="description" data-i18n="meta.description" content="JJF Creando es una desarrolladora inmobiliaria boutique que crea desarrollos innovadores, sostenibles y de lujo en Tulum y la Riviera Maya." />
-  <link rel="icon" href="assets/logo.png" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>JJF Creando — Desarrolladora inmobiliaria boutique en Tulum</title>
+  <meta name="description" data-i18n="meta.description" content="JJF Creando es una desarrolladora inmobiliaria boutique en Tulum y la Riviera Maya. Creadores de Selvadentro, la comunidad privada con nueve cenotes en la selva de Tulum." />
+  <meta name="theme-color" content="#151812" />
+  <link rel="canonical" href="https://jjfcreando.com/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="JJF Creando" />
+  <meta property="og:url" content="https://jjfcreando.com/" />
+  <meta property="og:title" content="JJF Creando — Desarrolladora inmobiliaria boutique en Tulum" />
+  <meta property="og:description" content="Creadores de Selvadentro, la comunidad privada con nueve cenotes en la selva de Tulum. El verdadero lujo no se mide en metros cuadrados." />
+  <meta property="og:image" content="https://jjfcreando.com/assets/og/home-v3.jpg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:locale" content="es_MX" />
+  <meta property="og:locale:alternate" content="en_US" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="icon" href="favicon.ico" sizes="any" />
+  <link rel="icon" type="image/png" sizes="48x48" href="favicon-48.png" />
+  <link rel="apple-touch-icon" href="apple-touch-icon.png" />
 
-  <!-- Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&family=Poppins:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&display=swap" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" href="assets/fonts/instrument-serif-latin.woff2" crossorigin />
+  <link rel="preload" as="font" type="font/woff2" href="assets/fonts/jost-latin.woff2" crossorigin />
+
+  <link rel="preload" as="image" href="assets/hero/hero-poster-v4.webp" media="(orientation: landscape)" fetchpriority="high" />
+  <link rel="preload" as="image" href="assets/hero/hero-poster-phone-v4.webp" media="(orientation: portrait)" fetchpriority="high" />
 
   <!-- Tailwind v4 (precompilado — rebuild with: npm run build) -->
-  <link rel="stylesheet" href="assets/styles.css" />
+  <link rel="stylesheet" href="assets/styles.css?v=20261002a" />
+  <script>(function(d){d.classList.add('js');try{if(matchMedia('(min-height: 520px)').matches&&!matchMedia('(prefers-reduced-motion: reduce)').matches&&!(navigator.connection&&navigator.connection.saveData))d.classList.add('film-scrub')}catch(e){}})(document.documentElement);</script>
 </head>
-<body class="antialiased">
+<body data-page="home">
 
   <!-- ============ HEADER ============ -->
-  <header class="sticky top-0 z-50 bg-white/95 backdrop-blur border-b border-black/5">
-    <nav class="mx-auto max-w-7xl px-6 h-20 flex items-center justify-between gap-4">
-      <a href="#top" class="shrink-0 flex items-center gap-2">
-        <img src="assets/logo.png" alt="JJF Creando" class="h-10 w-auto" />
+  <header class="site-header" id="site-header">
+    <nav class="wrap h-20 md:h-24 flex items-center justify-between gap-6" aria-label="Principal">
+      <a href="index.html" class="logo-mark" aria-label="JJF Creando">
+        <span class="logo-img" aria-hidden="true"></span>
       </a>
-      <ul class="hidden md:flex items-center gap-10 font-serif text-lg">
-        <li><a href="#top" class="hover:opacity-60 transition" data-i18n="nav.home">Inicio</a></li>
-        <li><a href="#philosophy" class="hover:opacity-60 transition" data-i18n="nav.about">Nosotros</a></li>
-        <li><a href="#projects" class="hover:opacity-60 transition" data-i18n="nav.projects">Proyectos</a></li>
-        <li><a href="#faq" class="hover:opacity-60 transition" data-i18n="nav.contact">Contacto</a></li>
+      <ul class="hidden lg:flex items-center gap-10">
+        <li><a class="nav-link" href="#selvadentro" data-i18n="nav.selvadentro">Selvadentro</a></li>
+        <li><a class="nav-link" href="#nosotros" data-i18n="nav.about">Nosotros</a></li>
+        <li><a class="nav-link" href="partner-projects.html" data-i18n="nav.partners">Proyectos aliados</a></li>
+        <li><a class="nav-link" href="#contacto" data-i18n="nav.contact">Contacto</a></li>
       </ul>
-      <div class="flex items-center gap-3 md:gap-4">
-        <div id="lang-toggle" class="flex items-center rounded-full border border-black/15 overflow-hidden" role="group" aria-label="Language">
-          <button type="button" data-lang="es" class="lang-btn">ES</button>
-          <button type="button" data-lang="en" class="lang-btn">EN</button>
+      <div class="flex items-center gap-3 md:gap-6">
+        <div class="lang-toggle" id="lang-toggle" role="group" aria-label="Idioma / Language">
+          <button type="button" class="lang-btn" data-lang="es">ES</button><span class="lang-sep">/</span><button type="button" class="lang-btn" data-lang="en">EN</button>
         </div>
-        <a href="#contact" data-cta class="btn-pill text-sm md:text-base !py-3 !px-7" data-i18n="cta.schedule">Agenda una llamada</a>
+        <a href="#contacto" data-cta class="btn btn-ghost hidden md:inline-flex !min-h-11 !px-6"><span data-i18n="cta.schedule">Agenda una llamada</span></a>
+        <button type="button" class="menu-btn lg:hidden" id="menu-btn" aria-label="Menú" aria-expanded="false" aria-controls="mobile-menu"><span></span><span></span></button>
       </div>
     </nav>
   </header>
 
-  <main id="top">
+  <div class="mobile-menu" id="mobile-menu" aria-hidden="true">
+    <nav class="flex flex-col gap-1" aria-label="Menú">
+      <a class="m-link" href="#selvadentro" data-i18n="nav.selvadentro">Selvadentro</a>
+      <a class="m-link" href="#nosotros" data-i18n="nav.about">Nosotros</a>
+      <a class="m-link" href="partner-projects.html" data-i18n="nav.partners">Proyectos aliados</a>
+      <a class="m-link" href="#contacto" data-i18n="nav.contact">Contacto</a>
+    </nav>
+    <div class="mt-12 flex flex-col items-start gap-6">
+      <a href="#contacto" data-cta class="btn btn-accent"><span data-i18n="cta.schedule">Agenda una llamada</span></a>
+      <a href="https://wa.me/529994890828" data-wa target="_blank" rel="noopener" class="link-line"><span data-i18n="cta.whatsapp">Escribir por WhatsApp</span><span class="arrow-ne" aria-hidden="true">↗</span></a>
+    </div>
+  </div>
 
-    <!-- ============ HERO ============ -->
-    <section class="relative">
-      <div class="parallax min-h-[88vh] flex items-center" style="background-image:url('assets/hero-bg.webp')">
-        <div class="mx-auto max-w-7xl w-full px-6 py-16">
-          <div class="relative max-w-xl overflow-hidden rounded-[2.5rem]">
-            <div class="absolute inset-0 bg-center bg-cover" style="background-image:url('assets/hero-lodge.webp')"></div>
-            <div class="absolute inset-0 bg-black/55"></div>
-            <div class="relative px-9 py-14 md:px-12 md:py-16 text-white">
-              <h1 class="font-serif italic font-medium leading-tight text-4xl md:text-5xl" data-i18n="hero.title">
-                Creando Experiencias<br />a Través del Real Estate
-              </h1>
-              <p class="mt-7 italic text-white/90 leading-relaxed text-[1.02rem]" data-i18n="hero.body">
-                JJF Creando es una desarrolladora inmobiliaria boutique con una misión única:
-                crear espacios que inspiren conexión, tranquilidad y una profunda apreciación por
-                el mundo natural. Con más de 25 años de experiencia en la industria, JJF Creando
-                se ha consolidado como líder en el desarrollo de proyectos innovadores, sostenibles
-                y llenos de lujo que elevan el estándar de vida mientras preservan la belleza del
-                entorno.
-              </p>
-              <a href="#contact" data-cta class="btn-pill mt-9" data-i18n="hero.cta">Contáctanos</a>
+  <main>
+
+    <!-- ============ HERO (scroll-driven film) ============ -->
+    <!-- A tall section whose sticky frame holds the film while scrolling plays it in three
+         chapters (the plan is uncovered, Selvadentro from above, the cenote). The next section then rises
+         over the last frame like a curtain. See initHeroFilm() in main.js. -->
+    <section class="hero" id="top" data-hero>
+      <div class="hero-sticky">
+        <div class="hero-frame" data-frame>
+          <div class="hero-media">
+            <picture>
+              <source media="(orientation: portrait)" srcset="assets/hero/hero-poster-phone-v4.webp" />
+              <img src="assets/hero/hero-poster-v4.webp" alt="" fetchpriority="high" />
+            </picture>
+            <video id="hero-video" muted playsinline preload="none" aria-hidden="true" tabindex="-1"
+              data-desk-mp4="assets/hero/film-desk-v4.mp4" data-desk-webm="assets/hero/film-desk-v4.webm"
+              data-phone-mp4="assets/hero/film-phone-v4.mp4" data-phone-webm="assets/hero/film-phone-v4.webm"></video>
+          </div>
+        </div>
+        <div class="hero-scrim" aria-hidden="true"></div>
+        <div class="hero-shade" data-shade aria-hidden="true"></div>
+
+        <div class="hero-safe">
+          <!-- Chapter 1: the plan -->
+          <div class="hero-stage" data-stage="a">
+            <div class="h-full wrap flex flex-col justify-end pb-24 md:pb-28">
+              <p class="eyebrow eyebrow-rule hero-in text-bone/85" style="--i:0" data-i18n="hero.eyebrow">JJF Creando · Tulum, Riviera Maya</p>
+              <h1 class="hero-title display mt-6 text-[3.1rem] sm:text-[4.4rem] lg:text-[6.2rem] xl:text-[7rem] max-w-5xl" data-i18n="hero.title"><span class="line"><span style="--k:0">Creando experiencias</span></span><span class="line"><span style="--k:1"><em>a través del real estate</em></span></span></h1>
+              <div class="mt-8 md:mt-10 flex flex-col lg:flex-row lg:items-end lg:justify-between gap-8">
+                <p class="lede max-w-md text-bone/85 hero-in" style="--i:3" data-i18n="hero.lede">Desarrolladora inmobiliaria boutique. Más de 25 años creando lugares que inspiran conexión, calma y un profundo respeto por la naturaleza.</p>
+                <div class="flex flex-wrap items-center gap-x-7 gap-y-5 hero-in" style="--i:4">
+                  <a href="#selvadentro" class="btn btn-light"><span data-i18n="hero.cta">Descubre Selvadentro</span><span class="arrow" aria-hidden="true">→</span></a>
+                  <a href="#contacto" data-cta class="link-line" data-i18n="cta.schedule">Agenda una llamada</a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Chapter 2: the jungle -->
+          <div class="hero-stage" data-stage="b">
+            <div class="h-full wrap flex flex-col justify-center">
+              <div class="max-w-4xl">
+                <p class="eyebrow eyebrow-rule text-bone/85 st st-fade" style="--k:0" data-i18n="hero.b.eyebrow">Del plano a la selva</p>
+                <p class="display mt-7 text-[2.7rem] sm:text-[3.8rem] lg:text-[5.2rem]" data-i18n="hero.b.title"><span class="line"><span class="st st-rise" style="--k:1">Cada camino, trazado</span></span><span class="line"><span class="st st-rise" style="--k:2"><em>alrededor de la selva.</em></span></span></p>
+                <p class="lede mt-8 max-w-md text-bone/85 st st-fade" style="--k:3" data-i18n="hero.b.body">Baja densidad, nueve cenotes y el 65% de la selva conservada intacta.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Chapter 3: the cenote -->
+          <div class="hero-stage" data-stage="c">
+            <div class="h-full wrap flex flex-col justify-end pb-24 md:pb-28">
+              <p class="eyebrow eyebrow-rule text-bone/85 st st-fade" style="--k:0" data-i18n="sd.eyebrow">Proyecto insignia · Tulum</p>
+              <div class="mt-4 flex flex-col lg:flex-row lg:items-end lg:justify-between gap-x-10 gap-y-8">
+                <div>
+                  <p class="display text-[4.3rem] sm:text-[7rem] lg:text-[9.5rem] xl:text-[11rem]"><span class="line"><span class="st st-rise" style="--k:1">Selvadentro</span></span></p>
+                  <p class="font-serif italic serif-em text-[1.9rem] md:text-[2.6rem] mt-2 st st-fade" style="--k:2" data-i18n="sd.tagline">Tierra de cenotes</p>
+                </div>
+                <div class="flex flex-wrap items-center gap-x-7 gap-y-5 lg:flex-col lg:items-end lg:pb-6 shrink-0 st st-fade" style="--k:3">
+                  <a href="#selvadentro" class="btn btn-light"><span data-i18n="hero.c.cta">Conoce el proyecto</span><span class="arrow" aria-hidden="true">→</span></a>
+                  <a href="#contacto" data-cta data-intent="visit" class="link-line" data-i18n="sd.cta2">Agenda una visita privada</a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="absolute inset-x-0 bottom-0 z-20">
+            <div class="wrap flex items-center justify-between gap-6 pb-6 md:pb-7">
+              <div class="hero-slot hero-in" style="--i:5">
+                <p class="caption !text-bone/60" data-caption data-i18n="hero.caption"><span class="hidden sm:inline">En pantalla — </span>Selvadentro, Tulum</p>
+                <p class="caption !text-bone/85 scroll-cue" data-cue aria-hidden="true"><span class="cue-line"></span><span data-i18n="hero.cue">Desliza para descubrir</span></p>
+              </div>
+              <div class="hero-chapters hero-in" style="--i:5" aria-hidden="true">
+                <span class="caption !text-bone/70 ch-label" data-ch-label>El plano</span>
+                <span class="ch-num" data-ch-num>01</span>
+                <span class="hero-track"><span data-progress></span></span>
+                <span class="ch-num opacity-50">03</span>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- ============ PHILOSOPHY ============ -->
-    <section id="philosophy" class="bg-white">
-      <div class="mx-auto max-w-7xl px-6 py-24 grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-        <div class="order-2 lg:order-1">
-          <img src="assets/sketch-philosophy.webp" alt="Boceto arquitectónico" class="w-full max-w-md mx-auto" />
+    <!-- ============ ABOUT ============ -->
+    <section id="nosotros" class="sunlit py-28 md:py-40">
+      <div class="wrap grid lg:grid-cols-12 gap-x-12 gap-y-12">
+        <div class="lg:col-span-7">
+          <p class="eyebrow eyebrow-rule text-accent reveal"><span class="eyebrow-num">01</span><span data-i18n="about.eyebrow">Nosotros</span></p>
+          <h2 class="display mt-8 text-[2.5rem] sm:text-[3.4rem] lg:text-[4.4rem] reveal u-brush" style="--d:1" data-i18n="about.title">No vendemos propiedades. <em>Diseñamos refugios.</em></h2>
         </div>
-        <div class="order-1 lg:order-2">
-          <h2 class="text-4xl md:text-5xl font-bold" data-i18n="philosophy.title">Nuestra Filosofía</h2>
-          <p class="mt-6 italic text-neutral-700 leading-relaxed" data-i18n="philosophy.intro">
-            En JJF Creando creemos que los bienes raíces son mucho más que edificios: se trata de
-            crear entornos que transforman vidas y fomentan conexiones significativas. Nuestra
-            filosofía se sustenta en tres pilares fundamentales:
-          </p>
-          <ul class="mt-6 space-y-4 italic text-neutral-700 leading-relaxed list-disc pl-5">
-            <li data-i18n="philosophy.pillar1"><span class="font-semibold not-italic">Diseño Minimalista:</span> Diseñamos espacios elegantes y funcionales que se integran de forma natural con su entorno, incorporando arquitectura de vanguardia.</li>
-            <li data-i18n="philosophy.pillar2"><span class="font-semibold not-italic">Atención al Detalle:</span> Cada proyecto refleja una planificación y ejecución meticulosas, garantizando un equilibrio armonioso entre estética, funcionalidad y sostenibilidad.</li>
-            <li data-i18n="philosophy.pillar3"><span class="font-semibold not-italic">Conexión con la Naturaleza:</span> Priorizamos la preservación del entorno natural, integrando prácticas ecológicas en cada etapa del desarrollo para crear espacios que coexisten con la naturaleza.</li>
-          </ul>
-          <a href="#contact" data-cta class="btn-pill mt-9" data-i18n="cta.dream">Comienza a Construir tu Sueño</a>
+        <div class="lg:col-span-4 lg:col-start-9 lg:pt-28">
+          <p class="prose-body reveal" style="--d:2" data-i18n="about.p1">La idea con JJF Creando es ir más allá de solo crear desarrollos o construir. Lo que buscamos es crear espacios que realmente hagan sentir algo: lugares que te inviten a vivir con calma, rodeado de naturaleza, pero sin renunciar al diseño y al detalle.</p>
+          <p class="prose-body mt-6 reveal" style="--d:3" data-i18n="about.p2">Nacimos de la alianza entre dos familias con trayectoria comprobada en el desarrollo inmobiliario premium del sureste mexicano. Selvadentro es nuestro primer proyecto.</p>
+          <a href="#filosofia" class="link-line mt-10 reveal" style="--d:4"><span data-i18n="about.link">Nuestra filosofía</span><span class="arrow" aria-hidden="true">→</span></a>
+        </div>
+      </div>
+
+      <div class="wrap mt-20 md:mt-28">
+        <dl class="grid sm:grid-cols-3 border-t hairline">
+          <div class="py-10 sm:pr-8 border-b sm:border-b-0 hairline reveal flex flex-col-reverse justify-end">
+            <dt class="caption mt-4" data-i18n="about.stat1.label">Años de experiencia en la industria</dt>
+            <dd class="stat-num text-[3.6rem] md:text-[4.6rem]" data-count="25" data-suffix="+">25+</dd>
+          </div>
+          <div class="py-10 sm:px-8 border-b sm:border-b-0 sm:border-l hairline reveal flex flex-col-reverse justify-end" style="--d:1">
+            <dt class="caption mt-4" data-i18n="about.stat2.label">Hectáreas en comunidades de nuestros socios</dt>
+            <dd class="stat-num text-[3.6rem] md:text-[4.6rem]" data-count="595">595</dd>
+          </div>
+          <div class="py-10 sm:pl-8 sm:border-l hairline reveal flex flex-col-reverse justify-end" style="--d:2">
+            <dt class="caption mt-4" data-i18n="about.stat3.label">En valor de proyectos aliados</dt>
+            <dd class="stat-num text-[3.6rem] md:text-[4.6rem]"><span data-i18n="about.stat3.value">US$1,800 M+</span></dd>
+          </div>
+        </dl>
+      </div>
+    </section>
+
+    <!-- ============ SELVADENTRO (flagship) ============ -->
+    <section id="selvadentro" class="fx-open on-dark bg-moss text-bone">
+      <div class="wrap pt-28 md:pt-40">
+        <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6">
+          <div>
+            <p class="eyebrow eyebrow-rule text-accent reveal"><span class="eyebrow-num">02</span><span data-i18n="sd.eyebrow">Proyecto insignia · Tulum</span></p>
+            <h2 class="display mt-6 text-[4.3rem] sm:text-[7rem] lg:text-[10rem] xl:text-[11.5rem] reveal" style="--d:1">Selvadentro</h2>
+          </div>
+          <p class="font-serif italic serif-em text-3xl md:text-[2.8rem] lg:pb-8 reveal" style="--d:2" data-i18n="sd.tagline">Tierra de cenotes</p>
+        </div>
+      </div>
+
+      <div class="mt-10 md:mt-14 md:px-10 lg:px-16">
+        <div class="frame reveal-img aspect-[4/3] sm:aspect-[16/9] lg:aspect-[21/9] mx-auto max-w-[1440px]">
+          <img src="assets/img/selvadentro-aerial-1600.webp?v=2"
+            srcset="assets/img/selvadentro-aerial-960.webp?v=2 960w, assets/img/selvadentro-aerial-1600.webp?v=2 1600w, assets/img/selvadentro-aerial-2400.webp?v=2 2400w, assets/img/selvadentro-aerial-3200.webp?v=2 3200w, assets/img/selvadentro-aerial-3998.webp?v=2 3998w"
+            sizes="(min-width: 1440px) 1440px, 100vw" loading="lazy" decoding="async"
+            alt="Vista aérea de Selvadentro: residencias entre la selva de Tulum y un cenote" data-i18n-alt="sd.alt.aerial" />
+        </div>
+      </div>
+
+      <div class="wrap grid lg:grid-cols-12 gap-x-12 gap-y-12 py-20 md:py-28">
+        <div class="lg:col-span-5">
+          <p class="display text-[2.1rem] md:text-[2.8rem] !leading-[1.1] reveal u-brush" data-i18n="sd.statement">La única comunidad privada en Tulum con <em>nueve cenotes</em> dentro.</p>
+        </div>
+        <div class="lg:col-span-6 lg:col-start-7">
+          <p class="prose-body reveal" style="--d:1" data-i18n="sd.body">Un desarrollo de lujo inmerso en la naturaleza, en el corazón de la selva de Tulum, donde la arquitectura refinada se funde con la selva que lo rodea. Concebido en torno a la privacidad, el bienestar y un profundo respeto por la tierra, ofrece privadas de baja densidad entrelazadas entre la vegetación nativa, los cenotes y el dosel abierto.</p>
+
+          <dl class="mt-12 grid grid-cols-2 border-t hairline reveal" style="--d:2">
+            <div class="py-7 pr-6 border-b hairline flex flex-col-reverse justify-end">
+              <dt class="caption mt-3" data-i18n="sd.fact1">Cenotes naturales dentro del proyecto</dt>
+              <dd class="stat-num text-[3rem] md:text-[3.6rem]" data-count="9">9</dd>
+            </div>
+            <div class="py-7 pl-6 border-b border-l hairline flex flex-col-reverse justify-end">
+              <dt class="caption mt-3" data-i18n="sd.fact2">De la selva conservada intacta</dt>
+              <dd class="stat-num text-[3rem] md:text-[3.6rem]" data-count="65" data-suffix="%">65%</dd>
+            </div>
+            <div class="py-7 pr-6 border-b hairline flex flex-col-reverse justify-end">
+              <dt class="caption mt-3" data-i18n="sd.fact3">Experiencias y amenidades en la selva</dt>
+              <dd class="stat-num text-[3rem] md:text-[3.6rem]" data-count="12" data-suffix="+">12+</dd>
+            </div>
+            <div class="py-7 pl-6 border-b border-l hairline flex flex-col-reverse justify-end">
+              <dt class="caption mt-3" data-i18n="sd.fact4">Del Tren Maya</dt>
+              <dd class="stat-num text-[3rem] md:text-[3.6rem]" data-count="8" data-suffix=" min">8 min</dd>
+            </div>
+          </dl>
+
+          <div class="mt-12 flex flex-wrap items-center gap-x-7 gap-y-5 reveal" style="--d:3">
+            <a href="https://selvadentrotulum.com" target="_blank" rel="noopener" class="btn btn-light"><span data-i18n="sd.cta">Visitar Selvadentro</span><span class="arrow-ne" aria-hidden="true">↗</span></a>
+            <a href="#contacto" data-cta data-intent="visit" class="link-line" data-i18n="sd.cta2">Agenda una visita privada</a>
+          </div>
+          <p class="caption mt-12 reveal" style="--d:4" data-i18n="sd.architects">Diseño y arquitectura — Maat Handasa · AMA Estudio</p>
+        </div>
+      </div>
+
+      <!-- Master plan: the same plan the film uncovers -->
+      <div class="wrap pb-20 md:pb-28">
+        <div class="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-2 border-b hairline pb-5 reveal">
+          <p class="eyebrow eyebrow-rule text-accent" data-i18n="mp.eyebrow">Plan maestro</p>
+          <p class="caption" data-i18n="mp.meta">9 cenotes · 12 experiencias · 4 sectores</p>
+        </div>
+        <p class="display mt-10 text-[2rem] md:text-[2.6rem] max-w-3xl !leading-[1.12] reveal" data-i18n="mp.title">El plano de la película, <em>en detalle.</em></p>
+        <figure class="fx-mp mt-10 md:mt-12">
+          <div class="mp-scroll" data-i18n-aria="mp.scroll" tabindex="0" role="region" aria-label="Plan maestro de Selvadentro">
+            <div class="frame reveal-img mp-frame">
+              <img src="assets/img/selvadentro-masterplan-1400.webp?v=2" srcset="assets/img/selvadentro-masterplan-1400.webp?v=2 1400w, assets/img/selvadentro-masterplan-2400.webp?v=2 2400w, assets/img/selvadentro-masterplan-3818.webp?v=2 3818w" sizes="(min-width: 1440px) 1312px, (min-width: 768px) 90vw, 900px" alt="Plan maestro de Selvadentro con los sectores Cenote, Mono, Toh y Jaguar, sus cenotes y amenidades numerados" data-i18n-alt="mp.alt" loading="lazy" decoding="async" />
+            </div>
+          </div>
+          <figcaption class="caption mt-4 md:hidden" data-i18n="mp.hint">Desliza para recorrer el plano</figcaption>
+        </figure>
+        <div class="mt-12 grid md:grid-cols-12 gap-x-12 gap-y-10">
+          <div class="md:col-span-5">
+            <p class="eyebrow text-bone/85" data-i18n="mp.cenotes">Cenotes</p>
+            <ol class="mp-legend mt-5">
+                  <li><span class="mp-dot mp-dot-cenote">1</span><span data-i18n="mp.c1">Cenote Mirador</span></li>
+                  <li><span class="mp-dot mp-dot-cenote">2</span><span data-i18n="mp.c2">Cenote Playa</span></li>
+                  <li><span class="mp-dot mp-dot-cenote">3</span><span data-i18n="mp.c3">Cenote Piedra</span></li>
+                  <li><span class="mp-dot mp-dot-cenote">4</span><span data-i18n="mp.c4">Cenote Luz</span></li>
+                  <li><span class="mp-dot mp-dot-cenote">5</span><span data-i18n="mp.c5">Cenote Azul</span></li>
+                  <li><span class="mp-dot mp-dot-cenote">6</span><span data-i18n="mp.c6">Cenote Selva</span></li>
+                  <li><span class="mp-dot mp-dot-cenote">7</span><span data-i18n="mp.c7">Cenote Madera</span></li>
+                  <li><span class="mp-dot mp-dot-cenote">8</span><span data-i18n="mp.c8">Cenote Vida</span></li>
+                  <li><span class="mp-dot mp-dot-cenote">9</span><span data-i18n="mp.c9">Cenote Caverna</span></li>
+            </ol>
+          </div>
+          <div class="md:col-span-7">
+            <p class="eyebrow text-bone/85" data-i18n="mp.experiences">Experiencias</p>
+            <ol class="mp-legend mp-legend-2 mt-5">
+                  <li><span class="mp-dot">1</span><span data-i18n="mp.x1">Acceso</span></li>
+                  <li><span class="mp-dot">2</span><span data-i18n="mp.x2">Mirador</span></li>
+                  <li><span class="mp-dot">3</span><span data-i18n="mp.x3">Kids Jungle</span></li>
+                  <li><span class="mp-dot">4</span><span data-i18n="mp.x4">Pets Jungle</span></li>
+                  <li><span class="mp-dot">5</span><span data-i18n="mp.x5">Jungle Gym</span></li>
+                  <li><span class="mp-dot">6</span><span data-i18n="mp.x6">Cancha de pádel y pickleball</span></li>
+                  <li><span class="mp-dot">7</span><span data-i18n="mp.x7">Pabellón holístico</span></li>
+                  <li><span class="mp-dot">8</span><span data-i18n="mp.x8">Village comercial</span></li>
+                  <li><span class="mp-dot">9</span><span data-i18n="mp.x9">Casa del Árbol</span></li>
+                  <li><span class="mp-dot">10</span><span data-i18n="mp.x10">Jungle Bar</span></li>
+                  <li><span class="mp-dot">11</span><span data-i18n="mp.x11">Casa de los Cenotes</span></li>
+                  <li><span class="mp-dot">12</span><span data-i18n="mp.x12">Wellness center</span></li>
+            </ol>
+          </div>
+        </div>
+      </div>
+
+      <!-- Gallery -->
+      <div class="wrap pb-28 md:pb-40">
+        <div class="gallery grid grid-cols-12 gap-3 md:gap-6">
+          <figure class="col-span-12 md:col-span-8 zoom">
+            <div class="frame reveal-img aspect-[16/10]"><img src="assets/img/selvadentro-cenote-1280.webp?v=2" srcset="assets/img/selvadentro-cenote-800.webp?v=2 800w, assets/img/selvadentro-cenote-1280.webp?v=2 1280w, assets/img/selvadentro-cenote-1920.webp?v=2 1920w" sizes="(min-width: 768px) 64vw, 100vw" loading="lazy" decoding="async" alt="Cenote natural dentro de Selvadentro" data-i18n-alt="sd.alt.cenote" /></div>
+            <figcaption class="caption" data-i18n="sd.cap.cenote">Cenotes naturales dentro de la comunidad</figcaption>
+          </figure>
+          <figure class="col-span-6 md:col-span-4 zoom">
+            <div class="frame reveal-img aspect-[4/5] md:aspect-auto md:h-[calc(100%-2.25rem)]"><img src="assets/img/selvadentro-aframe-840.webp?v=2" sizes="(min-width: 768px) 32vw, 50vw" loading="lazy" decoding="async" alt="Pabellón de madera y alberca entre la selva" data-i18n-alt="sd.alt.aframe" /></div>
+            <figcaption class="caption" data-i18n="sd.cap.aframe">Amenidades entre la selva</figcaption>
+          </figure>
+          <figure class="col-span-6 md:col-span-4 zoom">
+            <div class="frame reveal-img aspect-[4/5] md:aspect-auto md:h-[calc(100%-2.25rem)]"><img src="assets/img/selvadentro-spa-960.webp?v=2" sizes="(min-width: 768px) 32vw, 50vw" loading="lazy" decoding="async" alt="Spa bajo la roca junto a un cenote" data-i18n-alt="sd.alt.spa" /></div>
+            <figcaption class="caption" data-i18n="sd.cap.spa">Bienestar</figcaption>
+          </figure>
+          <figure class="col-span-12 md:col-span-8 zoom">
+            <div class="frame reveal-img aspect-[16/10]"><img src="assets/img/selvadentro-villa-1146.webp?v=2" srcset="assets/img/selvadentro-villa-900.webp?v=2 900w, assets/img/selvadentro-villa-1146.webp?v=2 1146w" sizes="(min-width: 768px) 64vw, 100vw" loading="lazy" decoding="async" alt="Residencia de Selvadentro integrada a la selva" data-i18n-alt="sd.alt.villa" /></div>
+            <figcaption class="caption" data-i18n="sd.cap.villa">Arquitectura que se integra a la selva</figcaption>
+          </figure>
+          <figure class="col-span-6 zoom">
+            <div class="frame reveal-img aspect-[4/3]"><img src="assets/img/selvadentro-night-1200.webp?v=2" srcset="assets/img/selvadentro-night-800.webp?v=2 800w, assets/img/selvadentro-night-1200.webp?v=2 1200w" sizes="50vw" loading="lazy" decoding="async" alt="Pabellones iluminados junto a un cenote al anochecer" data-i18n-alt="sd.alt.night" /></div>
+            <figcaption class="caption" data-i18n="sd.cap.night">Vida en comunidad</figcaption>
+          </figure>
+          <figure class="col-span-6 zoom">
+            <div class="frame reveal-img aspect-[4/3]"><img src="assets/img/selvadentro-bath-1600.webp?v=2" srcset="assets/img/selvadentro-bath-960.webp?v=2 960w, assets/img/selvadentro-bath-1600.webp?v=2 1600w, assets/img/selvadentro-bath-1740.webp?v=2 1740w" sizes="50vw" loading="lazy" decoding="async" alt="Interior de una residencia con vista a la selva" data-i18n-alt="sd.alt.bath" /></div>
+            <figcaption class="caption" data-i18n="sd.cap.bath">Interiores de luz filtrada</figcaption>
+          </figure>
+        </div>
+        <p class="caption mt-10 !text-bone/40 !normal-case !tracking-normal text-[0.78rem]" data-i18n="sd.disclaimer">Algunas imágenes son representaciones artísticas con fines ilustrativos.</p>
+      </div>
+    </section>
+
+    <!-- ============ MARQUEE ============ -->
+    <section class="marquee" aria-hidden="true">
+      <div class="marquee-track" data-marquee>
+        <div class="marquee-group"><span class="mq-word is-italic" data-i18n="mq.w1">Tierra de cenotes</span><span class="mq-star">✦</span><span class="mq-word is-outline" data-i18n="mq.w2">Selvadentro</span><span class="mq-star">✦</span><span class="mq-word " data-i18n="mq.w3">Tulum</span><span class="mq-star">✦</span><span class="mq-word is-outline" data-i18n="mq.w4">Riviera Maya</span><span class="mq-star">✦</span><span class="mq-word is-italic" data-i18n="mq.w5">Selva viva</span><span class="mq-star">✦</span><span class="mq-word " data-i18n="mq.w6">JJF Creando</span><span class="mq-star">✦</span></div>
+        <div class="marquee-group"><span class="mq-word is-italic" data-i18n="mq.w1">Tierra de cenotes</span><span class="mq-star">✦</span><span class="mq-word is-outline" data-i18n="mq.w2">Selvadentro</span><span class="mq-star">✦</span><span class="mq-word " data-i18n="mq.w3">Tulum</span><span class="mq-star">✦</span><span class="mq-word is-outline" data-i18n="mq.w4">Riviera Maya</span><span class="mq-star">✦</span><span class="mq-word is-italic" data-i18n="mq.w5">Selva viva</span><span class="mq-star">✦</span><span class="mq-word " data-i18n="mq.w6">JJF Creando</span><span class="mq-star">✦</span></div>
+      </div>
+    </section>
+
+    <!-- ============ PHILOSOPHY ============ -->
+    <section id="filosofia" class="sunlit py-28 md:py-40">
+      <div class="wrap grid lg:grid-cols-12 gap-x-12 gap-y-16">
+        <div class="lg:col-span-5 order-2 lg:order-1">
+          <figure class="lg:sticky lg:top-32 arch-figure max-w-[19rem] sm:max-w-[24rem] lg:max-w-[26rem] mx-auto lg:mx-0">
+            <span class="arch-outline" aria-hidden="true"></span>
+            <div class="arch frame reveal-img aspect-[4/5]">
+              <img src="assets/img/selvadentro-swim-800.webp?v=2" srcset="assets/img/selvadentro-swim-800.webp?v=2 800w, assets/img/selvadentro-swim-1140.webp?v=2 1140w" sizes="(min-width: 1024px) 26rem, 90vw" alt="Una persona nada en un cenote bajo estalactitas, en Selvadentro" data-i18n-alt="philosophy.alt" loading="lazy" decoding="async" />
+            </div>
+            <figcaption class="caption mt-5" data-i18n="philosophy.caption">Cenote en Selvadentro, Tulum</figcaption>
+          </figure>
+        </div>
+        <div class="lg:col-span-6 lg:col-start-7 order-1 lg:order-2">
+          <p class="eyebrow eyebrow-rule text-accent reveal"><span class="eyebrow-num">03</span><span data-i18n="philosophy.eyebrow">Nuestra filosofía</span></p>
+          <h2 class="display mt-8 text-[2.5rem] sm:text-[3.4rem] lg:text-[4.2rem] reveal u-brush" style="--d:1" data-i18n="philosophy.title">Tres pilares que guían <em>cada proyecto</em></h2>
+          <p class="prose-body mt-8 max-w-xl reveal" style="--d:2" data-i18n="philosophy.intro">Para nosotros el lujo no está en lo ostentoso; está en algo más sutil, con mejor gusto, más conectado con el entorno y con la forma en la que uno quiere vivir. Por eso nuestros proyectos mezclan lo estético con lo funcional, lo natural con lo bien hecho.</p>
+
+          <ol class="mt-14 border-t hairline">
+            <li class="pillar grid grid-cols-[3.5rem_1fr] md:grid-cols-[5rem_1fr] gap-4 py-9 border-b hairline reveal">
+              <span class="pillar-num font-serif italic text-accent text-3xl">01</span>
+              <div>
+                <h3 class="text-[1.9rem] md:text-[2.2rem] font-light leading-tight" data-i18n="philosophy.p1.title">Diseño minimalista</h3>
+                <p class="prose-body mt-3" data-i18n="philosophy.p1.body">Espacios elegantes y funcionales que se integran de forma natural con su entorno, con arquitectura de vanguardia.</p>
+              </div>
+            </li>
+            <li class="pillar grid grid-cols-[3.5rem_1fr] md:grid-cols-[5rem_1fr] gap-4 py-9 border-b hairline reveal">
+              <span class="pillar-num font-serif italic text-accent text-3xl">02</span>
+              <div>
+                <h3 class="text-[1.9rem] md:text-[2.2rem] font-light leading-tight" data-i18n="philosophy.p2.title">Atención al detalle</h3>
+                <p class="prose-body mt-3" data-i18n="philosophy.p2.body">Cada proyecto refleja una planificación y ejecución meticulosas: un equilibrio armonioso entre estética, funcionalidad y sostenibilidad.</p>
+              </div>
+            </li>
+            <li class="pillar grid grid-cols-[3.5rem_1fr] md:grid-cols-[5rem_1fr] gap-4 py-9 border-b hairline reveal">
+              <span class="pillar-num font-serif italic text-accent text-3xl">03</span>
+              <div>
+                <h3 class="text-[1.9rem] md:text-[2.2rem] font-light leading-tight" data-i18n="philosophy.p3.title">Conexión con la naturaleza</h3>
+                <p class="prose-body mt-3" data-i18n="philosophy.p3.body">Preservamos el entorno natural e integramos prácticas ecológicas en cada etapa del desarrollo, para crear espacios que coexisten con la naturaleza.</p>
+              </div>
+            </li>
+          </ol>
+          <a href="#contacto" data-cta class="btn btn-accent mt-14 reveal"><span data-i18n="cta.dream">Comienza a construir tu sueño</span><span class="arrow" aria-hidden="true">→</span></a>
         </div>
       </div>
     </section>
 
-    <!-- ============ PROJECTS ============ -->
-    <section id="projects" class="parallax relative" style="background-image:url('assets/hero-bg.webp')">
-      <div class="absolute inset-0 bg-black/55"></div>
-      <div class="relative">
-        <div class="text-center pt-20 pb-4">
-          <h2 class="text-4xl md:text-5xl font-bold text-white" data-i18n="projects.title">Nuestros Proyectos</h2>
+    <!-- ============ PARTNER PROJECTS (teaser) ============ -->
+    <section id="aliados" class="fx-open on-dark bg-forest text-bone py-28 md:py-36">
+      <div class="wrap">
+        <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-10">
+          <div class="max-w-2xl">
+            <p class="eyebrow eyebrow-rule text-accent reveal"><span class="eyebrow-num">04</span><span data-i18n="partners.eyebrow">Proyectos aliados</span></p>
+            <h2 class="display mt-8 text-[2.5rem] sm:text-[3.4rem] lg:text-[4.2rem] reveal u-brush" style="--d:1" data-i18n="partners.title">Una trayectoria <em>compartida</em></h2>
+          </div>
+          <div class="max-w-md">
+            <p class="prose-body reveal" style="--d:2" data-i18n="partners.body">Selvadentro se apoya en décadas de experiencia. Conoce las comunidades y hoteles que nuestros socios han desarrollado en Tulum, Mérida y Yucatán.</p>
+            <a href="partner-projects.html" class="link-line mt-8 reveal" style="--d:3"><span data-i18n="partners.link">Ver todos los proyectos</span><span class="arrow" aria-hidden="true">→</span></a>
+          </div>
         </div>
-
-        <div class="mx-auto max-w-6xl px-6 divide-y divide-white/15">
-          <!-- Project rows injected by JS -->
-          <div id="project-list"></div>
-        </div>
-        <div class="h-20"></div>
+        <div class="rail mt-16" id="partner-teaser"></div>
       </div>
     </section>
 
     <!-- ============ VISION ============ -->
-    <section id="vision" class="bg-white">
-      <div class="mx-auto max-w-7xl px-6 py-24 grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-        <div>
-          <h2 class="text-4xl md:text-5xl font-bold" data-i18n="vision.title">Nuestra Visión para el Futuro</h2>
-          <p class="mt-6 italic text-neutral-700 leading-relaxed" data-i18n="vision.p1">
-            En JJF Creando imaginamos un futuro donde el lujo y la sostenibilidad no son
-            excluyentes, sino que están profundamente entrelazados. Nuestro objetivo es redefinir
-            el desarrollo inmobiliario creando espacios que inspiran, nutren y contribuyen al
-            bienestar de sus residentes y de la comunidad que los rodea.
-          </p>
-          <p class="mt-5 italic text-neutral-700 leading-relaxed" data-i18n="vision.p2">
-            A través de la innovación, la integridad y la pasión por la excelencia, buscamos seguir
-            creando desarrollos icónicos que dejen un legado duradero.
-          </p>
-          <a href="#contact" data-cta class="btn-pill mt-9" data-i18n="cta.dream">Comienza a Construir tu Sueño</a>
-        </div>
-        <div>
-          <img src="assets/sketch-vision.webp" alt="Boceto arquitectónico" class="w-full max-w-md mx-auto" />
-        </div>
+    <section id="vision" class="band on-dark text-bone">
+      <div class="band-media" data-parallax>
+        <img src="assets/img/selvadentro-entrance-1400.webp?v=2" srcset="assets/img/selvadentro-entrance-900.webp?v=2 900w, assets/img/selvadentro-entrance-1400.webp?v=2 1400w" sizes="100vw" alt="" loading="lazy" decoding="async" />
+      </div>
+      <div class="absolute inset-0 bg-ink/60" aria-hidden="true"></div>
+      <div class="relative wrap min-h-[85vh] flex flex-col items-center justify-center text-center py-32">
+        <p class="eyebrow text-bone/75 reveal"><span class="eyebrow-num">05</span><span data-i18n="vision.eyebrow">Nuestra visión para el futuro</span></p>
+        <blockquote class="display mt-10 text-[2.2rem] sm:text-[3rem] lg:text-[4.2rem] max-w-5xl !leading-[1.08] reveal" style="--d:1" data-i18n="vision.quote">“El verdadero lujo no se mide en metros cuadrados, sino <em>en la calidad de vida que un espacio puede ofrecer.</em>”</blockquote>
+        <p class="prose-body mt-10 max-w-2xl reveal" style="--d:2" data-i18n="vision.body">Nuestra visión es crear lugares que eleven la experiencia humana, combinando arquitectura minimalista, naturaleza viva y un profundo respeto por el entorno. Cada detalle está pensado para generar bienestar, belleza atemporal y una sensación de pertenencia difícil de explicar, pero imposible de ignorar.</p>
       </div>
     </section>
 
     <!-- ============ FAQ ============ -->
-    <section id="faq" class="bg-white">
-      <div class="mx-auto max-w-6xl px-6 pb-8">
-        <h2 class="text-3xl md:text-4xl font-bold mb-12" data-i18n="faq.title">Preguntas Frecuentes</h2>
-        <div id="faq-grid" class="grid md:grid-cols-2 gap-x-16 gap-y-4"></div>
+    <section id="faq" class="sunlit sunlit-left py-28 md:py-40">
+      <div class="wrap grid lg:grid-cols-12 gap-x-12 gap-y-12">
+        <div class="lg:col-span-4">
+          <div class="lg:sticky lg:top-32">
+            <p class="eyebrow eyebrow-rule text-accent reveal"><span class="eyebrow-num">06</span><span data-i18n="faq.eyebrow">Preguntas frecuentes</span></p>
+            <h2 class="display mt-8 text-[2.5rem] sm:text-[3.2rem] lg:text-[3.8rem] reveal u-brush" style="--d:1" data-i18n="faq.title">Lo que necesitas <em>saber</em></h2>
+            <p class="prose-body mt-6 max-w-sm reveal" style="--d:2" data-i18n="faq.body">¿Tienes otra pregunta? Nuestro equipo te responde personalmente.</p>
+            <a href="#contacto" data-cta class="link-line mt-8 reveal" style="--d:3"><span data-i18n="cta.schedule">Agenda una llamada</span><span class="arrow" aria-hidden="true">→</span></a>
+          </div>
+        </div>
+        <div class="lg:col-span-7 lg:col-start-6 border-t hairline" id="faq-list"></div>
       </div>
     </section>
 
-    <!-- ============ CONTACT / DOWNLOAD ============ -->
-    <section id="contact" class="bg-white">
-      <div class="mx-auto max-w-6xl px-6 pb-10 text-center">
-        <a href="#contact" data-cta class="btn-pill" data-i18n="contact.download">Descarga Nuestro CV</a>
+    <!-- ============ CONTACT ============ -->
+    <section id="contacto" class="fx-open on-dark bg-ink text-bone">
+      <div class="wrap py-28 md:py-40 grid lg:grid-cols-12 gap-x-12 gap-y-12 lg:items-end">
+        <div class="lg:col-span-7">
+          <p class="eyebrow eyebrow-rule text-accent reveal"><span class="eyebrow-num">07</span><span data-i18n="contact.eyebrow">Contacto</span></p>
+          <h2 class="display mt-8 text-[3rem] sm:text-[4.4rem] lg:text-[5.6rem] reveal u-brush" style="--d:1" data-i18n="contact.title">Comienza a construir <em>tu sueño</em></h2>
+        </div>
+        <div class="lg:col-span-4 lg:col-start-9">
+          <p class="prose-body reveal" style="--d:2" data-i18n="contact.body">Agenda una llamada con nuestro equipo. Te contamos todo sobre Selvadentro y organizamos tu visita privada a la selva de Tulum.</p>
+          <div class="mt-10 flex flex-wrap items-center gap-x-7 gap-y-5 reveal" style="--d:3">
+            <a href="#contacto" data-cta class="btn btn-accent"><span data-i18n="cta.schedule">Agenda una llamada</span><span class="arrow" aria-hidden="true">→</span></a>
+            <a href="https://wa.me/529994890828" data-wa target="_blank" rel="noopener" class="btn btn-ghost"><span data-i18n="cta.whatsapp">Escribir por WhatsApp</span><span class="arrow-ne" aria-hidden="true">↗</span></a>
+          </div>
+          <div class="mt-8 reveal" style="--d:4">
+            <a href="#contacto" data-cta class="link-line" data-i18n="contact.download">Descarga nuestro CV</a>
+          </div>
+        </div>
       </div>
     </section>
   </main>
 
   <!-- ============ FOOTER ============ -->
-  <footer class="bg-white">
-    <div class="mx-auto max-w-7xl px-6 py-16 flex justify-center">
-      <img src="assets/logo.png" alt="JJF Creando" class="h-40 w-auto" />
+  <footer class="on-dark bg-ink text-bone">
+    <div class="wrap border-t hairline pt-16 pb-12 grid grid-cols-2 md:grid-cols-12 gap-x-8 gap-y-12">
+      <div class="col-span-2 md:col-span-5 reveal" style="--d:0">
+        <a href="index.html" class="block h-16 md:h-[4.5rem] w-fit" aria-label="JJF Creando"><span class="logo-img" aria-hidden="true"></span></a>
+        <p class="prose-body mt-8 max-w-xs" data-i18n="footer.tagline">Desarrolladora inmobiliaria boutique en Tulum y la Riviera Maya.</p>
+      </div>
+      <div class="md:col-span-3 md:col-start-7 reveal" style="--d:1">
+        <p class="caption" data-i18n="footer.explore">Explorar</p>
+        <ul class="mt-6 space-y-3 text-[0.95rem] text-bone/80">
+          <li><a class="hover:text-bone transition" href="#selvadentro" data-i18n="nav.selvadentro">Selvadentro</a></li>
+          <li><a class="hover:text-bone transition" href="#nosotros" data-i18n="nav.about">Nosotros</a></li>
+          <li><a class="hover:text-bone transition" href="partner-projects.html" data-i18n="nav.partners">Proyectos aliados</a></li>
+          <li><a class="hover:text-bone transition" href="#faq" data-i18n="faq.eyebrow">Preguntas frecuentes</a></li>
+          <li><a class="hover:text-bone transition" href="https://mazzacapital.com" target="_blank" rel="noopener">Mazza Capital ↗</a></li>
+        </ul>
+      </div>
+      <div class="md:col-span-3 reveal" style="--d:2">
+        <p class="caption" data-i18n="footer.contact">Contacto</p>
+        <ul class="mt-6 space-y-3 text-[0.95rem] text-bone/80">
+          <li><a class="hover:text-bone transition" href="https://wa.me/529994890828" data-wa target="_blank" rel="noopener">WhatsApp +52 999 489 0828</a></li>
+          <li><a class="hover:text-bone transition" href="tel:+529994890828" data-i18n="footer.call">Llamar</a></li>
+          <li><a class="hover:text-bone transition" href="#contacto" data-cta data-i18n="cta.schedule">Agenda una llamada</a></li>
+        </ul>
+        <p class="caption mt-10" data-i18n="footer.sites">Selvadentro</p>
+        <ul class="mt-6 space-y-3 text-[0.95rem] text-bone/80">
+          <li><a class="hover:text-bone transition" href="https://selvadentrotulum.com" target="_blank" rel="noopener">selvadentrotulum.com ↗</a></li>
+          <li><a class="hover:text-bone transition" href="https://investor.selvadentrotulum.com/" target="_blank" rel="noopener"><span data-i18n="footer.investor">Inversión</span> ↗</a></li>
+          <li><a class="hover:text-bone transition" href="https://webinar.selvadentrotulum.com/" target="_blank" rel="noopener"><span data-i18n="footer.webinar">Webinar de los jueves</span> ↗</a></li>
+          <li><a class="hover:text-bone transition" href="https://guide.selvadentrotulum.com/" target="_blank" rel="noopener"><span data-i18n="footer.guide">Guía de inversión</span> ↗</a></li>
+          <li><a class="hover:text-bone transition" href="https://brokers.selvadentrotulum.com/" target="_blank" rel="noopener"><span data-i18n="footer.brokers">Programa de brokers</span> ↗</a></li>
+          <li><a class="hover:text-bone transition" href="https://referidos.selvadentrotulum.com/" target="_blank" rel="noopener"><span data-i18n="footer.referrals">Referidos</span> ↗</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-mark" data-fm aria-hidden="true">
+      <span class="fm-text">JJF <em>Creando</em></span>
+      <span class="fm-text fm-lit">JJF <em>Creando</em></span>
+    </div>
+    <div class="wrap border-t hairline py-8 flex flex-col sm:flex-row sm:justify-between gap-3 caption">
+      <span>© <span data-year>2026</span> JJF Creando</span>
+      <span data-i18n="footer.rights">Todos los derechos reservados</span>
     </div>
   </footer>
 
-  <!-- ============ CONTACT MODAL (GHL calendar) ============ -->
-  <div id="modal" class="fixed inset-0 z-[60] hidden items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
-    <div class="relative bg-white rounded-3xl w-full max-w-2xl max-h-[90vh] overflow-hidden shadow-2xl">
-      <button id="modal-close" aria-label="Cerrar" class="absolute top-4 right-4 z-10 h-9 w-9 rounded-full bg-black text-white text-xl leading-none">&times;</button>
-      <div class="px-8 pt-10 pb-4 text-center">
-        <h3 class="text-2xl font-bold" data-i18n="modal.title">¡Transforma tu Espacio con la Excelencia de JJF Creando!</h3>
-        <p class="mt-3 text-neutral-600 text-sm" data-i18n="modal.body">Convierte tu visión en realidad con los servicios expertos de construcción y diseño a medida de JJF Creando. ¡Comienza a construir tu futuro hoy!</p>
-      </div>
-      <iframe
-        id="booking-frame"
-        title="Agenda una llamada"
-        data-src="https://api.leadconnectorhq.com/widget/booking/DD1xkh0ObvHQFhcyxgJR"
-        class="w-full h-[60vh] border-0"
-        scrolling="yes"></iframe>
-    </div>
-  </div>
+  <!-- ============ BOOKING WIZARD (booking.js) ============ -->
+  <div id="booking" class="bk" hidden></div>
+  <!-- Backup for booking requests (no GoHighLevel token yet, or GoHighLevel unavailable): Netlify form "agenda" -->
+  <form name="agenda" data-netlify="true" netlify-honeypot="bot-field" hidden>
+    <input name="bot-field" /><input name="startTime" /><input name="endTime" /><input name="timezone" />
+    <input name="format" /><input name="interest" /><input name="firstName" /><input name="lastName" /><input name="email" />
+    <input name="phone" /><input name="language" /><textarea name="message"></textarea><input name="source" /><input name="page" />
+  </form>
 
-  <script src="main.js"></script>
+  <script src="main.js?v=20261002a"></script>
+  <script src="fx.js?v=20261002a"></script>
+  <script src="booking.js?v=20261001e"></script>
 </body>
 </html>

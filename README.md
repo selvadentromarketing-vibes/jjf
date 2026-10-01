@@ -1,24 +1,38 @@
-# JJF Creando — Landing
+# JJF Creando — Sitio
 
-Réplica en código (HTML + Tailwind v4) de la landing de JJF Creando, lista para Netlify.
+Sitio bilingüe (ES/EN) de JJF Creando en HTML + Tailwind v4, listo para Netlify.
 
 ## Estructura
 
 ```
-index.html          → marcado de la página
-main.js             → datos de proyectos, FAQ y modal de contacto
-src/input.css       → fuente de estilos (Tailwind v4 + componentes)
-assets/styles.css   → CSS compilado (lo que carga el navegador)
-assets/*.webp|png   → imágenes
-netlify.toml        → config de despliegue (sitio estático, sin build)
+index.html              → portada: película de Selvadentro, nosotros, Selvadentro,
+                          filosofía, adelanto de proyectos aliados, visión, FAQ, contacto
+partner-projects.html   → página de proyectos aliados (todo excepto Selvadentro,
+                          incluido el portafolio completo de Mazza Capital)
+main.js                 → textos ES/EN, datos de proyectos aliados, FAQ, película del hero,
+                          menú móvil y animaciones
+booking.js              → asistente de agenda (calendario + formulario)
+fx.js                   → detalles de movimiento: cursor propio, botones magnéticos, luciérnagas,
+                          ondas al hacer clic, títulos palabra por palabra, logo del pie iluminado
+netlify/functions/      → booking.mjs: conexión de la agenda con GoHighLevel (/api/booking)
+src/input.css           → fuente de estilos (Tailwind v4 + componentes)
+assets/styles.css       → CSS compilado (lo que carga el navegador)
+assets/hero/            → película del hero (mp4 H.264 + webm VP9, escritorio y teléfono) y pósters
+assets/img/             → fotografías en WebP, en varios anchos (nombre-ANCHO.webp)
+assets/fonts/           → Instrument Serif y Jost, auto-alojadas (licencia OFL)
+assets/canopy-shadow.webp → sombra de palmera que se mece sobre las secciones claras (.sunlit)
+assets/og/              → tarjetas para compartir (1200×630) de portada y proyectos aliados
+assets/logo-mark.png    → logo original recortado; se usa como máscara CSS (toma el color del texto)
+robots.txt, sitemap.xml, llms.txt → buscadores y asistentes (dominio jjfcreando.com)
+netlify.toml            → config de despliegue (sitio estático, sin build; la función se despliega sola)
 ```
 
 ## Desarrollo
 
-El CSS está **precompilado** en `assets/styles.css`, así que para ver la página
-basta abrir `index.html` con cualquier servidor estático.
+El CSS está **precompilado** en `assets/styles.css`, así que para ver el sitio
+basta servir la carpeta con cualquier servidor estático (p. ej. `npx serve .`).
 
-Si editas clases de Tailwind en `index.html` / `main.js`, recompila el CSS:
+Si editas clases de Tailwind en los `.html` o en `main.js`, recompila el CSS:
 
 ```bash
 npm install        # solo la primera vez
@@ -27,17 +41,87 @@ npm run build      # genera assets/styles.css
 npm run dev        # recompila al guardar (watch)
 ```
 
-## Despliegue en Netlify
+Si cambias `assets/styles.css`, `main.js`, `booking.js` o `fx.js`, sube el número `?v=` en las etiquetas
+`<link>`/`<script>` de ambos HTML (`/assets/*` se cachea un día con revalidación).
 
-Sitio estático, **no requiere build** en Netlify (el CSS ya está compilado y commiteado):
+## Contenido
 
-- **Opción A (drag & drop):** arrastra la carpeta del proyecto a Netlify.
-- **Opción B (Git):** conecta el repo. `netlify.toml` publica la raíz (`publish = "."`).
-  `node_modules/` está en `.gitignore` y no se sube.
+- **Textos:** todos los textos visibles viven en el diccionario `I18N` de `main.js`
+  (una clave por texto, en `es` y `en`). El HTML trae el texto en español como respaldo.
+- **Proyectos aliados:** arreglo `PARTNERS` en `main.js`. Cada proyecto tiene `group`
+  (`landmark`, `mazza-communities` o `mazza-hotels`), imagen, textos, datos y sitio web.
+  `TEASER` define los cuatro que aparecen en la portada.
+- **Imágenes:** WebP calidad 88, en varios anchos hasta el ancho completo del original (nunca
+  ampliadas). Para una foto nueva, expórtala a `assets/img/<nombre>-<ancho>.webp` y lista los
+  anchos en `widths`. Si reexportas fotos con el mismo nombre, sube `IMG_V` en `main.js` y el
+  `?v=` de las rutas `assets/img/` en los HTML y `booking.js` (los navegadores guardan `/assets/*`
+  un día). El panel lateral de la agenda usa retratos 9:16 propios (`booking-*.webp`).
+- **Película del hero (controlada por el scroll):** el hero mide 4 pantallas. En las dos
+  primeras el scroll recorre la película en tres capítulos (El plano → La selva → El
+  cenote), con textos que suben línea por línea y un indicador 01–03; en la última, la
+  sección siguiente sube como un telón sobre el cuadro final. Todo se lee de un único progreso
+  suavizado. Los tiempos de cada texto y los inicios de capítulo (`CHAPTERS`) están en
+  `initHeroFilm()` de `main.js`. La película combina la toma original del plano (primeros
+  82 cuadros) con el render aéreo de Selvadentro y la foto del cenote animados con movimiento
+  de cámara (recortes subpíxel con Python/Pillow, codificado con ffmpeg desde un máster sin
+  pérdida: H.264 CRF 22 *veryslow* y VP9 CRF 33, sin filtros de suavizado; la versión de teléfono
+  toma el plano del centro de la toma de escritorio, que tiene más detalle). Está a la resolución
+  máxima de su fuente (1920×870 y 720×900): más nitidez solo es posible con el video original en
+  ProRes. Los archivos llevan un keyframe cada 12 cuadros para que el scrubbing sea fluido; si
+  reemplazas la película, conserva `-g 12 -bf 0` y **cambia el sufijo de versión del nombre**
+  (`film-desk-v4.mp4` → `-v5`, lo mismo para los pósters): los navegadores guardan `/assets/*` un día y seguirían
+  mostrando la película anterior. Con "reducir movimiento", ahorro de datos o pantallas de menos de
+  520 px de alto, el hero es una sola pantalla con el póster y no descarga la película.
+
+- **Estilo:** paleta hueso/selva con dos acentos, verde oliva (`--color-olive`) en las
+  cursivas y cifras, y terracota de chukum (`--color-clay`) en etiquetas, subrayados y botones
+  principales (`.btn-accent`); bloque verde selva profundo (`.bg-forest`). `.u-brush` dibuja un subrayado a mano bajo las cursivas de un
+  título; `.sunlit` añade luz cálida y sombra de palmera; `data-count` anima una cifra al
+  aparecer; la banda `data-marquee` se desliza y acelera con el scroll.
+- **Movimiento (`fx.js` + `src/input.css`, sección *Motion details*):** con mouse o trackpad, un
+  cursor propio (punto y anillo que lo sigue; crece sobre lo que se puede pulsar y dice "Ver",
+  "Visitar" o "Desliza" donde ayuda), botones que se inclinan hacia el puntero y se llenan desde
+  el lado por donde entra, luciérnagas que siguen al puntero en las secciones oscuras, sombras de
+  palmera que se mueven con él como el viento, fotos de proyectos que se inclinan y toman luz, y el
+  logo grande del pie iluminado alrededor del puntero (en el teléfono, una luz lo recorre sola).
+  En todos los dispositivos: ondas de cenote al hacer clic o tocar, títulos que suben palabra por
+  palabra y fotos que se enfocan al aparecer. Con el scroll (CSS `animation-timeline`, donde el
+  navegador lo soporta): las secciones oscuras se abren a todo el ancho, el plan maestro se
+  desenrolla, las fotos de la galería se desplazan dentro de su marco y la banda de visión se
+  asienta. "Reducir movimiento" lo desactiva todo.
+- **Idioma por URL:** `?lang=en` o `?lang=es` fija el idioma (útil para anuncios en inglés).
+- **WhatsApp:** número del equipo en la constante `WHATSAPP` de `main.js`; los enlaces con
+  `data-wa` abren el chat con un mensaje listo en el idioma de la página (`wa.text`).
 
 ## Notas
 
-- Los botones (Schedule A Call, Contact Us, Start Building Your Dream, Download Our CV)
-  abren un modal con el calendario de GoHighLevel
-  (`widget/booking/DD1xkh0ObvHQFhcyxgJR`). Cámbialo en `index.html` si usas otro.
-- Imágenes y textos provienen de la página original; reemplázalos en `assets/` y `main.js`.
+- **Agenda (`booking.js` + `netlify/functions/booking.mjs`):** calendario y formulario propios,
+  conectados al calendario de GoHighLevel. Todos los botones con `data-cta` lo abren: 01 interés y
+  formato (videollamada, llamada o visita en Tulum), 02 día y hora (en la zona horaria del visitante,
+  con la hora de Tulum al lado), 03 datos de contacto, 04 revisión, y una pantalla final con
+  Google Calendar, archivo .ics y WhatsApp. `data-intent="visit"` preselecciona una visita.
+  - **Cómo se conecta:** la función de Netlify (`/api/booking`) habla con la API v2 de GoHighLevel
+    con el token guardado en Netlify, nunca en el navegador. Lee los horarios libres del calendario
+    y, al confirmar, crea o actualiza el contacto (sin borrar sus etiquetas ni su fuente), crea la
+    cita como *confirmada* (corren las automatizaciones del calendario), añade las etiquetas
+    `agenda-web`, `interes-…`, `formato-…`, `idioma-…` y una nota con el mensaje y la hora del cliente.
+    Si alguien toma el horario un momento antes, el asistente vuelve al calendario con un aviso.
+  - **Activarlo:** en GoHighLevel, *Settings → Private Integrations → Create new integration*, con
+    los permisos *View Calendars*, *Edit Calendar Events* y *Edit Contacts*; copia el token. En Netlify,
+    *Site configuration → Environment variables*, crea `GHL_TOKEN` con ese valor (marcado como secreto
+    y para todos los contextos, incluidos los deploy previews) y vuelve a desplegar.
+  - **Sin token** el calendario ya muestra la disponibilidad real (la pública del calendario) y cada
+    solicitud se guarda como formulario de Netlify `agenda` (activa *Forms → Form detection* para
+    verlas). Lo mismo pasa si GoHighLevel falla al agendar: la solicitud no se pierde y el visitante
+    ve "Recibimos tu solicitud" en lugar de "Tu cita quedó agendada".
+  - **Horarios y duración** se configuran en GoHighLevel (horario, anticipación mínima, días, duración
+    de la cita); el sitio solo los refleja. Las visitas usan el mismo calendario y piden 90 minutos
+    libres seguidos; para darles su propio calendario (con su ubicación), o uno distinto a la llamada
+    o la videollamada, usa `GHL_CALENDAR_ID_VISIT`, `GHL_CALENDAR_ID_PHONE` o `GHL_CALENDAR_ID_VIDEO`.
+    Otras opciones (`GHL_CALENDAR_ID`, `GHL_LOCATION_ID`, `GHL_VISIT_MINUTES`) están descritas al
+    inicio de la función.
+  - En un servidor local sin funciones (`npx serve .`) el asistente usa un horario de oficina de
+    ejemplo (`HOURS` en `booking.js`); con `netlify dev` usa la función real.
+- Las cifras de Selvadentro (9 cenotes, 65% de selva conservada, 12+ amenidades, 8 min del
+  Tren Maya) vienen de selvadentrotulum.com; las de los proyectos aliados, de sus fichas
+  originales y de mazzacapital.com.
