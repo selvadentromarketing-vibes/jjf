@@ -63,9 +63,9 @@ Si cambias `assets/styles.css` o `main.js`, sube el número `?v=` en las etiquet
   mostrando la película anterior. Con "reducir movimiento", ahorro de datos o pantallas de menos de
   520 px de alto, el hero es una sola pantalla con el póster y no descarga la película.
 
-- **Estilo:** paleta hueso/selva con dos acentos, oro de sol (`--color-gold`) en las
+- **Estilo:** paleta hueso/selva con dos acentos, verde oliva (`--color-olive`) en las
   cursivas y cifras, y terracota de chukum (`--color-clay`) en etiquetas, subrayados y botones
-  principales (`.btn-accent`); bloque de color cacao (`.bg-cacao`). `.u-brush` dibuja un subrayado a mano bajo las cursivas de un
+  principales (`.btn-accent`); bloque verde selva profundo (`.bg-forest`). `.u-brush` dibuja un subrayado a mano bajo las cursivas de un
   título; `.sunlit` añade luz cálida y sombra de palmera; `data-count` anima una cifra al
   aparecer; la banda `data-marquee` se desliza y acelera con el scroll.
 - **Idioma por URL:** `?lang=en` o `?lang=es` fija el idioma (útil para anuncios en inglés).
