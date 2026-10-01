@@ -29,7 +29,7 @@
   <link rel="preload" as="image" href="assets/hero/hero-poster-phone-v3.webp" media="(orientation: portrait)" fetchpriority="high" />
 
   <!-- Tailwind v4 (precompilado — rebuild with: npm run build) -->
-  <link rel="stylesheet" href="assets/styles.css?v=20261001b" />
+  <link rel="stylesheet" href="assets/styles.css?v=20261001c" />
   <script>(function(d){d.classList.add('js');try{if(matchMedia('(min-height: 520px)').matches&&!matchMedia('(prefers-reduced-motion: reduce)').matches&&!(navigator.connection&&navigator.connection.saveData))d.classList.add('film-scrub')}catch(e){}})(document.documentElement);</script>
 </head>
 <body data-page="home">
@@ -484,14 +484,14 @@
 
   <!-- ============ BOOKING WIZARD (booking.js) ============ -->
   <div id="booking" class="bk" hidden></div>
-  <!-- Until the calendar is connected, booking requests are kept as Netlify form submissions -->
+  <!-- Backup for booking requests (no GoHighLevel token yet, or GoHighLevel unavailable): Netlify form "agenda" -->
   <form name="agenda" data-netlify="true" netlify-honeypot="bot-field" hidden>
-    <input name="bot-field" /><input name="calendarId" /><input name="startTime" /><input name="endTime" /><input name="timezone" />
+    <input name="bot-field" /><input name="startTime" /><input name="endTime" /><input name="timezone" />
     <input name="format" /><input name="interest" /><input name="firstName" /><input name="lastName" /><input name="email" />
     <input name="phone" /><input name="language" /><textarea name="message"></textarea><input name="source" /><input name="page" />
   </form>
 
   <script src="main.js?v=20261001b"></script>
-  <script src="booking.js?v=20261001c"></script>
+  <script src="booking.js?v=20261001d"></script>
 </body>
 </html>

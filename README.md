@@ -10,7 +10,9 @@ index.html              → portada: película de Selvadentro, nosotros, Selvade
 partner-projects.html   → página de proyectos aliados (todo excepto Selvadentro,
                           incluido el portafolio completo de Mazza Capital)
 main.js                 → textos ES/EN, datos de proyectos aliados, FAQ, película del hero,
-                          menú móvil, animaciones y modal de contacto
+                          menú móvil y animaciones
+booking.js              → asistente de agenda (calendario + formulario)
+netlify/functions/      → booking.mjs: conexión de la agenda con GoHighLevel (/api/booking)
 src/input.css           → fuente de estilos (Tailwind v4 + componentes)
 assets/styles.css       → CSS compilado (lo que carga el navegador)
 assets/hero/            → película del hero (mp4 H.264 + webm VP9, escritorio y teléfono) y pósters
@@ -20,7 +22,7 @@ assets/canopy-shadow.webp → sombra de palmera que se mece sobre las secciones 
 assets/og/              → tarjetas para compartir (1200×630) de portada y proyectos aliados
 assets/logo-mark.png    → logo original recortado; se usa como máscara CSS (toma el color del texto)
 robots.txt, sitemap.xml, llms.txt → buscadores y asistentes (dominio jjfcreando.com)
-netlify.toml            → config de despliegue (sitio estático, sin build)
+netlify.toml            → config de despliegue (sitio estático, sin build; la función se despliega sola)
 ```
 
 ## Desarrollo
@@ -74,23 +76,33 @@ Si cambias `assets/styles.css` o `main.js`, sube el número `?v=` en las etiquet
 
 ## Notas
 
-- **Agenda (`booking.js`):** calendario y formulario propios, hechos para el sitio (ya no se
-  incrusta ningún calendario externo). Todos los botones con `data-cta` lo abren: 01 interés y
-  formato (videollamada, llamada o visita en Tulum), 02 día y hora (calendario en la zona horaria
-  del visitante, con la hora de Tulum al lado), 03 datos de contacto, 04 revisión, y una pantalla
-  final con Google Calendar, archivo .ics y WhatsApp. `data-intent="visit"` preselecciona una visita.
-  - **Todavía no está conectado a ningún calendario.** La disponibilidad sale del horario de
-    oficina en Tulum (L–V 9:00–18:00, S 9:00–13:00; visitas 9, 11 y 13 h) menos un patrón fijo
-    de horarios ocupados, y se edita en `HOURS`. Las solicitudes se envían como formulario de
-    Netlify llamado `agenda` (activa *Forms → Form detection* en Netlify para verlas) y la
-    pantalla final ofrece confirmar por WhatsApp.
-  - **Para conectarlo** (Google Calendar, Cal.com, GoHighLevel u otro): una función de Netlify
-    (p. ej. `netlify/functions/booking.mjs`) con las credenciales en variables de entorno, nunca
-    en el navegador, que responda `GET ?action=slots&format=&start=&end=` con
-    `{ slots: [epochMs…] }` y `POST {action:"book", …}` creando el evento (y el contacto, si el
-    sistema lo maneja). Con Google Calendar serían la consulta *freebusy* y *events.insert*
-    con una cuenta de servicio. Después, poner su ruta en `BOOKING.endpoint`. El asistente no
-    cambia.
+- **Agenda (`booking.js` + `netlify/functions/booking.mjs`):** calendario y formulario propios,
+  conectados al calendario de GoHighLevel. Todos los botones con `data-cta` lo abren: 01 interés y
+  formato (videollamada, llamada o visita en Tulum), 02 día y hora (en la zona horaria del visitante,
+  con la hora de Tulum al lado), 03 datos de contacto, 04 revisión, y una pantalla final con
+  Google Calendar, archivo .ics y WhatsApp. `data-intent="visit"` preselecciona una visita.
+  - **Cómo se conecta:** la función de Netlify (`/api/booking`) habla con la API v2 de GoHighLevel
+    con el token guardado en Netlify, nunca en el navegador. Lee los horarios libres del calendario
+    y, al confirmar, crea o actualiza el contacto (sin borrar sus etiquetas ni su fuente), crea la
+    cita como *confirmada* (corren las automatizaciones del calendario), añade las etiquetas
+    `agenda-web`, `interes-…`, `formato-…`, `idioma-…` y una nota con el mensaje y la hora del cliente.
+    Si alguien toma el horario un momento antes, el asistente vuelve al calendario con un aviso.
+  - **Activarlo:** en GoHighLevel, *Settings → Private Integrations → Create new integration*, con
+    los permisos *View Calendars*, *Edit Calendar Events* y *Edit Contacts*; copia el token. En Netlify,
+    *Site configuration → Environment variables*, crea `GHL_TOKEN` con ese valor (marcado como secreto
+    y para todos los contextos, incluidos los deploy previews) y vuelve a desplegar.
+  - **Sin token** el calendario ya muestra la disponibilidad real (la pública del calendario) y cada
+    solicitud se guarda como formulario de Netlify `agenda` (activa *Forms → Form detection* para
+    verlas). Lo mismo pasa si GoHighLevel falla al agendar: la solicitud no se pierde y el visitante
+    ve "Recibimos tu solicitud" en lugar de "Tu cita quedó agendada".
+  - **Horarios y duración** se configuran en GoHighLevel (horario, anticipación mínima, días, duración
+    de la cita); el sitio solo los refleja. Las visitas usan el mismo calendario y piden 90 minutos
+    libres seguidos; para darles su propio calendario (con su ubicación), o uno distinto a la llamada
+    o la videollamada, usa `GHL_CALENDAR_ID_VISIT`, `GHL_CALENDAR_ID_PHONE` o `GHL_CALENDAR_ID_VIDEO`.
+    Otras opciones (`GHL_CALENDAR_ID`, `GHL_LOCATION_ID`, `GHL_VISIT_MINUTES`) están descritas al
+    inicio de la función.
+  - En un servidor local sin funciones (`npx serve .`) el asistente usa un horario de oficina de
+    ejemplo (`HOURS` en `booking.js`); con `netlify dev` usa la función real.
 - Las cifras de Selvadentro (9 cenotes, 65% de selva conservada, 12+ amenidades, 8 min del
   Tren Maya) vienen de selvadentrotulum.com; las de los proyectos aliados, de sus fichas
   originales y de mazzacapital.com.

@@ -4,6 +4,10 @@
 # Sitio estático: no requiere build. Netlify sirve index.html directamente
 # (y partner-projects.html en /partner-projects.html).
 
+# Función de la agenda (conexión con GoHighLevel), servida en /api/booking
+[functions]
+  directory = "netlify/functions"
+
 # Alias en español para la página de proyectos aliados
 [[redirects]]
   from = "/proyectos-aliados"

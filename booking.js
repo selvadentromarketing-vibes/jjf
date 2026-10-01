@@ -2,25 +2,26 @@
 // The site's own calendar and booking form (no third-party embed):
 // 01 interest → 02 date & time → 03 details → 04 review → done.
 //
-// Not connected to a calendar yet. Everything that talks to the outside world lives in two
-// functions, getSlots() and submitBooking(). Today getSlots() builds availability from office
-// hours and submitBooking() stores the request as a Netlify form ("agenda"). To connect a real
-// calendar (Google Calendar, Cal.com, GoHighLevel…), set BOOKING.endpoint to a serverless function
-// that returns free slots and creates the event, with the credentials kept on the server
-// (see README → Agenda). Nothing else here changes.
+// Connected to GoHighLevel through a Netlify function (netlify/functions/booking.mjs, served at
+// BOOKING.endpoint) that keeps the API token on the server. Everything that talks to the outside
+// world lives in getSlots() and submitBooking():
+// - availability comes from the GoHighLevel calendar (its public free slots until a token is set);
+// - with a token, the function books the appointment and creates/updates the contact;
+// - without one, or if GoHighLevel fails, the request is kept as a Netlify form ("agenda");
+// - where the function isn't served at all (a plain local server), office hours stand in.
 //
 // Uses globals from main.js: I18N, currentLang, $, $$, pad, reducedMotion, setMenu, WHATSAPP.
 (() => {
   const BOOKING = {
-    endpoint: null,                     // e.g. "/.netlify/functions/booking" once connected
-    calendarId: null,                   // id of the real calendar, once one is chosen
+    endpoint: "/api/booking",           // Netlify function; null = office-hours demo
+    connected: false,                   // true once the function reports a GoHighLevel token
     officeTz: "America/Cancun",         // Tulum: UTC−5 all year, no daylight saving
     officeOffsetHours: -5,
     daysAhead: 45,
     minNoticeHours: 18,
   };
 
-  // Office hours in Tulum time, per meeting format: [weekday 0=Sun..6=Sat] → start times
+  // Demo only (no function available): office hours in Tulum time, per meeting format: [weekday 0=Sun..6=Sat] → start times
   const HOURS = {
     video: { 1: range(9, 17.5), 2: range(9, 17.5), 3: range(9, 17.5), 4: range(9, 17.5), 5: range(9, 17.5), 6: range(9, 12.5) },
     phone: { 1: range(9, 17.5), 2: range(9, 17.5), 3: range(9, 17.5), 4: range(9, 17.5), 5: range(9, 17.5), 6: range(9, 12.5) },
@@ -39,6 +40,8 @@
     { id: "phone", minutes: 30 },
     { id: "visit", minutes: 90 },
   ];
+  const MINUTES = {}; // meeting length per format as the calendar reports it
+  const minutesOf = (f) => MINUTES[f.id] || f.minutes;
   const COUNTRY_CODES = ["+52", "+1", "+34", "+57", "+54", "+56", "+51", "+55", "+44", "+49", "+33", "+39", "+41", "+31"];
   const COUNTRY_LABEL = { "+52": "MX", "+1": "US/CA", "+34": "ES", "+57": "CO", "+54": "AR", "+56": "CL", "+51": "PE", "+55": "BR", "+44": "UK", "+49": "DE", "+33": "FR", "+39": "IT", "+41": "CH", "+31": "NL" };
   const ZONES = ["America/Cancun", "America/Mexico_City", "America/Monterrey", "America/New_York", "America/Chicago", "America/Denver", "America/Los_Angeles", "America/Toronto", "America/Vancouver", "America/Bogota", "America/Lima", "America/Santiago", "America/Argentina/Buenos_Aires", "America/Sao_Paulo", "Europe/London", "Europe/Madrid", "Europe/Paris", "Europe/Berlin", "Europe/Zurich"];
@@ -92,7 +95,11 @@
       "bk.edit": "Cambiar",
       "bk.error": "No pudimos enviar tu solicitud. Inténtalo de nuevo o escríbenos por WhatsApp.",
       "bk.done.title": "Te esperamos, <em>{name}.</em>",
-      "bk.done.body": "Recibimos tu solicitud para el {when}. Te escribiremos a {email} para confirmar los detalles.",
+      "bk.done.body": "Recibimos tu solicitud para el {when} y te escribiremos a {email} para confirmar los detalles.",
+      "bk.done.booked": "Tu cita quedó agendada para el {when} y te enviaremos la confirmación a {email}.",
+      "bk.taken": "Alguien acaba de reservar ese horario. Elige otro, por favor.",
+      "bk.slotsError": "No pudimos cargar los horarios en este momento.",
+      "bk.retry": "Intentar de nuevo",
       "bk.done.gcal": "Añadir a Google Calendar",
       "bk.done.ics": "Apple u Outlook (.ics)",
       "bk.done.wa": "Escribir por WhatsApp",
@@ -150,7 +157,11 @@
       "bk.edit": "Change",
       "bk.error": "We couldn’t send your request. Please try again or message us on WhatsApp.",
       "bk.done.title": "See you soon, <em>{name}.</em>",
-      "bk.done.body": "We’ve received your request for {when}. We’ll write to {email} to confirm the details.",
+      "bk.done.body": "We’ve received your request for {when}, and we’ll write to {email} to confirm the details.",
+      "bk.done.booked": "You’re booked for {when}, and we’ll send the confirmation to {email}.",
+      "bk.taken": "Someone just booked that time. Please choose another.",
+      "bk.slotsError": "We couldn’t load the available times right now.",
+      "bk.retry": "Try again",
       "bk.done.gcal": "Add to Google Calendar",
       "bk.done.ics": "Apple or Outlook (.ics)",
       "bk.done.wa": "Message us on WhatsApp",
@@ -205,9 +216,14 @@
     if (BOOKING.endpoint) {
       const url = `${BOOKING.endpoint}?action=slots&format=${formatId}&start=${now}&end=${end}`;
       const r = await fetch(url, { headers: { Accept: "application/json" } });
-      if (!r.ok) throw new Error(`slots ${r.status}`);
-      const data = await r.json(); // expected: { slots: [epochMs, …] }
-      return data.slots;
+      if (r.ok) {
+        const data = await r.json(); // { slots: [epochMs, …], minutes, connected }
+        if (data.minutes) MINUTES[formatId] = data.minutes;
+        BOOKING.connected = !!data.connected;
+        return data.slots || [];
+      }
+      if (r.status !== 404) throw new Error(`slots ${r.status}`);
+      BOOKING.endpoint = null; // no function here (plain static server): office-hours demo
     }
     // Demo: office hours in Tulum, minus a stable pseudo-random set of busy slots
     const slots = [];
@@ -225,18 +241,31 @@
     return slots;
   }
 
+  // → { confirmed: true } when the appointment is in the calendar, { confirmed: false } when the
+  // request was kept for the team to confirm. Throws "slot_taken" if someone just booked that time.
   async function submitBooking(payload) {
-    if (BOOKING.endpoint) {
-      const r = await fetch(BOOKING.endpoint, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ action: "book", ...payload }) });
-      if (!r.ok) throw new Error(`book ${r.status}`);
-      return r.json();
+    if (BOOKING.endpoint && BOOKING.connected) {
+      let r = null;
+      try {
+        r = await fetch(BOOKING.endpoint, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ action: "book", ...payload }) });
+      } catch (e) { /* network: fall through to the form */ }
+      if (r && r.ok) return { confirmed: true, ...(await r.json()) };
+      if (r && r.status === 409) { const e = new Error("slot_taken"); e.code = "slot_taken"; throw e; }
+      // GoHighLevel down or misconfigured: keep the request so it isn't lost
+      if (await saveAsForm(payload)) return { confirmed: false };
+      throw new Error(`book ${r ? r.status : "network"}`);
     }
-    // Until a calendar is connected: keep the request as a Netlify form submission ("agenda")
+    // No token yet: keep the request as a Netlify form submission ("agenda")
+    await saveAsForm(payload); // offline or Forms not enabled: the WhatsApp button on the last screen still reaches the team
+    return { confirmed: false };
+  }
+
+  async function saveAsForm(payload) {
     const fields = { "form-name": "agenda", ...Object.fromEntries(Object.entries(payload).map(([k, v]) => [k, String(v ?? "")])) };
     try {
-      await fetch("/", { method: "POST", headers: { "Content-Type": "application/x-www-form-urlencoded" }, body: new URLSearchParams(fields).toString() });
-    } catch (e) { /* offline or forms not enabled: the WhatsApp button on the last screen still reaches the team */ }
-    return { ok: true, demo: true };
+      const r = await fetch("/", { method: "POST", headers: { "Content-Type": "application/x-www-form-urlencoded" }, body: new URLSearchParams(fields).toString() });
+      return r.ok;
+    } catch (e) { return false; }
   }
 
   // ---------- state ----------
@@ -244,12 +273,13 @@
     step: 0, dir: 1, interest: null, format: null, tz: detectTz(),
     month: null, day: null, slot: null, slots: null, slotsFor: null, loading: false,
     first: "", last: "", email: "", cc: currentLang === "en" ? "+1" : "+52", phone: "", lang: currentLang, msg: "", consent: false,
-    errors: {}, sending: false, failed: false, done: false, formatChosen: false,
+    errors: {}, sending: false, failed: false, done: false, confirmed: false, formatChosen: false,
+    slotsError: false, notice: null,
   });
   let S = blank();
   let root = null, lastFocus = null;
 
-  const fmt = () => FORMATS.find((f) => f.id === S.format);
+  const fmt = () => { const f = FORMATS.find((x) => x.id === S.format); return f && { ...f, minutes: minutesOf(f) }; };
   const interestImg = () => (INTERESTS.find((i) => i.id === S.interest) || INTERESTS[0]).img;
 
   // ---------- shell ----------
@@ -334,7 +364,7 @@
       </button>`).join("");
     const chips = FORMATS.map((f) => `
       <button type="button" class="bk-chip" data-bk="format" data-id="${f.id}" aria-pressed="${S.format === f.id}">
-        ${icon(f.id)}<span>${t(`bk.f.${f.id}`)}</span><span class="bk-chip-min">${t("bk.minutes", { n: f.minutes })}</span>
+        ${icon(f.id)}<span>${t(`bk.f.${f.id}`)}</span><span class="bk-chip-min">${t("bk.minutes", { n: minutesOf(f) })}</span>
       </button>`).join("");
     return `${heading("bk.s1.title", t("bk.s1.body"))}
       <div class="bk-options mt-8">${cards}</div>
@@ -356,6 +386,7 @@
     const f = fmt();
     const zoneOpts = Array.from(new Set([S.tz, ...ZONES])).map((z) => `<option value="${z}" ${z === S.tz ? "selected" : ""}>${esc(zoneName(z))} · ${offsetLabel(z)}</option>`).join("");
     return `${heading("bk.s2.title", t("bk.s2.body", { format: t(`bk.f.${f.id}`), n: f.minutes }))}
+      ${S.notice ? `<p class="bk-err mt-5" role="alert">${t(S.notice)}</p>` : ""}
       <div class="bk-when mt-8">
         <div class="bk-cal-wrap">
           ${S.loading || !S.slots ? `<div class="bk-cal is-loading" aria-busy="true"><p class="caption">${t("bk.loading")}</p></div>` : calendar()}
@@ -424,6 +455,9 @@
 
   function slotsView() {
     if (S.loading || !S.slots) return `<p class="caption">${t("bk.loading")}</p>`;
+    if (S.slotsError) return `<div class="bk-slots-empty"><p class="prose-body">${t("bk.slotsError")}</p>
+        <div class="bk-done-links mt-6"><button type="button" class="link-line" data-bk="retry">${t("bk.retry")}</button>
+        <a class="link-line" href="${waUrl()}" target="_blank" rel="noopener"><span>${t("bk.done.wa")}</span><span class="arrow-ne" aria-hidden="true">↗</span></a></div></div>`;
     if (!S.day) return `<div class="bk-slots-empty"><p class="prose-body">${t("bk.pickDay")}</p></div>`;
     const list = slotDays().get(S.day) || [];
     const head = `<p class="bk-slots-day">${dateLabel(keyToUTC(S.day), "UTC")}</p>`;
@@ -447,13 +481,14 @@
 
   async function ensureSlots() {
     if (S.slotsFor === S.format && S.slots) return;
-    S.loading = true; S.slots = null; S.slotsFor = S.format;
+    S.loading = true; S.slots = null; S.slotsFor = S.format; S.slotsError = false;
     try {
       const slots = await getSlots(S.format);
       if (S.slotsFor !== S.format) return;
       S.slots = slots.sort((a, b) => a - b);
     } catch (e) {
-      S.slots = [];
+      if (S.slotsFor !== S.format) return;
+      S.slots = []; S.slotsError = true;
     }
     S.loading = false;
     if (S.step === 1 && !S.done) render(false);
@@ -522,11 +557,12 @@
   }
 
   function viewDone() {
-    const when = whenLabel(S.slot, S.tz);
+    let when = whenLabel(S.slot, S.tz);
+    if (currentLang === "es") when = when.charAt(0).toLowerCase() + when.slice(1); // mid-sentence: "el jueves…"
     return `<div class="bk-done">
         <svg class="bk-check" viewBox="0 0 52 52" aria-hidden="true"><circle cx="26" cy="26" r="24" fill="none"/><path d="M15 27l7 7 15-16" fill="none"/></svg>
         <h2 id="bk-title" class="display text-[2.6rem] md:text-[3.3rem] mt-8 u-brush is-in" tabindex="-1">${t("bk.done.title", { name: esc(S.first) })}</h2>
-        <p class="prose-body mt-4 max-w-md">${t("bk.done.body", { when: `<strong>${esc(when)}</strong>`, email: `<strong>${esc(S.email)}</strong>` })}</p>
+        <p class="prose-body mt-4 max-w-md">${t(S.confirmed ? "bk.done.booked" : "bk.done.body", { when: `<strong>${esc(when)}</strong>`, email: `<strong>${esc(S.email)}</strong>` })}</p>
         <div class="bk-done-actions mt-9">
           <a class="btn btn-accent" href="${gcalUrl()}" target="_blank" rel="noopener"><span>${t("bk.done.gcal")}</span><span class="arrow-ne" aria-hidden="true">↗</span></a>
           <button type="button" class="btn btn-ghost" data-bk="ics"><span>${t("bk.done.ics")}</span></button>
@@ -588,7 +624,6 @@
   function payload() {
     const f = fmt();
     return {
-      calendarId: BOOKING.calendarId || "",
       startTime: new Date(S.slot).toISOString(),
       endTime: new Date(S.slot + f.minutes * 6e4).toISOString(),
       timezone: S.tz,
@@ -610,12 +645,19 @@
     S.sending = true; S.failed = false;
     render(false);
     try {
-      await submitBooking(payload());
+      const res = await submitBooking(payload());
+      S.confirmed = !!res.confirmed;
       S.done = true; S.sending = false; S.dir = 1;
       render();
       focusTitle();
     } catch (e) {
-      S.sending = false; S.failed = true;
+      S.sending = false;
+      if (e.code === "slot_taken") {
+        // Someone took that time a moment ago: back to the calendar with fresh availability
+        S.slot = null; S.slots = null; S.slotsFor = null; S.notice = "bk.taken";
+        return go(1);
+      }
+      S.failed = true;
       render(false);
     }
   }
@@ -663,7 +705,7 @@
     }
     if (a === "format") {
       if (S.format !== el.dataset.id) { S.slot = null; S.day = null; S.month = null; }
-      S.format = el.dataset.id; S.formatChosen = true;
+      S.format = el.dataset.id; S.formatChosen = true; S.notice = null;
       return render(false);
     }
     if (a === "month") {
@@ -685,7 +727,8 @@
       }
       return;
     }
-    if (a === "slot") { S.slot = Number(el.dataset.ms); render(false); const b = $(`.bk-time[data-ms="${S.slot}"]`, root); if (b) b.focus({ preventScroll: true }); return; }
+    if (a === "retry") { S.slotsFor = null; ensureSlots(); return render(false); }
+    if (a === "slot") { S.slot = Number(el.dataset.ms); S.notice = null; render(false); const b = $(`.bk-time[data-ms="${S.slot}"]`, root); if (b) b.focus({ preventScroll: true }); return; }
     if (a === "lang") { S.lang = el.dataset.id; return render(false); }
     if (a === "next") {
       if (!canNext()) return;
