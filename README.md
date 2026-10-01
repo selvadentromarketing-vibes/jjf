@@ -74,22 +74,23 @@ Si cambias `assets/styles.css` o `main.js`, sube el número `?v=` en las etiquet
 
 ## Notas
 
-- **Agenda (`booking.js`):** todos los botones con `data-cta` abren un asistente propio en lugar
-  del calendario de GoHighLevel: 01 interés y formato (videollamada, llamada o visita en Tulum),
-  02 día y hora (calendario en la zona horaria del visitante, con la hora de Tulum al lado),
-  03 datos de contacto, 04 revisión, y una pantalla final con Google Calendar, archivo .ics y
-  WhatsApp. `data-intent="visit"` preselecciona una visita.
-  - **Todavía no está conectado al calendario.** La disponibilidad es de demostración: horario
-    de oficina en Tulum (L–V 9:00–18:00, S 9:00–13:00; visitas 9, 11 y 13 h) menos un patrón
-    fijo de horarios ocupados. Las solicitudes se envían como formulario de Netlify llamado
-    `agenda` (activa *Forms → Form detection* en Netlify para verlas) y la pantalla final ofrece
-    confirmar por WhatsApp, así que ninguna se pierde mientras tanto.
-  - **Para conectarlo:** crear una función de Netlify (p. ej. `netlify/functions/booking.mjs`)
-    con el token de GoHighLevel en una variable de entorno (nunca en el navegador) que responda
-    `GET ?action=slots&format=&start=&end=` con `{ slots: [epochMs…] }` (a partir de los
-    horarios libres del calendario `DD1xkh0ObvHQFhcyxgJR`) y `POST {action:"book", …}`
-    creando o actualizando el contacto y la cita; después, poner su ruta en
-    `BOOKING.endpoint` dentro de `booking.js`. El resto del asistente no cambia.
+- **Agenda (`booking.js`):** calendario y formulario propios, hechos para el sitio (ya no se
+  incrusta ningún calendario externo). Todos los botones con `data-cta` lo abren: 01 interés y
+  formato (videollamada, llamada o visita en Tulum), 02 día y hora (calendario en la zona horaria
+  del visitante, con la hora de Tulum al lado), 03 datos de contacto, 04 revisión, y una pantalla
+  final con Google Calendar, archivo .ics y WhatsApp. `data-intent="visit"` preselecciona una visita.
+  - **Todavía no está conectado a ningún calendario.** La disponibilidad sale del horario de
+    oficina en Tulum (L–V 9:00–18:00, S 9:00–13:00; visitas 9, 11 y 13 h) menos un patrón fijo
+    de horarios ocupados, y se edita en `HOURS`. Las solicitudes se envían como formulario de
+    Netlify llamado `agenda` (activa *Forms → Form detection* en Netlify para verlas) y la
+    pantalla final ofrece confirmar por WhatsApp.
+  - **Para conectarlo** (Google Calendar, Cal.com, GoHighLevel u otro): una función de Netlify
+    (p. ej. `netlify/functions/booking.mjs`) con las credenciales en variables de entorno, nunca
+    en el navegador, que responda `GET ?action=slots&format=&start=&end=` con
+    `{ slots: [epochMs…] }` y `POST {action:"book", …}` creando el evento (y el contacto, si el
+    sistema lo maneja). Con Google Calendar serían la consulta *freebusy* y *events.insert*
+    con una cuenta de servicio. Después, poner su ruta en `BOOKING.endpoint`. El asistente no
+    cambia.
 - Las cifras de Selvadentro (9 cenotes, 65% de selva conservada, 12+ amenidades, 8 min del
   Tren Maya) vienen de selvadentrotulum.com; las de los proyectos aliados, de sus fichas
   originales y de mazzacapital.com.

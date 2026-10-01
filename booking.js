@@ -1,18 +1,19 @@
 // ================== Booking wizard ==================
-// Replaces the GoHighLevel iframe with a calendar in the site's own design:
+// The site's own calendar and booking form (no third-party embed):
 // 01 interest → 02 date & time → 03 details → 04 review → done.
 //
-// Not connected yet. Everything that talks to the outside world lives in two functions,
-// getSlots() and submitBooking(). Today getSlots() invents availability from office hours and
-// submitBooking() stores the request as a Netlify form ("agenda"). To connect GoHighLevel, set
-// BOOKING.endpoint to a serverless function that reads free slots and creates the appointment
-// with the API token kept on the server (see README → Agenda).
+// Not connected to a calendar yet. Everything that talks to the outside world lives in two
+// functions, getSlots() and submitBooking(). Today getSlots() builds availability from office
+// hours and submitBooking() stores the request as a Netlify form ("agenda"). To connect a real
+// calendar (Google Calendar, Cal.com, GoHighLevel…), set BOOKING.endpoint to a serverless function
+// that returns free slots and creates the event, with the credentials kept on the server
+// (see README → Agenda). Nothing else here changes.
 //
 // Uses globals from main.js: I18N, currentLang, $, $$, pad, reducedMotion, setMenu, WHATSAPP.
 (() => {
   const BOOKING = {
     endpoint: null,                     // e.g. "/.netlify/functions/booking" once connected
-    calendarId: "DD1xkh0ObvHQFhcyxgJR", // the GoHighLevel calendar this replaces
+    calendarId: null,                   // id of the real calendar, once one is chosen
     officeTz: "America/Cancun",         // Tulum: UTC−5 all year, no daylight saving
     officeOffsetHours: -5,
     daysAhead: 45,
@@ -230,7 +231,7 @@
       if (!r.ok) throw new Error(`book ${r.status}`);
       return r.json();
     }
-    // Until GoHighLevel is connected: keep the request as a Netlify form submission ("agenda")
+    // Until a calendar is connected: keep the request as a Netlify form submission ("agenda")
     const fields = { "form-name": "agenda", ...Object.fromEntries(Object.entries(payload).map(([k, v]) => [k, String(v ?? "")])) };
     try {
       await fetch("/", { method: "POST", headers: { "Content-Type": "application/x-www-form-urlencoded" }, body: new URLSearchParams(fields).toString() });
@@ -587,7 +588,7 @@
   function payload() {
     const f = fmt();
     return {
-      calendarId: BOOKING.calendarId,
+      calendarId: BOOKING.calendarId || "",
       startTime: new Date(S.slot).toISOString(),
       endTime: new Date(S.slot + f.minutes * 6e4).toISOString(),
       timezone: S.tz,
