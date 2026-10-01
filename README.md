@@ -49,8 +49,11 @@ Si cambias `assets/styles.css` o `main.js`, sube el número `?v=` en las etiquet
 - **Proyectos aliados:** arreglo `PARTNERS` en `main.js`. Cada proyecto tiene `group`
   (`landmark`, `mazza-communities` o `mazza-hotels`), imagen, textos, datos y sitio web.
   `TEASER` define los cuatro que aparecen en la portada.
-- **Imágenes:** para una foto nueva, expórtala a `assets/img/<nombre>-<ancho>.webp`
-  y lista los anchos en `widths`.
+- **Imágenes:** WebP calidad 88, en varios anchos hasta el ancho completo del original (nunca
+  ampliadas). Para una foto nueva, expórtala a `assets/img/<nombre>-<ancho>.webp` y lista los
+  anchos en `widths`. Si reexportas fotos con el mismo nombre, sube `IMG_V` en `main.js` y el
+  `?v=` de las rutas `assets/img/` en los HTML y `booking.js` (los navegadores guardan `/assets/*`
+  un día). El panel lateral de la agenda usa retratos 9:16 propios (`booking-*.webp`).
 - **Película del hero (controlada por el scroll):** el hero mide 4 pantallas. En las dos
   primeras el scroll recorre la película en tres capítulos (El plano → La selva → El
   cenote), con textos que suben línea por línea y un indicador 01–03; en la última, la
@@ -58,10 +61,13 @@ Si cambias `assets/styles.css` o `main.js`, sube el número `?v=` en las etiquet
   suavizado. Los tiempos de cada texto y los inicios de capítulo (`CHAPTERS`) están en
   `initHeroFilm()` de `main.js`. La película combina la toma original del plano (primeros
   82 cuadros) con el render aéreo de Selvadentro y la foto del cenote animados con movimiento
-  de cámara (recortes subpíxel con Python/Pillow, codificado con ffmpeg). Los archivos llevan un
-  keyframe cada 12 cuadros para que el scrubbing sea fluido; si reemplazas la película,
-  conserva `-g 12 -bf 0` y **cambia el sufijo de versión del nombre** (`film-desk-v3.mp4` →
-  `-v4`, lo mismo para los pósters): los navegadores guardan `/assets/*` un día y seguirían
+  de cámara (recortes subpíxel con Python/Pillow, codificado con ffmpeg desde un máster sin
+  pérdida: H.264 CRF 22 *veryslow* y VP9 CRF 33, sin filtros de suavizado; la versión de teléfono
+  toma el plano del centro de la toma de escritorio, que tiene más detalle). Está a la resolución
+  máxima de su fuente (1920×870 y 720×900): más nitidez solo es posible con el video original en
+  ProRes. Los archivos llevan un keyframe cada 12 cuadros para que el scrubbing sea fluido; si
+  reemplazas la película, conserva `-g 12 -bf 0` y **cambia el sufijo de versión del nombre**
+  (`film-desk-v4.mp4` → `-v5`, lo mismo para los pósters): los navegadores guardan `/assets/*` un día y seguirían
   mostrando la película anterior. Con "reducir movimiento", ahorro de datos o pantallas de menos de
   520 px de alto, el hero es una sola pantalla con el póster y no descarga la película.
 

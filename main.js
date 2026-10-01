@@ -423,7 +423,7 @@ const PARTNERS = [
     id: "casa-ku",
     group: "mazza-hotels",
     img: "casa-ku",
-    widths: [800, 1024, 1600],
+    widths: [800, 1024, 1600, 1741],
     name: "Casa K'u",
     place: { es: "San Bruno, Yucatán", en: "San Bruno, Yucatán" },
     type: { es: "Hotel frente al mar · 10 habitaciones", en: "Beachfront hotel · 10 rooms" },
@@ -479,11 +479,13 @@ const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matc
 const page = document.body.dataset.page;
 let currentLang = "es";
 
+// Bump when photos are re-exported under the same file names (/assets/* is cached for a day)
+const IMG_V = "?v=2";
 function srcset(p) {
-  return p.widths.map((w) => `assets/img/${p.img}-${w}.webp ${w}w`).join(", ");
+  return p.widths.map((w) => `assets/img/${p.img}-${w}.webp${IMG_V} ${w}w`).join(", ");
 }
 function largest(p) {
-  return `assets/img/${p.img}-${p.widths[p.widths.length - 1]}.webp`;
+  return `assets/img/${p.img}-${p.widths[p.widths.length - 1]}.webp${IMG_V}`;
 }
 // Project photograph: turquoise wash on hover; when the project has a website the photo links to it
 function projectFrame(p, lang, cls, sizes) {

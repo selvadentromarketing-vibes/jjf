@@ -30,10 +30,11 @@
   function range(from, to) { const r = []; for (let h = from; h <= to; h += 0.5) r.push(h); return r; }
 
   const INTERESTS = [
-    { id: "lots", img: "assets/img/selvadentro-aerial-960.webp" },
-    { id: "invest", img: "assets/img/selvadentro-masterplan-1400.webp" },
-    { id: "visit", img: "assets/img/selvadentro-cenote-800.webp" },
-    { id: "other", img: "assets/img/hacienda-sacala-900.webp" },
+    // img: the small square on the option card · side: 9:16 portrait for the side panel
+    { id: "lots", img: "assets/img/selvadentro-aerial-960.webp?v=2", side: "assets/img/booking-lots.webp?v=2" },
+    { id: "invest", img: "assets/img/selvadentro-masterplan-1400.webp?v=2", side: "assets/img/booking-invest.webp?v=2" },
+    { id: "visit", img: "assets/img/selvadentro-cenote-800.webp?v=2", side: "assets/img/booking-visit.webp?v=2" },
+    { id: "other", img: "assets/img/hacienda-sacala-900.webp?v=2", side: "assets/img/booking-other.webp?v=2" },
   ];
   const FORMATS = [
     { id: "video", minutes: 30 },
@@ -280,7 +281,7 @@
   let root = null, lastFocus = null;
 
   const fmt = () => { const f = FORMATS.find((x) => x.id === S.format); return f && { ...f, minutes: minutesOf(f) }; };
-  const interestImg = () => (INTERESTS.find((i) => i.id === S.interest) || INTERESTS[0]).img;
+  const interestImg = () => (INTERESTS.find((i) => i.id === S.interest) || INTERESTS[0]).side;
 
   // ---------- shell ----------
   function build() {
