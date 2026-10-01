@@ -535,7 +535,7 @@ function renderIndex(lang) {
   const el = $("#project-index");
   if (!el) return;
   el.innerHTML = PARTNERS.map((p, i) => `
-    <li class="border-b hairline">
+    <li class="border-b hairline reveal" style="--d:${Math.min(i, 6)}">
       <a href="#${p.id}" class="index-row group grid grid-cols-[2.5rem_1fr_auto] items-baseline gap-4 py-5" data-preview="${largest(p)}">
         <span class="font-serif italic text-accent text-xl">${pad(i + 1)}</span>
         <span>
@@ -602,8 +602,8 @@ function renderMazza(lang, group, targetId, aspect, sizes) {
 function renderFaqs(lang) {
   const el = $("#faq-list");
   if (!el) return;
-  el.innerHTML = FAQS.map((f) => `
-    <details class="faq border-b hairline py-7">
+  el.innerHTML = FAQS.map((f, i) => `
+    <details class="faq border-b hairline py-7 reveal" style="--d:${Math.min(i, 6)}">
       <summary class="flex items-start justify-between gap-8">
         <span class="font-serif text-[1.45rem] md:text-[1.65rem] font-light leading-snug">${f.q[lang]}</span>
         <span class="pm" aria-hidden="true"></span>
@@ -668,7 +668,7 @@ function applyLang(lang, { instant = false } = {}) {
   renderMazza(lang, "mazza-communities", "group-mazza-communities", "aspect-[4/3]", "(min-width: 1024px) 30vw, (min-width: 768px) 46vw, 100vw");
   renderMazza(lang, "mazza-hotels", "group-mazza-hotels", "aspect-[3/2]", "(min-width: 768px) 46vw, 100vw");
   renderFaqs(lang);
-  ["#partner-teaser", "#group-landmark", "#group-mazza-communities", "#group-mazza-hotels"].forEach((sel) => {
+  ["#partner-teaser", "#project-index", "#group-landmark", "#group-mazza-communities", "#group-mazza-hotels", "#faq-list"].forEach((sel) => {
     const root = $(sel);
     if (root) observeReveals(root, instant);
   });
@@ -687,6 +687,7 @@ function applyLang(lang, { instant = false } = {}) {
   });
 
   try { localStorage.setItem("jjf-lang", lang); } catch (e) {}
+  document.dispatchEvent(new CustomEvent("jjf:lang", { detail: lang })); // fx.js re-splits the new headings
 }
 
 // ================== Header ==================
@@ -931,7 +932,8 @@ function initCounters() {
 }
 
 // ================== Marquee ==================
-// Drifts left at a calm pace; scrolling pushes it along (and backwards when scrolling up).
+// Drifts left at a calm pace; scrolling pushes it along (and backwards when scrolling up),
+// and the words lean with the speed.
 function initMarquee() {
   const track = $("[data-marquee]");
   if (!track || reducedMotion) return;
@@ -944,7 +946,8 @@ function initMarquee() {
     x -= (40 + boost) * dt;
     if (x <= -half) x += half;
     if (x > 0) x -= half;
-    track.style.transform = `translate3d(${x.toFixed(2)}px, 0, 0)`;
+    const lean = Math.max(-7, Math.min(7, -boost * 0.008)); // leans into fast scrolling, then settles
+    track.style.transform = `translate3d(${x.toFixed(2)}px, 0, 0) skewX(${lean.toFixed(2)}deg)`;
     if (running) requestAnimationFrame(tick); else lastT = 0;
   };
   window.addEventListener("scroll", () => {

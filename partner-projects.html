@@ -26,7 +26,7 @@
   <link rel="preload" as="font" type="font/woff2" href="assets/fonts/jost-latin.woff2" crossorigin />
 
   <!-- Tailwind v4 (precompilado — rebuild with: npm run build) -->
-  <link rel="stylesheet" href="assets/styles.css?v=20261001c" />
+  <link rel="stylesheet" href="assets/styles.css?v=20261002a" />
   <script>(function(d){d.classList.add('js');try{if(matchMedia('(min-height: 520px)').matches&&!matchMedia('(prefers-reduced-motion: reduce)').matches&&!(navigator.connection&&navigator.connection.saveData))d.classList.add('film-scrub')}catch(e){}})(document.documentElement);</script>
 </head>
 <body data-page="partners">
@@ -146,7 +146,7 @@
     </section>
 
     <!-- ============ MAZZA CAPITAL ============ -->
-    <section id="mazza-capital" class="on-dark bg-forest text-bone py-28 md:py-40" aria-labelledby="mazza-title">
+    <section id="mazza-capital" class="fx-open on-dark bg-forest text-bone py-28 md:py-40" aria-labelledby="mazza-title">
       <div class="wrap">
         <div class="grid lg:grid-cols-12 gap-x-12 gap-y-10">
           <div class="lg:col-span-6">
@@ -220,11 +220,11 @@
   <!-- ============ FOOTER ============ -->
   <footer class="on-dark bg-ink text-bone">
     <div class="wrap border-t hairline pt-16 pb-12 grid grid-cols-2 md:grid-cols-12 gap-x-8 gap-y-12">
-      <div class="col-span-2 md:col-span-5">
+      <div class="col-span-2 md:col-span-5 reveal" style="--d:0">
         <a href="index.html" class="block h-16 md:h-[4.5rem] w-fit" aria-label="JJF Creando"><span class="logo-img" aria-hidden="true"></span></a>
         <p class="prose-body mt-8 max-w-xs" data-i18n="footer.tagline">Desarrolladora inmobiliaria boutique en Tulum y la Riviera Maya.</p>
       </div>
-      <div class="md:col-span-3 md:col-start-7">
+      <div class="md:col-span-3 md:col-start-7 reveal" style="--d:1">
         <p class="caption" data-i18n="footer.explore">Explorar</p>
         <ul class="mt-6 space-y-3 text-[0.95rem] text-bone/80">
           <li><a class="hover:text-bone transition" href="index.html#selvadentro" data-i18n="nav.selvadentro">Selvadentro</a></li>
@@ -234,7 +234,7 @@
           <li><a class="hover:text-bone transition" href="https://mazzacapital.com" target="_blank" rel="noopener">Mazza Capital ↗</a></li>
         </ul>
       </div>
-      <div class="md:col-span-3">
+      <div class="md:col-span-3 reveal" style="--d:2">
         <p class="caption" data-i18n="footer.contact">Contacto</p>
         <ul class="mt-6 space-y-3 text-[0.95rem] text-bone/80">
           <li><a class="hover:text-bone transition" href="https://wa.me/529994890828" data-wa target="_blank" rel="noopener">WhatsApp +52 999 489 0828</a></li>
@@ -252,6 +252,10 @@
         </ul>
       </div>
     </div>
+    <div class="footer-mark" data-fm aria-hidden="true">
+      <span class="fm-text">JJF <em>Creando</em></span>
+      <span class="fm-text fm-lit">JJF <em>Creando</em></span>
+    </div>
     <div class="wrap border-t hairline py-8 flex flex-col sm:flex-row sm:justify-between gap-3 caption">
       <span>© <span data-year>2026</span> JJF Creando</span>
       <span data-i18n="footer.rights">Todos los derechos reservados</span>
@@ -261,7 +265,8 @@
   <!-- ============ BOOKING WIZARD (booking.js) ============ -->
   <div id="booking" class="bk" hidden></div>
 
-  <script src="main.js?v=20261001c"></script>
+  <script src="main.js?v=20261002a"></script>
+  <script src="fx.js?v=20261002a"></script>
   <script src="booking.js?v=20261001e"></script>
 </body>
 </html>

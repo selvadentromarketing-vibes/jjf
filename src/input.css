@@ -966,11 +966,216 @@ html.bk-lock, html.bk-lock body { overflow: hidden; }
 .filter-btn[aria-pressed="true"] { background: var(--color-ink); color: var(--color-bone); border-color: var(--color-ink); }
 .is-hidden { display: none !important; }
 
+/* =============== Motion details (fx.js) =============== */
+/* Headings rise word by word: each word in a clipping box (room for italics and descenders) */
+.js .reveal.split { opacity: 1; transform: none; }
+.split .w { display: inline-block; overflow: hidden; vertical-align: bottom; padding: 0.05em 0.1em 0.16em; margin: -0.05em -0.1em -0.16em; }
+.split .w > span {
+  display: inline-block;
+  transform: translate3d(0, 108%, 0) rotate(3deg);
+  transform-origin: 0 100%;
+  transition: transform 1.1s var(--ease-out-soft);
+  transition-delay: calc(var(--d, 0) * 0.1s + min(var(--i, 0), 16) * 0.05s);
 }
+.split.is-in .w > span { transform: none; }
+
+/* Eyebrow rules draw in; photos come into focus as they are revealed */
+.js .reveal .eyebrow-rule::before, .js .eyebrow-rule.reveal::before { transform: scaleX(0); transform-origin: 0 50%; transition: transform 1.1s var(--ease-out-soft) 0.25s; }
+.js .reveal.is-in .eyebrow-rule::before, .js .eyebrow-rule.reveal.is-in::before { transform: none; }
+.js .reveal-img img { filter: blur(8px); transition: transform 2s var(--ease-out-soft), filter 1.3s var(--ease-out-soft); }
+.js .reveal-img.is-in img { filter: none; }
+
+/* Cenote ripple where you click or tap */
+.fx-ripple { position: fixed; z-index: 9998; width: 0; height: 0; pointer-events: none; }
+.fx-ripple i {
+  position: absolute;
+  left: -3.6rem;
+  top: -3.6rem;
+  width: 7.2rem;
+  height: 7.2rem;
+  border-radius: 50%;
+  border: 1px solid rgb(166 79 42 / 0.55);
+  opacity: 0;
+  transform: scale(0);
+  animation: fx-ripple 1.3s cubic-bezier(0.2, 0.7, 0.2, 1) forwards;
+}
+.fx-ripple i:nth-child(2) { animation-delay: 0.12s; border-color: rgb(90 106 44 / 0.45); }
+.fx-ripple i:nth-child(3) { animation-delay: 0.24s; }
+.fx-ripple.is-dark i { border-color: rgb(212 219 166 / 0.65); }
+.fx-ripple.is-dark i:nth-child(2) { border-color: rgb(232 160 122 / 0.5); }
+@keyframes fx-ripple { 0% { opacity: 0.9; transform: scale(0); } 100% { opacity: 0; transform: scale(1); } }
+
+/* Our own cursor (mouse / trackpad only): a dot, and a ring that trails it */
+.fx-fine, .fx-fine * { cursor: none !important; }
+.fx-fine :is(input:not([type="checkbox"]):not([type="radio"]), textarea, [contenteditable]) { cursor: text !important; }
+.cur { position: fixed; inset: 0; z-index: 9999; pointer-events: none; color: var(--color-ink); opacity: 0; transition: opacity 0.3s ease; }
+.cur.is-on { opacity: 1; }
+.cur.is-text { opacity: 0; }
+.cur.is-dark { color: var(--color-bone); }
+.cur-dot, .cur-ring, .cur-label { position: absolute; left: 0; top: 0; will-change: transform; }
+.cur-dot { width: 6px; height: 6px; margin: -3px 0 0 -3px; border-radius: 50%; background: var(--color-clay); transition: scale 0.3s var(--ease-out-soft); }
+.cur.is-dark .cur-dot { background: var(--color-clay-soft); }
+.cur-ring {
+  width: 2.1rem;
+  height: 2.1rem;
+  margin: -1.05rem 0 0 -1.05rem;
+  border-radius: 50%;
+  border: 1px solid currentColor;
+  opacity: 0.5;
+  transition: width 0.45s var(--ease-out-soft), height 0.45s var(--ease-out-soft), margin 0.45s var(--ease-out-soft), opacity 0.3s ease, background-color 0.35s ease, border-color 0.35s ease;
+}
+.cur.is-hover .cur-ring { width: 3.6rem; height: 3.6rem; margin: -1.8rem 0 0 -1.8rem; opacity: 1; border-color: var(--color-clay); background: rgb(166 79 42 / 0.1); }
+.cur.is-dark.is-hover .cur-ring { border-color: var(--color-clay-soft); background: rgb(232 160 122 / 0.14); }
+.cur.is-hint .cur-ring { width: 4.8rem; height: 4.8rem; margin: -2.4rem 0 0 -2.4rem; opacity: 0.9; background: rgb(18 22 14 / 0.32); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); }
+.cur.is-label .cur-ring { width: 5.6rem; height: 5.6rem; margin: -2.8rem 0 0 -2.8rem; opacity: 1; border-color: var(--color-clay); background: var(--color-clay); }
+.cur.is-down .cur-ring { width: 1.5rem; height: 1.5rem; margin: -0.75rem 0 0 -0.75rem; }
+.cur.is-quiet .cur-ring { opacity: 0; }
+.cur.is-hover .cur-dot, .cur.is-label .cur-dot, .cur.is-hint .cur-dot { scale: 0; }
+.cur-label {
+  translate: -50% -50%;
+  font-size: 0.6rem;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: #fff8f1;
+  opacity: 0;
+  scale: 0.6;
+  transition: opacity 0.3s ease, scale 0.45s var(--ease-out-soft);
+}
+.cur.is-hint .cur-label { color: currentColor; font-size: 0.56rem; }
+.cur.is-label .cur-label, .cur.is-hint .cur-label { opacity: 1; scale: 1; }
+
+/* Buttons lean toward the pointer and fill from the side it came in */
+.fx-fine .btn {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  translate: var(--mgx, 0px) var(--mgy, 0px);
+  transition: background-color 0.4s var(--ease-out-soft), color 0.4s var(--ease-out-soft), border-color 0.4s var(--ease-out-soft), transform 0.4s var(--ease-out-soft), translate 0.8s cubic-bezier(0.25, 1.6, 0.45, 1);
+}
+.fx-fine .btn.is-mag { transition: background-color 0.4s var(--ease-out-soft), color 0.4s var(--ease-out-soft), border-color 0.4s var(--ease-out-soft), transform 0.4s var(--ease-out-soft), translate 0.2s ease-out; }
+.fx-fine .btn > span { translate: calc(var(--mgx, 0px) * 0.35) calc(var(--mgy, 0px) * 0.35); transition: translate 0.8s cubic-bezier(0.25, 1.6, 0.45, 1), transform 0.4s var(--ease-out-soft), color 0.4s var(--ease-out-soft); }
+.fx-fine .btn.is-mag > span { transition: translate 0.2s ease-out, transform 0.4s var(--ease-out-soft), color 0.4s var(--ease-out-soft); }
+.fx-fine .btn::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  left: var(--fx, 50%);
+  top: var(--fy, 50%);
+  width: 260%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: var(--fill, rgb(0 0 0 / 0.15));
+  transform: translate(-50%, -50%) scale(0);
+  transition: transform 0.65s var(--ease-out-soft);
+  pointer-events: none;
+}
+.fx-fine .btn.is-fill::before { transform: translate(-50%, -50%) scale(1); }
+.fx-fine .btn-accent { --fill: #8c4021; }
+.fx-fine .btn-accent:hover { background: var(--color-clay); }
+.fx-fine .btn-solid { --fill: #3a4134; }
+.fx-fine .btn-solid:hover { background: var(--color-ink); }
+.fx-fine .btn-light { --fill: var(--color-olive-soft); }
+.fx-fine .btn-light:hover { background: var(--color-bone); }
+.fx-fine .btn-ghost { --fill: currentColor; }
+.fx-fine .btn-ghost:hover { background: transparent; }
+
+/* Project photos tilt toward the pointer and catch the light */
+.fx-fine #partner-teaser .frame, .fx-fine [id^="group-"] .frame {
+  transform: perspective(1100px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
+  transition: transform 0.9s var(--ease-out-soft), clip-path 1.6s var(--ease-out-soft);
+}
+.fx-fine #partner-teaser .frame.fx-tilting, .fx-fine [id^="group-"] .frame.fx-tilting { transition: transform 0.2s ease-out, clip-path 1.6s var(--ease-out-soft); }
+.fx-fine #partner-teaser .frame::after, .fx-fine [id^="group-"] .frame::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: radial-gradient(24rem circle at var(--sx, 50%) var(--sy, 30%), rgb(255 246 222 / 0.26), rgb(255 246 222 / 0) 62%);
+  opacity: 0;
+  transition: opacity 0.6s ease;
+}
+.fx-fine .frame.fx-tilting::after { opacity: 1; }
+
+/* Fireflies (canvas drawn by fx.js) */
+.fx-flies { position: fixed; inset: 0; z-index: 35; width: 100%; height: 100%; pointer-events: none; }
+
+/* Palm shadows drift with the pointer, like wind (fx.js sets --wind-x/y on visible .sunlit) */
+.sunlit::after { translate: calc(var(--wind-x, 0) * -1.8rem) calc(var(--wind-y, 0) * -1rem); rotate: calc(var(--wind-x, 0) * 0.9deg); }
+
+/* Footer wordmark: outlined, lit around the pointer (on touch, a slow light sweeps across) */
+.footer-mark { position: relative; overflow: hidden; padding-top: 1.5rem; text-align: center; user-select: none; }
+.fm-text {
+  display: block;
+  font-family: var(--font-serif);
+  font-size: clamp(4.2rem, 16.5vw, 17rem);
+  line-height: 1;
+  padding-bottom: 0.2em; /* room for the J tails */
+  letter-spacing: -0.015em;
+  white-space: nowrap;
+  color: transparent;
+  -webkit-text-stroke: 1px rgb(244 240 232 / 0.2);
+}
+.fm-text em { font-style: italic; }
+.fm-lit {
+  position: absolute;
+  inset: 1.5rem 0 0;
+  -webkit-text-stroke: 0;
+  background: linear-gradient(100deg, var(--color-olive-soft) 10%, var(--color-clay-soft) 90%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-mask-image: radial-gradient(circle 11rem at var(--fx) var(--fy), #000 0%, rgb(0 0 0 / 0.55) 45%, transparent 75%);
+  mask-image: radial-gradient(circle 11rem at var(--fx) var(--fy), #000 0%, rgb(0 0 0 / 0.55) 45%, transparent 75%);
+  opacity: 0;
+  transition: opacity 0.6s ease;
+}
+.footer-mark.is-lit .fm-lit { opacity: 1; }
+html:not(.fx-fine) .fm-lit { opacity: 0.85; animation: fm-sweep 9s ease-in-out infinite alternate; }
+@keyframes fm-sweep { from { --fx: 8%; --fy: 60%; } to { --fx: 92%; --fy: 40%; } }
+
+/* Scroll-linked (CSS scroll timelines, where supported; elsewhere everything simply stays put) */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    /* Dark sections open out to the full width as they arrive */
+    @media (min-width: 768px) {
+      .fx-open { animation: fx-open linear both; animation-timeline: view(); animation-range: entry 0% entry 75%; }
+    }
+    /* The masterplan unrolls, like the paper in the film */
+    .fx-mp { view-timeline: --mp block; }
+    .fx-mp .mp-frame img { animation: fx-unroll linear both; animation-timeline: --mp; animation-range: entry 20% cover 50%; }
+    /* Photos drift inside their frames */
+    .gallery .frame, .arch { view-timeline: --ph block; }
+    .gallery .frame img, .arch img { animation: fx-drift linear both; animation-timeline: --ph; animation-range: cover; }
+    /* The vision photo settles as it passes */
+    .band { view-timeline: --band block; }
+    .band-media img { animation: fx-settle linear both; animation-timeline: --band; animation-range: cover; }
+    /* The footer wordmark rises and draws together */
+    .footer-mark { view-timeline: --fm block; }
+    /* (it sits at the bottom of the page, so it must finish once fully on screen) */
+    .fm-text { animation: fm-rise linear both; animation-timeline: --fm; animation-range: entry 0% entry 100%; }
+    .fm-lit { animation-name: fm-rise-lit; } /* same rise, but its opacity stays with the pointer */
+    html:not(.fx-fine) .fm-lit { animation: fm-rise-lit linear both, fm-sweep 9s ease-in-out infinite alternate; animation-timeline: --fm, auto; animation-range: entry 0% entry 100%, normal; }
+  }
+}
+@keyframes fx-open { from { clip-path: inset(0 3.5% 0 3.5% round 2.4rem 2.4rem 0 0); } to { clip-path: inset(0 0 0 0 round 0); } }
+@keyframes fx-unroll { from { clip-path: inset(0 100% 0 0); } to { clip-path: inset(0 0 0 0); } }
+@keyframes fx-drift { from { translate: 0 -4%; scale: 1.09; } to { translate: 0 4%; scale: 1.09; } }
+@keyframes fx-settle { from { scale: 1.16; } to { scale: 1.02; } }
+@keyframes fm-rise { from { translate: 0 45%; letter-spacing: 0.1em; opacity: 0; } to { translate: 0 0; letter-spacing: -0.015em; opacity: 1; } }
+@keyframes fm-rise-lit { from { translate: 0 45%; letter-spacing: 0.1em; } to { translate: 0 0; letter-spacing: -0.015em; } }
+
+}
+
+/* The footer light's position animates smoothly (fx.js and the touch sweep move it) */
+@property --fx { syntax: "<length-percentage>"; inherits: true; initial-value: 50%; }
+@property --fy { syntax: "<length-percentage>"; inherits: true; initial-value: 50%; }
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   *, *::before, *::after { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; }
   .js .reveal, .js .reveal-img, .hero-in { opacity: 1; transform: none; clip-path: none; }
-  .js .reveal-img img { transform: none; }
+  .js .reveal-img img { transform: none; filter: none; }
+  .fm-lit { display: none; }
 }

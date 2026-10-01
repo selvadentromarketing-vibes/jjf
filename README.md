@@ -12,6 +12,8 @@ partner-projects.html   → página de proyectos aliados (todo excepto Selvadent
 main.js                 → textos ES/EN, datos de proyectos aliados, FAQ, película del hero,
                           menú móvil y animaciones
 booking.js              → asistente de agenda (calendario + formulario)
+fx.js                   → detalles de movimiento: cursor propio, botones magnéticos, luciérnagas,
+                          ondas al hacer clic, títulos palabra por palabra, logo del pie iluminado
 netlify/functions/      → booking.mjs: conexión de la agenda con GoHighLevel (/api/booking)
 src/input.css           → fuente de estilos (Tailwind v4 + componentes)
 assets/styles.css       → CSS compilado (lo que carga el navegador)
@@ -39,7 +41,7 @@ npm run build      # genera assets/styles.css
 npm run dev        # recompila al guardar (watch)
 ```
 
-Si cambias `assets/styles.css` o `main.js`, sube el número `?v=` en las etiquetas
+Si cambias `assets/styles.css`, `main.js`, `booking.js` o `fx.js`, sube el número `?v=` en las etiquetas
 `<link>`/`<script>` de ambos HTML (`/assets/*` se cachea un día con revalidación).
 
 ## Contenido
@@ -76,6 +78,17 @@ Si cambias `assets/styles.css` o `main.js`, sube el número `?v=` en las etiquet
   principales (`.btn-accent`); bloque verde selva profundo (`.bg-forest`). `.u-brush` dibuja un subrayado a mano bajo las cursivas de un
   título; `.sunlit` añade luz cálida y sombra de palmera; `data-count` anima una cifra al
   aparecer; la banda `data-marquee` se desliza y acelera con el scroll.
+- **Movimiento (`fx.js` + `src/input.css`, sección *Motion details*):** con mouse o trackpad, un
+  cursor propio (punto y anillo que lo sigue; crece sobre lo que se puede pulsar y dice "Ver",
+  "Visitar" o "Desliza" donde ayuda), botones que se inclinan hacia el puntero y se llenan desde
+  el lado por donde entra, luciérnagas que siguen al puntero en las secciones oscuras, sombras de
+  palmera que se mueven con él como el viento, fotos de proyectos que se inclinan y toman luz, y el
+  logo grande del pie iluminado alrededor del puntero (en el teléfono, una luz lo recorre sola).
+  En todos los dispositivos: ondas de cenote al hacer clic o tocar, títulos que suben palabra por
+  palabra y fotos que se enfocan al aparecer. Con el scroll (CSS `animation-timeline`, donde el
+  navegador lo soporta): las secciones oscuras se abren a todo el ancho, el plan maestro se
+  desenrolla, las fotos de la galería se desplazan dentro de su marco y la banda de visión se
+  asienta. "Reducir movimiento" lo desactiva todo.
 - **Idioma por URL:** `?lang=en` o `?lang=es` fija el idioma (útil para anuncios en inglés).
 - **WhatsApp:** número del equipo en la constante `WHATSAPP` de `main.js`; los enlaces con
   `data-wa` abren el chat con un mensaje listo en el idioma de la página (`wa.text`).

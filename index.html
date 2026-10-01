@@ -29,7 +29,7 @@
   <link rel="preload" as="image" href="assets/hero/hero-poster-phone-v4.webp" media="(orientation: portrait)" fetchpriority="high" />
 
   <!-- Tailwind v4 (precompilado — rebuild with: npm run build) -->
-  <link rel="stylesheet" href="assets/styles.css?v=20261001c" />
+  <link rel="stylesheet" href="assets/styles.css?v=20261002a" />
   <script>(function(d){d.classList.add('js');try{if(matchMedia('(min-height: 520px)').matches&&!matchMedia('(prefers-reduced-motion: reduce)').matches&&!(navigator.connection&&navigator.connection.saveData))d.classList.add('film-scrub')}catch(e){}})(document.documentElement);</script>
 </head>
 <body data-page="home">
@@ -186,7 +186,7 @@
     </section>
 
     <!-- ============ SELVADENTRO (flagship) ============ -->
-    <section id="selvadentro" class="on-dark bg-moss text-bone">
+    <section id="selvadentro" class="fx-open on-dark bg-moss text-bone">
       <div class="wrap pt-28 md:pt-40">
         <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6">
           <div>
@@ -247,7 +247,7 @@
           <p class="caption" data-i18n="mp.meta">9 cenotes · 12 experiencias · 4 sectores</p>
         </div>
         <p class="display mt-10 text-[2rem] md:text-[2.6rem] max-w-3xl !leading-[1.12] reveal" data-i18n="mp.title">El plano de la película, <em>en detalle.</em></p>
-        <figure class="mt-10 md:mt-12">
+        <figure class="fx-mp mt-10 md:mt-12">
           <div class="mp-scroll" data-i18n-aria="mp.scroll" tabindex="0" role="region" aria-label="Plan maestro de Selvadentro">
             <div class="frame reveal-img mp-frame">
               <img src="assets/img/selvadentro-masterplan-1400.webp?v=2" srcset="assets/img/selvadentro-masterplan-1400.webp?v=2 1400w, assets/img/selvadentro-masterplan-2400.webp?v=2 2400w, assets/img/selvadentro-masterplan-3818.webp?v=2 3818w" sizes="(min-width: 1440px) 1312px, (min-width: 768px) 90vw, 900px" alt="Plan maestro de Selvadentro con los sectores Cenote, Mono, Toh y Jaguar, sus cenotes y amenidades numerados" data-i18n-alt="mp.alt" loading="lazy" decoding="async" />
@@ -376,7 +376,7 @@
     </section>
 
     <!-- ============ PARTNER PROJECTS (teaser) ============ -->
-    <section id="aliados" class="on-dark bg-forest text-bone py-28 md:py-36">
+    <section id="aliados" class="fx-open on-dark bg-forest text-bone py-28 md:py-36">
       <div class="wrap">
         <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-10">
           <div class="max-w-2xl">
@@ -421,7 +421,7 @@
     </section>
 
     <!-- ============ CONTACT ============ -->
-    <section id="contacto" class="on-dark bg-ink text-bone">
+    <section id="contacto" class="fx-open on-dark bg-ink text-bone">
       <div class="wrap py-28 md:py-40 grid lg:grid-cols-12 gap-x-12 gap-y-12 lg:items-end">
         <div class="lg:col-span-7">
           <p class="eyebrow eyebrow-rule text-accent reveal"><span class="eyebrow-num">07</span><span data-i18n="contact.eyebrow">Contacto</span></p>
@@ -444,11 +444,11 @@
   <!-- ============ FOOTER ============ -->
   <footer class="on-dark bg-ink text-bone">
     <div class="wrap border-t hairline pt-16 pb-12 grid grid-cols-2 md:grid-cols-12 gap-x-8 gap-y-12">
-      <div class="col-span-2 md:col-span-5">
+      <div class="col-span-2 md:col-span-5 reveal" style="--d:0">
         <a href="index.html" class="block h-16 md:h-[4.5rem] w-fit" aria-label="JJF Creando"><span class="logo-img" aria-hidden="true"></span></a>
         <p class="prose-body mt-8 max-w-xs" data-i18n="footer.tagline">Desarrolladora inmobiliaria boutique en Tulum y la Riviera Maya.</p>
       </div>
-      <div class="md:col-span-3 md:col-start-7">
+      <div class="md:col-span-3 md:col-start-7 reveal" style="--d:1">
         <p class="caption" data-i18n="footer.explore">Explorar</p>
         <ul class="mt-6 space-y-3 text-[0.95rem] text-bone/80">
           <li><a class="hover:text-bone transition" href="#selvadentro" data-i18n="nav.selvadentro">Selvadentro</a></li>
@@ -458,7 +458,7 @@
           <li><a class="hover:text-bone transition" href="https://mazzacapital.com" target="_blank" rel="noopener">Mazza Capital ↗</a></li>
         </ul>
       </div>
-      <div class="md:col-span-3">
+      <div class="md:col-span-3 reveal" style="--d:2">
         <p class="caption" data-i18n="footer.contact">Contacto</p>
         <ul class="mt-6 space-y-3 text-[0.95rem] text-bone/80">
           <li><a class="hover:text-bone transition" href="https://wa.me/529994890828" data-wa target="_blank" rel="noopener">WhatsApp +52 999 489 0828</a></li>
@@ -476,6 +476,10 @@
         </ul>
       </div>
     </div>
+    <div class="footer-mark" data-fm aria-hidden="true">
+      <span class="fm-text">JJF <em>Creando</em></span>
+      <span class="fm-text fm-lit">JJF <em>Creando</em></span>
+    </div>
     <div class="wrap border-t hairline py-8 flex flex-col sm:flex-row sm:justify-between gap-3 caption">
       <span>© <span data-year>2026</span> JJF Creando</span>
       <span data-i18n="footer.rights">Todos los derechos reservados</span>
@@ -491,7 +495,8 @@
     <input name="phone" /><input name="language" /><textarea name="message"></textarea><input name="source" /><input name="page" />
   </form>
 
-  <script src="main.js?v=20261001c"></script>
+  <script src="main.js?v=20261002a"></script>
+  <script src="fx.js?v=20261002a"></script>
   <script src="booking.js?v=20261001e"></script>
 </body>
 </html>
