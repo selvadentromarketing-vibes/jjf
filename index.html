@@ -29,7 +29,7 @@
   <link rel="preload" as="image" href="assets/hero/hero-poster-phone-v3.webp" media="(orientation: portrait)" fetchpriority="high" />
 
   <!-- Tailwind v4 (precompilado — rebuild with: npm run build) -->
-  <link rel="stylesheet" href="assets/styles.css?v=20261001a" />
+  <link rel="stylesheet" href="assets/styles.css?v=20261001b" />
   <script>(function(d){d.classList.add('js');try{if(matchMedia('(min-height: 520px)').matches&&!matchMedia('(prefers-reduced-motion: reduce)').matches&&!(navigator.connection&&navigator.connection.saveData))d.classList.add('film-scrub')}catch(e){}})(document.documentElement);</script>
 </head>
 <body data-page="home">
@@ -129,7 +129,7 @@
                 </div>
                 <div class="flex flex-wrap items-center gap-x-7 gap-y-5 lg:flex-col lg:items-end lg:pb-6 shrink-0 st st-fade" style="--k:3">
                   <a href="#selvadentro" class="btn btn-light"><span data-i18n="hero.c.cta">Conoce el proyecto</span><span class="arrow" aria-hidden="true">→</span></a>
-                  <a href="#contacto" data-cta class="link-line" data-i18n="sd.cta2">Agenda una visita privada</a>
+                  <a href="#contacto" data-cta data-intent="visit" class="link-line" data-i18n="sd.cta2">Agenda una visita privada</a>
                 </div>
               </div>
             </div>
@@ -234,7 +234,7 @@
 
           <div class="mt-12 flex flex-wrap items-center gap-x-7 gap-y-5 reveal" style="--d:3">
             <a href="https://selvadentrotulum.com" target="_blank" rel="noopener" class="btn btn-light"><span data-i18n="sd.cta">Visitar Selvadentro</span><span class="arrow-ne" aria-hidden="true">↗</span></a>
-            <a href="#contacto" data-cta class="link-line" data-i18n="sd.cta2">Agenda una visita privada</a>
+            <a href="#contacto" data-cta data-intent="visit" class="link-line" data-i18n="sd.cta2">Agenda una visita privada</a>
           </div>
           <p class="caption mt-12 reveal" style="--d:4" data-i18n="sd.architects">Diseño y arquitectura — Maat Handasa · AMA Estudio</p>
         </div>
@@ -482,21 +482,16 @@
     </div>
   </footer>
 
-  <!-- ============ CONTACT MODAL (GHL calendar) ============ -->
-  <div id="modal" class="modal fixed inset-0 z-[60] flex items-center justify-center p-4 bg-ink/70 backdrop-blur-sm" role="dialog" aria-modal="true" aria-labelledby="modal-title">
-    <div class="modal-panel relative bg-bone w-full max-w-2xl max-h-[92vh] overflow-hidden rounded-sm shadow-2xl">
-      <button id="modal-close" type="button" aria-label="Cerrar" class="absolute top-4 right-4 z-10 h-10 w-10 inline-flex items-center justify-center rounded-full border hairline hover:bg-ink hover:text-bone transition">
-        <svg width="12" height="12" viewBox="0 0 12 12" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><path d="M1 1l10 10M11 1L1 11" /></svg>
-      </button>
-      <div class="px-8 md:px-12 pt-12 pb-6 text-center">
-        <p class="eyebrow text-accent" data-i18n="modal.eyebrow">JJF Creando</p>
-        <h3 id="modal-title" class="display mt-4 text-[2rem] md:text-[2.4rem]" data-i18n="modal.title">Agenda una <em>llamada</em></h3>
-        <p class="mt-4 text-stone text-[0.95rem] leading-relaxed max-w-md mx-auto" data-i18n="modal.body">Elige el día y la hora que prefieras. Nuestro equipo te contactará para conocer tu proyecto.</p>
-      </div>
-      <iframe id="booking-frame" title="Agenda una llamada" data-src="https://api.leadconnectorhq.com/widget/booking/DD1xkh0ObvHQFhcyxgJR" class="w-full h-[62vh] border-0 bg-white"></iframe>
-    </div>
-  </div>
+  <!-- ============ BOOKING WIZARD (booking.js) ============ -->
+  <div id="booking" class="bk" hidden></div>
+  <!-- Until the calendar is connected, booking requests are kept as Netlify form submissions -->
+  <form name="agenda" data-netlify="true" netlify-honeypot="bot-field" hidden>
+    <input name="bot-field" /><input name="calendarId" /><input name="startTime" /><input name="endTime" /><input name="timezone" />
+    <input name="format" /><input name="interest" /><input name="firstName" /><input name="lastName" /><input name="email" />
+    <input name="phone" /><input name="language" /><textarea name="message"></textarea><input name="source" /><input name="page" />
+  </form>
 
-  <script src="main.js?v=20261001a"></script>
+  <script src="main.js?v=20261001b"></script>
+  <script src="booking.js?v=20261001b"></script>
 </body>
 </html>

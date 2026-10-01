@@ -26,7 +26,7 @@
   <link rel="preload" as="font" type="font/woff2" href="assets/fonts/jost-latin.woff2" crossorigin />
 
   <!-- Tailwind v4 (precompilado — rebuild with: npm run build) -->
-  <link rel="stylesheet" href="assets/styles.css?v=20261001a" />
+  <link rel="stylesheet" href="assets/styles.css?v=20261001b" />
   <script>(function(d){d.classList.add('js');try{if(matchMedia('(min-height: 520px)').matches&&!matchMedia('(prefers-reduced-motion: reduce)').matches&&!(navigator.connection&&navigator.connection.saveData))d.classList.add('film-scrub')}catch(e){}})(document.documentElement);</script>
 </head>
 <body data-page="partners">
@@ -258,21 +258,10 @@
     </div>
   </footer>
 
-  <!-- ============ CONTACT MODAL (GHL calendar) ============ -->
-  <div id="modal" class="modal fixed inset-0 z-[60] flex items-center justify-center p-4 bg-ink/70 backdrop-blur-sm" role="dialog" aria-modal="true" aria-labelledby="modal-title">
-    <div class="modal-panel relative bg-bone w-full max-w-2xl max-h-[92vh] overflow-hidden rounded-sm shadow-2xl">
-      <button id="modal-close" type="button" aria-label="Cerrar" class="absolute top-4 right-4 z-10 h-10 w-10 inline-flex items-center justify-center rounded-full border hairline hover:bg-ink hover:text-bone transition">
-        <svg width="12" height="12" viewBox="0 0 12 12" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><path d="M1 1l10 10M11 1L1 11" /></svg>
-      </button>
-      <div class="px-8 md:px-12 pt-12 pb-6 text-center">
-        <p class="eyebrow text-accent" data-i18n="modal.eyebrow">JJF Creando</p>
-        <h3 id="modal-title" class="display mt-4 text-[2rem] md:text-[2.4rem]" data-i18n="modal.title">Agenda una <em>llamada</em></h3>
-        <p class="mt-4 text-stone text-[0.95rem] leading-relaxed max-w-md mx-auto" data-i18n="modal.body">Elige el día y la hora que prefieras. Nuestro equipo te contactará para conocer tu proyecto.</p>
-      </div>
-      <iframe id="booking-frame" title="Agenda una llamada" data-src="https://api.leadconnectorhq.com/widget/booking/DD1xkh0ObvHQFhcyxgJR" class="w-full h-[62vh] border-0 bg-white"></iframe>
-    </div>
-  </div>
+  <!-- ============ BOOKING WIZARD (booking.js) ============ -->
+  <div id="booking" class="bk" hidden></div>
 
-  <script src="main.js?v=20261001a"></script>
+  <script src="main.js?v=20261001b"></script>
+  <script src="booking.js?v=20261001b"></script>
 </body>
 </html>

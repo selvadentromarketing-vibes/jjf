@@ -124,10 +124,6 @@ const I18N = {
     "mp.x9": "Casa del Árbol", "mp.x10": "Jungle Bar", "mp.x11": "Casa de los Cenotes", "mp.x12": "Wellness center",
     "footer.rights": "Todos los derechos reservados",
 
-    "modal.eyebrow": "JJF Creando",
-    "modal.title": "Agenda una <em>llamada</em>",
-    "modal.body": "Elige el día y la hora que prefieras. Nuestro equipo te contactará para conocer tu proyecto.",
-    "modal.close": "Cerrar",
 
     // Partner projects page
     "pp.title": "Una trayectoria construida en el <em>sureste de México</em>",
@@ -278,10 +274,6 @@ const I18N = {
     "mp.x9": "Tree House", "mp.x10": "Jungle Bar", "mp.x11": "Cenote House", "mp.x12": "Wellness center",
     "footer.rights": "All rights reserved",
 
-    "modal.eyebrow": "JJF Creando",
-    "modal.title": "Schedule a <em>call</em>",
-    "modal.body": "Choose the day and time that suit you. Our team will reach out to learn about your project.",
-    "modal.close": "Close",
 
     "pp.title": "A track record built across <em>southeastern Mexico</em>",
     "pp.lede": "Selvadentro is JJF Creando's first project: an alliance between two families with a proven history in premium real estate development. These are our partners' projects across Tulum, Mérida and Yucatán.",
@@ -682,10 +674,7 @@ function applyLang(lang, { instant = false } = {}) {
   refreshHeroChapter();
 
   // a11y labels
-  const closeBtn = $("#modal-close");
-  if (closeBtn) closeBtn.setAttribute("aria-label", dict["modal.close"]);
-  const frame = $("#booking-frame");
-  if (frame) frame.setAttribute("title", dict["cta.schedule"]);
+  if (window.JJFBooking) window.JJFBooking.refresh();
   const menuBtn = $("#menu-btn");
   if (menuBtn) menuBtn.setAttribute("aria-label", dict["nav.menu"]);
 
@@ -996,41 +985,16 @@ function initCursorPreview() {
   list.addEventListener("pointerleave", () => { on = false; box.classList.remove("is-on"); });
 }
 
-// ================== Contact modal ==================
-const modal = $("#modal");
-const bookingFrame = $("#booking-frame");
-let lastFocus = null;
-
-function openModal(e) {
-  if (e) e.preventDefault();
-  if (!modal) return;
-  if (bookingFrame && !bookingFrame.src) bookingFrame.src = bookingFrame.dataset.src;
-  lastFocus = document.activeElement;
-  setMenu(false);
-  modal.classList.add("is-open");
-  document.body.style.overflow = "hidden";
-  const closeBtn = $("#modal-close");
-  if (closeBtn) setTimeout(() => closeBtn.focus(), 50);
-}
-function closeModal() {
-  if (!modal || !modal.classList.contains("is-open")) return;
-  modal.classList.remove("is-open");
-  document.body.style.overflow = "";
-  if (lastFocus && lastFocus.focus) lastFocus.focus();
-}
-
+// ================== Booking ==================
+// Every [data-cta] opens the booking wizard (booking.js); data-intent="visit" preselects a visit.
 document.addEventListener("click", (e) => {
   const cta = e.target.closest("[data-cta]");
-  if (cta) openModal(e);
+  if (!cta || !window.JJFBooking) return;
+  e.preventDefault();
+  window.JJFBooking.open(cta.dataset.intent);
 });
-if (modal) {
-  $("#modal-close").addEventListener("click", closeModal);
-  modal.addEventListener("click", (e) => { if (e.target === modal) closeModal(); });
-}
 document.addEventListener("keydown", (e) => {
-  if (e.key !== "Escape") return;
-  closeModal();
-  setMenu(false);
+  if (e.key === "Escape") setMenu(false);
 });
 
 // ================== Init ==================
