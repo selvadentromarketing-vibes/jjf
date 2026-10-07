@@ -99,6 +99,10 @@ function bindForm(form: HTMLFormElement, doors: HTMLElement) {
     form.classList.add('is-sending');
     try {
       const pairs = Array.from(new FormData(form).entries()).map(([k, v]) => [k, String(v)] as [string, string]);
+      // One id per enquiry, shared by the ChatGPT Ads pixel (below) and the server event that
+      // /api/lead sends, so OpenAI counts the lead once.
+      const eid = `lead_${Date.now().toString(36)}_${Math.random().toString(36).slice(2, 10)}`;
+      pairs.push(['jjf_eid', eid]);
       // Accept: application/json asks /api/lead for a JSON verdict instead of the 303 a plain
       // form post gets, so we can keep the visitor on the page and show the sent state.
       const res = await fetch(form.action, {
@@ -108,6 +112,7 @@ function bindForm(form: HTMLFormElement, doors: HTMLElement) {
       });
       if (!res.ok) throw new Error(String(res.status));
       track('form_submit', { section: 'doors', project: val('lugar') });
+      (window as any).oaiq?.('measure', 'lead_created', { type: 'customer_action' }, { event_id: eid });
       const sent = doors.querySelector<HTMLElement>('[data-form-sent]');
       if (sent) {
         sent.querySelector('[data-sent-line]')!.textContent = sent.dataset.line || '';

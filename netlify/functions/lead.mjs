@@ -1,3 +1,4 @@
+import { createHash } from 'node:crypto';
 import { getStore } from '@netlify/blobs';
 
 // The contact endpoint. The form posts straight here, so the funnel does not depend on Netlify's
@@ -120,5 +121,65 @@ export default async (request) => {
   }
 
   if (!stored && crm !== 'ok') return done(503, { ok: false, error: 'unavailable' });
-  return done(200, { ok: true, id, crm });
+
+  // 3. ChatGPT Ads (OpenAI Conversions API), only for a lead we kept: a visitor told "unavailable"
+  //    did not convert. Same rule as the CRM: a failure is logged and never reaches the visitor.
+  //    The event id matches the one the browser pixel sends, and OpenAI keeps only one of the two.
+  const ads = await sendAdsLead(request, raw, lead, id);
+  return done(200, { ok: true, id, crm, ads });
 };
+
+const OPENAI_PIXEL_ID = '97xWEtcR8ecHrJVd2oeALY';
+const CONTACT = { es: 'https://jjfcreando.com/es/contacto/', en: 'https://jjfcreando.com/en/contact/' };
+const sha256 = (v) => createHash('sha256').update(v).digest('hex');
+
+function cookie(request, name) {
+  const all = request.headers.get('cookie') || '';
+  for (const part of all.split(';')) {
+    const [k, ...v] = part.trim().split('=');
+    if (k === name) {
+      try { return decodeURIComponent(v.join('=')); } catch { return v.join('='); }
+    }
+  }
+  return '';
+}
+
+// Sends the lead to OpenAI as `lead_created`. Needs OPENAI_CONVERSIONS_API_KEY in Netlify's
+// environment variables; without it nothing is sent. Only what OpenAI uses to match the ad click
+// leaves the site: the email lowercased, trimmed and SHA-256 hashed, the IP and the browser.
+// The name and the phone never go.
+async function sendAdsLead(request, raw, lead, id) {
+  const key = process.env.OPENAI_CONVERSIONS_API_KEY;
+  if (!key) return 'not_configured';
+  const eid = clean(raw.jjf_eid, 80);
+  const user = {};
+  if (lead.email) user.email_sha256 = sha256(lead.email.toLowerCase().trim());
+  const ip = request.headers.get('x-nf-client-connection-ip') || (request.headers.get('x-forwarded-for') || '').split(',')[0].trim();
+  if (ip) user.ip_address = ip;
+  if (lead.userAgent) user.user_agent = lead.userAgent;
+  const referer = request.headers.get('referer') || '';
+  const event = {
+    id: /^[\w.-]{6,80}$/.test(eid) ? eid : id,
+    type: 'lead_created',
+    timestamp_ms: Date.parse(lead.receivedAt),
+    action_source: 'web',
+    source_url: /^https?:\/\//.test(referer) ? referer.slice(0, 500) : CONTACT[lead.jjf_lang],
+    user,
+    data: { type: 'customer_action' },
+  };
+  const oppref = cookie(request, '__oppref');
+  if (oppref) event.oppref = oppref.slice(0, 500);
+  try {
+    const res = await fetch(`https://bzr.openai.com/v1/events?pid=${OPENAI_PIXEL_ID}`, {
+      method: 'POST',
+      headers: { Authorization: `Bearer ${key}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ validate_only: process.env.OPENAI_CONVERSIONS_VALIDATE_ONLY === '1', events: [event] }),
+      signal: AbortSignal.timeout(4000),
+    });
+    if (!res.ok) console.error('ADS_FAILED', res.status, (await res.text()).slice(0, 300));
+    return res.ok ? 'ok' : `error_${res.status}`;
+  } catch (err) {
+    console.error('ADS_FAILED', err?.message);
+    return 'error_network';
+  }
+}

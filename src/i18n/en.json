@@ -33,7 +33,7 @@
   "form.place": "Which place interests you?",
   "form.notSure": "Not sure yet",
   "form.lang": "Which language should we write to you in?",
-  "form.consent": "I have read the <a href=\"{privacy}\">privacy notice</a> and agree to be contacted.",
+  "form.consent": "I have read the <a href=\"{privacy}\">privacy notice</a> and agree to be contacted. To measure our ads we share technical data and an irreversibly encoded version of your email with OpenAI.",
   "form.send": "Send",
   "form.note": "Your phone or your email is enough.",
   "form.needContact": "Leave a phone number or an email so we can write to you.",
