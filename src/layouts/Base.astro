@@ -100,6 +100,8 @@ const ld = [org, website, ...webPage, ...own];
     </script>
     <ClientRouter />
     <script is:inline type="application/ld+json" set:html={JSON.stringify(ld)} />
+    {/* Píxel de ChatGPT Ads (OpenAI): identifica el sitio para las campañas en ChatGPT. */}
+    <script is:inline>!function(w,d,s,u){if(w.oaiq)return;var q=function(){q.q.push(arguments)};q.q=[];w.oaiq=q;var j=d.createElement(s);j.async=1;j.src=u;var f=d.getElementsByTagName(s)[0];f.parentNode.insertBefore(j,f)}(window,document,"script","https://bzrcdn.openai.com/sdk/oaiq.min.js");oaiq("init",{pixelId:"97xWEtcR8ecHrJVd2oeALY",debug:true});</script>
   </head>
   <body class={bodyClass} data-staging={staging ? '1' : undefined}>
     <Door lang={lang} />
