@@ -52,7 +52,9 @@ además al log de la función como última red. Con `GHL_PIT` y `GHL_LOCATION_ID
 reenvía a LeadConnector con proyecto, idioma, origen y UTMs.
 
 Con `OPENAI_CONVERSIONS_API_KEY` puesta, cada lead guardado se reporta a ChatGPT Ads como
-`lead_created` (API de conversiones de OpenAI, píxel `97xWEtcR8ecHrJVd2oeALY`). Viajan el correo
+`lead_created` (API de conversiones de OpenAI). El sitio lleva dos píxeles, `97xWEtcR8ecHrJVd2oeALY`
+y `YHbc4jBGgyouEK6ARcY5Ng`; la clave pertenece a uno solo, así que `OPENAI_PIXEL_ID` dice cuál
+(sin ella, el primero). Viajan el correo
 en SHA-256, la IP, el navegador, la página de origen y la cookie `__oppref` del clic en el anuncio;
 nunca el nombre ni el teléfono. El navegador manda el mismo evento por el píxel con el mismo id
 (`jjf_eid`), y OpenAI cuenta uno solo. `OPENAI_CONVERSIONS_VALIDATE_ONLY=1` valida sin registrar,

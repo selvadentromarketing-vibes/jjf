@@ -129,7 +129,9 @@ export default async (request) => {
   return done(200, { ok: true, id, crm, ads });
 };
 
-const OPENAI_PIXEL_ID = '97xWEtcR8ecHrJVd2oeALY';
+// The site carries two pixels (97xWEtcR8ecHrJVd2oeALY and YHbc4jBGgyouEK6ARcY5Ng). A conversions key
+// belongs to one pixel, so OPENAI_PIXEL_ID names the key's pixel; without it, the first one.
+const OPENAI_PIXEL_ID = () => (process.env.OPENAI_PIXEL_ID || '97xWEtcR8ecHrJVd2oeALY').trim();
 const CONTACT = { es: 'https://jjfcreando.com/es/contacto/', en: 'https://jjfcreando.com/en/contact/' };
 const sha256 = (v) => createHash('sha256').update(v).digest('hex');
 
@@ -170,7 +172,7 @@ async function sendAdsLead(request, raw, lead, id) {
   const oppref = cookie(request, '__oppref');
   if (oppref) event.oppref = oppref.slice(0, 500);
   try {
-    const res = await fetch(`https://bzr.openai.com/v1/events?pid=${OPENAI_PIXEL_ID}`, {
+    const res = await fetch(`https://bzr.openai.com/v1/events?pid=${encodeURIComponent(OPENAI_PIXEL_ID())}`, {
       method: 'POST',
       headers: { Authorization: `Bearer ${key}`, 'Content-Type': 'application/json' },
       body: JSON.stringify({ validate_only: process.env.OPENAI_CONVERSIONS_VALIDATE_ONLY === '1', events: [event] }),
