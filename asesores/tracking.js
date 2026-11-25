@@ -1,7 +1,7 @@
 /* Medición de la landing de asesores: pixel de Meta.
  * Pega aquí el ID del pixel (solo números, en Meta Events Manager → Orígenes de datos).
  * Mientras esté vacío no se carga nada. */
-var META_PIXEL_ID = '';
+var META_PIXEL_ID = '680727997874671';
 
 (function () {
   var hasPixel = /^\d{6,}$/.test(META_PIXEL_ID);
@@ -19,13 +19,15 @@ var META_PIXEL_ID = '';
   }
   function store(k, v) { try { if (v === undefined) return sessionStorage.getItem(k); if (v === null) sessionStorage.removeItem(k); else sessionStorage.setItem(k, v); } catch (e) { return undefined; } }
 
-  // Página de gracias: evento Lead solo si la visita viene de enviar el formulario
+  // Página de gracias: evento propio AplicacionAsesor (NO Lead: Lead es el evento de clientes
+  // con el que optimizan las campañas de inversionistas en este mismo pixel). Solo se dispara
+  // si la visita viene de enviar el formulario
   // (no se cuenta al recargar ni al abrir el enlace directo).
   if (document.body.classList.contains('thanks')) {
     var id = store('sd_lead');
-    var fromForm = id || (id === undefined && /\/asesores\/?(\?|#|$)/.test(document.referrer));
+    var fromForm = id || (id === undefined && /\/asesores\/?(\?|#|$)|\/\/asesores\.selvadentrotulum\.com\/?(\?|#|$)/.test(document.referrer));
     if (fromForm) {
-      track('track', 'Lead', { content_name: 'Reclutamiento asesores' }, id ? { eventID: id } : undefined);
+      track('trackCustom', 'AplicacionAsesor', { content_name: 'Reclutamiento asesores' }, id ? { eventID: id } : undefined);
       store('sd_lead', null);
     }
     return;

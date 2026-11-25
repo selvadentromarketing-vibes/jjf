@@ -14,6 +14,15 @@
   to = "/partner-projects.html"
   status = 301
 
+# Landing de reclutamiento en el subdominio de Selvadentro: asesores.selvadentrotulum.com
+# muestra /asesores/ en la raíz (el dominio se agrega como alias en Netlify → Domain management
+# y en el DNS de selvadentrotulum.com un CNAME "asesores" → jjfcreando.netlify.app).
+[[redirects]]
+  from = "https://asesores.selvadentrotulum.com/"
+  to = "/asesores/"
+  status = 200
+  force = true
+
 # Assets: caché de 1 día + revalidación en segundo plano, para que una imagen o película
 # reemplazada con el mismo nombre llegue a los visitantes (styles.css y main.js además
 # llevan ?v= en los HTML).
