@@ -27,7 +27,8 @@ asesores/                → landing de reclutamiento de asesores de Selvadentro
                           página de gracias (/asesores/gracias/); registro en Netlify Forms `asesores`.
                           Pixel de Meta en asesores/tracking.js (META_PIXEL_ID): PageView, VideoPlay,
                           VideoCompleto, AbrioRegistro y, al llegar desde el formulario, AplicacionAsesor
-                          (inglés intermedio o mejor + experiencia en bienes raíces) o
+                          (inglés intermedio o mejor + 1 año o más de experiencia + vive en Tulum o
+                          Playa del Carmen) o
                           AplicacionNoCalificada; no se usa Lead, que es el evento de clientes del
                           mismo pixel. El campo `perfil` del registro dice si califica;
                           los UTM y el fbclid se guardan con cada registro

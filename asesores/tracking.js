@@ -38,12 +38,16 @@ var META_PIXEL_ID = '680727997874671';
     return;
   }
 
-  // Perfil calificado: inglés intermedio o mejor, y experiencia en venta de bienes raíces.
-  // Si cambian las opciones del formulario, ajusta estas listas.
+  // Perfil calificado: inglés intermedio o mejor + 1 año o más de experiencia en venta de
+  // bienes raíces + vive en Tulum o Playa del Carmen. Si cambian las opciones del formulario,
+  // ajusta estas listas.
   var INGLES_OK = ['Nativo / bilingüe', 'Avanzado (fluido)', 'Intermedio'];
-  var EXPERIENCIA_OK = ['Menos de 1 año', '1 a 3 años', 'Más de 3 años'];
+  var EXPERIENCIA_OK = ['1 a 3 años', 'Más de 3 años'];
+  var CIUDAD_OK = ['Tulum', 'Playa del Carmen'];
   function esCalificado(f) {
-    return INGLES_OK.indexOf(f.elements.ingles.value) > -1 && EXPERIENCIA_OK.indexOf(f.elements.experiencia.value) > -1;
+    return INGLES_OK.indexOf(f.elements.ingles.value) > -1 &&
+      EXPERIENCIA_OK.indexOf(f.elements.experiencia.value) > -1 &&
+      CIUDAD_OK.indexOf(f.elements.ciudad.value) > -1;
   }
 
   // Landing: guarda los UTM y el fbclid de la visita en el formulario (se ven en Netlify Forms)
