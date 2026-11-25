@@ -23,6 +23,9 @@ assets/fonts/           → Instrument Serif y Jost, auto-alojadas (licencia OFL
 assets/canopy-shadow.webp → sombra de palmera que se mece sobre las secciones claras (.sunlit)
 assets/og/              → tarjetas para compartir (1200×630) de portada y proyectos aliados
 assets/logo-mark.png    → logo original recortado; se usa como máscara CSS (toma el color del texto)
+asesores/                → landing de reclutamiento de asesores de Selvadentro (/asesores/) y su
+                          página de gracias (/asesores/gracias/); registro en Netlify Forms `asesores`
+assets/asesores/         → video de Talía (mp4 H.264 CRF 27, con subtítulos quemados) y su póster
 robots.txt, sitemap.xml, llms.txt → buscadores y asistentes (dominio jjfcreando.com)
 netlify.toml            → config de despliegue (sitio estático, sin build; la función se despliega sola)
 ```

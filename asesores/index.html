@@ -13,10 +13,11 @@
 <meta property="og:image" content="https://jjfcreando.com/assets/img/selvadentro-aerial-1600.webp">
 <link rel="icon" href="/favicon.ico">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="preload" as="image" href="/assets/asesores/vsl-talia-poster-v1.webp">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,500;1,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/asesores/asesores.css?v=1">
+<link rel="stylesheet" href="/asesores/asesores.css?v=2">
 </head>
 <body>
 
@@ -43,19 +44,27 @@
         </div>
       </div>
 
-      <figure class="video">
-        <!-- Para activar el video: pon en data-video un enlace de YouTube, Vimeo o un .mp4
-             (p. ej. data-video="https://youtu.be/XXXXXXXX") y la duración en .video-duration -->
-        <div class="video-frame" data-video="">
+      <figure class="video" id="video">
+        <div class="video-frame">
+          <video id="vsl" src="/assets/asesores/vsl-talia-v1.mp4" poster="/assets/asesores/vsl-talia-poster-v1.webp"
+                 preload="metadata" playsinline width="720" height="1280"></video>
           <button class="play" type="button" aria-label="Ver el video de Talía">
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l10.5-6.5z"/></svg>
           </button>
-          <span class="video-badge">Muy pronto · el video de Talía</span>
+          <div class="video-end" hidden>
+            <p>¿Encajas en el perfil?</p>
+            <button class="btn" type="button" data-apply>Quiero aplicar</button>
+            <button class="link replay" type="button">Ver de nuevo</button>
+          </div>
         </div>
         <figcaption>
           <span><strong>Talía Hernández</strong> · Gerente de Ventas, Selvadentro</span>
-          <span class="video-duration">90 s · con subtítulos</span>
+          <span class="video-duration">1:28 min · con subtítulos</span>
         </figcaption>
+        <div class="cta-row mobile-cta">
+          <button class="btn" type="button" data-apply>Quiero aplicar</button>
+          <span class="cta-note">Registro de 2 minutos</span>
+        </div>
       </figure>
     </div>
   </div>
@@ -68,19 +77,19 @@
       <p class="eyebrow eyebrow-olive">Lo que verás en el video</p>
       <h2>Lo que te cuenta Talía en 90 segundos</h2>
       <div class="cards">
-        <!-- data-t: segundo del video donde empieza el tema (p. ej. data-t="0:15"); vacío = no se muestra -->
-        <article class="card"><span class="stamp" data-t=""></span>
+        <!-- data-t: segundo del video donde empieza cada tema; al pulsarlo, el video salta ahí -->
+        <article class="card"><button class="stamp" type="button" data-t="0:16">[00:16]</button>
           <h3>Qué vas a vender</h3>
           <p>Un producto inigualable: terrenos desde 400 m² en una comunidad con nueve cenotes, en la selva de la Riviera Maya.</p></article>
-        <article class="card"><span class="stamp" data-t=""></span>
-          <h3>Lo que te damos</h3>
-          <p>Oficinas, capacitación, leads, marketing, incentivos y herramientas avanzadas que te facilitarán las ventas.</p></article>
-        <article class="card"><span class="stamp" data-t=""></span>
-          <h3>Cómo se mide tu trabajo</h3>
-          <p>Por resultados: Zooms agendados, tours en el proyecto y ventas cerradas.</p></article>
-        <article class="card"><span class="stamp" data-t=""></span>
+        <article class="card"><button class="stamp" type="button" data-t="0:29">[00:29]</button>
           <h3>Cómo ganas</h3>
           <p>100 % por comisiones e incentivos, sin sueldo base, y el perfil que buscamos.</p></article>
+        <article class="card"><button class="stamp" type="button" data-t="0:49">[00:49]</button>
+          <h3>Lo que te damos</h3>
+          <p>Oficinas, capacitación, leads, marketing, incentivos y herramientas avanzadas que te facilitarán las ventas.</p></article>
+        <article class="card"><button class="stamp" type="button" data-t="1:09">[01:09]</button>
+          <h3>Cómo se mide tu trabajo</h3>
+          <p>Por resultados: Zooms agendados, tours en el proyecto y ventas cerradas.</p></article>
       </div>
     </div>
   </section>
@@ -206,34 +215,31 @@
   });
   if (location.hash === '#aplicar') open(apply);
 
-  // Video: YouTube, Vimeo o .mp4 desde data-video
+  // Video de Talía: botón propio, controles nativos al reproducir y llamada a aplicar al terminar
   var frame = document.querySelector('.video-frame');
-  var src = (frame.getAttribute('data-video') || '').trim();
-  if (src) {
-    frame.classList.add('ready');
-    frame.querySelector('.video-badge').remove();
-    frame.querySelector('.play').addEventListener('click', function () {
-      var yt = src.match(/(?:youtu\.be\/|v=|embed\/|shorts\/)([\w-]{11})/);
-      var vm = src.match(/vimeo\.com\/(?:video\/)?(\d+)/);
-      var el;
-      if (yt || vm) {
-        el = document.createElement('iframe');
-        el.src = yt ? 'https://www.youtube-nocookie.com/embed/' + yt[1] + '?autoplay=1&rel=0&cc_load_policy=1'
-                    : 'https://player.vimeo.com/video/' + vm[1] + '?autoplay=1';
-        el.allow = 'autoplay; fullscreen; picture-in-picture';
-        el.allowFullscreen = true;
-        el.title = 'Video de Talía Hernández';
-      } else {
-        el = document.createElement('video');
-        el.src = src; el.controls = true; el.autoplay = true; el.playsInline = true;
-      }
-      frame.innerHTML = ''; frame.appendChild(el);
-    });
+  var vid = document.getElementById('vsl');
+  var end = frame.querySelector('.video-end');
+  function play(at) {
+    if (typeof at === 'number') {
+      if (vid.readyState >= 1) vid.currentTime = at;
+      else vid.addEventListener('loadedmetadata', function () { vid.currentTime = at; }, { once: true });
+    }
+    end.hidden = true; frame.classList.add('playing'); vid.controls = true;
+    var p = vid.play(); if (p && p.catch) p.catch(function () {});
   }
-  // Marcas de tiempo de las tarjetas: se muestran solo si tienen valor
-  document.querySelectorAll('.stamp').forEach(function (s) {
-    var t = s.getAttribute('data-t');
-    if (t) s.textContent = '[' + t + ']'; else s.remove();
+  frame.querySelector('.play').addEventListener('click', function () { play(); });
+  frame.querySelector('.replay').addEventListener('click', function () { play(0); });
+  vid.addEventListener('ended', function () {
+    vid.controls = false; end.hidden = false;
+    if (window.dataLayer) window.dataLayer.push({ event: 'vsl_complete' });
+  });
+  // Marcas de tiempo de las tarjetas: saltan a ese momento del video
+  document.querySelectorAll('.stamp[data-t]').forEach(function (s) {
+    s.addEventListener('click', function () {
+      var t = s.getAttribute('data-t').split(':');
+      document.getElementById('video').scrollIntoView({ behavior: 'smooth', block: 'center' });
+      play(parseInt(t[0], 10) * 60 + parseInt(t[1], 10));
+    });
   });
 })();
 </script>
