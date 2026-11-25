@@ -1,4 +1,4 @@
-/* Medición de la landing de asesores: pixel de Meta.
+/* Landing de asesores: pixel de Meta y envío del registro (Netlify Forms + GoHighLevel).
  * Pega aquí el ID del pixel (solo números, en Meta Events Manager → Orígenes de datos).
  * Mientras esté vacío no se carga nada. */
 var META_PIXEL_ID = '680727997874671';
@@ -38,6 +38,11 @@ var META_PIXEL_ID = '680727997874671';
     return;
   }
 
+  // Registro también en GoHighLevel: webhook entrante del flujo de reclutamiento (crea el contacto
+  // con la etiqueta candidato-asesor). Acepta CORS desde el navegador.
+  var GHL_WEBHOOK = 'https://services.leadconnectorhq.com/hooks/crN2IhAuOBAl7D8324yI/webhook-trigger/981396af-3780-476f-9718-9b63f8571f07';
+  var GHL_ESPERA_MS = 2500;  // tope de espera a GHL antes de pasar a la página de gracias
+
   // Perfil calificado: inglés intermedio o mejor + 1 año o más de experiencia en venta de
   // bienes raíces + vive en Tulum o Playa del Carmen. Si cambian las opciones del formulario,
   // ajusta estas listas.
@@ -57,10 +62,53 @@ var META_PIXEL_ID = '680727997874671';
   var form = document.querySelector('form[name="asesores"]');
   if (form) {
     keys.forEach(function (k) { var el = form.elements[k]; var v = qs.get(k) || store('sd_' + k); if (el && v) el.value = v; });
-    form.addEventListener('submit', function () {
+    var btn = form.querySelector('[type="submit"]');
+    var btnText = btn ? btn.textContent : '';
+    var sending = false;
+    function unlock() { sending = false; if (btn) { btn.disabled = false; btn.textContent = btnText; } }
+    window.addEventListener('pageshow', function (e) { if (e.persisted) unlock(); });  // al volver con "atrás"
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      if (sending) return;                      // bloqueo de doble envío
+      sending = true;
+      if (btn) { btn.disabled = true; btn.textContent = 'Enviando…'; }
+
       var q = esCalificado(form);
       if (form.elements.perfil) form.elements.perfil.value = q ? 'Calificado' : 'No calificado';
       store('sd_lead', JSON.stringify({ id: 'aplicacion-' + Date.now() + '-' + Math.random().toString(36).slice(2, 8), q: q }));
+
+      var gracias = form.getAttribute('action');
+      var v = function (k) { var el = form.elements[k]; return el ? String(el.value || '').trim() : ''; };
+      var bot = !!v('bot-field');
+
+      // 1) GoHighLevel (webhook entrante). No se espera su respuesta más de GHL_ESPERA_MS.
+      var ghl = Promise.resolve();
+      if (!bot && window.fetch) {
+        var payload = { calificado: q ? 'si' : 'no', source_url: location.href };
+        ['nombre', 'whatsapp', 'correo', 'ciudad', 'ingles', 'experiencia', 'trayectoria', 'linkedin']
+          .concat(keys).forEach(function (k) { payload[k] = v(k); });
+        ghl = fetch(GHL_WEBHOOK, {
+          method: 'POST', mode: 'cors',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        }).catch(function () {});
+      }
+      var ghlListo = Promise.race([ghl, new Promise(function (r) { setTimeout(r, GHL_ESPERA_MS); })]);
+
+      // 2) Netlify Forms. La página de gracias solo depende de este envío; si falla, se usa el
+      //    envío normal del formulario (sin JavaScript), que también lleva a la página de gracias.
+      if (!window.fetch) { form.submit(); return; }
+      fetch(gracias, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams(new FormData(form)).toString()
+      }).then(function (r) {
+        if (!r.ok) throw new Error('netlify ' + r.status);
+        return ghlListo.then(function () { location.href = gracias; });
+      }).catch(function () {
+        ghlListo.then(function () { form.submit(); });
+      });
     });
   }
   // Eventos personalizados para ver cuántos ven el video y abren el registro
