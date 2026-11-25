@@ -31,9 +31,12 @@ asesores/                → landing de reclutamiento de asesores de Selvadentro
                           Playa del Carmen) o
                           AplicacionNoCalificada; no se usa Lead, que es el evento de clientes del
                           mismo pixel. El campo `perfil` del registro dice si califica;
+<<<<<<< HEAD
                           cada registro se manda también a GoHighLevel (webhook entrante, JSON desde
                           el navegador; GHL_WEBHOOK). La página de gracias solo depende de Netlify:
                           a GHL se le espera como máximo 2.5 s. El botón se bloquea al enviar;
+=======
+>>>>>>> 6a7aad7177698ba3383bd2f3957c06c7cbea471c
                           los UTM y el fbclid se guardan con cada registro
 assets/asesores/         → video de Talía (mp4 H.264 CRF 27, con subtítulos quemados) y su póster
 robots.txt, sitemap.xml, llms.txt → buscadores y asistentes (dominio jjfcreando.com)
