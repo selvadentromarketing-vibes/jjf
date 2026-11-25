@@ -159,6 +159,8 @@
   <!-- Netlify Forms guarda cada registro (Forms → asesores) y lleva a /asesores/gracias/ -->
   <form name="asesores" method="POST" action="/asesores/gracias/" data-netlify="true" netlify-honeypot="bot-field" class="form">
     <input type="hidden" name="form-name" value="asesores">
+    <input type="hidden" name="utm_source"><input type="hidden" name="utm_medium"><input type="hidden" name="utm_campaign">
+    <input type="hidden" name="utm_content"><input type="hidden" name="utm_term"><input type="hidden" name="fbclid">
     <p hidden><label>No llenar: <input name="bot-field"></label></p>
 
     <label class="field"><span>Nombre completo</span>
@@ -207,7 +209,10 @@
 (function () {
   var apply = document.getElementById('apply');
   var privacy = document.getElementById('privacy');
-  function open(d) { if (d.showModal) d.showModal(); else d.setAttribute('open', ''); }
+  function open(d) {
+    if (d.showModal) d.showModal(); else d.setAttribute('open', '');
+    if (d.id === 'apply' && window.sdTrack) sdTrack('AbrioRegistro');
+  }
   document.querySelectorAll('[data-apply]').forEach(function (b) { b.addEventListener('click', function () { open(apply); }); });
   document.querySelectorAll('[data-privacy]').forEach(function (b) { b.addEventListener('click', function () { open(privacy); }); });
   document.querySelectorAll('dialog').forEach(function (d) {
@@ -228,10 +233,12 @@
     var p = vid.play(); if (p && p.catch) p.catch(function () {});
   }
   frame.querySelector('.play').addEventListener('click', function () { play(); });
+  var started = false;
+  vid.addEventListener('play', function () { if (!started && window.sdTrack) { started = true; sdTrack('VideoPlay'); } });
   frame.querySelector('.replay').addEventListener('click', function () { play(0); });
   vid.addEventListener('ended', function () {
     vid.controls = false; end.hidden = false;
-    if (window.dataLayer) window.dataLayer.push({ event: 'vsl_complete' });
+    if (window.sdTrack) sdTrack('VideoCompleto');
   });
   // Marcas de tiempo de las tarjetas: saltan a ese momento del video
   document.querySelectorAll('.stamp[data-t]').forEach(function (s) {
@@ -243,5 +250,6 @@
   });
 })();
 </script>
+<script src="/asesores/tracking.js?v=1"></script>
 </body>
 </html>

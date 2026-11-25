@@ -24,7 +24,10 @@ assets/canopy-shadow.webp → sombra de palmera que se mece sobre las secciones 
 assets/og/              → tarjetas para compartir (1200×630) de portada y proyectos aliados
 assets/logo-mark.png    → logo original recortado; se usa como máscara CSS (toma el color del texto)
 asesores/                → landing de reclutamiento de asesores de Selvadentro (/asesores/) y su
-                          página de gracias (/asesores/gracias/); registro en Netlify Forms `asesores`
+                          página de gracias (/asesores/gracias/); registro en Netlify Forms `asesores`.
+                          Pixel de Meta en asesores/tracking.js (META_PIXEL_ID): PageView, VideoPlay,
+                          VideoCompleto, AbrioRegistro y Lead (solo al llegar desde el formulario);
+                          los UTM y el fbclid se guardan con cada registro
 assets/asesores/         → video de Talía (mp4 H.264 CRF 27, con subtítulos quemados) y su póster
 robots.txt, sitemap.xml, llms.txt → buscadores y asistentes (dominio jjfcreando.com)
 netlify.toml            → config de despliegue (sitio estático, sin build; la función se despliega sola)
