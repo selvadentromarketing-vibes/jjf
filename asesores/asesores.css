@@ -124,11 +124,14 @@ p{margin:0}
   .hero-grid,.profile{grid-template-columns:1fr;gap:36px}
   .cards{grid-template-columns:1fr 1fr}
   .mobile-cta{display:flex}
+  .hero-grid > .video{order:-1}
 }
 @media (max-width:560px){
   .wrap{padding:0 16px}
-  .topbar{margin-bottom:32px;align-items:flex-start}
-  .pill{white-space:normal;text-align:center;font-size:11px}
+  .topbar{margin-bottom:24px;align-items:center;gap:10px}
+  .pill{font-size:10.5px;padding:5px 10px;letter-spacing:-.01em}
+  .brand-name{font-size:24px}
+  .brand-tag{white-space:nowrap;letter-spacing:.2em}
   .cards,.two{grid-template-columns:1fr}
   .section{padding-top:56px}
   .faq-section{padding-top:64px}
