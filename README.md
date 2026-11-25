@@ -26,8 +26,10 @@ assets/logo-mark.png    → logo original recortado; se usa como máscara CSS (t
 asesores/                → landing de reclutamiento de asesores de Selvadentro (/asesores/) y su
                           página de gracias (/asesores/gracias/); registro en Netlify Forms `asesores`.
                           Pixel de Meta en asesores/tracking.js (META_PIXEL_ID): PageView, VideoPlay,
-                          VideoCompleto, AbrioRegistro y AplicacionAsesor (solo al llegar desde el formulario;
-                          no se usa Lead, que es el evento de clientes del mismo pixel);
+                          VideoCompleto, AbrioRegistro y, al llegar desde el formulario, AplicacionAsesor
+                          (inglés intermedio o mejor + experiencia en bienes raíces) o
+                          AplicacionNoCalificada; no se usa Lead, que es el evento de clientes del
+                          mismo pixel. El campo `perfil` del registro dice si califica;
                           los UTM y el fbclid se guardan con cada registro
 assets/asesores/         → video de Talía (mp4 H.264 CRF 27, con subtítulos quemados) y su póster
 robots.txt, sitemap.xml, llms.txt → buscadores y asistentes (dominio jjfcreando.com)
